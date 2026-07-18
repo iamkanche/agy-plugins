@@ -1,5 +1,5 @@
 ---
-name: git-push
+name: push
 description: Push the current feature branch to origin, gated behind explicit confirmation. Sets upstream tracking on first push.
 ---
 

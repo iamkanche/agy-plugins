@@ -1,5 +1,5 @@
 ---
-name: gh-cli-pr-respond
+name: pr-respond
 description: Triage PR review comments, apply code fixes locally, commit, push, and reply to reviewers in-thread.
 ---
 

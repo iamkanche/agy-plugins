@@ -1,5 +1,5 @@
 ---
-name: git-stash
+name: stash
 description: Save, restore, list, or discard uncommitted changes with git stash. Shows working-tree state before and after.
 ---
 

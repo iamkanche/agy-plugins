@@ -1,5 +1,5 @@
 ---
-name: git-rebase
+name: rebase
 description: Rebase the current branch onto a target branch, gated by confirmation. Handles conflicts without force-resolving.
 ---
 

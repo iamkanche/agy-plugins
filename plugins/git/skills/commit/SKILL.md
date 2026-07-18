@@ -1,5 +1,5 @@
 ---
-name: git-commit
+name: commit
 description: Commit staged work with a Conventional Commits message gated behind explicit confirmation. Use when ready to record changes.
 ---
 

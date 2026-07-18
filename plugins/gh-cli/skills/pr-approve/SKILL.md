@@ -1,5 +1,5 @@
 ---
-name: gh-cli-pr-approve
+name: pr-approve
 description: Approve the current branch's PR on GitHub using gh CLI, refusing self-approval and gated by confirmation.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: gh-cli-pr-create
+name: pr-create
 description: Open a pull request for the current branch on GitHub, building title and body from commits and diff, gated by confirmation.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: git-fetch
+name: fetch
 description: Fetch branches and tags from origin, updating remote-tracking branches. Read-only to working-tree.
 ---
 

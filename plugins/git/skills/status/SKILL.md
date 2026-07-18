@@ -1,5 +1,5 @@
 ---
-name: git-status
+name: status
 description: Show the working-tree state, current branch ahead/behind, and recent commits. Read-only.
 ---
 

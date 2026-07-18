@@ -1,5 +1,5 @@
 ---
-name: git-branch-delete
+name: branch-delete
 description: Delete a git branch locally and/or on origin remote, refusing protected branches, gated by explicit confirmation.
 ---
 

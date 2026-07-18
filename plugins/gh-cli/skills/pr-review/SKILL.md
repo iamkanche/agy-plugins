@@ -1,5 +1,5 @@
 ---
-name: gh-cli-pr-review
+name: pr-review
 description: Review a pull request diff against AGENTS.md rules and post structured inline suggestion comments to GitHub.
 ---
 

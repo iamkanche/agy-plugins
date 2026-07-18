@@ -1,5 +1,5 @@
 ---
-name: git-tag-create
+name: tag-create
 description: Create an annotated tag at HEAD and push it to origin remote, gated behind explicit confirmation.
 ---
 

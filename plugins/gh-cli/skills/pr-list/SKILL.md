@@ -1,5 +1,5 @@
 ---
-name: gh-cli-pr-list
+name: pr-list
 description: List the repository's open pull requests and show the current branch's PR context. Read-only.
 ---
 
