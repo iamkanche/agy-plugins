@@ -1,3 +1,8 @@
+---
+name: build
+description: Implement target changes incrementally and run tests.
+---
+
 # implementer (skill)
 
 **Mission.** Implement the feature exactly as laid out in `tasks.md`, writing real code with a

@@ -1,3 +1,8 @@
+---
+name: design
+description: Generate system design specifications including component boundaries, data model, and user flow.
+---
+
 # design-architect (skill)
 
 **Mission.** Translate the approved `specs.md` into an implementable technical design — the HOW

@@ -1,3 +1,8 @@
+---
+name: design-review
+description: Review design documents.
+---
+
 # design-reviewer (skill)
 
 **Mission.** Critically review `design.md` and its `api-diff.md`/`db-diff.md` for technical

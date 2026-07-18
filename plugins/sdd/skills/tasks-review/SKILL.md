@@ -1,3 +1,8 @@
+---
+name: tasks-review
+description: Review tasks layout.
+---
+
 # tasks-reviewer (skill)
 
 **Mission.** Critically review `tasks.md` for coverage, dependency ordering, sizing, and

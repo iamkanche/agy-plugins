@@ -1,45 +1,78 @@
-# doc-synchronizer (skill)
+---
+name: sync
+description: Sync development logs and documents to the repository-wide product directory, cleaning up feature files.
+---
 
-**Mission.** Detect drift — between the feature docs and each other, and between the docs and the
-as-built code — and return a drift report plus concrete proposed edits. Never edit silently; the
-calling workflow/human applies the edits.
+# /sdd:sync
 
-## Read
+**Summary.** Promote the final feature documentation from the temporary development folder `.sdd-docs/development/{slug}/` to the permanent product directory `.sdd-docs/product/{slug}/`, then delete the development folder. State every action before executing it.
 
-- Feature docs: `.sdd-docs/development/{NNN}_{slug}/{specs,design,tasks,api-diff,db-diff}.md`.
-- Consolidated docs when in scope: `.sdd-docs/product/api/openapi.yaml`,
-  `.sdd-docs/product/database/er-diagram.md`, `.sdd-docs/product/features/{slug}/*`.
-- `.sdd-docs/guidelines/{tech,structure,rules}.md`.
-- The as-built code: use read-only git (`git diff`, `git log`, `git ls-files`) and
-  glob/grep/read to compare the actual endpoints, schema, and behavior against what the
-  docs claim.
+## User input
 
-Scope depends on the caller: `/sdd:sync-docs` reconciles the dev docs against each other;
-`/sdd:sync-docs-code` reconciles the dev docs against as-built code. Only compare what the
-caller asks for.
+The invocation arguments.
 
-## Produce
+## Inputs
 
-Return a **drift report** (chat data, not a file) with two parts:
+Parse the arguments:
 
-- **Drift findings** — one entry per discrepancy: what the doc says vs. what is true (in another
-  doc or in code), the file(s)/location involved, and severity (blocker/major/nit). Cover:
-  specs↔design↔tasks consistency (e.g. an acceptance criterion with no task, a design interface
-  no longer matching code), `api-diff`/`db-diff` vs. actual routes/schema, and stale/obsolete
-  statements. Explicitly state where docs and code already agree.
-- **Proposed edits** — for each finding, a precise, ready-to-apply change: the target file and
-  the exact old→new text (a `diff`-style or before/after snippet), so the workflow can apply it
-  verbatim. Prefer editing docs to match as-built code; where the code looks wrong instead of the
-  docs, flag it as a code issue rather than proposing a doc edit that hides a bug.
+- **slug** (optional, positional) — the feature slug/short description (e.g. `improve-sdd-plugins` or `login`). If omitted, pick the feature folder under `.sdd-docs/development/`. If ambiguous or empty, ask the user.
 
-If there is no drift, say so explicitly with the evidence checked.
+## Steps
 
-## Rules
+### 1. Collect Documents
 
-- Returns DATA (drift report + proposed edits) to the calling workflow (`/sdd:sync-docs`,
-  `/sdd:sync-docs-code`); does NOT edit files, commit, push, or orchestrate. Read-only —
-  no writes/edits; bash for read-only git/inspection only.
-- Never edit silently and never invent reconciliation: propose, with evidence, and let the
-  workflow/human apply and commit.
-- Ground every finding in a specific doc location and code location.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+Locate the target development folder:
+- Source path: `.sdd-docs/development/{slug}/` (e.g. `.sdd-docs/development/improve-sdd-plugins/`).
+- Confirm it exists and contains documentation (`specs.md`, `design.md`, `tasks.md`). If not, STOP and report.
+
+### 2. Promote to Product
+
+Sync the final files to the permanent product feature directory:
+- Destination path: `.sdd-docs/product/{slug}/` (e.g. `.sdd-docs/product/improve-sdd-plugins/`).
+- Create the destination directory if it does not exist:
+  ```bash
+  mkdir -p .sdd-docs/product/{slug}
+  ```
+- Copy the final documentation files:
+  - `.sdd-docs/development/{slug}/specs.md` -> `.sdd-docs/product/{slug}/specs.md`
+  - `.sdd-docs/development/{slug}/design.md` -> `.sdd-docs/product/{slug}/design.md`
+  - `.sdd-docs/development/{slug}/notes.md` -> `.sdd-docs/product/{slug}/notes.md` (if present)
+- Keep other relevant files if appropriate (e.g. openapi or database diffs), merging or copying them into `.sdd-docs/product/{slug}/` or repository-wide product directories.
+
+### 3. Cleanup Development Folder
+
+Delete the development feature directory to prevent drift and keep the workspace clean:
+- Command:
+  ```bash
+  rm -rf .sdd-docs/development/{slug}/
+  ```
+
+### 4. Commit and Push
+
+Create a conventional commit detailing the synchronization and cleanup:
+- Stage the new/updated product files and the deleted development directory.
+- Run **/git:commit** with a conventional message (e.g., `docs: sync {slug} to product and clean up dev folder`).
+- Run **/git:push** to update remote.
+
+---
+
+# doc-synchronizer (drift detection)
+
+This skill also provides guidelines for detecting drift between docs and code during PR reviews or development checkpoints.
+
+## Drift Detection Mission
+
+Detect drift — between the feature docs and each other, and between the docs and the as-built code — and return a drift report plus concrete proposed edits.
+
+### Read
+
+- Feature docs: `.sdd-docs/development/{slug}/{specs,design,tasks,api-diff,db-diff}.md`.
+- Consolidated docs: `.sdd-docs/product/{slug}/*`.
+- Guidelines: `.sdd-docs/guidelines/{tech,structure,rules}.md`.
+- As-built code: use read-only git to check actual endpoints, schema, and behavior against what the docs claim.
+
+### Produce Drift Report
+
+Return a **drift report** (chat data) with:
+1. **Drift findings** — discrepancy entries detailing what the doc says vs. what is true in code/docs.
+2. **Proposed edits** — precise, ready-to-apply changes to fix the drift (prefer editing docs to match code unless the code is wrong).

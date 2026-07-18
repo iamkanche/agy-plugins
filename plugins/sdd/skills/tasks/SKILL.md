@@ -1,3 +1,8 @@
+---
+name: tasks
+description: Generate implementation checklist task manifest.
+---
+
 # task-planner (skill)
 
 **Mission.** Decompose the approved `design.md` (and its deltas) into an ordered, dependency-
