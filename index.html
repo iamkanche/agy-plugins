@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Plugins Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #080710;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --accent-purple: #805ad5;
+            --accent-blue: #3182ce;
+            --accent-gradient-purple: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+            --accent-gradient-blue: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            --glow-color: rgba(124, 58, 237, 0.3);
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-title: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+        }
+
+        header {
+            padding: 2.5rem 2rem;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .logo {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #60a5fa;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #60a5fa;
+        }
+
+        .marketplace-badge {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #60a5fa;
+            letter-spacing: 0.5px;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 3rem;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .glass-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .panel-title {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .meta-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .meta-val {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Plugin Navigation List */
+        .plugin-nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .plugin-nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .plugin-nav-btn:hover, .plugin-nav-btn.active {
+            color: var(--text-primary);
+            background: rgba(59, 130, 246, 0.06);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+            transform: translateX(4px);
+        }
+
+        .plugin-nav-btn.active.purple-theme {
+            background: rgba(139, 92, 246, 0.06);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.1);
+        }
+
+        .plugin-nav-btn .badge {
+            font-size: 0.75rem;
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .plugin-nav-btn.purple-theme .badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c084fc;
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        /* Content Area */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 1.2rem 1.5rem 1.2rem 3rem;
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Commands Section */
+        .plugin-header {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1.5rem;
+        }
+
+        .plugin-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .plugin-title {
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .plugin-title span {
+            color: #60a5fa;
+        }
+
+        .plugin-title.purple span {
+            color: #a78bfa;
+        }
+
+        .plugin-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .plugin-version {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .inspect-plugin-btn {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .inspect-plugin-btn:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .plugin-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .command-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 180px;
+        }
+
+        .command-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.01) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .command-card.purple-card::before {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.01) 100%);
+        }
+
+        .command-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.05);
+        }
+
+        .command-card.purple-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.05);
+        }
+
+        .command-card:hover::before {
+            opacity: 1;
+        }
+
+        .cmd-name {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #60a5fa;
+            z-index: 1;
+        }
+
+        .command-card.purple-card .cmd-name {
+            color: #a78bfa;
+        }
+
+        .cmd-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0.75rem 0;
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        .cmd-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            z-index: 1;
+        }
+
+        .cmd-tag {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+        }
+
+        .cmd-tag.gated {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .cmd-link {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .cmd-link:hover {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-dot"></div>
+            Antigravity Plugins
+        </div>
+        <div class="marketplace-badge">PUBLIC REGISTRY</div>
+    </header>
+
+    <main>
+        <div class="sidebar">
+            <div class="glass-panel">
+                <div class="panel-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #60a5fa;"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    Registry Info
+                </div>
+                <ul class="meta-list">
+                    <li class="meta-item">
+                        <span class="meta-label">Marketplace Name</span>
+                        <span class="meta-val">agy-plugins</span>
+                    </li>
+                    <li class="meta-item">
+                        <span class="meta-label">Repository Owner</span>
+                        <span class="meta-val">iamkanche</span>
+                    </li>
+                    <li class="meta-item">
+                        <span class="meta-label">Config Location</span>
+                        <span class="meta-val" style="font-family: monospace; font-size: 0.8rem; word-break: break-all;">.agents/plugins/marketplace.json</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="glass-panel">
+                <div class="panel-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a78bfa;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                    Active Plugins
+                </div>
+                <div class="plugin-nav-list" id="plugin-selection-list">
+                    <!-- Nav items loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="search-bar-container">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" class="search-input" id="command-search" placeholder="Search commands...">
+            </div>
+
+            <div class="glass-panel">
+                <div class="plugin-header" id="plugin-header-section">
+                    <!-- Plugin header loaded dynamically -->
+                </div>
+
+                <div class="commands-grid" id="commands-container">
+                    <!-- Commands will be rendered dynamically by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const pluginsData = {
+            "git": {
+                name: "git",
+                displayName: "Git Control",
+                desc: "Git workflow commands for Antigravity covering local staging scans, commit writes, branch checkouts, tags, stashes, and rebases. Safely isolates side effects using explicit human confirmations.",
+                version: "v0.1.0",
+                theme: "blue",
+                inspectorUrl: "plugins/git/index.html",
+                commands: [
+                    { name: "/git:commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/git/.agent/workflows/commit.md" },
+                    { name: "/git:branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: false, path: "plugins/git/.agent/workflows/branch-create.md" },
+                    { name: "/git:branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/git/.agent/workflows/branch-delete.md" },
+                    { name: "/git:tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/git/.agent/workflows/tag-create.md" },
+                    { name: "/git:fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: false, path: "plugins/git/.agent/workflows/fetch.md" },
+                    { name: "/git:pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/git/.agent/workflows/pull.md" },
+                    { name: "/git:push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/git/.agent/workflows/push.md" },
+                    { name: "/git:stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: false, path: "plugins/git/.agent/workflows/stash.md" },
+                    { name: "/git:status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: false, path: "plugins/git/.agent/workflows/status.md" },
+                    { name: "/git:rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/git/.agent/workflows/rebase.md" },
+                    { name: "/git:switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: false, path: "plugins/git/.agent/workflows/switch.md" }
+                ]
+            },
+            "gh-cli": {
+                name: "gh-cli",
+                displayName: "GitHub CLI",
+                desc: "GitHub CLI integrations for pull requests lifecycle operations, automated diff auditing against AGENTS.md, approvals, and triaging thread responses.",
+                version: "v0.1.0",
+                theme: "purple",
+                inspectorUrl: "plugins/gh-cli/index.html",
+                commands: [
+                    { name: "/gh-cli:pr-create", desc: "Push branch and open a pull request on GitHub, building descriptions from commits.", gated: true, path: "plugins/gh-cli/.agent/workflows/pr-create.md" },
+                    { name: "/gh-cli:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: false, path: "plugins/gh-cli/.agent/workflows/pr-list.md" },
+                    { name: "/gh-cli:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/gh-cli/.agent/workflows/pr-review.md" },
+                    { name: "/gh-cli:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/gh-cli/.agent/workflows/pr-approve.md" },
+                    { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/gh-cli/.agent/workflows/pr-respond.md" }
+                ]
+            }
+        };
+
+        let activePluginKey = "git";
+        const selectionList = document.getElementById('plugin-selection-list');
+        const headerSection = document.getElementById('plugin-header-section');
+        const container = document.getElementById('commands-container');
+        const searchInput = document.getElementById('command-search');
+
+        function loadPlugin(pluginKey) {
+            activePluginKey = pluginKey;
+            const data = pluginsData[pluginKey];
+            const isPurple = data.theme === "purple";
+
+            // Update header
+            headerSection.innerHTML = `
+                <div class="plugin-title-row">
+                    <h2 class="plugin-title ${isPurple ? 'purple' : ''}">Plugin: <span>${data.name}</span></h2>
+                    <div class="plugin-meta">
+                        <span class="plugin-version">${data.version}</span>
+                        <button class="inspect-plugin-btn" onclick="location.href='${data.inspectorUrl}'">
+                            Inspect
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="plugin-desc">${data.desc}</p>
+            `;
+
+            // Update search placeholder
+            searchInput.placeholder = `Search ${data.displayName} commands...`;
+            searchInput.value = '';
+
+            renderCommands();
+        }
+
+        function renderCommands(filterText = '') {
+            container.innerHTML = '';
+            const data = pluginsData[activePluginKey];
+            const isPurple = data.theme === "purple";
+
+            const filtered = data.commands.filter(cmd => 
+                cmd.name.toLowerCase().includes(filterText.toLowerCase()) || 
+                cmd.desc.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            filtered.forEach(cmd => {
+                const card = document.createElement('div');
+                card.className = `command-card ${isPurple ? 'purple-card' : ''}`;
+                card.innerHTML = `
+                    <div class="cmd-name">${cmd.name}</div>
+                    <div class="cmd-desc">${cmd.desc}</div>
+                    <div class="cmd-footer">
+                        <span class="cmd-tag ${cmd.gated ? 'gated' : ''}">${cmd.gated ? 'Gated Confirmation' : 'Direct Action'}</span>
+                        <a href="${cmd.path}" class="cmd-link" target="_blank">
+                            <span>Workflow</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderPluginNavigation() {
+            selectionList.innerHTML = '';
+            Object.keys(pluginsData).forEach(key => {
+                const data = pluginsData[key];
+                const btn = document.createElement('button');
+                btn.className = `plugin-nav-btn ${key === activePluginKey ? 'active' : ''} ${data.theme === 'purple' ? 'purple-theme' : ''}`;
+                btn.innerHTML = `
+                    <span>${data.displayName}</span>
+                    <span class="badge">${data.commands.length} Commands</span>
+                `;
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.plugin-nav-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    loadPlugin(key);
+                });
+                selectionList.appendChild(btn);
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            renderCommands(e.target.value);
+        });
+
+        // Initialize dashboard
+        renderPluginNavigation();
+        loadPlugin(activePluginKey);
+    </script>
+</body>
+</html>
