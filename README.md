@@ -99,10 +99,10 @@ agy-plugins/
     ├── git/                   # Git plugin directory
     │   ├── plugin.json        # Plugin manifest
     │   ├── rules/             # Rule definitions (formatting, hard limits)
-    │   └── .agent/workflows/  # Slash command workflow implementations
+    │   └── commands/          # Slash command workflow implementations
     └── gh-cli/                # GitHub CLI plugin directory
         ├── plugin.json        # Plugin manifest
         ├── rules/             # Rule definitions (output format)
-        └── .agent/workflows/  # Slash command workflow implementations
+        └── commands/          # Slash command workflow implementations
 ```
 
