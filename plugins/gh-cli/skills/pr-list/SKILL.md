@@ -1,3 +1,8 @@
+---
+name: gh-cli-pr-list
+description: List the repository's open pull requests and show the current branch's PR context. Read-only.
+---
+
 # /gh-cli:pr-list
 
 **Summary.** List the repository's pull requests and show the current branch's PR context. Read-only. The workflow delegates all GitHub query and listing operations to the specialized `@gh-operator` subagent (defined in `agents/gh-operator/agent.json`).

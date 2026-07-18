@@ -1,3 +1,8 @@
+---
+name: git-push
+description: Push the current feature branch to origin, gated behind explicit confirmation. Sets upstream tracking on first push.
+---
+
 # /git:push
 
 **Summary.** Push the current feature branch to `origin`, gated behind explicit confirmation; sets upstream on first push. The workflow delegates remote push executions and tracking configuration to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).

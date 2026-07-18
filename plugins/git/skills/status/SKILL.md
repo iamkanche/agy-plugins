@@ -1,3 +1,8 @@
+---
+name: git-status
+description: Show the working-tree state, current branch ahead/behind, and recent commits. Read-only.
+---
+
 # /git:status
 
 **Summary.** Show the working-tree state, current branch (with ahead/behind), and recent commits — all read-only. The workflow delegates local status and history reads to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).

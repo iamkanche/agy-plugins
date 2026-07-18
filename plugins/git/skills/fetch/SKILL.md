@@ -1,3 +1,8 @@
+---
+name: git-fetch
+description: Fetch branches and tags from origin, updating remote-tracking branches. Read-only to working-tree.
+---
+
 # /git:fetch
 
 **Summary.** Fetch branches and tags from one or more other repositories, updating remote-tracking branches. Read-only to working-tree and local history. The workflow delegates all remote fetch operations to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).

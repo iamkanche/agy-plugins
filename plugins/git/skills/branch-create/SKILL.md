@@ -1,3 +1,8 @@
+---
+name: git-branch-create
+description: Create and switch to a new feature branch from the up-to-date remote default branch. Use when starting new work.
+---
+
 # /git:branch-create
 
 **Summary.** Create and switch to a new feature branch from the up-to-date remote default branch (`origin/<default>`). The workflow delegates all branch checks and switching operations to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).

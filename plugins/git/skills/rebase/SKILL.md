@@ -1,3 +1,8 @@
+---
+name: git-rebase
+description: Rebase the current branch onto a target branch, gated by confirmation. Handles conflicts without force-resolving.
+---
+
 # /git:rebase
 
 **Summary.** Rebase the current branch onto a target branch, gated by confirmation; handles conflicts without force-resolving. The workflow delegates all local fetch, review, and rebase operations to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).

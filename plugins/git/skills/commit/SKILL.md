@@ -1,3 +1,8 @@
+---
+name: git-commit
+description: Commit staged work with a Conventional Commits message gated behind explicit confirmation. Use when ready to record changes.
+---
+
 # /git:commit
 
 **Summary.** Commit staged work with a Conventional Commits message whose body has Overview / Changes / Impact sections, gated behind explicit confirmation. The workflow delegates all local Git operations (staging, scanning, committing) to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).

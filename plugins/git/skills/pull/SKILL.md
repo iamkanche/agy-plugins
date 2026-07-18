@@ -1,3 +1,8 @@
+---
+name: git-pull
+description: Integrate changes from the remote branch into the current branch, supporting fast-forward or gated rebase.
+---
+
 # /git:pull
 
 **Summary.** Integrate changes from the remote branch into the current branch (supporting merge or gated rebase), reporting conflicts without force-resolving. The workflow delegates all local merges, fetches, and rebasing tasks to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).

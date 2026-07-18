@@ -1,3 +1,8 @@
+---
+name: gh-cli-pr-approve
+description: Approve the current branch's PR on GitHub using gh CLI, refusing self-approval and gated by confirmation.
+---
+
 # /gh-cli:pr-approve
 
 **Summary.** Approve the current branch's PR (or a specified PR) on GitHub using the `gh` CLI, refusing self-approval and gated by confirmation. The workflow delegates all GitHub authentication, PR metadata checks, and review submissions to the specialized `@gh-operator` subagent (defined in `agents/gh-operator/agent.json`).

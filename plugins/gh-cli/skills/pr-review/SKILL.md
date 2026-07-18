@@ -1,3 +1,8 @@
+---
+name: gh-cli-pr-review
+description: Review a pull request diff against AGENTS.md rules and post structured inline suggestion comments to GitHub.
+---
+
 # /gh-cli:pr-review
 
 **Summary.** Review a pull request and post the result to GitHub. The workflow delegates to the specialized `@gh-operator` subagent (defined in `agents/gh-operator/agent.json`) to perform all GitHub CLI and API remote interactions, while ensuring the code audit checks adherence to all repository rules, guidelines, and styles defined in `AGENTS.md` (located locally in `.agents/AGENTS.md` or globally in `~/.gemini/config/AGENTS.md`). All actions are gated behind human confirmation.
