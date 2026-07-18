@@ -383,7 +383,7 @@
         const commandData = {
             "/gh-cli:pr-create": {
                 gated: true,
-                desc: "Open a pull request for the current branch against the default (or given) base. Delegates to the @gh-operator subagent.",
+                desc: "Open a pull request for the current branch against the default (or given) base, with auto-assignee support. Delegates to the @gh-operator subagent.",
                 policies: [
                     { enforced: true, name: "gh-operator delegation", desc: "Delegates remote pull request creations and pushes to gh-operator." },
                     { enforced: true, name: "Gated Human Confirmation", desc: "Show complete draft title and body to user before submitting." },
@@ -394,7 +394,7 @@
                     { title: "Push feature branch", desc: "Push local commits setting upstream target.", code: "git push -u origin \"$BRANCH\"" },
                     { title: "Compose PR body", desc: "Generate technical changes summary from log." },
                     { title: "User confirmation (Gate)", desc: "Gate creation until review approval." },
-                    { title: "Create pull request", desc: "Invoke gh cli builder.", code: "gh pr create --title \"$TITLE\" --body \"$BODY\"" }
+                    { title: "Create pull request", desc: "Invoke gh cli builder with auto-assignee.", code: "gh pr create --title \"$TITLE\" --body \"$BODY\" --assignee \"@me\"" }
                 ]
             },
             "/gh-cli:pr-list": {
@@ -456,6 +456,22 @@
                     { title: "Stage and Push", desc: "Commit Conventional-style feedback address.", code: "git add . && git commit -m \"fix(pr): feedback\" && git push origin \"$BRANCH\"" },
                     { title: "Reply confirmation (Gate)", desc: "Present final replies block to user." },
                     { title: "Submit replies", desc: "Post thread responses to GitHub API.", code: "gh api --method POST \"repos/{owner}/{repo}/pulls/comments/$ID/replies\" -f body=\"$REPLY\"" }
+                ]
+            },
+            "/gh-cli:pr-merge": {
+                gated: true,
+                desc: "Merge a pull request on GitHub, with deleting the branch enabled by default. Delegates to the @gh-operator subagent.",
+                policies: [
+                    { enforced: true, name: "gh-operator delegation", desc: "Delegates remote pull request merging and checks to gh-operator." },
+                    { enforced: true, name: "Gated Human Confirmation", desc: "Confirm PR details and merge method before executing." },
+                    { enforced: true, name: "Branch Deletion Default", desc: "Deletes local and remote feature branch after merge unless requested otherwise." }
+                ],
+                steps: [
+                    { title: "Verify gh auth", desc: "Check authentication state.", code: "gh auth status" },
+                    { title: "Fetch PR details", desc: "Get PR coordinates and branch names.", code: "gh pr view $PR --json headRefName,baseRefName" },
+                    { title: "User confirmation (Gate)", desc: "Gate execution until merge confirmation." },
+                    { title: "Execute merge", desc: "Invoke gh cli merge with branch deletion.", code: "gh pr merge $PR --merge --delete-branch" },
+                    { title: "Local cleanup", desc: "Switch to base branch and delete local merged branch.", code: "git checkout $BASE && git branch -d $HEAD" }
                 ]
             }
         };

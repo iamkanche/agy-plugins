@@ -534,6 +534,8 @@
                     { name: "/git:branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: false, path: "plugins/git/skills/branch-create/SKILL.md" },
                     { name: "/git:branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/git/skills/branch-delete/SKILL.md" },
                     { name: "/git:tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/git/skills/tag-create/SKILL.md" },
+                    { name: "/git:tag-delete", desc: "Delete a local and/or remote tag securely, gated by explicit confirmation.", gated: true, path: "plugins/git/skills/tag-delete/SKILL.md" },
+                    { name: "/git:tag-push", desc: "Push local tags to the remote origin, gated behind explicit confirmation.", gated: true, path: "plugins/git/skills/tag-push/SKILL.md" },
                     { name: "/git:fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: false, path: "plugins/git/skills/fetch/SKILL.md" },
                     { name: "/git:pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/git/skills/pull/SKILL.md" },
                     { name: "/git:push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/git/skills/push/SKILL.md" },
@@ -551,11 +553,12 @@
                 theme: "purple",
                 inspectorUrl: "plugins/gh-cli/index.html",
                 commands: [
-                    { name: "/gh-cli:pr-create", desc: "Push branch and open a pull request on GitHub, building descriptions from commits.", gated: true, path: "plugins/gh-cli/skills/pr-create/SKILL.md" },
+                    { name: "/gh-cli:pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/gh-cli/skills/pr-create/SKILL.md" },
                     { name: "/gh-cli:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: false, path: "plugins/gh-cli/skills/pr-list/SKILL.md" },
                     { name: "/gh-cli:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/gh-cli/skills/pr-review/SKILL.md" },
                     { name: "/gh-cli:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/gh-cli/skills/pr-approve/SKILL.md" },
-                    { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/gh-cli/skills/pr-respond/SKILL.md" }
+                    { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/gh-cli/skills/pr-respond/SKILL.md" },
+                    { name: "/gh-cli:pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/gh-cli/skills/pr-merge/SKILL.md" }
                 ]
             },
             "sdd": {
