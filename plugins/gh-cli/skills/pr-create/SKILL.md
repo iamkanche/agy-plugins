@@ -52,7 +52,7 @@ No positional argument is required.
 
 5. **Compose the PR title + body** (technical identifiers verbatim). Title = concise summary; body = what/why, key changes, and any testing notes.
 
-6. **Gate — STOP.** Ask the user to confirm opening this pull request. Show the title, the full body, the base branch, and whether it is a draft. Proceed only on an explicit yes; on no, STOP without creating the PR.
+6. **Gate — STOP.** Ask the user to confirm opening this pull request. Show the title, the full body, the base branch, and whether it is a draft using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, create PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without creating the PR.
 
 7. **Create the PR.** Pass the title and body; add `--draft` and `--base` as parsed. Include `--assignee` (defaults to `@me` if not specified).
 

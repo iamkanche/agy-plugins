@@ -51,7 +51,7 @@ If `<branch-name>` is missing, ask the user (do not invent one).
    git rev-parse --verify --quiet "refs/remotes/origin/$TARGET" && echo "remote exists" || echo "no remote"
    ```
 
-5. **Gate — STOP.** Ask the user to confirm deleting branch `<target>` locally (and if `--remote` is passed, on origin). Warn them if it is unmerged and `--force` is required. Proceed only on an explicit yes; on no, STOP.
+5. **Gate — STOP.** Ask the user to confirm deleting branch `<target>` locally (and if `--remote` is passed, on origin). Warn them if it is unmerged and `--force` is required. Use the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with deletion` and `No, abort`. Proceed only on selecting Yes; on No, STOP.
 
 6. **Delete locally.** 
    - By default, use safe deletion:

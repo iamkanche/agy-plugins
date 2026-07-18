@@ -32,7 +32,7 @@ If `<tag-name>` is missing, ask the user (do not invent one).
    git ls-remote --tags origin "refs/tags/$TAG" | grep -q "$TAG" && echo "remote exists" || echo "no remote"
    ```
 
-3. **Gate — STOP.** Ask the user to confirm deleting tag `<tag>` locally (and if `--remote` is passed, on origin). Proceed only on an explicit yes; on no, STOP.
+3. **Gate — STOP.** Ask the user to confirm deleting tag `<tag>` locally (and if `--remote` is passed, on origin) using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with deletion` and `No, abort`. Proceed only on selecting Yes; on No, STOP.
 
 4. **Delete locally.** Run the deletion command.
 

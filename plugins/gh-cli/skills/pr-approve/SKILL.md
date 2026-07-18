@@ -36,7 +36,7 @@ Parse the invocation arguments:
 
 4. **Verify self-approval restriction.** If the current user's login matches the PR author's login, STOP and refuse approval.
 
-5. **Gate — STOP.** Present the PR title, author, and number, then ask the user to confirm submitting approval. Proceed only on an explicit yes; on no, STOP without approving.
+5. **Gate — STOP.** Present the PR title, author, and number, then ask the user to confirm submitting approval using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, approve PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without approving.
 
 6. **Submit approval review.**
 

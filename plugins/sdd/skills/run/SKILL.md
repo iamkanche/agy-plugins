@@ -63,7 +63,7 @@ Protected branches: **main, master, develop**. If `$CURRENT` is one of those (or
 If already on a feature branch, keep it. Never generate or commit on a protected branch.
 Skip P0 if `--from` is past it AND a feature branch is already checked out.
 
-For each phase transition in **manual** mode, ask "Proceed to `<phase>`? [Yes|No]" first; "No" → stop and report the current phase.
+For each phase transition in **manual** mode, ask "Proceed to `<phase>`?" using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed` and `No, abort` first; selecting "No" → stop and report the current phase.
 
 ### P1–P4 — inner review loop (generate → review, ≤3×, then commit at key gates)
 
@@ -88,7 +88,7 @@ Loop for the current phase (max **3** generate→review cycles):
    Parse the `verdict:` line.
    - **GO** → exit the loop.
    - **NO-GO** and cycles remaining → re-run the generate workflow, explicitly feeding the `findings` list so it addresses them; then review again.
-   - **NO-GO** on the 3rd cycle → do NOT silently proceed. Surface the remaining findings to the user and ask: "Specs/design/tasks/build still NO-GO after 3 attempts. [Proceed anyway | Stop]". Honor the answer.
+   - **NO-GO** on the 3rd cycle → do NOT silently proceed. Surface the remaining findings to the user and ask: "Specs/design/tasks/build still NO-GO after 3 attempts." using `default_api:ask_question` with options `Proceed anyway` and `Stop`. Honor the answer.
 3. **Commit checkpoints.**
    - At the end of P3 (Tasks): run **/git:commit** to commit all documentation files (`specs.md`, `design.md`, `tasks.md`, `notes.md`) together with a conventional commit message (e.g. `docs(<slug>): specs, design, and task list`).
    - At the end of P4 (Build): run **/git:commit** to commit all implementation changes with a conventional commit message (e.g. `feat(<slug>): implementation`).
@@ -102,7 +102,7 @@ Only if `--until` ≥ `build` (i.e. P4 completed and P5 within bounds).
 
 > Run **/sdd:validate** for `<slug>` (tests / lint / browser checks).
 
-This is read-only verification; no commit. If it reports failures, surface them and ask "Validation failed. [Fix via build loop | Continue to deploy | Stop]".
+This is read-only verification; no commit. If it reports failures, surface them and ask "Validation failed." using `default_api:ask_question` with options `Fix via build loop`, `Continue to deploy`, and `Stop`.
 "Fix via build loop" → re-enter P4 once with the failures as findings, then re-run P5.
 
 ### P6 — deploy (HUMAN GATE: `/git:push` → `/gh-cli:pr-create`)
@@ -113,19 +113,19 @@ Only if `--until` ≥ `build`.
 2. **Create PR (gated).** Run **/gh-cli:pr-create** (requires `gh` auth; if not authed, stop and request the user to run `gh auth login`).
 
 In **auto** mode: after P6, automatically proceed to LEVEL 2 phases (P7→P9).
-In **manual** mode with `--until` ≥ P7: ask "Proceed to P7 human review? [Yes|No]" and, only on Yes, continue into LEVEL 2.
+In **manual** mode with `--until` ≥ P7: ask "Proceed to P7 human review?" using `default_api:ask_question` with options `(Recommended) Yes, proceed` and `No, abort` and, only on Yes, continue into LEVEL 2.
 
 ### P7–P9 — LEVEL 2 (automatically walk in auto mode, gated in manual mode)
 
 - **P7 human review** —
   - **auto:** Automatically run `/sdd:human-validation` (checklist).
-  - **manual:** Ask "Proceed to P7? [Yes|No]" before running.
+  - **manual:** Ask "Proceed to P7?" using `default_api:ask_question` with options `(Recommended) Yes, proceed` and `No, abort` before running.
 - **P8 PR modifications** (loop) —
   - **auto:** Automatically check PR status. If feedback is found, run `/gh-cli:pr-respond`, resolve conflicts/comments, run `/git:commit` and `/git:push`. Repeat until PR is merged or ready.
-  - **manual:** Ask "Address PR feedback now? [Yes|No]" before running.
+  - **manual:** Ask "Address PR feedback now?" using `default_api:ask_question` with options `(Recommended) Yes, proceed` and `No, abort` before running.
 - **P9 product alignment** —
   - **auto:** Automatically run `/sdd:sync` to promote feature docs and clean up the development feature directory.
-  - **manual:** Ask "Promote dev docs to product/? [Yes|No]" before running.
+  - **manual:** Ask "Promote dev docs to product/?" using `default_api:ask_question` with options `(Recommended) Yes, proceed` and `No, abort` before running.
 
 ## Failure handling
 

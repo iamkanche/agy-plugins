@@ -68,7 +68,7 @@ Parse the invocation arguments:
    CI: <passing / failing — brief>
    ```
 
-7. **Gate — STOP.** Show the full review body **and** the list of inline comments (each as `file:line — severity — comment`), then ask the user to confirm posting this review to PR #<n> (summary + <k> inline comments). Proceed only on an explicit yes; on no, print everything and STOP without posting.
+7. **Gate — STOP.** Show the full review body **and** the list of inline comments (each as `file:line — severity — comment`), then ask the user to confirm posting this review to PR #<n> (summary + <k> inline comments) using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, post review` and `No, abort`. Proceed only on selecting Yes; on No, print everything and STOP without posting.
 
 8. **Post the review with inline comments in one request.** The `@gh-operator` subagent posts the review with comments anchored to the target file lines. Use the reviews API with the head SHA from step 2:
 
