@@ -23,6 +23,10 @@ Create a `marketplace.json` file inside your global plugins directory:
     {
       "name": "gh-cli",
       "source": "github:iamkanche/agy-plugins//plugins/gh-cli"
+    },
+    {
+      "name": "sdd",
+      "source": "github:iamkanche/agy-plugins//plugins/sdd"
     }
   ]
 }
@@ -43,6 +47,10 @@ Create a `marketplace.json` file inside your project's local customization direc
     {
       "name": "gh-cli",
       "source": "github:iamkanche/agy-plugins//plugins/gh-cli"
+    },
+    {
+      "name": "sdd",
+      "source": "github:iamkanche/agy-plugins//plugins/sdd"
     }
   ]
 }
@@ -86,6 +94,30 @@ Provides 5 slash commands (workflows) to manage the Pull Request lifecycle, revi
   - `/gh-cli:pr-approve` - Submits approval reviews (refusing self-approvals).
   - `/gh-cli:pr-respond` - Coordinates comments triaging, fixes verification, commits, pushes, and thread replies.
 
+### 3. SDD Workflow Plugin (`sdd`)
+Provides 12 slash commands (workflows) implementing the Software Development Document lifecycle model (specs → design → tasks → build → validate → sync) with quality-gate loop steps and human confirmation.
+
+- Source directory: [plugins/sdd/](file:///plugins/sdd/)
+- Main configurations: [plugin.json](file:///plugins/sdd/plugin.json)
+- Rules: [rules/output-language.md](file:///plugins/sdd/rules/output-language.md), [rules/workflow-gating.md](file:///plugins/sdd/rules/workflow-gating.md)
+- Skills (skills/):
+  - `/sdd:steering` - Analyze the repository and return steering guideline bodies.
+  - `/sdd:grill` - Adversarially probe feature requests and compile questions.
+  - `/sdd:specs` - Generate functional specifications draft.
+  - `/sdd:design` - Generate architectural and database specifications.
+  - `/sdd:tasks` - Generate implementation checklist task manifest.
+  - `/sdd:build` - Modify codebase incrementally and run verifications.
+  - `/sdd:specs-review` - Validate specifications draft against rules.
+  - `/sdd:design-review` - Verify architecture design against guidelines.
+  - `/sdd:tasks-review` - Audit task list completeness.
+  - `/sdd:build-review` - Review code changes diffs.
+  - `/sdd:validate` - Run linters, compilers, and test suites.
+  - `/sdd:sync` - Promote development docs to production directory.
+  - `/sdd:run` - Drive a feature work item through the full SDD phase model.
+  - `/sdd:init` - Bootstrap steering guidelines product.md/tech.md/structure.md/rules.md.
+  - `/sdd:init-update` - Re-analyze repository and refresh guidelines by merging.
+  - `/sdd:continue` - Resume SDD workflow from the current on-disk state.
+
 ---
 
 ## Directory Structure
@@ -100,9 +132,14 @@ agy-plugins/
     │   ├── plugin.json        # Plugin manifest
     │   ├── rules/             # Rule definitions (formatting, hard limits)
     │   └── skills/            # Slash command skill implementations
-    └── gh-cli/                # GitHub CLI plugin directory
+    ├── gh-cli/                # GitHub CLI plugin directory
+    │   ├── plugin.json        # Plugin manifest
+    │   ├── rules/             # Rule definitions (output format)
+    │   └── skills/            # Slash command skill implementations
+    └── sdd/                   # SDD Workflow plugin directory
         ├── plugin.json        # Plugin manifest
-        ├── rules/             # Rule definitions (output format)
-        └── skills/            # Slash command skill implementations
+        ├── rules/             # Rule definitions (workflow gating, output language)
+        ├── skills/            # Slash command skill implementations
+        └── .sdd-docs-example/ # Example directory structure for SDD documents
 ```
 

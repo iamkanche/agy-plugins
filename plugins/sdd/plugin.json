@@ -1,0 +1,11 @@
+{
+  "name": "sdd",
+  "version": "0.1.0",
+  "description": "SDD workflow for Antigravity: specs→design→tasks→build→validate→deploy→review, with quality-gate loops and human-gated steps. Pairs with the git plugin.",
+  "author": { "name": "iamkanche" },
+  "rules": [
+    "rules/output-language.md",
+    "rules/workflow-gating.md"
+  ],
+  "skills": "skills"
+}

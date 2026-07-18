@@ -187,6 +187,12 @@
             box-shadow: 0 0 15px rgba(139, 92, 246, 0.1);
         }
 
+        .plugin-nav-btn.active.amber-theme {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+        }
+
         .plugin-nav-btn .badge {
             font-size: 0.75rem;
             background: rgba(59, 130, 246, 0.2);
@@ -200,6 +206,12 @@
             background: rgba(139, 92, 246, 0.2);
             color: #c084fc;
             border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .plugin-nav-btn.amber-theme .badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.3);
         }
 
         /* Content Area */
@@ -272,6 +284,10 @@
 
         .plugin-title.purple span {
             color: #a78bfa;
+        }
+
+        .plugin-title.amber span {
+            color: #fbbf24;
         }
 
         .plugin-meta {
@@ -348,6 +364,10 @@
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.01) 100%);
         }
 
+        .command-card.amber-card::before {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.01) 100%);
+        }
+
         .command-card:hover {
             transform: translateY(-5px);
             border-color: rgba(59, 130, 246, 0.3);
@@ -357,6 +377,11 @@
         .command-card.purple-card:hover {
             border-color: rgba(139, 92, 246, 0.3);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.05);
+        }
+
+        .command-card.amber-card:hover {
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.05);
         }
 
         .command-card:hover::before {
@@ -373,6 +398,10 @@
 
         .command-card.purple-card .cmd-name {
             color: #a78bfa;
+        }
+
+        .command-card.amber-card .cmd-name {
+            color: #fbbf24;
         }
 
         .cmd-desc {
@@ -528,6 +557,32 @@
                     { name: "/gh-cli:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/gh-cli/skills/pr-approve/SKILL.md" },
                     { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/gh-cli/skills/pr-respond/SKILL.md" }
                 ]
+            },
+            "sdd": {
+                name: "sdd",
+                displayName: "SDD Workflow",
+                desc: "Software Development Document (SDD) lifecycle workflows for Antigravity covering steering rules, adversarial feature interrogation, specifications design, checklist tasks, implementation, and promotion loops.",
+                version: "v0.1.0",
+                theme: "amber",
+                inspectorUrl: "plugins/sdd/index.html",
+                commands: [
+                    { name: "/sdd:steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/sdd/skills/steering/SKILL.md" },
+                    { name: "/sdd:grill", desc: "Adversarially analyze feature requests to extract ambiguities and rank clarifying questions.", gated: false, path: "plugins/sdd/skills/grill/SKILL.md" },
+                    { name: "/sdd:specs", desc: "Draft functional specifications documenting target changes and acceptance criteria.", gated: false, path: "plugins/sdd/skills/specs/SKILL.md" },
+                    { name: "/sdd:design", desc: "Draft system architecture design specifications including component details and schemas.", gated: false, path: "plugins/sdd/skills/design/SKILL.md" },
+                    { name: "/sdd:tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands.", gated: false, path: "plugins/sdd/skills/tasks/SKILL.md" },
+                    { name: "/sdd:build", desc: "Incrementally apply codebase modifications according to task checklist.", gated: false, path: "plugins/sdd/skills/build/SKILL.md" },
+                    { name: "/sdd:specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict with findings list.", gated: false, path: "plugins/sdd/skills/specs-review/SKILL.md" },
+                    { name: "/sdd:design-review", desc: "Perform review on design documents, returning a GO/NO-GO verdict.", gated: false, path: "plugins/sdd/skills/design-review/SKILL.md" },
+                    { name: "/sdd:tasks-review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict.", gated: false, path: "plugins/sdd/skills/tasks-review/SKILL.md" },
+                    { name: "/sdd:build-review", desc: "Perform review on implementation code modifications diff before staging.", gated: false, path: "plugins/sdd/skills/build-review/SKILL.md" },
+                    { name: "/sdd:validate", desc: "Run static analysis check, linters, compilers, and test suites.", gated: false, path: "plugins/sdd/skills/validate/SKILL.md" },
+                    { name: "/sdd:sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/sdd/skills/sync/SKILL.md" },
+                    { name: "/sdd:run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) using specifications, system designs, task check-lists, and testing loops.", gated: false, path: "plugins/sdd/skills/run/SKILL.md" },
+                    { name: "/sdd:init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/sdd/skills/init/SKILL.md" },
+                    { name: "/sdd:init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/sdd/skills/init-update/SKILL.md" },
+                    { name: "/sdd:continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/sdd/skills/continue/SKILL.md" }
+                ]
             }
         };
 
@@ -540,12 +595,12 @@
         function loadPlugin(pluginKey) {
             activePluginKey = pluginKey;
             const data = pluginsData[pluginKey];
-            const isPurple = data.theme === "purple";
+            const themeClass = data.theme; // 'purple', 'amber', 'blue'
 
             // Update header
             headerSection.innerHTML = `
                 <div class="plugin-title-row">
-                    <h2 class="plugin-title ${isPurple ? 'purple' : ''}">Plugin: <span>${data.name}</span></h2>
+                    <h2 class="plugin-title ${themeClass}">Plugin: <span>${data.name}</span></h2>
                     <div class="plugin-meta">
                         <span class="plugin-version">${data.version}</span>
                         <button class="inspect-plugin-btn" onclick="location.href='${data.inspectorUrl}'">
@@ -567,7 +622,7 @@
         function renderCommands(filterText = '') {
             container.innerHTML = '';
             const data = pluginsData[activePluginKey];
-            const isPurple = data.theme === "purple";
+            const themeClass = data.theme; // 'purple', 'amber', 'blue'
 
             const filtered = data.commands.filter(cmd => 
                 cmd.name.toLowerCase().includes(filterText.toLowerCase()) || 
@@ -576,7 +631,7 @@
 
             filtered.forEach(cmd => {
                 const card = document.createElement('div');
-                card.className = `command-card ${isPurple ? 'purple-card' : ''}`;
+                card.className = `command-card ${themeClass}-card`;
                 card.innerHTML = `
                     <div class="cmd-name">${cmd.name}</div>
                     <div class="cmd-desc">${cmd.desc}</div>
@@ -597,7 +652,7 @@
             Object.keys(pluginsData).forEach(key => {
                 const data = pluginsData[key];
                 const btn = document.createElement('button');
-                btn.className = `plugin-nav-btn ${key === activePluginKey ? 'active' : ''} ${data.theme === 'purple' ? 'purple-theme' : ''}`;
+                btn.className = `plugin-nav-btn ${key === activePluginKey ? 'active' : ''} ${data.theme}-theme`;
                 btn.innerHTML = `
                     <span>${data.displayName}</span>
                     <span class="badge">${data.commands.length} Commands</span>
