@@ -1,7 +1,7 @@
 {
   "name": "gh-cli",
   "version": "0.1.0",
-  "description": "GitHub CLI commands for Antigravity (gh-cli): pr-create, pr-list, pr-review, pr-approve, pr-respond. Side effects require explicit confirmation.",
+  "description": "GitHub CLI commands for Antigravity (gh-cli): pr-create, pr-list, pr-review, pr-approve, pr-respond, pr-merge. Side effects require explicit confirmation.",
   "author": { "name": "iamkanche" },
   "rules": [
     "rules/output-language.md",

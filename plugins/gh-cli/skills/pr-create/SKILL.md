@@ -13,6 +13,7 @@ Parse the invocation arguments:
 
 - `--draft` — create the PR as a draft (`gh pr create --draft`).
 - `--base=<branch>` — target base branch. If omitted, `gh` uses the repository default base.
+- `--assignee=<user>` — assign the PR to a user. Defaults to `@me` (auto-assigns the PR creator).
 
 No positional argument is required.
 
@@ -53,10 +54,10 @@ No positional argument is required.
 
 6. **Gate — STOP.** Ask the user to confirm opening this pull request. Show the title, the full body, the base branch, and whether it is a draft. Proceed only on an explicit yes; on no, STOP without creating the PR.
 
-7. **Create the PR.** Pass the title and body; add `--draft` and `--base` as parsed.
+7. **Create the PR.** Pass the title and body; add `--draft` and `--base` as parsed. Include `--assignee` (defaults to `@me` if not specified).
 
    ```bash
-   gh pr create --title "<title>" --body "<body>" [--draft] [--base "<branch>"]
+   gh pr create --title "<title>" --body "<body>" --assignee "<user>" [--draft] [--base "<branch>"]
    ```
 
 8. **Report** the PR URL returned by `gh`.

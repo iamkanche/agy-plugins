@@ -470,6 +470,35 @@
                     { title: "Create and push tag", desc: "Write tag annotations.", code: "git tag -a \"$TAG\" -m \"$MSG\" && git push origin \"$TAG\"" }
                 ]
             },
+            "/git:tag-delete": {
+                gated: true,
+                desc: "Delete a local and/or remote tag securely. Delegates to the @git-operator subagent.",
+                policies: [
+                    { enforced: true, name: "git-operator tag deletion", desc: "Delegates local tag deletion and origin remote push to git-operator." },
+                    { enforced: true, name: "Gated Human Confirmation", desc: "Destructive tag deletions require human confirmation gate." }
+                ],
+                steps: [
+                    { title: "Verify repository", desc: "Ensure command runs inside a Git repository.", code: "git rev-parse --is-inside-work-tree" },
+                    { title: "Check local & remote existence", desc: "Check if target tag exists locally or on remote.", code: "git rev-parse --verify \"refs/tags/$TAG\"" },
+                    { title: "Confirm delete (Gate)", desc: "Gate execution until user confirms deletion." },
+                    { title: "Delete locally", desc: "Delete tag locally.", code: "git tag -d \"$TAG\"" },
+                    { title: "Delete remotely", desc: "Delete remote tag if --remote requested.", code: "git push origin --delete \"$TAG\"" }
+                ]
+            },
+            "/git:tag-push": {
+                gated: true,
+                desc: "Push local tags to the remote origin. Delegates to the @git-operator subagent.",
+                policies: [
+                    { enforced: true, name: "git-operator tag pushing", desc: "Delegates remote tag push operations to git-operator." },
+                    { enforced: true, name: "Confirm tag push (Gate)", desc: "Gated behind explicit confirmation." }
+                ],
+                steps: [
+                    { title: "Verify repository", desc: "Ensure command runs inside a Git repository.", code: "git rev-parse --is-inside-work-tree" },
+                    { title: "Check tag existence", desc: "Verify local tag exists before pushing.", code: "git rev-parse --verify \"refs/tags/$TAG\"" },
+                    { title: "Confirm push (Gate)", desc: "Gate execution until user confirms push." },
+                    { title: "Push tag", desc: "Push tags to remote origin.", code: "git push origin \"$TAG\"" }
+                ]
+            },
             "/git:switch": {
                 gated: false,
                 desc: "Switch working tree checkout to target branch, fetching remote tracking automatically. Delegates to the @git-operator subagent.",
