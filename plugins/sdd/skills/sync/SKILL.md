@@ -5,7 +5,7 @@ description: Sync development logs and documents to the repository-wide product 
 
 # /sdd:sync
 
-**Summary.** Promote the final feature documentation from the temporary development folder `.sdd-docs/development/{slug}/` to the permanent product directory `.sdd-docs/product/{slug}/`, then delete the development folder. State every action before executing it.
+**Summary.** Promote the final feature documentation from the temporary development folder `.sdd-docs/development/{slug}/` to the permanent product directory `.sdd-docs/product/features/{slug}/`, then delete the development folder. State every action before executing it.
 
 ## User input
 
@@ -28,16 +28,16 @@ Locate the target development folder:
 ### 2. Promote to Product
 
 Sync the final files to the permanent product feature directory:
-- Destination path: `.sdd-docs/product/{slug}/` (e.g. `.sdd-docs/product/improve-sdd-plugins/`).
+- Destination path: `.sdd-docs/product/features/{slug}/` (e.g. `.sdd-docs/product/improve-sdd-plugins/`).
 - Create the destination directory if it does not exist:
   ```bash
-  mkdir -p .sdd-docs/product/{slug}
+  mkdir -p .sdd-docs/product/features/{slug}
   ```
 - Copy the final documentation files:
-  - `.sdd-docs/development/{slug}/specs.md` -> `.sdd-docs/product/{slug}/specs.md`
-  - `.sdd-docs/development/{slug}/design.md` -> `.sdd-docs/product/{slug}/design.md`
-  - `.sdd-docs/development/{slug}/notes.md` -> `.sdd-docs/product/{slug}/notes.md` (if present)
-- Keep other relevant files if appropriate (e.g. openapi or database diffs), merging or copying them into `.sdd-docs/product/{slug}/` or repository-wide product directories.
+  - `.sdd-docs/development/{slug}/specs.md` -> `.sdd-docs/product/features/{slug}/specs.md`
+  - `.sdd-docs/development/{slug}/design.md` -> `.sdd-docs/product/features/{slug}/design.md`
+  - `.sdd-docs/development/{slug}/notes.md` -> `.sdd-docs/product/features/{slug}/notes.md` (if present)
+- Keep other relevant files if appropriate (e.g. openapi or database diffs), merging or copying them into `.sdd-docs/product/features/{slug}/` or repository-wide product directories.
 
 ### 3. Cleanup Development Folder
 
@@ -67,7 +67,7 @@ Detect drift — between the feature docs and each other, and between the docs a
 ### Read
 
 - Feature docs: `.sdd-docs/development/{slug}/{specs,design,tasks,api-diff,db-diff}.md`.
-- Consolidated docs: `.sdd-docs/product/{slug}/*`.
+- Consolidated docs: `.sdd-docs/product/features/{slug}/*`.
 - Guidelines: `.sdd-docs/guidelines/{tech,structure,rules}.md`.
 - As-built code: use read-only git to check actual endpoints, schema, and behavior against what the docs claim.
 
