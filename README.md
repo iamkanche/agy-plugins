@@ -6,20 +6,49 @@ Plugins in this repository extend the capabilities of Antigravity agents by pack
 
 ## Marketplace Registration
 
-Workspace-level plugins are registered and loaded via the local marketplace configuration:
+You can load these plugins from this remote repository either **globally** or **project-based**:
 
-- Registry file: [.agents/plugins/marketplace.json](file:///.agents/plugins/marketplace.json)
+### 1. Global Installation (All Projects)
+Create a `marketplace.json` file inside your global plugins directory:
+- Registry file: `~/.gemini/config/plugins/marketplace.json`
 
 ```json
 {
-  "name": "agy-plugins",
-  "owner": { "name": "iamkanche" },
+  "name": "global-plugins-registry",
   "plugins": [
-    { "name": "git", "source": "../../plugins/git" },
-    { "name": "gh-cli", "source": "../../plugins/gh-cli" }
+    {
+      "name": "git",
+      "source": "github:iamkanche/agy-plugins//plugins/git"
+    },
+    {
+      "name": "gh-cli",
+      "source": "github:iamkanche/agy-plugins//plugins/gh-cli"
+    }
   ]
 }
 ```
+
+### 2. Project-Based Installation (Workspace-Level)
+Create a `marketplace.json` file inside your project's local customization directory:
+- Registry file: `.agents/plugins/marketplace.json`
+
+```json
+{
+  "name": "project-plugins-registry",
+  "plugins": [
+    {
+      "name": "git",
+      "source": "github:iamkanche/agy-plugins//plugins/git"
+    },
+    {
+      "name": "gh-cli",
+      "source": "github:iamkanche/agy-plugins//plugins/gh-cli"
+    }
+  ]
+}
+```
+
+*Note: For local development and contributions, you can clone the repository and point the source to relative directories (e.g. `"source": "../../plugins/git"`).*
 
 ---
 
@@ -76,3 +105,4 @@ agy-plugins/
         ├── rules/             # Rule definitions (output format)
         └── .agent/workflows/  # Slash command workflow implementations
 ```
+

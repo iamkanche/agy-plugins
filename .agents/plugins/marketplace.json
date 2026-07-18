@@ -2,7 +2,7 @@
   "name": "agy-plugins",
   "owner": { "name": "iamkanche" },
   "plugins": [
-    { "name": "git", "source": "../../plugins/git" },
-    { "name": "gh-cli", "source": "../../plugins/gh-cli" }
+    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/git" },
+    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/gh-cli" }
   ]
 }
