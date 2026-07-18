@@ -6,7 +6,7 @@ This plugin enables agents to manage the pull request lifecycle, audit code modi
 
 ## Available Slash Commands
 
-Workflows are located in [commands/](commands/) and map to the following commands:
+Skills are located in [skills/](skills/) and map to the following commands:
 
 - `/gh-cli:pr-create` - Safe branch push and pull request creation.
 - `/gh-cli:pr-list` - Lists repository PRs and identifies current branch connection.

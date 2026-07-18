@@ -60,7 +60,7 @@ Provides 11 robust slash commands (workflows) to safely manage local Git histori
 - Source directory: [plugins/git/](file:///plugins/git/)
 - Main configurations: [plugin.json](file:///plugins/git/plugin.json)
 - Rules: [rules/git-hard-rules.md](file:///plugins/git/rules/git-hard-rules.md), [rules/output-language.md](file:///plugins/git/rules/output-language.md)
-- Workflows (.agent/workflows/):
+- Skills (skills/):
   - `/git:commit` - Commit staged changes.
   - `/git:branch-create` - Create and checkout feature branches.
   - `/git:branch-delete` - Delete local/remote branches.
@@ -79,7 +79,7 @@ Provides 5 slash commands (workflows) to manage the Pull Request lifecycle, revi
 - Source directory: [plugins/gh-cli/](file:///plugins/gh-cli/)
 - Main configurations: [plugin.json](file:///plugins/gh-cli/plugin.json)
 - Rules: [rules/output-language.md](file:///plugins/gh-cli/rules/output-language.md)
-- Workflows (.agent/workflows/):
+- Skills (skills/):
   - `/gh-cli:pr-create` - Safe branch push and pull request creation.
   - `/gh-cli:pr-list` - Lists repository PRs and identifies current branch connection.
   - `/gh-cli:pr-review` - Audits a PR against `AGENTS.md` rules and submits formatted inline suggestion comments.
@@ -99,10 +99,10 @@ agy-plugins/
     ├── git/                   # Git plugin directory
     │   ├── plugin.json        # Plugin manifest
     │   ├── rules/             # Rule definitions (formatting, hard limits)
-    │   └── commands/          # Slash command workflow implementations
+    │   └── skills/            # Slash command skill implementations
     └── gh-cli/                # GitHub CLI plugin directory
         ├── plugin.json        # Plugin manifest
         ├── rules/             # Rule definitions (output format)
-        └── commands/          # Slash command workflow implementations
+        └── skills/            # Slash command skill implementations
 ```
 

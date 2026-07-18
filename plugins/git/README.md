@@ -17,7 +17,7 @@ The following hard rules are active across all git operations:
 
 ## Available Slash Commands
 
-Workflows are located in [commands/](commands/) and map to the following commands:
+Skills are located in [skills/](skills/) and map to the following commands:
 
 - `/git:commit` - Safe staging and conventional commit creation.
 - `/git:branch-create` - Creates a new branch branched off the latest `origin/<default>`.

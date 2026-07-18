@@ -10,5 +10,5 @@
   "agents": [
     "agents/gh-operator/agent.json"
   ],
-  "commands": "commands"
+  "skills": "skills"
 }

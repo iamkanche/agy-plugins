@@ -501,17 +501,17 @@
                 theme: "blue",
                 inspectorUrl: "plugins/git/index.html",
                 commands: [
-                    { name: "/git:commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/git/.agent/workflows/commit.md" },
-                    { name: "/git:branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: false, path: "plugins/git/.agent/workflows/branch-create.md" },
-                    { name: "/git:branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/git/.agent/workflows/branch-delete.md" },
-                    { name: "/git:tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/git/.agent/workflows/tag-create.md" },
-                    { name: "/git:fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: false, path: "plugins/git/.agent/workflows/fetch.md" },
-                    { name: "/git:pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/git/.agent/workflows/pull.md" },
-                    { name: "/git:push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/git/.agent/workflows/push.md" },
-                    { name: "/git:stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: false, path: "plugins/git/.agent/workflows/stash.md" },
-                    { name: "/git:status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: false, path: "plugins/git/.agent/workflows/status.md" },
-                    { name: "/git:rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/git/.agent/workflows/rebase.md" },
-                    { name: "/git:switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: false, path: "plugins/git/.agent/workflows/switch.md" }
+                    { name: "/git:commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/git/skills/commit/SKILL.md" },
+                    { name: "/git:branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: false, path: "plugins/git/skills/branch-create/SKILL.md" },
+                    { name: "/git:branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/git/skills/branch-delete/SKILL.md" },
+                    { name: "/git:tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/git/skills/tag-create/SKILL.md" },
+                    { name: "/git:fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: false, path: "plugins/git/skills/fetch/SKILL.md" },
+                    { name: "/git:pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/git/skills/pull/SKILL.md" },
+                    { name: "/git:push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/git/skills/push/SKILL.md" },
+                    { name: "/git:stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: false, path: "plugins/git/skills/stash/SKILL.md" },
+                    { name: "/git:status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: false, path: "plugins/git/skills/status/SKILL.md" },
+                    { name: "/git:rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/git/skills/rebase/SKILL.md" },
+                    { name: "/git:switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: false, path: "plugins/git/skills/switch/SKILL.md" }
                 ]
             },
             "gh-cli": {
@@ -522,11 +522,11 @@
                 theme: "purple",
                 inspectorUrl: "plugins/gh-cli/index.html",
                 commands: [
-                    { name: "/gh-cli:pr-create", desc: "Push branch and open a pull request on GitHub, building descriptions from commits.", gated: true, path: "plugins/gh-cli/.agent/workflows/pr-create.md" },
-                    { name: "/gh-cli:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: false, path: "plugins/gh-cli/.agent/workflows/pr-list.md" },
-                    { name: "/gh-cli:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/gh-cli/.agent/workflows/pr-review.md" },
-                    { name: "/gh-cli:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/gh-cli/.agent/workflows/pr-approve.md" },
-                    { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/gh-cli/.agent/workflows/pr-respond.md" }
+                    { name: "/gh-cli:pr-create", desc: "Push branch and open a pull request on GitHub, building descriptions from commits.", gated: true, path: "plugins/gh-cli/skills/pr-create/SKILL.md" },
+                    { name: "/gh-cli:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: false, path: "plugins/gh-cli/skills/pr-list/SKILL.md" },
+                    { name: "/gh-cli:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/gh-cli/skills/pr-review/SKILL.md" },
+                    { name: "/gh-cli:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/gh-cli/skills/pr-approve/SKILL.md" },
+                    { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/gh-cli/skills/pr-respond/SKILL.md" }
                 ]
             }
         };

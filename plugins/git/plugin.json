@@ -10,5 +10,5 @@
   "agents": [
     "agents/git-operator/agent.json"
   ],
-  "commands": "commands"
+  "skills": "skills"
 }
