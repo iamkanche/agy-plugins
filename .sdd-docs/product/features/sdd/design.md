@@ -1,17 +1,19 @@
-# Design: Improve SDD Plugins
+---
+feature: sdd
+module: plugins
+integrated_at: 2026-07-18
+updated_at: 2026-07-18
+---
 
-## Component Boundaries
-All changes are contained within the `plugins/sdd` directory:
-- `plugins/sdd/skills/run/SKILL.md` (orchestration)
-- `plugins/sdd/skills/continue/SKILL.md` (orchestration)
-- `plugins/sdd/skills/sync/SKILL.md` (synchronization & drift rules)
-- Other worker skills (frontmatter only)
+# SDD Plugin — Consolidated Technical Design
 
-## Data Flow
-1. `/sdd:run` -> checks folder -> uses/prompts for slug -> checkout branch `feat/{slug}`.
-2. Loops P1-P3 without committing -> Writes specs, design, tasks to `.sdd-docs/development/{slug}/`.
-3. End of P3 -> runs `/git:commit` for all docs.
-4. P4 (Build) -> implements code -> reviews -> `/git:commit` for implementation.
-5. P5 (Validate) -> validation checks.
-6. P6 (Deploy) -> push & PR.
-7. L2 (P7-P9) -> in auto mode, auto-runs human validation, checks/responds to PR feedback, and runs `/sdd:sync` to copy dev docs to `product/{slug}/`, delete `development/{slug}/`, and commit/push.
+<!-- schema: design | written by /sdd:sync-product (dev-only sections stripped) -->
+
+## Approach
+Improve the workflows in the `sdd` plugin by editing orchestration logic in namespaced skill files under its `skills/` directory, adding frontmatter, and updating the inspection web dashboard.
+
+## Components
+- `skills/run/SKILL.md` (Modified): Logic updated to correct command namespaces, consolidate docs/code commits, automate Level 2, and use slug directories.
+- `skills/continue/SKILL.md` (Modified): State restoration rules updated to align with automated Level 2 execution and slug paths.
+- `skills/sync/SKILL.md` (Modified): Converted from drift detector worker to `/sdd:sync` orchestrator. Adds support for copying to `/features/{slug}/`, cleanup of development directory, and auto-committing.
+- Worker skills (Modified): Added frontmatter blocks to all worker skills so they trigger as standard commands.

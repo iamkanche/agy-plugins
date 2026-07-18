@@ -1,7 +1,6 @@
 ---
 feature: git
 module: plugins
-pbi: [001_update_plugins]
 integrated_at: 2026-07-18
 updated_at: 2026-07-18
 ---

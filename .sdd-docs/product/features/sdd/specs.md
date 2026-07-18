@@ -1,30 +1,28 @@
-# Specs: Improve SDD Plugins
+---
+feature: sdd
+module: plugins
+integrated_at: 2026-07-18
+updated_at: 2026-07-18
+---
+
+# SDD Plugin — Consolidated Specification
+
+<!-- schema: specs | written by /sdd:sync-product (dev-only sections stripped) -->
 
 ## Context
-This feature improves the Software Development Document (SDD) plugins under `plugins/sdd` to automate Level 2 execution, support double-commit checkpoint policy, enforce conventional branch naming, correct git/github CLI command names, completely remove numerical item IDs in favor of feature slugs, and clean up feature directories upon syncing.
+Google Antigravity utilizes the `sdd` plugin to drive feature implementation through the Software Development Document (SDD) model: specifications, design, tasks, build, validation, deploy, and product alignment.
 
-## Scope
-- Update `run/SKILL.md` and `continue/SKILL.md` to:
-  - Fix git/gh-cli command names.
-  - Implement double-commit checkpoints (docs commit after P3, implementation commit after P4).
-  - Implement automated Level 2 (P7→P9) execution in `auto` mode.
-  - Completely remove item_id and use feature slug directly for directories and branch naming.
-- Update `sync/SKILL.md` to:
-  - Register as top-level skill command with YAML frontmatter.
-  - Sync docs per feature (directly under `product/{slug}/`).
-  - Delete temporary development folders post-sync.
-  - Commit/push changes.
-- Add frontmatter to all other worker skills.
+## Capabilities
+- `/sdd:run` - Drive a feature work item through the full SDD phase model (P0 to P9).
+- `/sdd:continue` - Resume the SDD workflow at the phase inferred from on-disk state.
+- `/sdd:sync` - Promote feature documentation to product directory and clean up dev folders.
+- `/sdd:init` - Scan the repository and bootstrap initial guidelines documents.
+- `/sdd:init-update` - Re-analyze repository and refresh guidelines.
+- Other worker skills (`/sdd:steering`, `/sdd:grill`, `/sdd:specs`, `/sdd:design`, `/sdd:tasks`, `/sdd:build`, `/sdd:specs-review`, `/sdd:design-review`, `/sdd:tasks-review`, `/sdd:build-review`, `/sdd:validate`).
 
-## User stories
-- As an Antigravity developer, I want all SDD workflows to use correct Git and GitHub CLI command names so that workflows do not fail.
-- As a developer, I want Level 2 phases (human checks, PR checks, and sync) to be automated in auto mode to reduce manual steps.
-- As a developer, I want to commit all documentation files together, and all implementation files together, rather than committing at every phase.
-- As a developer, I want to use feature slugs directly instead of tracking incremental numeric item IDs.
-
-## Acceptance criteria
-1. No workflows refer to deprecated commands like `/git:create-branch`, `/git:create-pr`, or `/git:respond-pr`.
-2. Running `/sdd:run` in `auto` mode automatically triggers `/sdd:sync` at the end and deletes the `development/{slug}/` folder.
-3. Only two commits are created during the `run` pipeline: one for docs at the end of P3, and one for code changes at the end of P4.
-4. Feature directories are structured as `.sdd-docs/development/{slug}/` with no numeric prefix.
-5. All worker skills in `plugins/sdd/skills/` have YAML frontmatter blocks.
+## Acceptance criteria (as-built)
+1. Workflow orchestrators (`run` and `continue`) use updated correct namespaces (`/git:branch-create`, `/gh-cli:pr-create`, `/gh-cli:pr-respond`).
+2. Level 2 (P7→P9) execution is automated in `auto` mode to perform validation checks, PR checks, sync, and folder cleanup without prompting.
+3. Commits are consolidated into a docs commit after P3 and implementation commit after P4.
+4. Feature folders and branches are named directly using feature slugs without numeric prefix.
+5. `/sdd:sync` copies docs to `.sdd-docs/product/features/{slug}/`, cleans up development folders, and commits/pushes the changes.
