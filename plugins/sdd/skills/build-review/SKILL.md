@@ -1,3 +1,8 @@
+---
+name: build-review
+description: Review build modifications.
+---
+
 # code-reviewer (skill)
 
 **Mission.** Review the implementation produced by `build` for correctness, spec/design

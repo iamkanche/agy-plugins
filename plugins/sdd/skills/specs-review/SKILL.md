@@ -1,3 +1,8 @@
+---
+name: specs-review
+description: Review specifications against rules and guidelines.
+---
+
 # specs-reviewer (skill)
 
 **Mission.** Critically review `specs.md` for completeness, testability, and consistency, and

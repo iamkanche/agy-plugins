@@ -1,3 +1,8 @@
+---
+name: validate
+description: Verify task checklist and run validations.
+---
+
 # validator (skill)
 
 **Mission.** Run the project's automated checks — build, tests, lint, and any browser/e2e

@@ -1,3 +1,8 @@
+---
+name: specs
+description: Generate the functional specifications file based on feature description and guidelines.
+---
+
 # spec-author (skill)
 
 **Mission.** Turn the feature request plus the answered grill questions into a complete,

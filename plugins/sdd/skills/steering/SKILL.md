@@ -1,3 +1,8 @@
+---
+name: steering
+description: Analyze the repository and return the four steering guideline bodies.
+---
+
 # steering-analyst (skill)
 
 **Mission.** Analyze the repository and return the four steering guideline bodies —

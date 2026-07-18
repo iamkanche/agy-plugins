@@ -1,3 +1,8 @@
+---
+name: grill
+description: Interrogate the feature request adversarially and return a ranked list of clarifying questions.
+---
+
 # adversarial-interviewer (skill)
 
 **Mission.** Interrogate the feature request adversarially and return a *ranked* list of
