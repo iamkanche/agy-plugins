@@ -439,6 +439,90 @@
                 justify-content: flex-start;
             }
         }
+
+        :root {
+            --color-sdd: #fbbf24;
+            --color-git: #60a5fa;
+            --color-gh-cli: #f43f5e;
+            --bg-sdd: rgba(245, 158, 11, 0.05);
+            --bg-git: rgba(96, 165, 250, 0.05);
+            --bg-gh-cli: rgba(244, 63, 94, 0.05);
+            --border-sdd: rgba(245, 158, 11, 0.2);
+            --border-git: rgba(96, 165, 250, 0.2);
+            --border-gh-cli: rgba(244, 63, 94, 0.2);
+        }
+
+        .map-scroll-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .map-node {
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+        }
+
+        .map-node rect {
+            fill: #0b0c16;
+            stroke-width: 1.5px;
+            transition: stroke 0.2s, fill 0.2s, stroke-width 0.2s;
+        }
+
+        .map-node text {
+            font-family: var(--font-main);
+            font-size: 11px;
+            font-weight: 600;
+            fill: var(--text-secondary);
+            text-anchor: middle;
+            dominant-baseline: middle;
+            transition: fill 0.2s;
+        }
+
+        /* Colors by plugin */
+        .map-node.plugin-sdd rect { stroke: var(--border-sdd); }
+        .map-node.plugin-sdd:hover rect { fill: var(--bg-sdd); stroke: var(--color-sdd); }
+        .map-node.plugin-git rect { stroke: var(--border-git); }
+        .map-node.plugin-git:hover rect { fill: var(--bg-git); stroke: var(--color-git); }
+        .map-node.plugin-gh-cli rect { stroke: var(--border-gh-cli); }
+        .map-node.plugin-gh-cli:hover rect { fill: var(--bg-gh-cli); stroke: var(--color-gh-cli); }
+
+        /* Dimmed / Highlight states */
+        .map-node.dimmed { opacity: 0.15; }
+        .map-node.highlighted { opacity: 1.0; }
+        .map-node.highlighted text { fill: var(--text-primary); }
+
+        .map-node.active rect { stroke-width: 2.5px; fill: rgba(255, 255, 255, 0.04); }
+        .map-node.active.plugin-sdd rect { stroke: var(--color-sdd); filter: drop-shadow(0 0 6px var(--color-sdd)); }
+        .map-node.active.plugin-git rect { stroke: var(--color-git); filter: drop-shadow(0 0 6px var(--color-git)); }
+        .map-node.active.plugin-gh-cli rect { stroke: var(--color-gh-cli); filter: drop-shadow(0 0 6px var(--color-gh-cli)); }
+
+        .map-edge {
+            fill: none;
+            stroke-width: 1.5px;
+            transition: stroke 0.2s, stroke-width 0.2s, opacity 0.2s;
+        }
+
+        .map-edge.type-sequence { stroke: rgba(255, 255, 255, 0.12); }
+        .map-edge.type-dependency { stroke: rgba(96, 165, 250, 0.15); stroke-dasharray: 4, 4; }
+
+        .map-edge.dimmed { opacity: 0.05; }
+        .map-edge.highlighted {
+            opacity: 1.0;
+            stroke-width: 2.5px;
+            stroke-dasharray: 6, 6;
+            animation: flow-dash 25s linear infinite;
+        }
+        .map-edge.highlighted.from-sdd { stroke: var(--color-sdd); }
+        .map-edge.highlighted.from-git { stroke: var(--color-git); }
+        .map-edge.highlighted.from-gh-cli { stroke: var(--color-gh-cli); }
+
+        @keyframes flow-dash {
+            to { stroke-dashoffset: -1000; }
+        }
+
+        /* Accessibility outline */
+        .map-node:focus-visible { outline: none; }
+        .map-node:focus-visible rect { stroke-width: 2.5px; stroke: #ffffff; filter: drop-shadow(0 0 8px #ffffff); }
     </style>
 </head>
 <body>
@@ -464,91 +548,32 @@
         </div>
 
         <div class="details-area">
-            <div class="glass-panel" style="margin-bottom: 2rem;">
-                <div class="panel-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #fbbf24;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                    SDD Lifecycle Phase Pipeline (Orchestrated by /sdd:run)
+            <div class="glass-panel" style="margin-bottom: 2rem; overflow-x: auto; padding: 1.5rem;">
+                <div class="panel-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <span style="display: flex; align-items: center; gap: 0.75rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #fbbf24;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        Interactive Skill Connections Map
+                    </span>
+                    <span id="map-selection-indicator" style="font-size: 0.8rem; color: var(--text-secondary); font-style: italic;">
+                        Click a node to lock path selection
+                    </span>
                 </div>
-
-                <!-- Steering Bootstrap -->
-                <div class="pipeline-group">
-                    <div class="group-title" style="border-left-color: #10b981;">Repository Steering Bootstrap</div>
-                    <div class="pipeline-container">
-                        <div class="pipeline-step" style="flex: 0 0 45%;">
-                            <div class="step-badge bootstrap">INIT</div>
-                            <div class="step-label">/sdd:init</div>
-                            <div class="step-sublabel">Bootstrap steering guidelines</div>
-                        </div>
-                        <div class="pipeline-step" style="flex: 0 0 45%;">
-                            <div class="step-badge bootstrap">UPDATE</div>
-                            <div class="step-label">/sdd:init-update</div>
-                            <div class="step-sublabel">Merge fresh stack/rules findings</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Level 1 AI Inner Loop -->
-                <div class="pipeline-group" style="margin-top: 1.5rem;">
-                    <div class="group-title">Level 1: AI Inner Loop & Deploy (auto/manual)</div>
-                    <div class="pipeline-container">
-                        <div class="pipeline-step">
-                            <div class="step-badge">P0</div>
-                            <div class="step-label">Setup</div>
-                            <div class="step-sublabel">git:create-branch</div>
-                        </div>
-                        <div class="pipeline-step">
-                            <div class="step-badge">P1</div>
-                            <div class="step-label">Specs</div>
-                            <div class="step-sublabel">grill → specs</div>
-                        </div>
-                        <div class="pipeline-step">
-                            <div class="step-badge">P2</div>
-                            <div class="step-label">Design</div>
-                            <div class="step-sublabel">design → review</div>
-                        </div>
-                        <div class="pipeline-step">
-                            <div class="step-badge">P3</div>
-                            <div class="step-label">Tasks</div>
-                            <div class="step-sublabel">tasks → review</div>
-                        </div>
-                        <div class="pipeline-step">
-                            <div class="step-badge">P4</div>
-                            <div class="step-label">Build</div>
-                            <div class="step-sublabel">build → review</div>
-                        </div>
-                        <div class="pipeline-step">
-                            <div class="step-badge">P5</div>
-                            <div class="step-label">Validate</div>
-                            <div class="step-sublabel">sdd:validate</div>
-                        </div>
-                        <div class="pipeline-step">
-                            <div class="step-badge">P6</div>
-                            <div class="step-label">Deploy</div>
-                            <div class="step-sublabel">push & open PR</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Level 2 Gated Loop -->
-                <div class="pipeline-group" style="margin-top: 1.5rem;">
-                    <div class="group-title" style="border-left-color: #ef4444;">Level 2: Human-in-the-Loop Alignment (gated)</div>
-                    <div class="pipeline-container">
-                        <div class="pipeline-step">
-                            <div class="step-badge l2">P7</div>
-                            <div class="step-label">Human Review</div>
-                            <div class="step-sublabel">human-validation checklist</div>
-                        </div>
-                        <div class="pipeline-step">
-                            <div class="step-badge l2">P8</div>
-                            <div class="step-label">PR Respond</div>
-                            <div class="step-sublabel">respond-pr & fixes</div>
-                        </div>
-                        <div class="pipeline-step">
-                            <div class="step-badge l2">P9</div>
-                            <div class="step-label">Sync Product</div>
-                            <div class="step-sublabel">promote verified docs</div>
-                        </div>
-                    </div>
+                <div class="map-scroll-wrapper">
+                    <svg id="connection-map-svg" width="1300" height="700" style="background: rgba(0, 0, 0, 0.25); border-radius: 16px; border: 1px solid var(--card-border);">
+                        <defs>
+                            <marker id="arrow-sdd" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24" />
+                            </marker>
+                            <marker id="arrow-git" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#60a5fa" />
+                            </marker>
+                            <marker id="arrow-gh-cli" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#f43f5e" />
+                            </marker>
+                        </defs>
+                        <g id="map-edges"></g>
+                        <g id="map-nodes"></g>
+                    </svg>
                 </div>
             </div>
 
@@ -771,15 +796,529 @@
             }
         };
 
+        const gitAndGhCliData = {
+            "/git:branch-create": {
+                gated: false,
+                desc: "Create and switch to a new feature branch checked out from the remote master/main.",
+                policies: [
+                    { enforced: true, name: "Up-to-date baseline", desc: "Performs remote fetch on default branch before branching." }
+                ],
+                steps: [
+                    { title: "Fetch Remote States", desc: "Retrieve active repository listings from origin.", code: "git fetch origin" },
+                    { title: "Switch and Create", desc: "Checkout new feature branch.", code: "git checkout -b feature-branch origin/main" }
+                ]
+            },
+            "/git:branch-delete": {
+                gated: true,
+                desc: "Securely delete a branch locally and on origin remote, refusing protected branches.",
+                policies: [
+                    { enforced: true, name: "Protected Branch Guard", desc: "Refuses to delete main or master branches." }
+                ],
+                steps: [
+                    { title: "Local Branch Cleanup", desc: "Delete local pointer reference.", code: "git branch -d branch-name" },
+                    { title: "Remote Cleanup", desc: "Push delete action to upstream.", code: "git push origin --delete branch-name" }
+                ]
+            },
+            "/git:commit": {
+                gated: true,
+                desc: "Commit staged workspace modifications using structured Conventional Commits templates.",
+                policies: [
+                    { enforced: true, name: "Strict Messages", desc: "Requires Overview, Changes, and Impact sections." }
+                ],
+                steps: [
+                    { title: "Stage Modifications", desc: "Stages active modifications.", code: "git add ." },
+                    { title: "Create Commit", desc: "Records snapshot with human-gated confirmation description.", code: "git commit -m \"feat: description\"" }
+                ]
+            },
+            "/git:fetch": {
+                gated: false,
+                desc: "Fetch branches and tags from origin remote updating remote-tracking branches.",
+                policies: [],
+                steps: [
+                    { title: "Fetch Changes", desc: "Fetch references from the remote server.", code: "git fetch" }
+                ]
+            },
+            "/git:pull": {
+                gated: false,
+                desc: "Integrate modifications from the remote tracking branch into local active branch.",
+                policies: [],
+                steps: [
+                    { title: "Pull Branch", desc: "Integrate upstream changes securely.", code: "git pull origin branch" }
+                ]
+            },
+            "/git:push": {
+                gated: true,
+                desc: "Push current feature commits to remote origin setting tracking reference.",
+                policies: [],
+                steps: [
+                    { title: "Push Reference", desc: "Pushes local commits upstream.", code: "git push -u origin branch" }
+                ]
+            },
+            "/git:rebase": {
+                gated: true,
+                desc: "Rebase active branch commits onto a clean target branch.",
+                policies: [],
+                steps: [
+                    { title: "Rebase Execution", desc: "Rebase onto target branch.", code: "git rebase target-branch" }
+                ]
+            },
+            "/git:stash": {
+                gated: false,
+                desc: "Temporarily save, list, restore or discard uncommitted working directory changes.",
+                policies: [],
+                steps: [
+                    { title: "Stash Modifications", desc: "Saves changes to stack.", code: "git stash" },
+                    { title: "Restore Modifications", desc: "Pops changes from stack.", code: "git stash pop" }
+                ]
+            },
+            "/git:status": {
+                gated: false,
+                desc: "Inspect working tree modifications and tracking comparison.",
+                policies: [],
+                steps: [
+                    { title: "Check Status", desc: "Check current modifications state.", code: "git status" }
+                ]
+            },
+            "/git:switch": {
+                gated: false,
+                desc: "Switch the workspace working tree to a target branch.",
+                policies: [],
+                steps: [
+                    { title: "Switch Branch", desc: "Changes directory state to targeted branch.", code: "git checkout branch" }
+                ]
+            },
+            "/git:tag-create": {
+                gated: true,
+                desc: "Create an annotated release tag at current HEAD.",
+                policies: [],
+                steps: [
+                    { title: "Tag Local HEAD", desc: "Creates annotated tag.", code: "git tag -a v1.0.0 -m \"msg\"" }
+                ]
+            },
+            "/git:tag-delete": {
+                gated: true,
+                desc: "Delete a local and remote tag reference.",
+                policies: [],
+                steps: [
+                    { title: "Delete Local Tag", desc: "Removes tag reference locally.", code: "git tag -d tag-name" }
+                ]
+            },
+            "/git:tag-push": {
+                gated: true,
+                desc: "Push local tags upstream to remote origin.",
+                policies: [],
+                steps: [
+                    { title: "Push Tags", desc: "Pushes tags to remote repository.", code: "git push origin --tags" }
+                ]
+            },
+            "/gh-cli:pr-create": {
+                gated: true,
+                desc: "Open a pull request on GitHub tracking current commits.",
+                policies: [
+                    { enforced: true, name: "Gated Validation", desc: "Verifies builds pass before creating PR." }
+                ],
+                steps: [
+                    { title: "Create Pull Request", desc: "Initializes PR utilizing gh client.", code: "gh pr create --title \"title\" --body \"body\"" }
+                ]
+            },
+            "/gh-cli:pr-list": {
+                gated: false,
+                desc: "List the repository's open pull requests.",
+                policies: [],
+                steps: [
+                    { title: "List Pull Requests", desc: "List current repository pull requests.", code: "gh pr list" }
+                ]
+            },
+            "/gh-cli:pr-review": {
+                gated: false,
+                desc: "Review pull request diffs and submit structured feedback comments.",
+                policies: [
+                    { enforced: true, name: "Review Restrictions", desc: "Enforces COMMENT reviews by default." }
+                ],
+                steps: [
+                    { title: "Submit review", desc: "Posts structured feedback comments to GitHub thread." }
+                ]
+            },
+            "/gh-cli:pr-respond": {
+                gated: false,
+                desc: "Triage review comments and apply local codebase fixes.",
+                policies: [],
+                steps: [
+                    { title: "Fetch reviews", desc: "Retrieves pull request comments and suggestions." }
+                ]
+            },
+            "/gh-cli:pr-approve": {
+                gated: true,
+                desc: "Approve the current branch's PR on GitHub.",
+                policies: [
+                    { enforced: true, name: "No Self-Approve", desc: "Prevents developers from approving their own PRs." }
+                ],
+                steps: [
+                    { title: "Approve Pull Request", desc: "Submits approval review.", code: "gh pr review --approve" }
+                ]
+            },
+            "/gh-cli:pr-merge": {
+                gated: true,
+                desc: "Merge the active pull request securely with squash merging default.",
+                policies: [],
+                steps: [
+                    { title: "Merge PR", desc: "Merges the branch on GitHub.", code: "gh pr merge --squash" }
+                ]
+            }
+        };
+
+        // Dynamically merge gitAndGhCliData into commandData
+        Object.assign(commandData, gitAndGhCliData);
+
+        const nodes = [
+            { id: "/sdd:init", name: "init", plugin: "sdd", x: 120, y: 120, phase: "Bootstrap" },
+            { id: "/sdd:init-update", name: "init-update", plugin: "sdd", x: 120, y: 220, phase: "Bootstrap" },
+            { id: "/sdd:steering", name: "steering", plugin: "sdd", x: 280, y: 170, phase: "Bootstrap" },
+            { id: "/sdd:continue", name: "continue", plugin: "sdd", x: 120, y: 320, phase: "Bootstrap" },
+            { id: "/sdd:run", name: "run", plugin: "sdd", x: 440, y: 240, phase: "Orchestration" },
+            { id: "/git:branch-create", name: "branch-create", plugin: "git", x: 600, y: 240, phase: "P0 Setup" },
+            { id: "/sdd:grill", name: "grill", plugin: "sdd", x: 600, y: 340, phase: "P1 Specs" },
+            { id: "/sdd:specs", name: "specs", plugin: "sdd", x: 600, y: 440, phase: "P1 Specs" },
+            { id: "/sdd:specs-review", name: "specs-review", plugin: "sdd", x: 600, y: 540, phase: "P1 Specs" },
+            { id: "/sdd:design", name: "design", plugin: "sdd", x: 760, y: 540, phase: "P2 Design" },
+            { id: "/sdd:design-review", name: "design-review", plugin: "sdd", x: 760, y: 440, phase: "P2 Design" },
+            { id: "/sdd:tasks", name: "tasks", plugin: "sdd", x: 760, y: 340, phase: "P3 Tasks" },
+            { id: "/sdd:tasks-review", name: "tasks-review", plugin: "sdd", x: 760, y: 240, phase: "P3 Tasks" },
+            { id: "/sdd:build", name: "build", plugin: "sdd", x: 920, y: 240, phase: "P4 Build" },
+            { id: "/sdd:build-review", name: "build-review", plugin: "sdd", x: 920, y: 340, phase: "P4 Build" },
+            { id: "/sdd:validate", name: "validate", plugin: "sdd", x: 920, y: 440, phase: "P5 Validate" },
+            { id: "/git:commit", name: "commit", plugin: "git", x: 1080, y: 440, phase: "P6/P8 Commit" },
+            { id: "/git:push", name: "push", plugin: "git", x: 1080, y: 340, phase: "P6 Deploy" },
+            { id: "/gh-cli:pr-create", name: "pr-create", plugin: "gh-cli", x: 1080, y: 240, phase: "P6 Deploy" },
+            { id: "/gh-cli:pr-list", name: "pr-list", plugin: "gh-cli", x: 1220, y: 240, phase: "P7 Review" },
+            { id: "/gh-cli:pr-review", name: "pr-review", plugin: "gh-cli", x: 1220, y: 340, phase: "P7 Review" },
+            { id: "/gh-cli:pr-respond", name: "pr-respond", plugin: "gh-cli", x: 1220, y: 440, phase: "P8 Respond" },
+            { id: "/gh-cli:pr-approve", name: "pr-approve", plugin: "gh-cli", x: 1220, y: 540, phase: "P8 Align" },
+            { id: "/gh-cli:pr-merge", name: "pr-merge", plugin: "gh-cli", x: 1080, y: 540, phase: "P8 Merge" },
+            { id: "/sdd:sync", name: "sync", plugin: "sdd", x: 1080, y: 640, phase: "P9 Sync" },
+            { id: "/git:branch-delete", name: "branch-delete", plugin: "git", x: 920, y: 640, phase: "P9 Cleanup" },
+            { id: "/git:status", name: "status", plugin: "git", x: 120, y: 460, phase: "Standalone / Utility" },
+            { id: "/git:fetch", name: "fetch", plugin: "git", x: 260, y: 460, phase: "Standalone / Utility" },
+            { id: "/git:pull", name: "pull", plugin: "git", x: 400, y: 460, phase: "Standalone / Utility" },
+            { id: "/git:switch", name: "switch", plugin: "git", x: 120, y: 550, phase: "Standalone / Utility" },
+            { id: "/git:rebase", name: "rebase", plugin: "git", x: 260, y: 550, phase: "Standalone / Utility" },
+            { id: "/git:stash", name: "stash", plugin: "git", x: 400, y: 550, phase: "Standalone / Utility" },
+            { id: "/git:tag-create", name: "tag-create", plugin: "git", x: 120, y: 640, phase: "Standalone / Utility" },
+            { id: "/git:tag-push", name: "tag-push", plugin: "git", x: 260, y: 640, phase: "Standalone / Utility" },
+            { id: "/git:tag-delete", name: "tag-delete", plugin: "git", x: 400, y: 640, phase: "Standalone / Utility" }
+        ];
+
+        const edges = [
+            // Bootstrap
+            { from: "/sdd:init", to: "/sdd:steering", type: "sequence" },
+            { from: "/sdd:init-update", to: "/sdd:steering", type: "sequence" },
+            { from: "/sdd:steering", to: "/sdd:run", type: "sequence" },
+            { from: "/sdd:continue", to: "/sdd:run", type: "sequence" },
+
+            // Core lifecycle
+            { from: "/sdd:run", to: "/git:branch-create", type: "sequence" },
+            { from: "/git:branch-create", to: "/sdd:grill", type: "sequence" },
+            { from: "/sdd:grill", to: "/sdd:specs", type: "sequence" },
+            { from: "/sdd:specs", to: "/sdd:specs-review", type: "sequence" },
+            { from: "/sdd:specs-review", to: "/sdd:design", type: "sequence" },
+            { from: "/sdd:design", to: "/sdd:design-review", type: "sequence" },
+            { from: "/sdd:design-review", to: "/sdd:tasks", type: "sequence" },
+            { from: "/sdd:tasks", to: "/sdd:tasks-review", type: "sequence" },
+            { from: "/sdd:tasks-review", to: "/sdd:build", type: "sequence" },
+            { from: "/sdd:build", to: "/sdd:build-review", type: "sequence" },
+            { from: "/sdd:build-review", to: "/sdd:validate", type: "sequence" },
+            { from: "/sdd:validate", to: "/git:commit", type: "sequence" },
+            { from: "/git:commit", to: "/git:push", type: "sequence" },
+            { from: "/git:push", to: "/gh-cli:pr-create", type: "sequence" },
+            { from: "/gh-cli:pr-create", to: "/gh-cli:pr-list", type: "sequence" },
+            { from: "/gh-cli:pr-list", to: "/gh-cli:pr-review", type: "sequence" },
+            { from: "/gh-cli:pr-review", to: "/gh-cli:pr-respond", type: "sequence" },
+            { from: "/gh-cli:pr-respond", to: "/git:commit", type: "sequence" }, // loopback
+            { from: "/gh-cli:pr-respond", to: "/gh-cli:pr-approve", type: "sequence" },
+            { from: "/gh-cli:pr-approve", to: "/gh-cli:pr-merge", type: "sequence" },
+            { from: "/gh-cli:pr-merge", to: "/sdd:sync", type: "sequence" },
+            { from: "/sdd:sync", to: "/git:branch-delete", type: "sequence" },
+
+            // Standalone
+            { from: "/git:fetch", to: "/git:pull", type: "dependency" },
+            { from: "/git:pull", to: "/git:rebase", type: "dependency" },
+            { from: "/git:status", to: "/git:stash", type: "dependency" },
+            { from: "/git:stash", to: "/git:pull", type: "dependency" },
+            { from: "/git:tag-create", to: "/git:tag-push", type: "dependency" }
+        ];
+
         const sidebar = document.getElementById('cmd-sidebar-list');
         const headerSection = document.getElementById('details-header-section');
         const policiesList = document.getElementById('policies-list');
         const stepsList = document.getElementById('steps-list');
 
+        const defaultCmd = "/sdd:run";
+
+        function calculateBezierPath(fromNode, toNode) {
+            const x1 = fromNode.x;
+            const y1 = fromNode.y;
+            const x2 = toNode.x;
+            const y2 = toNode.y;
+
+            // Special loopback check
+            if (fromNode.id === "/gh-cli:pr-respond" && toNode.id === "/git:commit") {
+                return `M 1220 458 C 1220 510, 1080 510, 1080 458`;
+            }
+
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+
+            if (Math.abs(dx) >= Math.abs(dy)) {
+                // Horizontal flow
+                if (dx >= 0) {
+                    // Going right
+                    return `M ${x1 + 70} ${y1} C ${x1 + 110} ${y1}, ${x2 - 110} ${y2}, ${x2 - 70} ${y2}`;
+                } else {
+                    // Going left
+                    return `M ${x1 - 70} ${y1} C ${x1 - 110} ${y1}, ${x2 + 110} ${y2}, ${x2 + 70} ${y2}`;
+                }
+            } else {
+                // Vertical flow
+                if (dy >= 0) {
+                    // Going down
+                    return `M ${x1} ${y1 + 18} C ${x1} ${y1 + 34}, ${x2} ${y2 - 34}, ${x2} ${y2 - 18}`;
+                } else {
+                    // Going up
+                    return `M ${x1} ${y1 - 18} C ${x1} ${y1 - 34}, ${x2} ${y2 + 34}, ${x2} ${y2 + 18}`;
+                }
+            }
+        }
+
+        const MapState = {
+            selectedNodeId: null,
+            hoveredNodeId: null,
+
+            init() {
+                // Render nodes and edges
+                renderMap();
+                
+                // Listen to map background click to clear selection
+                const svg = document.getElementById('connection-map-svg');
+                svg.addEventListener('click', (e) => {
+                    if (e.target === svg || e.target.id === 'map-edges' || e.target.id === 'map-nodes') {
+                        this.select(null);
+                    }
+                });
+            },
+
+            hover(nodeId) {
+                this.hoveredNodeId = nodeId;
+                this.updateVisuals();
+            },
+
+            select(nodeId) {
+                if (this.selectedNodeId === nodeId) {
+                    this.selectedNodeId = null;
+                } else {
+                    this.selectedNodeId = nodeId;
+                }
+                
+                // Sync active class on sidebar items
+                const targetId = this.selectedNodeId || this.hoveredNodeId || defaultCmd;
+                document.querySelectorAll('.cmd-item').forEach(btn => {
+                    if (btn.textContent === targetId) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                this.updateVisuals();
+            },
+
+            updateVisuals() {
+                const activeId = this.hoveredNodeId || this.selectedNodeId;
+                const previewId = this.hoveredNodeId;
+                const lockedId = this.selectedNodeId;
+
+                if (!activeId) {
+                    document.querySelectorAll('.map-node').forEach(el => {
+                        el.classList.remove('dimmed', 'highlighted', 'active');
+                    });
+                    document.querySelectorAll('.map-edge').forEach(el => {
+                        el.classList.remove('dimmed', 'highlighted');
+                    });
+                    
+                    const currentDetailsId = this.selectedNodeId || defaultCmd;
+                    loadCommandDetails(currentDetailsId);
+                    
+                    document.querySelectorAll('.cmd-item').forEach(btn => {
+                        if (btn.textContent === currentDetailsId) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+
+                    document.getElementById('map-selection-indicator').textContent = "Click a node to lock path selection";
+                    return;
+                }
+
+                const connectedNodes = new Set();
+                connectedNodes.add(activeId);
+
+                const connectedEdges = new Set();
+                edges.forEach((edge, idx) => {
+                    if (edge.from === activeId || edge.to === activeId) {
+                        connectedEdges.add(idx);
+                        connectedNodes.add(edge.from);
+                        connectedNodes.add(edge.to);
+                    }
+                });
+
+                nodes.forEach(node => {
+                    const el = document.querySelector(`[data-node-id="${node.id}"]`);
+                    if (!el) return;
+
+                    if (connectedNodes.has(node.id)) {
+                        el.classList.remove('dimmed');
+                        el.classList.add('highlighted');
+                    } else {
+                        el.classList.remove('highlighted');
+                        el.classList.add('dimmed');
+                    }
+
+                    if (node.id === lockedId) {
+                        el.classList.add('active');
+                    } else {
+                        el.classList.remove('active');
+                    }
+                });
+
+                edges.forEach((edge, idx) => {
+                    const el = document.querySelector(`[data-edge-index="${idx}"]`);
+                    if (!el) return;
+
+                    if (connectedEdges.has(idx)) {
+                        el.classList.remove('dimmed');
+                        el.classList.add('highlighted');
+                    } else {
+                        el.classList.remove('highlighted');
+                        el.classList.add('dimmed');
+                    }
+                });
+
+                loadCommandDetails(activeId);
+
+                const indicator = document.getElementById('map-selection-indicator');
+                if (lockedId) {
+                    if (previewId && previewId !== lockedId) {
+                        indicator.innerHTML = `Locked: <strong>${lockedId}</strong> (Previewing: ${previewId})`;
+                    } else {
+                        indicator.innerHTML = `Selection locked: <strong>${lockedId}</strong>`;
+                    }
+                } else {
+                    indicator.textContent = `Previewing: ${previewId}`;
+                }
+            }
+        };
+
+        function renderMap() {
+            const nodesGroup = document.getElementById('map-nodes');
+            const edgesGroup = document.getElementById('map-edges');
+
+            nodesGroup.innerHTML = '';
+            edgesGroup.innerHTML = '';
+
+            edges.forEach((edge, index) => {
+                const fromNode = nodes.find(n => n.id === edge.from);
+                const toNode = nodes.find(n => n.id === edge.to);
+
+                if (!fromNode || !toNode) return;
+
+                const pathD = calculateBezierPath(fromNode, toNode);
+                const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                pathEl.setAttribute('d', pathD);
+                pathEl.setAttribute('class', `map-edge type-${edge.type} from-${fromNode.plugin}`);
+                pathEl.setAttribute('data-edge-index', index);
+                pathEl.setAttribute('marker-end', `url(#arrow-${toNode.plugin})`);
+
+                edgesGroup.appendChild(pathEl);
+            });
+
+            nodes.forEach(node => {
+                const gEl = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                gEl.setAttribute('class', `map-node plugin-${node.plugin}`);
+                gEl.setAttribute('data-node-id', node.id);
+                gEl.setAttribute('tabindex', '0');
+
+                const rectEl = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rectEl.setAttribute('x', node.x - 70);
+                rectEl.setAttribute('y', node.y - 18);
+                rectEl.setAttribute('width', 140);
+                rectEl.setAttribute('height', 36);
+                rectEl.setAttribute('rx', 8);
+                gEl.appendChild(rectEl);
+
+                const textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                textEl.setAttribute('x', node.x);
+                textEl.setAttribute('y', node.y);
+                textEl.textContent = node.name;
+                gEl.appendChild(textEl);
+
+                gEl.addEventListener('mouseenter', () => MapState.hover(node.id));
+                gEl.addEventListener('mouseleave', () => MapState.hover(null));
+                gEl.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    MapState.select(node.id);
+                });
+                gEl.addEventListener('focus', () => MapState.hover(node.id));
+                gEl.addEventListener('blur', () => MapState.hover(null));
+
+                gEl.addEventListener('keydown', (e) => {
+                    let dirX = 0, dirY = 0;
+                    if (e.key === 'ArrowRight') dirX = 1;
+                    else if (e.key === 'ArrowLeft') dirX = -1;
+                    else if (e.key === 'ArrowDown') dirY = 1;
+                    else if (e.key === 'ArrowUp') dirY = -1;
+                    else if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        MapState.select(node.id);
+                        return;
+                    } else {
+                        return;
+                    }
+                    e.preventDefault();
+
+                    let bestNode = null;
+                    let minDistance = Infinity;
+
+                    nodes.forEach(n => {
+                        if (n.id === node.id) return;
+                        const dx = n.x - node.x;
+                        const dy = n.y - node.y;
+
+                        if (dirX > 0 && dx <= 10) return;
+                        if (dirX < 0 && dx >= -10) return;
+                        if (dirY > 0 && dy <= 10) return;
+                        if (dirY < 0 && dy >= -10) return;
+
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < minDistance) {
+                            minDistance = dist;
+                            bestNode = n;
+                        }
+                    });
+
+                    if (bestNode) {
+                        const targetEl = document.querySelector(`[data-node-id="${bestNode.id}"]`);
+                        if (targetEl) targetEl.focus();
+                    }
+                });
+
+                nodesGroup.appendChild(gEl);
+            });
+        }
+
         function loadCommandDetails(cmdName) {
             const data = commandData[cmdName];
+            if (!data) return;
 
-            // Header section
             headerSection.innerHTML = `
                 <div class="details-title-row">
                     <h3 class="details-title">${cmdName}</h3>
@@ -788,7 +1327,6 @@
                 <p class="details-desc">${data.desc}</p>
             `;
 
-            // Policies list
             policiesList.innerHTML = '';
             data.policies.forEach(policy => {
                 const card = document.createElement('div');
@@ -803,7 +1341,6 @@
                 policiesList.appendChild(card);
             });
 
-            // Steps list
             stepsList.innerHTML = '';
             data.steps.forEach((step, idx) => {
                 const row = document.createElement('div');
@@ -820,21 +1357,48 @@
             });
         }
 
-        // Render sidebar items
-        const defaultCmd = Object.keys(commandData)[0];
+        // Render sidebar items grouped by plugin
+        const groups = {
+            sdd: { title: "SDD Commands", items: [] },
+            git: { title: "Git Commands", items: [] },
+            "gh-cli": { title: "GitHub CLI Commands", items: [] }
+        };
+
         Object.keys(commandData).forEach(cmdName => {
-            const btn = document.createElement('button');
-            btn.className = `cmd-item ${cmdName === defaultCmd ? 'active' : ''}`;
-            btn.textContent = cmdName;
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.cmd-item').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                loadCommandDetails(cmdName);
-            });
-            sidebar.appendChild(btn);
+            let plugin = "sdd";
+            if (cmdName.startsWith("/git:")) plugin = "git";
+            else if (cmdName.startsWith("/gh-cli:")) plugin = "gh-cli";
+            groups[plugin].items.push(cmdName);
         });
 
-        // Load default
+        sidebar.innerHTML = '';
+
+        Object.keys(groups).forEach(pKey => {
+            const group = groups[pKey];
+            if (group.items.length === 0) return;
+
+            const header = document.createElement('div');
+            header.className = 'group-title';
+            header.style.marginTop = '1rem';
+            header.style.marginBottom = '0.5rem';
+            if (pKey === 'git') header.style.borderLeftColor = 'var(--color-git)';
+            else if (pKey === 'gh-cli') header.style.borderLeftColor = 'var(--color-gh-cli)';
+            header.textContent = group.title;
+            sidebar.appendChild(header);
+
+            group.items.forEach(cmdName => {
+                const btn = document.createElement('button');
+                btn.className = `cmd-item ${cmdName === defaultCmd ? 'active' : ''}`;
+                btn.textContent = cmdName;
+                btn.addEventListener('click', () => {
+                    MapState.select(cmdName);
+                });
+                sidebar.appendChild(btn);
+            });
+        });
+
+        // Initialize Map and Load Default
+        MapState.init();
         loadCommandDetails(defaultCmd);
     </script>
 </body>
