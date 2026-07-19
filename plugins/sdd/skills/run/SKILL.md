@@ -30,7 +30,7 @@ If `--from`/`--until` are inconsistent (from > until), stop and report.
 LEVEL 1 (AI + Subagents)                         LEVEL 2 (AI + human, auto/gated)
 P0 setup   Receipt /git:branch-create            P7 human review  /sdd:human-validation
 P1 specs   grill→specs→specs-review (Analyst)    P8 PR mods       /gh-cli:pr-respond & poll
-P2 design  design→design-review (Architect)      P9 alignment     /sdd:sync & merge & preserve
+P2 design  design→design-review (Architect)      P9 alignment     /sdd:sync -> /gh-cli:pr-merge & preserve
 P3 tasks   tasks→tasks-review→Docs Commit        
            (Planner)
 P4 build   build→build-review→Code Commit
@@ -123,11 +123,8 @@ In **auto** mode, LEVEL 2 phases run automatically. In **manual** mode, they gat
   - **manual:** Ask "Address PR feedback now?" using `default_api:ask_question`.
 
 - **P9 Product Alignment & Merge.**
-  - **auto:** Once the PR is approved, check that all CI checks pass.
-    - Automatically merge the PR using `gh pr merge --auto --merge`.
-    - Run `/sdd:sync` to promote feature docs from development/ to product/ and clean up the development feature folder.
-    - **Preserve files:** Ensure that `.sdd-docs/product/memory.md` and `.sdd-docs/settings.json` are retained and updated in the main branch.
-  - **manual:** Ask "Promote dev docs to product/ and merge?" using `default_api:ask_question`.
+  - **auto:** Once the PR is approved, first run `/sdd:sync` locally on the feature branch (promotes dev docs to `product/`, removes the dev folder, commits and pushes to the feature branch). Poll CI/status checks on the new commit using `pr_polling` settings from `.sdd-docs/settings.json` (default 30s interval, 3 max attempts). Once checks pass, run `/gh-cli:pr-merge` (no `--keep-branch`) to merge the PR and delete both local and remote branches.
+  - **manual:** Two separate gates: (1) `"Proceed with /sdd:sync to promote docs and push to feature branch? [Yes|No]"`, (2) `"Proceed with /gh-cli:pr-merge to merge the PR and clean up branches? [Yes|No]"`.
 
 ### 10. Notify User (P10)
 

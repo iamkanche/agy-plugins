@@ -755,7 +755,10 @@
                     { title: "Tasks Loop (P3)", desc: "Draft and review checklist tasks manifest." },
                     { title: "Build Loop (P4)", desc: "Implement code changes and run tests." },
                     { title: "AI Validation (P5)", desc: "Verify overall build with linters and tests." },
-                    { title: "Deploy (P6)", desc: "Push changes and create Pull Request." }
+                    { title: "Deploy (P6)", desc: "Push changes and create Pull Request." },
+                    { title: "Human Review (P7)", desc: "Review the checklist, tests, and code modifications." },
+                    { title: "PR Feedback & Approval (P8)", desc: "Poll reviews, address comments, and wait for PR approval." },
+                    { title: "Sync & Merge (P9)", desc: "Synchronize documents on the feature branch, push, wait for status checks, then merge the PR via /gh-cli:pr-merge." }
                 ]
             },
             "/sdd:init": {
@@ -994,8 +997,8 @@
             { id: "/gh-cli:pr-review", name: "pr-review", plugin: "gh-cli", x: 1220, y: 340, phase: "P7 Review" },
             { id: "/gh-cli:pr-respond", name: "pr-respond", plugin: "gh-cli", x: 1220, y: 440, phase: "P8 Respond" },
             { id: "/gh-cli:pr-approve", name: "pr-approve", plugin: "gh-cli", x: 1220, y: 540, phase: "P8 Align" },
-            { id: "/gh-cli:pr-merge", name: "pr-merge", plugin: "gh-cli", x: 1080, y: 540, phase: "P8 Merge" },
-            { id: "/sdd:sync", name: "sync", plugin: "sdd", x: 1080, y: 640, phase: "P9 Sync" },
+            { id: "/gh-cli:pr-merge", name: "pr-merge", plugin: "gh-cli", x: 1080, y: 640, phase: "P9 Merge" },
+            { id: "/sdd:sync", name: "sync", plugin: "sdd", x: 1080, y: 540, phase: "P9 Sync" },
             { id: "/git:branch-delete", name: "branch-delete", plugin: "git", x: 920, y: 640, phase: "P9 Cleanup" },
             { id: "/git:status", name: "status", plugin: "git", x: 120, y: 460, phase: "Standalone / Utility" },
             { id: "/git:fetch", name: "fetch", plugin: "git", x: 260, y: 460, phase: "Standalone / Utility" },
@@ -1035,9 +1038,8 @@
             { from: "/gh-cli:pr-review", to: "/gh-cli:pr-respond", type: "sequence" },
             { from: "/gh-cli:pr-respond", to: "/git:commit", type: "sequence" }, // loopback
             { from: "/gh-cli:pr-respond", to: "/gh-cli:pr-approve", type: "sequence" },
-            { from: "/gh-cli:pr-approve", to: "/gh-cli:pr-merge", type: "sequence" },
-            { from: "/gh-cli:pr-merge", to: "/sdd:sync", type: "sequence" },
-            { from: "/sdd:sync", to: "/git:branch-delete", type: "sequence" },
+            { from: "/gh-cli:pr-approve", to: "/sdd:sync", type: "sequence" },
+            { from: "/sdd:sync", to: "/gh-cli:pr-merge", type: "sequence" },
 
             // Standalone
             { from: "/git:fetch", to: "/git:pull", type: "dependency" },
