@@ -52,3 +52,9 @@ Improve the workflows in the `sdd` plugin by editing orchestration logic in name
     "preserve_files": ["string"]
   }
   ```
+
+## P9 Alignment Sequence Optimization
+Reorders the SDD Level 2 P9 step to run `/sdd:sync` on the feature branch before `/gh-cli:pr-merge`.
+
+- **`plugins/sdd/skills/run/SKILL.md` (Modified)**: Phase model diagram updated: `P9 alignment /sdd:sync → /gh-cli:pr-merge & preserve`. P9 auto mode now runs `/sdd:sync` locally (promoting dev docs, committing and pushing to feature branch), polls CI via `pr_polling` settings, then invokes `/gh-cli:pr-merge`. P9 manual mode gated with two separate `default_api:ask_question` prompts.
+- **`plugins/sdd/index.html` (Modified)**: Node coordinates swapped: `/sdd:sync` → `(1080, 540, P9 Sync)`, `/gh-cli:pr-merge` → `(1080, 640, P9 Merge)`. Edges updated: removed `pr-approve→pr-merge`, `pr-merge→sync`, `sync→branch-delete`; added `pr-approve→sync`, `sync→pr-merge`. `/sdd:run` commandData steps extended with P7/P8/P9 entries.
