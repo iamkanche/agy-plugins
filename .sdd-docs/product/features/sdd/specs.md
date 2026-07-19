@@ -20,6 +20,14 @@ Google Antigravity utilizes the `sdd` plugin to drive feature implementation thr
 - `/sdd:init-update` - Re-analyze repository and refresh guidelines.
 - Other worker skills (`/sdd:steering`, `/sdd:grill`, `/sdd:specs`, `/sdd:design`, `/sdd:tasks`, `/sdd:build`, `/sdd:specs-review`, `/sdd:design-review`, `/sdd:tasks-review`, `/sdd:build-review`, `/sdd:validate`).
 
+## Specialized SDD Subagents
+To minimize parent token bloat and establish safety boundaries, the SDD plugin exposes 5 specialized subagents:
+- `sdd-analyst`: Handles feature interrogation, specs drafting, and specs review (`grill`, `specs`, `specs-review`). Read-only tools.
+- `sdd-architect`: Handles architecture design and design review (`design`, `design-review`). Read-only tools.
+- `sdd-planner`: Handles guideline bootstrap, repository updates, tasks drafting, and tasks review (`init`, `init-update`, `steering`, `tasks`, `tasks-review`). Write tools enabled.
+- `sdd-coder`: Handles code implementation and implementation code review (`build`, `build-review`). Write tools enabled.
+- `sdd-validator`: Handles validation, deployment/alignment actions, and overall workflow run control (`validate`, `sync`, `continue`, `run`). Read-only tools.
+
 ## Acceptance criteria (as-built)
 1. Workflow orchestrators (`run` and `continue`) use updated correct namespaces (`/git:branch-create`, `/gh-cli:pr-create`, `/gh-cli:pr-respond`).
 2. Level 2 (P7→P9) execution is automated in `auto` mode to perform validation checks, PR checks, sync, and folder cleanup without prompting.
@@ -27,3 +35,8 @@ Google Antigravity utilizes the `sdd` plugin to drive feature implementation thr
 4. Feature folders and branches are named directly using feature slugs without numeric prefix.
 5. `/sdd:sync` copies docs to `.sdd-docs/product/features/{slug}/`, cleans up development folders, and commits/pushes the changes.
 6. Manual phase transitions and validation checkpoints use the interactive `default_api:ask_question` tool for confirmations.
+7. Presents a structured verification receipt (branch, base, target, title, slug) for user approval in P0 before checkout.
+8. Spawns specialized, token-optimized subagents (Analyst, Architect, Planner, Coder, Validator) to execute phase-specific tasks and reviews to conserve parent tokens.
+9. Automates 3x retry and response/fix loops for specs/design/tasks/build reviews, validation failures, and PR comments polling/fixing.
+10. Automatically merges PR on approval, syncs feature documentation post-merge, and preserves settings/memory.
+11. Declarative subagent configuration files (`agent.json`) are structured under the `plugins/sdd/agents/{agent-name}/` directories, register via `plugins/sdd/plugin.json`, and trace dynamically in the registry dashboard in `index.html`.

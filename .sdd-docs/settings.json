@@ -1,0 +1,13 @@
+{
+  "mode": "auto",
+  "max_loops": 3,
+  "pr_polling": {
+    "interval_seconds": 60,
+    "max_attempts": 3
+  },
+  "auto_merge": true,
+  "preserve_files": [
+    "memory.md",
+    "settings.json"
+  ]
+}
