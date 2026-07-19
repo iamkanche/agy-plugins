@@ -7,5 +7,12 @@
     "rules/output-language.md",
     "rules/workflow-gating.md"
   ],
+  "agents": [
+    "agents/sdd-analyst/agent.json",
+    "agents/sdd-architect/agent.json",
+    "agents/sdd-planner/agent.json",
+    "agents/sdd-coder/agent.json",
+    "agents/sdd-validator/agent.json"
+  ],
   "skills": "skills"
 }
