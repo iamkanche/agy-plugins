@@ -2,7 +2,7 @@
 feature: git
 module: plugins
 integrated_at: 2026-07-18
-updated_at: 2026-07-18
+updated_at: 2026-07-19
 ---
 
 # Git Plugin — Consolidated Specification
@@ -30,3 +30,4 @@ Google Antigravity utilizes the `git` plugin to manage local repository branch l
 ## Acceptance criteria (as-built)
 1. `/git:tag-delete` deletes the specified tag locally, and on remote origin if `--remote` is passed.
 2. `/git:tag-push` pushes local tags to origin remote.
+3. Gated git-modifying commands (commit, push, branch-delete, tag-create, tag-delete, tag-push, rebase) use the interactive `default_api:ask_question` tool for confirmations.

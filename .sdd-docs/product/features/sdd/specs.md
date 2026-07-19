@@ -2,7 +2,7 @@
 feature: sdd
 module: plugins
 integrated_at: 2026-07-18
-updated_at: 2026-07-18
+updated_at: 2026-07-19
 ---
 
 # SDD Plugin — Consolidated Specification
@@ -26,3 +26,4 @@ Google Antigravity utilizes the `sdd` plugin to drive feature implementation thr
 3. Commits are consolidated into a docs commit after P3 and implementation commit after P4.
 4. Feature folders and branches are named directly using feature slugs without numeric prefix.
 5. `/sdd:sync` copies docs to `.sdd-docs/product/features/{slug}/`, cleans up development folders, and commits/pushes the changes.
+6. Manual phase transitions and validation checkpoints use the interactive `default_api:ask_question` tool for confirmations.
