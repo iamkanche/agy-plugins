@@ -5,7 +5,7 @@ description: Drive a feature work item through the full SDD phase model (P0 to P
 
 # /sdd:run
 
-**Summary.** Drive a work item through the full SDD phase model (P0→P9): ensure a feature branch, walk each phase, running the LEVEL-1 inner review loops (≤3×), committing at key checkpoints (docs commit after P3, implementation commit after P4), and progressing automatically in `auto` mode through LEVEL 2 (P7→P9). State every workflow you run before running it.
+**Summary.** Drive a work item through the full SDD phase model (P0→P9): verify/load settings and memory, present a feature receipt for user confirmation, ensure a feature branch, delegate phase-specific execution (P1-P5) to token-optimized specialized subagents, run inner review loops (≤3x), validate and fix implementation (≤3x), deploy and poll PR comments (≤3x) to automatically respond/fix issues, automatically merge the PR, promote documentation, preserve memory files, and notify the user with a summary briefing and feedback options.
 
 ## User input
 
@@ -27,118 +27,123 @@ If `--from`/`--until` are inconsistent (from > until), stop and report.
 ## Phase model
 
 ```
-LEVEL 1 (AI)                                    LEVEL 2 (AI + human, auto/gated)
-P0 setup   /git:branch-create                   P7 human review  /sdd:human-validation
-P1 specs   grill→specs→specs-review             P8 PR mods       /gh-cli:pr-respond → …
-P2 design  design→design-review                 P9 alignment     /sdd:sync
-P3 tasks   tasks→tasks-review→Docs Commit
-P4 build   build→build-review→Implementation Commit
-P5 valid.  /sdd:validate
+LEVEL 1 (AI + Subagents)                         LEVEL 2 (AI + human, auto/gated)
+P0 setup   Receipt /git:branch-create            P7 human review  /sdd:human-validation
+P1 specs   grill→specs→specs-review (Analyst)    P8 PR mods       /gh-cli:pr-respond & poll
+P2 design  design→design-review (Architect)      P9 alignment     /sdd:sync & merge & preserve
+P3 tasks   tasks→tasks-review→Docs Commit        
+           (Planner)
+P4 build   build→build-review→Code Commit
+           (Coder)
+P5 valid.  /sdd:validate & fix (Validator)
 P6 deploy  /git:push → /gh-cli:pr-create
 ```
 
 ## Steps
 
-### 0. Preconditions
+### 0. Preconditions & Setup (P0)
 
-```bash
-git rev-parse --is-inside-work-tree >/dev/null 2>&1 || echo "NOT_A_GIT_REPO"
-DEFAULT=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@')
-DEFAULT=${DEFAULT:-$(git remote show origin 2>/dev/null | sed -n 's/.*HEAD branch: //p')}
-DEFAULT=${DEFAULT:-main}
-CURRENT=$(git rev-parse --abbrev-ref HEAD)
-echo "default=$DEFAULT current=$CURRENT"
-ls .sdd-docs/guidelines 2>/dev/null
-```
+1. **Verify Git Repo.**
+   ```bash
+   git rev-parse --is-inside-work-tree >/dev/null 2>&1 || echo "NOT_A_GIT_REPO"
+   ```
+2. **Load settings & memory.** Check if `.sdd-docs/settings.json` exists. If so, parse settings (e.g. loops, polling time, custom commands). Read `.sdd-docs/product/memory.md` to load project-specific rules and constraints.
+3. **Present Feature Receipt.** Generate a structured receipt for the user. Ask for confirmation before creating the feature branch:
+   - Feature Slug: `{slug}`
+   - Feature Title: derived from description/backlog
+   - Based Branch: default remote branch (e.g. `main`)
+   - Target PR Branch: default remote branch (e.g. `main`)
+   - Branch Name to Create: `feat/{slug}` or similar
+   - Execution Mode: `auto` or `manual` (from settings or argument)
+   Use `default_api:ask_question` to ask: "Do you approve checking out this feature branch and starting development?" with options `(Recommended) Yes, proceed` and `No, abort`.
+4. **Detect remote default branch.**
+   ```bash
+   DEFAULT=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@')
+   DEFAULT=${DEFAULT:-$(git remote show origin 2>/dev/null | sed -n 's/.*HEAD branch: //p')}
+   DEFAULT=${DEFAULT:-main}
+   CURRENT=$(git rev-parse --abbrev-ref HEAD)
+   ```
+5. **Ensure guidelines exist.** If `.sdd-docs/guidelines/` does not exist, stop and instruct the user to run `/sdd:init`.
+6. **Ensure feature branch.** If `$CURRENT` matches `$DEFAULT` or is a protected branch (`main`, `master`, `develop`), create a feature branch using `/git:branch-create` as `feat/{slug}`.
 
-- Not a git repo → stop, tell the user.
-- **No `.sdd-docs/guidelines/`** → steering is missing. Stop and tell the user to run `/sdd:init` first; do not proceed.
+### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents)
 
-### P0 — ensure a feature branch (`/git:branch-create`)
+To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. Each loop runs up to **3** times.
 
-Protected branches: **main, master, develop**. If `$CURRENT` is one of those (or matches `$DEFAULT`), you MUST create a feature branch before any generation or commit:
+| Phase | Subagent | Generate Workflow | Review Workflow | Commit Gate |
+|---|---|---|---|---|
+| **P1 Specs** | `sdd-analyst` | `/sdd:grill` (first cycle) then `/sdd:specs` | `/sdd:specs-review` | None |
+| **P2 Design** | `sdd-architect` | `/sdd:design` | `/sdd:design-review` | None |
+| **P3 Tasks** | `sdd-planner` | `/sdd:tasks` | `/sdd:tasks-review` | **Docs Commit** (`/git:commit` for specs, design, tasks) |
+| **P4 Build** | `sdd-coder` | `/sdd:build` | `/sdd:build-review` | **Implementation Commit** (`/git:commit` for build/code) |
 
-> Run **/git:branch-create** with a conventional name (e.g. `feat/{slug}`, `docs/{slug}`, or `refactor/{slug}`).
-
-If already on a feature branch, keep it. Never generate or commit on a protected branch.
-Skip P0 if `--from` is past it AND a feature branch is already checked out.
-
-For each phase transition in **manual** mode, ask "Proceed to `<phase>`?" using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed` and `No, abort` first; selecting "No" → stop and report the current phase.
-
-### P1–P4 — inner review loop (generate → review, ≤3×, then commit at key gates)
-
-Each of these phases follows the SAME loop. Only the workflow trio differs:
-
-| Phase | Generate | Review | Commit Gate |
-|---|---|---|---|
-| P1 specs | `/sdd:grill` then `/sdd:specs` | `/sdd:specs-review` | None |
-| P2 design | `/sdd:design` | `/sdd:design-review` | None |
-| P3 tasks | `/sdd:tasks` | `/sdd:tasks-review` | **Docs Commit** (`/git:commit` for specs, design, tasks) |
-| P4 build | `/sdd:build` | `/sdd:build-review` | **Implementation Commit** (`/git:commit` for build/code) |
-
-Loop for the current phase (max **3** generate→review cycles):
-
-1. **Generate.** Run the phase's generate workflow(s) for `<slug>`. For P1, run `/sdd:grill` once at the start of the first cycle only, then `/sdd:specs`.
-2. **Review.** Run the phase's review workflow. It returns a fenced `sdd-review` block:
+For each phase:
+1. **Delegate execution.** Spawn the corresponding subagent (`sdd-analyst`, `sdd-architect`, `sdd-planner`, or `sdd-coder`) with a system prompt outlining the phase goal and feed it the relevant specs, designs, and tasks.
+2. **Review verdict.** The subagent runs the review skill and parses the `verdict:` output from:
    ```sdd-review
    verdict: GO            # or NO-GO
    findings:
      - {severity: blocker|major|nit, msg: "..."}
    ```
-   Parse the `verdict:` line.
-   - **GO** → exit the loop.
-   - **NO-GO** and cycles remaining → re-run the generate workflow, explicitly feeding the `findings` list so it addresses them; then review again.
-   - **NO-GO** on the 3rd cycle → do NOT silently proceed. Surface the remaining findings to the user and ask: "Specs/design/tasks/build still NO-GO after 3 attempts." using `default_api:ask_question` with options `Proceed anyway` and `Stop`. Honor the answer.
+   - **GO** → Proceed to the next phase.
+   - **NO-GO** and cycles remaining → Re-run generate, feeding `findings` to resolve.
+   - **NO-GO** on 3rd cycle → In `auto` mode, stop the workflow and report findings. In `manual` mode, ask via `default_api:ask_question` whether to `Proceed anyway` or `Stop`.
 3. **Commit checkpoints.**
-   - At the end of P3 (Tasks): run **/git:commit** to commit all documentation files (`specs.md`, `design.md`, `tasks.md`, `notes.md`) together with a conventional commit message (e.g. `docs(<slug>): specs, design, and task list`).
-   - At the end of P4 (Build): run **/git:commit** to commit all implementation changes with a conventional commit message (e.g. `feat(<slug>): implementation`).
-   - Confirmations are governed by the git workflow. If the user declines the commit, stop and report.
+   - End of P3: Run `/git:commit` (ask for confirmation) to commit all docs.
+   - End of P4: Run `/git:commit` (ask for confirmation) to commit all implementation changes.
 
-Respect bounds: if a phase is outside `[from, until]`, skip it. If `--until` is one of P1–P4, commit that checkpoint then STOP (do not enter P5/P6).
+### P5 — AI Validation & Fix Loop (Delegated to `sdd-validator`)
 
-### P5 — AI validation (`/sdd:validate`)
+1. **Delegate validation.** Invoke the `sdd-validator` subagent to run `/sdd:validate` (tests / lint / validations).
+2. **Handle failures.** If validate fails:
+   - **Under auto mode:** Re-enter P4 (build) automatically up to 3 times to apply fixes, and re-run validation. If still failing after 3 attempts, abort and report failures.
+   - **Under manual mode:** Ask "Validation failed" via `default_api:ask_question` with options `Fix via build loop`, `Continue to deploy`, and `Stop`.
 
-Only if `--until` ≥ `build` (i.e. P4 completed and P5 within bounds).
+### P6 — Deploy (Push & Create PR)
 
-> Run **/sdd:validate** for `<slug>` (tests / lint / browser checks).
+1. **Push branch.** Run `/git:push` (request confirmation).
+2. **Create PR.** Run `/gh-cli:pr-create` (request confirmation).
 
-This is read-only verification; no commit. If it reports failures, surface them and ask "Validation failed." using `default_api:ask_question` with options `Fix via build loop`, `Continue to deploy`, and `Stop`.
-"Fix via build loop" → re-enter P4 once with the failures as findings, then re-run P5.
+### P7–P9 — Level 2 Automation (PR Review, Merging & Alignment)
 
-### P6 — deploy (HUMAN GATE: `/git:push` → `/gh-cli:pr-create`)
+In **auto** mode, LEVEL 2 phases run automatically. In **manual** mode, they gate on user question prompts.
 
-Only if `--until` ≥ `build`.
+- **P7 Human Review & Checklist.**
+  - **auto:** Automatically check off verification checklists if local tests and validations passed.
+  - **manual:** Ask "Proceed to P7?" using `default_api:ask_question`.
 
-1. **Push (gated).** Run **/git:push** (it confirms before pushing; never force-push).
-2. **Create PR (gated).** Run **/gh-cli:pr-create** (requires `gh` auth; if not authed, stop and request the user to run `gh auth login`).
+- **P8 PR Modifications & Polling.**
+  - **auto:** Poll the pull request status and review comments using:
+    ```bash
+    gh pr view --json reviews,comments,state
+    ```
+    Poll up to 3 times (with sleep intervals configured in settings). If new review feedback or comments are found:
+    - Automatically invoke `/gh-cli:pr-respond` to parse comments, fix files, run validations (P5), and commit/push updates.
+    - Repeat checking until reviews are approved.
+  - **manual:** Ask "Address PR feedback now?" using `default_api:ask_question`.
 
-In **auto** mode: after P6, automatically proceed to LEVEL 2 phases (P7→P9).
-In **manual** mode with `--until` ≥ P7: ask "Proceed to P7 human review?" using `default_api:ask_question` with options `(Recommended) Yes, proceed` and `No, abort` and, only on Yes, continue into LEVEL 2.
+- **P9 Product Alignment & Merge.**
+  - **auto:** Once the PR is approved, check that all CI checks pass.
+    - Automatically merge the PR using `gh pr merge --auto --merge`.
+    - Run `/sdd:sync` to promote feature docs from development/ to product/ and clean up the development feature folder.
+    - **Preserve files:** Ensure that `.sdd-docs/product/memory.md` and `.sdd-docs/settings.json` are retained and updated in the main branch.
+  - **manual:** Ask "Promote dev docs to product/ and merge?" using `default_api:ask_question`.
 
-### P7–P9 — LEVEL 2 (automatically walk in auto mode, gated in manual mode)
+### 10. Notify User (P10)
 
-- **P7 human review** —
-  - **auto:** Automatically run `/sdd:human-validation` (checklist).
-  - **manual:** Ask "Proceed to P7?" using `default_api:ask_question` with options `(Recommended) Yes, proceed` and `No, abort` before running.
-- **P8 PR modifications** (loop) —
-  - **auto:** Automatically check PR status. If feedback is found, run `/gh-cli:pr-respond`, resolve conflicts/comments, run `/git:commit` and `/git:push`. Repeat until PR is merged or ready.
-  - **manual:** Ask "Address PR feedback now?" using `default_api:ask_question` with options `(Recommended) Yes, proceed` and `No, abort` before running.
-- **P9 product alignment** —
-  - **auto:** Automatically run `/sdd:sync` to promote feature docs and clean up the development feature directory.
-  - **manual:** Ask "Promote dev docs to product/?" using `default_api:ask_question` with options `(Recommended) Yes, proceed` and `No, abort` before running.
-
-## Failure handling
-
-- Protected branch reached at any commit/push point without a feature branch → stop, run P0.
-- Review NO-GO after 3 cycles → gate as above, never silent.
-- `gh` not authed at P6 → `/gh-cli:pr-create` stops; relay its instruction.
-- Merge conflict / push rejected → surface the error, stop; never force-push, never `--no-verify`, never `reset --hard`.
-- Any `/git:*` gate declined → stop the walk, report the phase and reason.
+Upon completion or abortion, brief the user with a summary:
+- Final status (e.g. Success, Merged, or Aborted)
+- Summary of documentation and implementation edits made
+- Direct link to the merged PR and feature logs
+- **Ask for feedback:** Show a prompt requesting feedback on the automation run.
+- **Ask for deployment:** Request if they want to deploy the feature further (e.g. production servers), saving preferences/instructions to memory if they want the agent to remember it.
 
 ## Done when
 
-- A feature branch exists and all in-bounds phases ran in order.
-- Document and implementation checkpoints were committed via `/git:commit`.
-- If in bounds: P5 validation ran and P6 push + PR completed through their gates.
-- auto mode executed all phases (P0→P9) to completion; manual mode stopped at declined gates.
-- The walk respected `--from`/`--until`; nothing outside the bounds executed.
+- All in-bounds phases ran in order.
+- The feature receipt was presented and confirmed by the user.
+- Subagent delegation was performed to conserve tokens.
+- Review loops, validation loops, and PR response loops successfully executed.
+- The PR was merged automatically on approval, and product docs synced.
+- Memory and settings files were preserved.
+- The user was briefed with a summary and optional feedback requests.
