@@ -11,3 +11,8 @@
 - **Context:** PRs are typically assigned to the creator of the PR upon initialization.
 - **Decision:** Automatically include the `--assignee "@me"` flag during `/gh-cli:pr-create` execution by default.
 - **Consequences:** Simplifies flow for contributors, ensuring proper assignee mapping immediately.
+
+## ADR-003: Interactive Gating via AskQuestion
+- **Context:** Command confirmations via text prompt (yes/no) interrupt execution flow and require manual typing in the terminal.
+- **Decision:** Mandate using the `default_api:ask_question` tool for all human gates across all gh-cli side-effect commands.
+- **Consequences:** Modal-driven, structured confirmations that prevent CLI disruption and reduce keystroke errors.

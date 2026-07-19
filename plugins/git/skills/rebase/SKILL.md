@@ -53,7 +53,7 @@ If the target branch is missing, ask the user (do not guess).
    esac
    ```
 
-6. **Gate — STOP.** Ask the user to confirm rebasing `<branch>` onto `<target>` (this rewrites local history). Show the target and the commits that will be replayed (`git log --oneline <target>..HEAD`). Proceed only on an explicit yes; on no, STOP.
+6. **Gate — STOP.** Ask the user to confirm rebasing `<branch>` onto `<target>` (this rewrites local history). Show the target and the commits that will be replayed (`git log --oneline <target>..HEAD`) using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with rebase` and `No, abort`. Proceed only on selecting Yes; on No, STOP.
 
    ```bash
    git rebase "$TARGET"

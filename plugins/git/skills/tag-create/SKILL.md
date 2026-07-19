@@ -32,7 +32,7 @@ Parse the invocation arguments:
 
    If the tag already exists, STOP (never overwrite/move an existing tag here).
 
-3. **Gate — STOP.** Ask the user to confirm creating and pushing annotated tag `<tag>` at `<HEAD short sha / subject>`. Show the tag name, the target commit, and the message. Proceed only on an explicit yes; on no, STOP.
+3. **Gate — STOP.** Ask the user to confirm creating and pushing annotated tag `<tag>` at `<HEAD short sha / subject>`. Show the tag name, the target commit, and the message using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, create and push tag` and `No, abort`. Proceed only on selecting Yes; on No, STOP.
 
 4. **Create the annotated tag and push it.** Never force, never overwrite.
 

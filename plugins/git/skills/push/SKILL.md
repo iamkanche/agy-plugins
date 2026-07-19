@@ -47,7 +47,7 @@ No positional argument is required.
 
 4. **Decide the push command.** If `--set-upstream` was passed OR the branch reported `NO_UPSTREAM`, use `git push -u origin "$BRANCH"`. Otherwise use `git push`.
 
-5. **Gate — STOP.** Ask the user to confirm pushing `<branch>` to origin. Show the exact command (with or without `-u`) and the ahead/behind summary from step 3. Proceed only on an explicit yes; on no, STOP without pushing.
+5. **Gate — STOP.** Ask the user to confirm pushing `<branch>` to origin. Show the exact command (with or without `-u`) and the ahead/behind summary from step 3 using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with push` and `No, abort push`. Proceed only on selecting Yes; on No, STOP without pushing.
 
 6. **Push.** Never `--force`, never `--force-with-lease`, never `--no-verify`.
 

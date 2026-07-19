@@ -34,7 +34,7 @@ Parse the invocation arguments:
      git tag | grep -q . && echo "has tags" || echo "no tags"
      ```
 
-3. **Gate — STOP.** Ask the user to confirm pushing the tag(s). Show the tag name(s) and destination. Proceed only on an explicit yes; on no, STOP.
+3. **Gate — STOP.** Ask the user to confirm pushing the tag(s). Show the tag name(s) and destination using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with push` and `No, abort`. Proceed only on selecting Yes; on No, STOP.
 
 4. **Push tag(s).**
    - If specific `<tag-name>`:

@@ -11,4 +11,4 @@ Always in effect for every `git` workflow:
   branch first via `/git:branch-create`.
 - **Never delete remote protected branches** (`main` / `master` / `develop`).
 - **Keep commits atomic and focused** (avoid staging unrelated changes).
-- **Every side effect is human-gated.** Before commit, push, branch-create, branch-delete, tag-create, or rebase: STOP and ask the user to confirm, showing exactly what will happen. Proceed only on an explicit yes. (Antigravity has no per-command tool scoping — run in Review-driven autonomy.)
+- **Every side effect is human-gated.** Before commit, push, branch-create, branch-delete, tag-create, or rebase: STOP and ask the user to confirm using the interactive `default_api:ask_question` tool, showing exactly what will happen. Proceed only on an explicit yes (e.g. choosing the Proceed option in the question modal). (Antigravity has no per-command tool scoping — run in Review-driven autonomy.)

@@ -2,7 +2,7 @@
 feature: gh-cli
 module: plugins
 integrated_at: 2026-07-18
-updated_at: 2026-07-18
+updated_at: 2026-07-19
 ---
 
 # GitHub CLI Plugin — Consolidated Specification
@@ -23,3 +23,4 @@ Google Antigravity utilizes the `gh-cli` plugin to manage the lifecycle of pull 
 ## Acceptance criteria (as-built)
 1. `/gh-cli:pr-create` automatically appends `--assignee "@me"` by default to auto-assign the creator.
 2. `/gh-cli:pr-merge` successfully merges the PR and deletes local and remote feature branches unless `--keep-branch` is requested.
+3. Gated GitHub commands (pr-create, pr-approve, pr-merge, pr-respond, pr-review) use the interactive `default_api:ask_question` tool for confirmations.
