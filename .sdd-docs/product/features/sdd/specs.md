@@ -28,6 +28,9 @@ To minimize parent token bloat and establish safety boundaries, the SDD plugin e
 - `sdd-coder`: Handles code implementation and implementation code review (`build`, `build-review`). Write tools enabled.
 - `sdd-validator`: Handles validation, deployment/alignment actions, and overall workflow run control (`validate`, `sync`, `continue`, `run`). Read-only tools.
 
+## Interactive Skill Connections Map
+Introduces a graphical connection map to the sdd plugin dashboard showing relations and execution flow between sdd, git, and gh-cli commands, with real-time path tracing and details panel integration.
+
 ## Acceptance criteria (as-built)
 1. Workflow orchestrators (`run` and `continue`) use updated correct namespaces (`/git:branch-create`, `/gh-cli:pr-create`, `/gh-cli:pr-respond`).
 2. Level 2 (P7→P9) execution is automated in `auto` mode to perform validation checks, PR checks, sync, and folder cleanup without prompting.
@@ -40,3 +43,9 @@ To minimize parent token bloat and establish safety boundaries, the SDD plugin e
 9. Automates 3x retry and response/fix loops for specs/design/tasks/build reviews, validation failures, and PR comments polling/fixing.
 10. Automatically merges PR on approval, syncs feature documentation post-merge, and preserves settings/memory.
 11. Declarative subagent configuration files (`agent.json`) are structured under the `plugins/sdd/agents/{agent-name}/` directories, register via `plugins/sdd/plugin.json`, and trace dynamically in the registry dashboard in `index.html`.
+12. Dashboard renders an Interactive Skill Connections Map containing all 35 sdd, git, and gh-cli commands linked via Cubic/Quadratic Bezier path arrows.
+13. Hovering over a command highlights its direct incoming/outgoing paths, displays details in the sidebar, and dims unrelated nodes/edges to 0.15/0.05 opacity.
+14. Highlighted connection paths animate dashed strokes in the direction of flow.
+15. Clicking a command locks the path highlights and details panel, synchronizing with the sidebar selection.
+16. Supports tab cycling and spatial Euclidean keyboard navigation for Arrow keys alongside Enter/Space actions.
+17. Sidebar items group command buttons dynamically by plugin with distinct headers.

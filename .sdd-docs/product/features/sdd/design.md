@@ -25,7 +25,7 @@ Improve the workflows in the `sdd` plugin by editing orchestration logic in name
   - `sdd-planner`: Handles planning, task list drafting & reviews. Write tools: `true`.
   - `sdd-coder`: Handles code build modifications & reviews. Write tools: `true`.
   - `sdd-validator`: Handles validation, synchronization, and run controllers. Write tools: `false`.
-- **Registry Dashboard View**: `index.html` (Modified) to render command descriptions referencing the delegated subagents to improve visual clarity of the agentic workflow.
+- **Registry Dashboard View**: `index.html` (Modified) to replace the static pipeline tables with an interactive SVG connections map canvas (`#connection-map-svg`, `viewBox="0 0 1300 700"`). It dynamically plots node positions for all 35 commands and hooks path connectors to node boundaries utilizing boundary offset calculations. Tracks state via `MapState` controller (`selectedNodeId`, `hoveredNodeId`). Connects click locks to sidebar active loaders and wires Arrow key Euclidean distance spatial focus navigation. Appends static configurations database (`gitAndGhCliData`) for non-sdd commands.
 
 ## Interfaces
 - **Subagent Manifest Interface**: Each subagent's `agent.json` conforms to:
