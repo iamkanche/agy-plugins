@@ -11,3 +11,9 @@
 
 ## 2026-07-19 — improvements_of_plugins
 - Migrated manual phase transitions, validation failures, and LEVEL 2 checkpoints in SDD workflow execution to use the interactive `default_api:ask_question` tool.
+
+## 2026-07-19 — add-sdd-agents
+- Defined 5 specialized subagents (`sdd-analyst`, `sdd-architect`, `sdd-planner`, `sdd-coder`, `sdd-validator`) to handle specific phases of the SDD feature lifecycle.
+- Configured security-oriented write-permission boundaries (only coder and planner subagents have write privileges).
+- Updated the registry dashboard in `index.html` to trace command delegation to the subagents.
+
