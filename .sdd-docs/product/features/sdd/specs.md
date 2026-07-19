@@ -49,3 +49,14 @@ Introduces a graphical connection map to the sdd plugin dashboard showing relati
 15. Clicking a command locks the path highlights and details panel, synchronizing with the sidebar selection.
 16. Supports tab cycling and spatial Euclidean keyboard navigation for Arrow keys alongside Enter/Space actions.
 17. Sidebar items group command buttons dynamically by plugin with distinct headers.
+
+## P9 Alignment Sequence Optimization
+Reorders Level 2 P9 to execute `/sdd:sync` on the feature branch before PR merge, consolidating all changes into a single PR.
+
+### Acceptance Criteria
+18. After PR approval in P9 auto mode, `/sdd:run` executes `/sdd:sync` locally on the feature branch, commits and pushes the sync changes to the remote feature branch.
+19. After sync is pushed, `/sdd:run` polls CI/status checks using `pr_polling` settings from `.sdd-docs/settings.json` (default: 30s interval, 3 max attempts) before merging.
+20. Once status checks pass, `/sdd:run` invokes `/gh-cli:pr-merge` (no `--keep-branch`) to merge the PR and delete both local and remote branches.
+21. In manual mode, P9 presents two separate confirmation gates: (1) sync gate, (2) merge gate.
+22. The connections map in `index.html` routes: `/gh-cli:pr-approve` → `/sdd:sync` (1080,540) → `/gh-cli:pr-merge` (1080,640).
+23. The `/sdd:run` command details panel lists P7 (Human Review), P8 (PR Feedback & Approval), and P9 (Sync & Merge) steps.
