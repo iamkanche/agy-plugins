@@ -12,3 +12,4 @@
 - **Never force-merge or bypass status checks** (grounded in `plugins/gh-cli/rules/gh-hard-rules.md`).
 - **Use COMMENT event by default** when reviewing a PR unless explicitly instructed (grounded in `plugins/gh-cli/rules/gh-hard-rules.md`).
 - **Interactive Question Gating**: Every side effect (commits, pushes, PR creation/approval/merge, tag creation/deletion) must use the interactive `default_api:ask_question` tool (grounded in `.sdd-docs/product/memory.md` and hard rules).
+- **Plugin Gating Enforcement**: Always use the formal slash command workflows from the `git` and `gh-cli` plugins (e.g. `/git:commit`, `/git:push`, `/gh-cli:pr-create`, `/gh-cli:pr-merge`) instead of raw shell commands for repository-modifying actions. This ensures that Conventional Commit message structures (Overview/Changes/Impact) and all safety gating questions are consistently applied.
