@@ -83,3 +83,26 @@ Removes interactive `default_api:ask_question` confirmation gates when running i
 39. plugins/gh-cli/skills/pr-merge/SKILL.md Gate step 4 conditionalized with standard clause, Done-when updated.
 40. plugins/gh-cli/skills/pr-respond/SKILL.md Gate steps 5 and 8 conditionalized with standard clause, Done-when updated.
 41. No document contains a rule that contradicts any other document on the subject of gating.
+
+## Command Arguments & Usage Samples in Dashboard
+Adds examples of CLI command syntax and arguments to the interactive skills connection dashboard.
+
+### Acceptance Criteria
+42. A labeled "Arguments / Usage Sample" section is rendered in the details sidebar header section when a command that defines a `usage` property is selected.
+43. The usage example text is displayed inside a code snippet box matching `.code-snippet` styling.
+44. If a command does not define a `usage` property, no usage section or label is displayed.
+45. `/sdd:run` specifies: `/sdd:run <slug> [--mode=auto|manual] [--from=<phase>] [--until=<phase>]`
+46. `/sdd:continue` specifies: `/sdd:continue [--mode=auto|manual] [--from=<phase>] [--until=<phase>] [<slug>]`
+47. `/git:branch-create` specifies: `/git:branch-create <branch-name>`
+48. `/git:branch-delete` specifies: `/git:branch-delete <branch-name> [--remote]`
+49. `/git:commit` specifies: `/git:commit`
+50. `/git:push` specifies: `/git:push [--set-upstream]`
+51. `/git:pull` specifies: `/git:pull`
+52. `/git:rebase` specifies: `/git:rebase <target-branch>`
+53. `/git:stash` specifies: `/git:stash [push|pop|list|clear]`
+54. `/git:switch` specifies: `/git:switch <branch-name>`
+55. `/gh-cli:pr-create` specifies: `/gh-cli:pr-create [--title=<title>] [--body=<body>] [--draft] [--base=<branch>]`
+56. `/gh-cli:pr-merge` specifies: `/gh-cli:pr-merge [<pr-number>] [--squash|--rebase|--merge] [--keep-branch]`
+57. `/gh-cli:pr-respond` specifies: `/gh-cli:pr-respond [<pr-number>]`
+58. `/gh-cli:pr-approve` specifies: `/gh-cli:pr-approve [<pr-number>]`
+59. All other commands in the dashboard registry carry descriptive usage example strings where applicable.
