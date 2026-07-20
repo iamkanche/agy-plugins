@@ -47,7 +47,7 @@ No positional argument is required.
 
 4. **Decide the push command.** If `--set-upstream` was passed OR the branch reported `NO_UPSTREAM`, use `git push -u origin "$BRANCH"`. Otherwise use `git push`.
 
-5. **Gate — STOP.** Ask the user to confirm pushing `<branch>` to origin. Show the exact command (with or without `-u`) and the ahead/behind summary from step 3 using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with push` and `No, abort push`. Proceed only on selecting Yes; on No, STOP without pushing.
+5. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action (exact push command and ahead/behind summary from step 3) and proceed automatically. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm pushing `<branch>` to origin. Show the exact command (with or without `-u`) and the ahead/behind summary from step 3 using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with push` and `No, abort push`. Proceed only on selecting Yes; on No, STOP without pushing.
 
 6. **Push.** Never `--force`, never `--force-with-lease`, never `--no-verify`.
 
@@ -64,5 +64,5 @@ Never force-push · never `--no-verify` · never amend a pushed commit · never 
 ## Done when
 
 - The current feature branch is pushed to `origin`, with upstream tracking configured on first push.
-- The user explicitly confirmed the push via the gate.
+- The action was confirmed (manual mode) or logged (auto mode) before the push ran.
 - No force flag or `--no-verify` was used, and no protected branch was pushed.

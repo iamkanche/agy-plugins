@@ -16,11 +16,11 @@ Provides pre-packaged workflow plugins (git control, GitHub CLI integrations, SD
 - Local and global registry/marketplace configurations via `marketplace.json`.
 - Plugin manifests (`plugin.json`), custom rules (`rules/`), and skill files (`skills/*/SKILL.md`) for each plugin.
 - A root static website dashboard (`index.html`) to preview available plugins and commands.
+- Auto-mode SDD workflow execution that runs P0-P9 end-to-end without interactive confirmation prompts, while preserving all safety invariants.
 
 ### Out-of-Scope
 - Direct management or storage of user authentication credentials or API keys (delegated to user's local git/gh configurations).
 - Supporting IDE platforms or autonomous agent frameworks outside of Google Antigravity.
-- Automatic execution of repository-modifying actions without human-gated confirmation.
 
 ## Success Signals
 - Google Antigravity agents can parse, register, and successfully run slash commands from these plugins in their local environments.

@@ -51,7 +51,7 @@ If `<branch-name>` is missing, ask the user (do not invent one).
    git rev-parse --verify --quiet "refs/remotes/origin/$TARGET" && echo "remote exists" || echo "no remote"
    ```
 
-5. **Gate — STOP.** Ask the user to confirm deleting branch `<target>` locally (and if `--remote` is passed, on origin). Warn them if it is unmerged and `--force` is required. Use the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with deletion` and `No, abort`. Proceed only on selecting Yes; on No, STOP.
+5. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action (target branch, scope — local/remote — and any force-deletion warning) and proceed automatically. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm deleting branch `<target>` locally (and if `--remote` is passed, on origin). Warn them if it is unmerged and `--force` is required. Use the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with deletion` and `No, abort`. Proceed only on selecting Yes; on No, STOP.
 
 6. **Delete locally.** 
    - By default, use safe deletion:
@@ -73,10 +73,10 @@ If `<branch-name>` is missing, ask the user (do not invent one).
 
 ## git hard rules
 
-Never delete remote protected branches. All deletions must be confirmed by the user.
+Never delete remote protected branches. All deletions must be confirmed by the user in manual mode, or logged before proceeding in auto mode.
 
 ## Done when
 
 - The specified branch is deleted locally.
 - If `--remote` was passed, the branch is deleted on origin.
-- The action was explicitly confirmed via the gate.
+- The action was confirmed (manual mode) or logged (auto mode) before deletion ran.

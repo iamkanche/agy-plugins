@@ -38,7 +38,7 @@ No options are required.
    - For code changes, draft the exact local changes needed.
    - For text replies, draft the explanation.
 
-5. **Gate (Triage Review) — STOP.** Show the user the list of active comments, your proposed code changes, and your drafted text replies. Proceed only on selecting Yes using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with response` and `No, abort`; if the user wants revisions, update and re-ask.
+5. **Gate (Triage Review) — mode-conditional.** If this skill is invoked from SDD auto mode (`mode=auto` in `settings.json` or `--mode=auto` on `/sdd:run`), log the action (active comments, proposed code changes, and drafted text replies) and proceed automatically without prompting. If invoked standalone or from SDD manual mode, STOP and show the user the list of active comments, your proposed code changes, and your drafted text replies. Proceed only on selecting Yes using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with response` and `No, abort`; if the user wants revisions, update and re-ask.
 
 6. **Apply code fixes locally.** Modify the target files in the workspace. Verify compilation, build, and tests locally.
 
@@ -50,7 +50,7 @@ No options are required.
    git push origin <branch>
    ```
 
-8. **Gate (Reply Confirmation) — STOP.** Verify the code is pushed successfully, and present the final text replies you will post to GitHub. Ask for user confirmation using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, post replies` and `No, abort`.
+8. **Gate (Reply Confirmation) — mode-conditional.** Verify the code is pushed successfully. If invoked from SDD auto mode, log the final text replies to be posted to GitHub and proceed automatically. If invoked standalone or from SDD manual mode, STOP and present the final text replies you will post to GitHub, asking for user confirmation using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, post replies` and `No, abort`.
 
 9. **Submit replies to threads.** For each comment thread, post the reply and optionally resolve it. **This step delegates GitHub API updates to the `@gh-operator` subagent.**
 
@@ -68,6 +68,6 @@ Never force-push · never commit directly without testing · never reply without
 ## Done when
 
 - All active feedback comments and threads were fetched and triaged.
-- Proposed code changes and replies were reviewed and approved by the user.
+- Proposed code changes and replies were reviewed and approved by the user (manual mode) or logged (auto mode).
 - Local code changes were made, verified, committed, and pushed to origin.
 - Text replies were posted back to the respective comment threads on GitHub.

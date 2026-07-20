@@ -52,7 +52,7 @@ No positional argument is required.
 
 5. **Compose the PR title + body** (technical identifiers verbatim). Title = concise summary; body = what/why, key changes, and any testing notes.
 
-6. **Gate — STOP.** Ask the user to confirm opening this pull request. Show the title, the full body, the base branch, and whether it is a draft using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, create PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without creating the PR.
+6. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action (title, full body, base branch, and draft flag) and proceed automatically. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm opening this pull request. Show the title, the full body, the base branch, and whether it is a draft using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, create PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without creating the PR.
 
 7. **Create the PR.** Pass the title and body; add `--draft` and `--base` as parsed. Include `--assignee` (defaults to `@me` if not specified).
 
@@ -70,5 +70,5 @@ Never force-push · never `--no-verify` · never amend a pushed commit · never 
 
 - A pull request is open for the current feature branch against the intended base.
 - The branch was pushed to origin beforehand (with upstream tracking).
-- The user explicitly confirmed the title + body via the gate before creation.
+- The action was confirmed (manual mode) or logged (auto mode) before the PR was created.
 - The PR URL is reported back to the user.
