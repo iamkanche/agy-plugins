@@ -612,6 +612,7 @@
             "/sdd:steering": {
                 gated: false,
                 desc: "Analyze the repository structure, stacks, and rules to produce the core guidelines for the development cycle.",
+                usage: "/sdd:steering",
                 policies: [
                     { enforced: true, name: "Read-only Survey", desc: "Scans manifests, directory structures, and entry points without modifying files." },
                     { enforced: true, name: "Data Extraction", desc: "Formats output directly to terminal or variables without commits." }
@@ -625,6 +626,7 @@
             "/sdd:grill": {
                 gated: false,
                 desc: "Adversarially analyze a feature request to extract ambiguity, unknown constraints, and generate a ranked list of clarifying questions.",
+                usage: "/sdd:grill \"<feature-request-description>\"",
                 policies: [
                     { enforced: true, name: "Adversarial Assessment", desc: "Intentionally probes for edge-cases, validation limits, performance risks, and backward compatibility." }
                 ],
@@ -637,6 +639,7 @@
             "/sdd:specs": {
                 gated: false,
                 desc: "Draft functional specifications documenting target changes, data models, non-functional requirements, and acceptance criteria.",
+                usage: "/sdd:specs <slug>",
                 policies: [
                     { enforced: true, name: "Specification Drafting", desc: "Compiles complete specs file inside the development task folder." }
                 ],
@@ -648,6 +651,7 @@
             "/sdd:design": {
                 gated: false,
                 desc: "Draft system architecture design specifications including component details, class models, API payloads, and sequence layouts.",
+                usage: "/sdd:design <slug>",
                 policies: [
                     { enforced: true, name: "Design Structure Verification", desc: "Validates architecture components map correctly to guidelines/structure.md." }
                 ],
@@ -659,6 +663,7 @@
             "/sdd:tasks": {
                 gated: false,
                 desc: "Formulate task checklist lists representing discrete files to edit, create, or delete, and respective validation check commands.",
+                usage: "/sdd:tasks <slug>",
                 policies: [
                     { enforced: true, name: "Task Separation", desc: "Keeps tasks modular, ordering changes from backend/dependency layers up to frontend." }
                 ],
@@ -670,6 +675,7 @@
             "/sdd:build": {
                 gated: false,
                 desc: "Incrementally apply codebase modifications according to the task plan, running compilation/tests periodically.",
+                usage: "/sdd:build <slug>",
                 policies: [
                     { enforced: false, name: "Incremental Commits", desc: "Commits files incrementally when checkpoints are cleared successfully." }
                 ],
@@ -682,6 +688,7 @@
             "/sdd:specs-review": {
                 gated: false,
                 desc: "Perform automated review on the functional specifications document, validating it against workspace guidelines.",
+                usage: "/sdd:specs-review <slug>",
                 policies: [
                     { enforced: true, name: "Validation Verdict", desc: "Returns a structured GO/NO-GO verdict listing blocker, major, and nit findings." }
                 ],
@@ -692,6 +699,7 @@
             "/sdd:design-review": {
                 gated: false,
                 desc: "Verify architecture design documents against system rules and structural guidelines.",
+                usage: "/sdd:design-review <slug>",
                 policies: [
                     { enforced: true, name: "Validation Verdict", desc: "Outputs GO/NO-GO verdict with structured architectural feedback." }
                 ],
@@ -702,6 +710,7 @@
             "/sdd:tasks-review": {
                 gated: false,
                 desc: "Review tasks checklist layouts ensuring verification commands and file lists match specs/designs.",
+                usage: "/sdd:tasks-review <slug>",
                 policies: [
                     { enforced: true, name: "Quality Check", desc: "Checks for missing migrations, environment updates, or test plan commands." }
                 ],
@@ -712,6 +721,7 @@
             "/sdd:build-review": {
                 gated: false,
                 desc: "Audit implementation codebase changes diffs before pushing or staging to ensure clean conventions.",
+                usage: "/sdd:build-review <slug>",
                 policies: [
                     { enforced: true, name: "Code Quality Check", desc: "Enforces coding style, imports sorting, clean architecture, and checks for credentials leak." }
                 ],
@@ -723,6 +733,7 @@
             "/sdd:validate": {
                 gated: false,
                 desc: "Run full validation testing suite, linters, compiler, and web app layout checks.",
+                usage: "/sdd:validate <slug>",
                 policies: [
                     { enforced: true, name: "Complete Verification", desc: "Requires all checks to pass (zero errors or warnings) before advancing to deploy." }
                 ],
@@ -733,6 +744,7 @@
             "/sdd:sync": {
                 gated: true,
                 desc: "Sync development logs and documents to the repository-wide product directory, cleaning up feature files.",
+                usage: "/sdd:sync <slug>",
                 policies: [
                     { enforced: true, name: "Gated Execution", desc: "Requires human confirmation before merging development logs into main folders." }
                 ],
@@ -745,6 +757,7 @@
             "/sdd:run": {
                 gated: false,
                 desc: "Drive a feature work item through the full SDD phase model (P0 to P9) using specifications, system designs, task check-lists, and testing loops.",
+                usage: "/sdd:run <slug> [--mode=auto|manual] [--from=<phase>] [--until=<phase>]",
                 policies: [
                     { enforced: true, name: "Orchestration walk", desc: "Sequentially drives setup, spec-drafting, design, tasks, and build phases." }
                 ],
@@ -764,6 +777,7 @@
             "/sdd:init": {
                 gated: false,
                 desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.",
+                usage: "/sdd:init",
                 policies: [
                     { enforced: true, name: "Bootstrap steering", desc: "Scans repository and writes initial guidelines documents." }
                 ],
@@ -776,6 +790,7 @@
             "/sdd:init-update": {
                 gated: false,
                 desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.",
+                usage: "/sdd:init-update",
                 policies: [
                     { enforced: true, name: "Merge update", desc: "Preserves hand-tuned sections while merging new findings." }
                 ],
@@ -788,6 +803,7 @@
             "/sdd:continue": {
                 gated: false,
                 desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.",
+                usage: "/sdd:continue [--mode=auto|manual] [--from=<phase>] [--until=<phase>] [<slug>]",
                 policies: [
                     { enforced: true, name: "On-disk phase detection", desc: "Scans guidelines, feature folder docs, branches, and PR states to resume seamlessly." }
                 ],
@@ -803,6 +819,7 @@
             "/git:branch-create": {
                 gated: false,
                 desc: "Create and switch to a new feature branch checked out from the remote master/main.",
+                usage: "/git:branch-create <branch-name>",
                 policies: [
                     { enforced: true, name: "Up-to-date baseline", desc: "Performs remote fetch on default branch before branching." }
                 ],
@@ -814,6 +831,7 @@
             "/git:branch-delete": {
                 gated: true,
                 desc: "Securely delete a branch locally and on origin remote, refusing protected branches.",
+                usage: "/git:branch-delete <branch-name> [--remote]",
                 policies: [
                     { enforced: true, name: "Protected Branch Guard", desc: "Refuses to delete main or master branches." }
                 ],
@@ -825,6 +843,7 @@
             "/git:commit": {
                 gated: true,
                 desc: "Commit staged workspace modifications using structured Conventional Commits templates.",
+                usage: "/git:commit",
                 policies: [
                     { enforced: true, name: "Strict Messages", desc: "Requires Overview, Changes, and Impact sections." }
                 ],
@@ -836,6 +855,7 @@
             "/git:fetch": {
                 gated: false,
                 desc: "Fetch branches and tags from origin remote updating remote-tracking branches.",
+                usage: "/git:fetch",
                 policies: [],
                 steps: [
                     { title: "Fetch Changes", desc: "Fetch references from the remote server.", code: "git fetch" }
@@ -844,6 +864,7 @@
             "/git:pull": {
                 gated: false,
                 desc: "Integrate modifications from the remote tracking branch into local active branch.",
+                usage: "/git:pull",
                 policies: [],
                 steps: [
                     { title: "Pull Branch", desc: "Integrate upstream changes securely.", code: "git pull origin branch" }
@@ -852,6 +873,7 @@
             "/git:push": {
                 gated: true,
                 desc: "Push current feature commits to remote origin setting tracking reference.",
+                usage: "/git:push [--set-upstream]",
                 policies: [],
                 steps: [
                     { title: "Push Reference", desc: "Pushes local commits upstream.", code: "git push -u origin branch" }
@@ -860,6 +882,7 @@
             "/git:rebase": {
                 gated: true,
                 desc: "Rebase active branch commits onto a clean target branch.",
+                usage: "/git:rebase <target-branch>",
                 policies: [],
                 steps: [
                     { title: "Rebase Execution", desc: "Rebase onto target branch.", code: "git rebase target-branch" }
@@ -868,6 +891,7 @@
             "/git:stash": {
                 gated: false,
                 desc: "Temporarily save, list, restore or discard uncommitted working directory changes.",
+                usage: "/git:stash [push|pop|list|clear]",
                 policies: [],
                 steps: [
                     { title: "Stash Modifications", desc: "Saves changes to stack.", code: "git stash" },
@@ -877,6 +901,7 @@
             "/git:status": {
                 gated: false,
                 desc: "Inspect working tree modifications and tracking comparison.",
+                usage: "/git:status",
                 policies: [],
                 steps: [
                     { title: "Check Status", desc: "Check current modifications state.", code: "git status" }
@@ -885,6 +910,7 @@
             "/git:switch": {
                 gated: false,
                 desc: "Switch the workspace working tree to a target branch.",
+                usage: "/git:switch <branch-name>",
                 policies: [],
                 steps: [
                     { title: "Switch Branch", desc: "Changes directory state to targeted branch.", code: "git checkout branch" }
@@ -893,6 +919,7 @@
             "/git:tag-create": {
                 gated: true,
                 desc: "Create an annotated release tag at current HEAD.",
+                usage: "/git:tag-create <tag-name> -m \"<message>\"",
                 policies: [],
                 steps: [
                     { title: "Tag Local HEAD", desc: "Creates annotated tag.", code: "git tag -a v1.0.0 -m \"msg\"" }
@@ -901,6 +928,7 @@
             "/git:tag-delete": {
                 gated: true,
                 desc: "Delete a local and remote tag reference.",
+                usage: "/git:tag-delete <tag-name>",
                 policies: [],
                 steps: [
                     { title: "Delete Local Tag", desc: "Removes tag reference locally.", code: "git tag -d tag-name" }
@@ -909,6 +937,7 @@
             "/git:tag-push": {
                 gated: true,
                 desc: "Push local tags upstream to remote origin.",
+                usage: "/git:tag-push",
                 policies: [],
                 steps: [
                     { title: "Push Tags", desc: "Pushes tags to remote repository.", code: "git push origin --tags" }
@@ -917,6 +946,7 @@
             "/gh-cli:pr-create": {
                 gated: true,
                 desc: "Open a pull request on GitHub tracking current commits.",
+                usage: "/gh-cli:pr-create [--title=<title>] [--body=<body>] [--draft] [--base=<branch>]",
                 policies: [
                     { enforced: true, name: "Gated Validation", desc: "Verifies builds pass before creating PR." }
                 ],
@@ -927,6 +957,7 @@
             "/gh-cli:pr-list": {
                 gated: false,
                 desc: "List the repository's open pull requests.",
+                usage: "/gh-cli:pr-list",
                 policies: [],
                 steps: [
                     { title: "List Pull Requests", desc: "List current repository pull requests.", code: "gh pr list" }
@@ -935,6 +966,7 @@
             "/gh-cli:pr-review": {
                 gated: false,
                 desc: "Review pull request diffs and submit structured feedback comments.",
+                usage: "/gh-cli:pr-review [<pr-number>] [--approve|--request-changes|--comment] [--body=<body>]",
                 policies: [
                     { enforced: true, name: "Review Restrictions", desc: "Enforces COMMENT reviews by default." }
                 ],
@@ -945,6 +977,7 @@
             "/gh-cli:pr-respond": {
                 gated: false,
                 desc: "Triage review comments and apply local codebase fixes.",
+                usage: "/gh-cli:pr-respond [<pr-number>]",
                 policies: [],
                 steps: [
                     { title: "Fetch reviews", desc: "Retrieves pull request comments and suggestions." }
@@ -953,6 +986,7 @@
             "/gh-cli:pr-approve": {
                 gated: true,
                 desc: "Approve the current branch's PR on GitHub.",
+                usage: "/gh-cli:pr-approve [<pr-number>]",
                 policies: [
                     { enforced: true, name: "No Self-Approve", desc: "Prevents developers from approving their own PRs." }
                 ],
@@ -963,6 +997,7 @@
             "/gh-cli:pr-merge": {
                 gated: true,
                 desc: "Merge the active pull request securely with squash merging default.",
+                usage: "/gh-cli:pr-merge [<pr-number>] [--squash|--rebase|--merge] [--keep-branch]",
                 policies: [],
                 steps: [
                     { title: "Merge PR", desc: "Merges the branch on GitHub.", code: "gh pr merge --squash" }
@@ -1327,6 +1362,12 @@
                     <span class="details-badge ${data.gated ? '' : 'direct'}">${data.gated ? 'Gated Confirmation' : 'Direct Action'}</span>
                 </div>
                 <p class="details-desc">${data.desc}</p>
+                ${data.usage ? `
+                    <div style="margin-top: 1rem;">
+                        <span style="font-family: var(--font-title); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); display: block; margin-bottom: 0.5rem;">Arguments / Usage Sample</span>
+                        <div class="code-snippet" style="font-size: 0.8rem; padding: 0.5rem 0.75rem;">${data.usage}</div>
+                    </div>
+                ` : ''}
             `;
 
             policiesList.innerHTML = '';
