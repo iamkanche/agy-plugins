@@ -66,3 +66,9 @@ Removes interactive `default_api:ask_question` confirmation gates when running i
 - **Skills Updated**: commit, push, branch-delete, pr-create, pr-merge, and pr-respond skills have their main Gate steps conditionalized and Done-when blocks updated.
 - **Rules & Memory Updated**: memory.md, rules.md, tech.md, and plugin rules (workflow-gating.md, git-hard-rules.md, gh-hard-rules.md) updated to replace unconditional ask_question references with mode-conditional versions.
 - **Safety Invariants**: Enforced unconditionally in all modes.
+
+## Command Arguments & Usage Samples in Dashboard
+Adds examples of CLI command syntax and arguments to the interactive skills connection dashboard.
+
+- **UI Rendering Update**: Modified `loadCommandDetails(cmdName)` to check if `data.usage` exists and dynamically inject a labeled `.code-snippet` HTML block containing the usage example directly in the details panel header.
+- **Registry Update**: Populated the `usage` string property for all 35 commands in `commandData` and `gitAndGhCliData` objects within `plugins/sdd/index.html`.
