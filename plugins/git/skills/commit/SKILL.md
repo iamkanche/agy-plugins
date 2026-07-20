@@ -60,7 +60,7 @@ No positional argument is required. Never invent a scope — omit it rather than
 
 6. **Compose the message** (technical identifiers stay verbatim), following the structure in "Commit message structure" below. Subject line `<type>(<scope>): <subject>` ≤ 50 chars; wrap body prose at 72 cols.
 
-7. **Gate — STOP.** Ask the user to confirm committing the staged changes with this message. Present the complete message and the target branch using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, commit these changes` and `No, abort commit`. Proceed only on selecting Yes; on No, STOP without committing.
+7. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action (staged changes, commit message, and target branch) and proceed automatically. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm committing the staged changes with this message. Present the complete message and the target branch using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, commit these changes` and `No, abort commit`. Proceed only on selecting Yes; on No, STOP without committing.
 
 8. **Commit via HEREDOC** so the multi-line body and footer are preserved verbatim. Do not use `--no-verify`.
 
@@ -115,6 +115,6 @@ Never force-push · never `--no-verify` · never amend a pushed commit · never 
 ## Done when
 
 - The staged change set is committed with a Conventional Commits message carrying Overview / Changes / Impact sections.
-- The user explicitly confirmed the message via the gate before the commit ran.
+- The action was confirmed (manual mode) or logged (auto mode) before the commit ran.
 - No secrets were committed, and the commit was made on a feature branch (not a protected branch).
 - The new commit hash/subject is reported back to the user.

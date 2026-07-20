@@ -17,7 +17,7 @@ Parse the arguments:
 
 - **slug** (optional, positional) — the feature slug/short description (e.g. `improve-sdd-plugins` or `login`). If absent, prompt the user for it to construct the folder path `.sdd-docs/development/{slug}/`.
 - **`--mode=auto|manual`** — default **auto**. Also accept a bare `auto`/`manual` positional.
-  - **auto:** run the entire workflow (P0→P9) straight through, executing Level 2 automatically (checks PR status, runs validation checklists, syncs docs, and cleans up folders) without per-phase prompt, stopping only for critical tool confirmations.
+  - **auto:** run the entire workflow (P0→P9) straight through, executing Level 2 automatically (checks PR status, runs validation checklists, syncs docs, and cleans up folders) without per-phase prompt or interactive confirmation dialogs.
   - **manual:** before advancing to each next phase, ask "Proceed to `<next phase>`? [Yes|No]". "No" stops the walk cleanly (state where it stopped).
 - **`--from=<phase>`** — start the walk at this phase instead of P0 (`P0`..`P9`, or a name like `design`/`build`). Phases before it are assumed already done; do not re-run them.
 - **`--until=<phase>`** — stop after this phase (inclusive). If `--until` < `build` (P4), skip P5 AI-validation, P6 deploy, and Level 2 entirely. Bound both ends: never run outside `[from, until]`.
@@ -55,7 +55,7 @@ P6 deploy  /git:push → /gh-cli:pr-create
    - Target PR Branch: default remote branch (e.g. `main`)
    - Branch Name to Create: `feat/{slug}` or similar
    - Execution Mode: `auto` or `manual` (from settings or argument)
-   Use `default_api:ask_question` to ask: "Do you approve checking out this feature branch and starting development?" with options `(Recommended) Yes, proceed` and `No, abort`.
+   In auto mode, log the feature receipt (slug, branch, execution mode) and proceed automatically without prompting. In manual mode, use `default_api:ask_question` to ask: "Do you approve checking out this feature branch and starting development?" with options `(Recommended) Yes, proceed` and `No, abort`.
 4. **Detect remote default branch.**
    ```bash
    DEFAULT=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@')
@@ -89,8 +89,8 @@ For each phase:
    - **NO-GO** and cycles remaining → Re-run generate, feeding `findings` to resolve.
    - **NO-GO** on 3rd cycle → In `auto` mode, stop the workflow and report findings. In `manual` mode, ask via `default_api:ask_question` whether to `Proceed anyway` or `Stop`.
 3. **Commit checkpoints.**
-   - End of P3: Run `/git:commit` (ask for confirmation) to commit all docs.
-   - End of P4: Run `/git:commit` (ask for confirmation) to commit all implementation changes.
+    - End of P3: Run `/git:commit` to commit all docs.
+    - End of P4: Run `/git:commit` to commit all implementation changes.
 
 ### P5 — AI Validation & Fix Loop (Delegated to `sdd-validator`)
 
@@ -101,8 +101,8 @@ For each phase:
 
 ### P6 — Deploy (Push & Create PR)
 
-1. **Push branch.** Run `/git:push` (request confirmation).
-2. **Create PR.** Run `/gh-cli:pr-create` (request confirmation).
+1. **Push branch.** Run `/git:push`.
+2. **Create PR.** Run `/gh-cli:pr-create`.
 
 ### P7–P9 — Level 2 Automation (PR Review, Merging & Alignment)
 
@@ -138,7 +138,7 @@ Upon completion or abortion, brief the user with a summary:
 ## Done when
 
 - All in-bounds phases ran in order.
-- The feature receipt was presented and confirmed by the user.
+- The feature receipt was presented and displayed to the user (confirmed in manual mode; logged in auto mode).
 - Subagent delegation was performed to conserve tokens.
 - Review loops, validation loops, and PR response loops successfully executed.
 - The PR was merged automatically on approval, and product docs synced.

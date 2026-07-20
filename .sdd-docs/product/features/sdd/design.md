@@ -58,3 +58,11 @@ Reorders the SDD Level 2 P9 step to run `/sdd:sync` on the feature branch before
 
 - **`plugins/sdd/skills/run/SKILL.md` (Modified)**: Phase model diagram updated: `P9 alignment /sdd:sync → /gh-cli:pr-merge & preserve`. P9 auto mode now runs `/sdd:sync` locally (promoting dev docs, committing and pushing to feature branch), polls CI via `pr_polling` settings, then invokes `/gh-cli:pr-merge`. P9 manual mode gated with two separate `default_api:ask_question` prompts.
 - **`plugins/sdd/index.html` (Modified)**: Node coordinates swapped: `/sdd:sync` → `(1080, 540, P9 Sync)`, `/gh-cli:pr-merge` → `(1080, 640, P9 Merge)`. Edges updated: removed `pr-approve→pr-merge`, `pr-merge→sync`, `sync→branch-delete`; added `pr-approve→sync`, `sync→pr-merge`. `/sdd:run` commandData steps extended with P7/P8/P9 entries.
+
+## Fully AI-Automated Workflow
+Removes interactive `default_api:ask_question` confirmation gates when running in auto mode.
+
+- **Mode-Conditional Gate Pattern**: Replaced the target unconditional `default_api:ask_question` calls in skill files with a standard clause that checks if the skill is invoked from SDD auto mode. If yes, it logs the action details and continues automatically. Otherwise, it presents the user prompt.
+- **Skills Updated**: commit, push, branch-delete, pr-create, pr-merge, and pr-respond skills have their main Gate steps conditionalized and Done-when blocks updated.
+- **Rules & Memory Updated**: memory.md, rules.md, tech.md, and plugin rules (workflow-gating.md, git-hard-rules.md, gh-hard-rules.md) updated to replace unconditional ask_question references with mode-conditional versions.
+- **Safety Invariants**: Enforced unconditionally in all modes.

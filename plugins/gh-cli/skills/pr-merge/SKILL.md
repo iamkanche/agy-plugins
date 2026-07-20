@@ -40,7 +40,7 @@ Parse the invocation arguments:
    BASE_BRANCH="<baseRefName returned by gh>"
    ```
 
-4. **Gate — STOP.** Present the PR title, number, base branch, merge method, and whether branch deletion is enabled. Ask the user to confirm using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, merge PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without merging.
+4. **Gate — mode-conditional.** If this skill is invoked from SDD auto mode (`mode=auto` in `settings.json` or `--mode=auto` on `/sdd:run`), log the action (PR title, number, base branch, merge method, and branch-deletion flag) and proceed automatically without prompting. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm: present the PR title, number, base branch, merge method, and whether branch deletion is enabled using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, merge PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without merging.
 
 5. **Execute merge.** Run the merge command.
 
@@ -74,4 +74,4 @@ Never bypass branch protections · never force-merge without confirmation.
 
 - The pull request was merged successfully using the requested method.
 - The local and remote feature branches were deleted (unless `--keep-branch` was specified).
-- The action was explicitly confirmed via the gate.
+- The action was confirmed (manual mode) or logged (auto mode) before the merge ran.

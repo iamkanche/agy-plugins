@@ -25,5 +25,5 @@
 - GitHub API (via `gh` CLI) for pull request reviews, comments, and approvals.
 
 ## Known Technical Constraints
-- Every side effect must be human-gated.
-- Gated operations (commits, pushes, tag creations/deletions, branch deletions, PR creations, PR approvals, and PR merges) MUST use the interactive `default_api:ask_question` tool (grounded in `.sdd-docs/product/memory.md`).
+- Side effects are mode-gated: in manual mode, every side effect MUST use the interactive `default_api:ask_question` tool; in SDD auto mode, the gate is suppressed and the action is logged automatically. (Grounded in `.sdd-docs/product/memory.md`.)
+- Safety invariants (protected-branch refusal, no force-push, no `--no-verify`, secrets detection, self-approval prohibition) are unconditional and enforced in both modes.

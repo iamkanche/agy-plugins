@@ -60,3 +60,26 @@ Reorders Level 2 P9 to execute `/sdd:sync` on the feature branch before PR merge
 21. In manual mode, P9 presents two separate confirmation gates: (1) sync gate, (2) merge gate.
 22. The connections map in `index.html` routes: `/gh-cli:pr-approve` → `/sdd:sync` (1080,540) → `/gh-cli:pr-merge` (1080,640).
 23. The `/sdd:run` command details panel lists P7 (Human Review), P8 (PR Feedback & Approval), and P9 (Sync & Merge) steps.
+
+## Fully AI-Automated Workflow
+Removes interactive `default_api:ask_question` confirmation gates when running in auto mode, while keeping manual mode gates and safety invariants.
+
+### Acceptance Criteria
+24. In auto mode, the `default_api:ask_question` gate is bypassed for all side effects (git commit, git push, git branch-delete, gh pr-create, gh pr-merge, and gh pr-respond); instead, actions are logged and executed automatically.
+25. In manual mode, all existing interactive gating behavior is preserved exactly.
+26. All safety invariants (protected-branch refusal, force-push ban, pre-commit bypass hooks ban, secrets checks, self-approval ban, etc.) remain unconditionally active in all execution modes.
+27. Gated operations must still be done using formal plugin slash command workflows rather than raw commands.
+28. guidelines/product.md has L23 out-of-scope entry removed; auto-mode SDD added to In-Scope.
+29. guidelines/rules.md L4 and L14 updated to define gates as mode-conditional.
+30. guidelines/tech.md L28-29 updated to reflect mode-conditional gating.
+31. plugins/sdd/rules/workflow-gating.md L7 Side Effect Confirmation updated to mode-conditional.
+32. plugins/git/rules/git-hard-rules.md L14 rewritten to be mode-conditional.
+33. plugins/gh-cli/rules/gh-hard-rules.md L9 rewritten to be mode-conditional.
+34. plugins/sdd/skills/run/SKILL.md updated to display the feature receipt as a log in auto mode (no prompt), and references to confirmation prompts are removed from P3/P4 commits, P6 push/PR-create.
+35. plugins/git/skills/commit/SKILL.md Gate step 7 conditionalized with standard clause, Done-when updated.
+36. plugins/git/skills/push/SKILL.md Gate step 5 conditionalized with standard clause, Done-when updated.
+37. plugins/git/skills/branch-delete/SKILL.md Gate step 5 conditionalized with standard clause, Done-when and narrative updated.
+38. plugins/gh-cli/skills/pr-create/SKILL.md Gate step 6 conditionalized with standard clause, Done-when updated.
+39. plugins/gh-cli/skills/pr-merge/SKILL.md Gate step 4 conditionalized with standard clause, Done-when updated.
+40. plugins/gh-cli/skills/pr-respond/SKILL.md Gate steps 5 and 8 conditionalized with standard clause, Done-when updated.
+41. No document contains a rule that contradicts any other document on the subject of gating.
