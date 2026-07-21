@@ -26,3 +26,8 @@
 - **Context:** Manual phase transitions, review loops, validation checks, and PR feedback tracking require frequent human interactions, slowing down autonomous development and causing context fragmentation.
 - **Decision:** Automate all SDD workflow loops (specs/design/tasks/build reviews, validation fixing, and PR comments polling) up to a hard limit of 3x iterations. Introduce a verification receipt in P0 for upfront alignment, delegate phases to token-optimized subagents, and automate post-merge document sync and file preservation.
 - **Consequences:** End-to-end headless capability that runs safely, minimizes token overhead, and maintains memory integrity without manual intervention.
+
+## ADR-006: Layout Blowout and Clipping Fixes
+- **Context:** Hardcoded card heights and grid column tracking created horizontal body scroll blowouts and bottom content clipping on smaller viewports.
+- **Decision:** Apply flexible `minmax(0, 1fr)` tracks for main dashboard columns, use `min-width: 0` on content wrappers, and swap fixed heights for `min-height: 180px` on command cards.
+- **Consequences:** Bulletproof viewport constraints that restrict horizontal scrolling solely to local SVG map and pipeline step scroll containers.

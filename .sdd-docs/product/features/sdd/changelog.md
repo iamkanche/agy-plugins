@@ -23,3 +23,8 @@
 - Automated 3x retry and response/fix loops for specs/design/tasks/build reviews, validation failures, and PR feedback.
 - Configured automatic PR merge on approval and synchronization of feature documentation post-merge.
 - Supported settings customization via `.sdd-docs/settings.json`.
+
+## 2026-07-21 — fix-sdd-ui-containers
+- Changed grid template columns layout in root `index.html` and `plugins/sdd/index.html` from fixed fraction boundaries to responsive `minmax(0, 1fr)` tracks to prevent layout blowout under narrow viewports or wide children.
+- Added `min-width: 0` to main content and details container elements (`.content-area`, `.details-area`) to allow proper browser shrinking.
+- Fixed command card height clipping bug by replacing hardcoded `height: 180px` style with `min-height: 180px` in root dashboard, ensuring no action buttons are cut off.

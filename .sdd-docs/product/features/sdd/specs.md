@@ -106,3 +106,12 @@ Adds examples of CLI command syntax and arguments to the interactive skills conn
 57. `/gh-cli:pr-respond` specifies: `/gh-cli:pr-respond [<pr-number>]`
 58. `/gh-cli:pr-approve` specifies: `/gh-cli:pr-approve [<pr-number>]`
 59. All other commands in the dashboard registry carry descriptive usage example strings where applicable.
+
+## Fix Grid Column Blowouts & Card Text Clipping
+Resolves layout container viewport overflow and command card bottom clipping.
+
+### Acceptance Criteria
+60. Given a desktop or laptop viewport, when the root `index.html` or `plugins/sdd/index.html` is loaded, the page grid template layout columns stay confined to the viewport width without causing horizontal scrollbars on the document body.
+61. Flex and grid item content areas (`.content-area` and `.details-area`) use `min-width: 0` and `minmax(0, 1fr)` to enable layout column shrinking.
+62. The Interactive Skill Connections Map SVG element and pipeline steps container scroll locally inside scrollable containers instead of expanding grid track width.
+63. The command card height is responsive using `min-height: 180px` in root `index.html`, allowing the cards to expand vertically for long text descriptions and ensuring no bottom buttons are clipped.

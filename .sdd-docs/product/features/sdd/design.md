@@ -72,3 +72,10 @@ Adds examples of CLI command syntax and arguments to the interactive skills conn
 
 - **UI Rendering Update**: Modified `loadCommandDetails(cmdName)` to check if `data.usage` exists and dynamically inject a labeled `.code-snippet` HTML block containing the usage example directly in the details panel header.
 - **Registry Update**: Populated the `usage` string property for all 35 commands in `commandData` and `gitAndGhCliData` objects within `plugins/sdd/index.html`.
+
+## Fix Grid Column Blowouts & Card Text Clipping
+Resolves layout grid columns expanding and clipping text in command cards.
+
+- **Grid Layout Update (`index.html`, `plugins/sdd/index.html`)**: The grid template columns were modified from `... 1fr` to `... minmax(0, 1fr)` to allow the second column to shrink below its minimum content width.
+- **Content Area Shrinking (`index.html`, `plugins/sdd/index.html`)**: Added `min-width: 0;` to `.content-area` and `.details-area` to allow these flexbox children to shrink correctly under narrow viewports without blowing out the body width.
+- **Command Card Height (`index.html`)**: Changed `.command-card` height style declaration from a hardcoded `height: 180px;` to `min-height: 180px;` to let card containers grow vertically for long description text without clipping the bottom action buttons.
