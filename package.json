@@ -1,0 +1,11 @@
+{
+  "name": "agy-plugins",
+  "version": "1.0.0",
+  "description": "Custom plugin bundles for Google Antigravity",
+  "scripts": {
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0"
+  }
+}
