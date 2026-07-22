@@ -9,5 +9,12 @@
   "preserve_files": [
     "memory.md",
     "settings.json"
-  ]
+  ],
+  "validation": {
+    "browser": {
+      "enabled": true,
+      "port": "auto",
+      "framework": "playwright"
+    }
+  }
 }

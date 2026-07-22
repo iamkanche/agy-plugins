@@ -17,8 +17,8 @@
 - SDD persistent state: `.sdd-docs/product/memory.md`.
 
 ## Build/Test/Lint/Run Commands
-- Currently, no automated build, compilation, linting, or test execution suite is configured in the repository (inferred).
-- Verification is primarily performed manually through browser rendering of the static HTML files and execution of the Antigravity workspace runner.
+- **Browser/E2E Testing:** `npm run test:e2e` to execute the Playwright test suite against the registry dashboard and plugin inspectors.
+- **Verification:** Sourced from manual browser rendering of static files or dynamically verified using the automated test suite.
 
 ## External Services & Integrations
 - GitHub Repository Host (git clone/push/pull).

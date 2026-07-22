@@ -20,9 +20,10 @@ checks — for the current feature and return a per-suite pass/fail report with 
 ## Produce
 
 Run each discovered check with bash, capturing exit status and the salient output. Group into
-suites (build, unit, integration, lint/format, e2e/browser). For browser/e2e: run only if the
-project defines such checks and a runtime is available; if an interactive browser check is
-required but not runnable here, mark it **not run (needs browser)** rather than claiming a result.
+suites (build, unit, integration, lint/format, e2e/browser). For e2e/browser validation:
+- First, check if Node.js, npm, and Playwright (`@playwright/test`) are available in the workspace.
+- If dependencies or browser binaries are missing, skip the suite and mark it **SKIPPED (missing dependencies)** or **SKIPPED (missing browsers)** with details in the environment notes, rather than claiming a failure.
+- If present, run the e2e validation suite (e.g., `npm run test:e2e`). Do not save or write screenshots; verify in-memory/run-time and report test outcomes or page console errors.
 
 Return a **validation report** (chat data, not a file):
 
