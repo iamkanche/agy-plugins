@@ -3,6 +3,7 @@
   "owner": { "name": "iamkanche" },
   "plugins": [
     { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/git" },
-    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/gh-cli" }
+    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/gh-cli" },
+    { "name": "loop-engineer", "source": "github:iamkanche/agy-plugins//plugins/loop-engineer" }
   ]
 }

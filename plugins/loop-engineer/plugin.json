@@ -1,0 +1,11 @@
+{
+  "name": "loop-engineer",
+  "version": "0.1.0",
+  "description": "Automated iterative inner feedback loop plugin connecting Engineer and QA subagents for up to 3 self-correction iterations.",
+  "author": { "name": "iamkanche" },
+  "agents": [
+    "agents/engineer/agent.json",
+    "agents/qa/agent.json"
+  ],
+  "skills": "skills"
+}
