@@ -1,12 +1,14 @@
-# Antigravity Plugins Workspace
+# Antigravity Plugins Workspace — `kanche`
 
-Welcome to the **agy-plugins** repository! This workspace contains modular plugin bundles for the **Google Antigravity** AI-first development platform.
+Welcome to the **agy-plugins** repository! This workspace contains the unified **`kanche`** plugin bundle for the **Google Antigravity** AI-first development platform.
 
-Plugins in this repository extend the capabilities of Antigravity agents by packaging slash commands (workflows), rules, subagents, and skills.
+The unified `kanche` plugin packages all developer workflows, slash commands, rules, subagents, and skills into a single namespace: `/kanche:<command>`.
+
+---
 
 ## Marketplace Registration
 
-You can load these plugins from this remote repository either **globally** or **project-based**:
+You can load the unified `kanche` plugin from this remote repository either **globally** or **project-based**:
 
 ### 1. Global Installation (All Projects)
 Create a `marketplace.json` file inside your global plugins directory:
@@ -16,13 +18,7 @@ Create a `marketplace.json` file inside your global plugins directory:
 {
   "name": "global-plugins-registry",
   "plugins": [
-    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/kanche/git" },
-    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/kanche/gh-cli" },
-    { "name": "sdd", "source": "github:iamkanche/agy-plugins//plugins/kanche/sdd" },
-    { "name": "design", "source": "github:iamkanche/agy-plugins//plugins/kanche/design" },
-    { "name": "qa", "source": "github:iamkanche/agy-plugins//plugins/kanche/qa" },
-    { "name": "planner", "source": "github:iamkanche/agy-plugins//plugins/kanche/planner" },
-    { "name": "dev", "source": "github:iamkanche/agy-plugins//plugins/kanche/dev" }
+    { "name": "kanche", "source": "github:iamkanche/agy-plugins//plugins/kanche" }
   ]
 }
 ```
@@ -35,58 +31,64 @@ Create a `marketplace.json` file inside your project's local customization direc
 {
   "name": "project-plugins-registry",
   "plugins": [
-    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/kanche/git" },
-    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/kanche/gh-cli" },
-    { "name": "sdd", "source": "github:iamkanche/agy-plugins//plugins/kanche/sdd" },
-    { "name": "design", "source": "github:iamkanche/agy-plugins//plugins/kanche/design" },
-    { "name": "qa", "source": "github:iamkanche/agy-plugins//plugins/kanche/qa" },
-    { "name": "planner", "source": "github:iamkanche/agy-plugins//plugins/kanche/planner" },
-    { "name": "dev", "source": "github:iamkanche/agy-plugins//plugins/kanche/dev" }
+    { "name": "kanche", "source": "github:iamkanche/agy-plugins//plugins/kanche" }
   ]
 }
 ```
 
 ---
 
-## Active Plugins
+## Available Slash Commands (`/kanche:*`)
 
-### 1. Git Control Plugin (`git`)
-Provides 11 robust slash commands to manage local Git histories and workspaces safely.
+### 1. Git Workflow Commands
+- `/kanche:git-commit` - Commit staged work with Conventional Commits message (gated).
+- `/kanche:git-branch-create` - Create and switch to a new feature branch.
+- `/kanche:git-branch-delete` - Delete a git branch locally/remotely (gated).
+- `/kanche:git-tag-create` - Create an annotated tag at HEAD and push (gated).
+- `/kanche:git-tag-delete` - Delete a tag locally/remotely (gated).
+- `/kanche:git-tag-push` - Push local tags to remote origin (gated).
+- `/kanche:git-fetch` - Fetch branches and tags from origin.
+- `/kanche:git-pull` - Integrate changes from upstream (gated).
+- `/kanche:git-push` - Push current feature branch to origin (gated).
+- `/kanche:git-stash` - Save, restore, list, or discard stashes.
+- `/kanche:git-status` - Show working-tree state and branch status.
+- `/kanche:git-rebase` - Rebase current branch onto target branch (gated).
+- `/kanche:git-switch` - Switch working tree to a different branch.
 
-### 2. GitHub CLI Plugin (`gh-cli`)
-Provides 5 slash commands to manage the Pull Request lifecycle, reviews, approvals, and thread triaging.
+### 2. GitHub CLI Commands
+- `/kanche:pr-create` - Push branch and open a pull request on GitHub (gated).
+- `/kanche:pr-list` - List open pull requests and display branch PR context.
+- `/kanche:pr-review` - Review a pull request diff against rules and post inline suggestions (gated).
+- `/kanche:pr-approve` - Approve a pull request on GitHub (gated).
+- `/kanche:pr-respond` - Triage PR review comments, fix code, and reply in-thread (gated).
+- `/kanche:pr-merge` - Merge a pull request on GitHub and delete branch (gated).
 
-### 3. Design & Specs Plugin (`design`)
-Provides skills and specialized agents (`design-analyst`, `design-architect`) for requirements grilling, functional specs, and system design architecture:
-- `/design:grill` - Adversarially probe feature requests and compile questions.
-- `/design:specs` - Generate functional specifications draft.
-- `/design:specs-review` - Validate specifications draft against rules.
-- `/design:init` - Generate system architecture, API, and database specifications.
-- `/design:review` - Verify architecture design against guidelines.
+### 3. SDD Master Orchestrator Commands
+- `/kanche:sdd-run` - Drive a work item through full SDD phase model (P0 to P9).
+- `/kanche:sdd-steering` - Analyze repository and return steering guidelines.
+- `/kanche:sdd-sync` - Promote development docs to product memory.
+- `/kanche:sdd-init` - Bootstrap steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
+- `/kanche:sdd-init-update` - Re-analyze repository and refresh guidelines.
+- `/kanche:sdd-continue` - Resume SDD workflow from on-disk state.
 
-### 4. Quality Assurance Plugin (`qa`)
-Provides skills and subagents (`qa-validator`) for testing, test plan creation, build code review, and automated validation:
-- `/qa:validate` - Run linters, compilers, and test suites.
-- `/qa:test-plan` - Generate test plan matrix and test cases.
-- `/qa:review` - Audit code diffs and test coverage.
+### 4. Design & Specs Commands
+- `/kanche:design-grill` - Adversarially probe feature requests for ambiguities.
+- `/kanche:design-specs` - Draft functional specifications document.
+- `/kanche:design-specs-review` - Perform review on specs draft.
+- `/kanche:design-init` - Draft system architecture design specifications.
+- `/kanche:design-review` - Perform review on design documents.
 
-### 5. Task Planner Plugin (`planner`)
-Provides skills and subagents (`planner-agent`) for task breakdown and task manifests:
-- `/planner:tasks` - Generate implementation checklist task manifest.
-- `/planner:review` - Audit task list completeness and ordering.
+### 5. Quality Assurance Commands
+- `/kanche:qa-validate` - Run linters, compilers, and test suites.
+- `/kanche:qa-test-plan` - Generate comprehensive test plan matrices.
+- `/kanche:qa-review` - Audit implementation code modification diffs.
 
-### 6. Development & Coding Plugin (`dev`)
-Provides skills and subagents (`dev-coder`) for code implementation:
-- `/dev:implement` - Modify codebase incrementally and run verifications.
+### 6. Task Planner Commands
+- `/kanche:planner-tasks` - Formulate task checklist manifests.
+- `/kanche:planner-review` - Audit task checklist layout.
 
-### 7. SDD Master Orchestrator Plugin (`sdd`)
-Provides master workflow orchestrator slash commands for lifecycle steering and document synchronization:
-- `/sdd:run` - Drive a feature work item through the full SDD phase model (P0 to P9).
-- `/sdd:steering` - Analyze the repository and return steering guideline bodies.
-- `/sdd:sync` - Promote development docs to product memory.
-- `/sdd:init` - Bootstrap steering guidelines product.md/tech.md/structure.md/rules.md.
-- `/sdd:init-update` - Re-analyze repository and refresh guidelines by merging.
-- `/sdd:continue` - Resume SDD workflow from the current on-disk state.
+### 7. Coding & Development Commands
+- `/kanche:dev-implement` - Modify codebase incrementally according to task checklist.
 
 ---
 
@@ -98,12 +100,9 @@ agy-plugins/
 │   └── plugins/
 │       └── marketplace.json   # Local registry definition
 └── plugins/
-    └── kanche/
-        ├── git/               # Git plugin directory
-        ├── gh-cli/            # GitHub CLI plugin directory
-        ├── design/            # Design & Specs plugin directory
-        ├── qa/                # Quality Assurance & Testing plugin directory
-        ├── planner/           # Task Planner plugin directory
-        ├── dev/               # Coding & Development plugin directory
-        └── sdd/               # Master SDD Orchestrator plugin directory
+    └── kanche/                # Single Unified Plugin Directory
+        ├── plugin.json        # Plugin manifest ("name": "kanche")
+        ├── agents/            # Operator subagents (git-operator, gh-operator, etc.)
+        ├── rules/             # Hard rules and gating guidelines
+        └── skills/            # Skill workflows (/kanche:<skill_name>)
 ```

@@ -1,0 +1,8 @@
+{
+  "name": "kanche",
+  "version": "0.1.0",
+  "description": "Unified Antigravity developer plugin bundle by kanche covering Git, GitHub CLI, SDD, Design, QA, Planner, and Dev workflows.",
+  "author": {
+    "name": "iamkanche"
+  }
+}
