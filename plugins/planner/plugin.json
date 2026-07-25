@@ -1,0 +1,13 @@
+{
+  "name": "planner",
+  "version": "0.1.0",
+  "description": "Planning & Task Breakdown plugin for Antigravity: tasks, review.",
+  "author": { "name": "iamkanche" },
+  "rules": [
+    "rules/output-language.md"
+  ],
+  "agents": [
+    "agents/planner/agent.json"
+  ],
+  "skills": "skills"
+}
