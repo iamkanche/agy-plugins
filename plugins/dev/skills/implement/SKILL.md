@@ -1,9 +1,9 @@
 ---
-name: build
-description: Implement target changes incrementally and run tests.
+name: implement
+description: Implement target code changes incrementally and run tests.
 ---
 
-# implementer (skill)
+# /dev:implement
 
 **Mission.** Implement the feature exactly as laid out in `tasks.md`, writing real code with a
 minimal diff, then return a change summary and which tasks are now complete. This is the one

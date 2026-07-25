@@ -1,9 +1,9 @@
 ---
-name: tasks-review
-description: Review tasks layout.
+name: review
+description: Review task manifests and planning breakdown layout.
 ---
 
-# tasks-reviewer (skill)
+# /planner:review
 
 **Mission.** Critically review `tasks.md` for coverage, dependency ordering, sizing, and
 verifiability against the design and specs, and return a GO/NO-GO verdict with findings.

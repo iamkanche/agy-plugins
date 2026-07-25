@@ -31,11 +31,11 @@ LEVEL 1 (AI + Subagents)                         LEVEL 2 (AI + human, auto/gated
 P0 setup   Receipt /git:branch-create            P7 human review  /sdd:human-validation
 P1 specs   /design:grill → /design:specs         P8 PR mods       /gh-cli:pr-respond & poll
            → /design:specs-review (Analyst)      P9 alignment     /sdd:sync -> /gh-cli:pr-merge & preserve
-P2 design  /design:design → /design:design-review 
-           (Architect)     
-P3 tasks   /planner:tasks → /planner:tasks-review
-           → Docs Commit (Planner)        
-P4 build   /dev:build → /qa:build-review
+P2 design  /design:init → /design:review
+           (Architect)
+P3 tasks   /planner:tasks → /planner:review
+           → Docs Commit (Planner)
+P4 build   /dev:implement → /qa:review
            → Code Commit (Coder)
 P5 valid.  /qa:validate & fix (Validator)
 P6 deploy  /git:push → /gh-cli:pr-create
@@ -57,7 +57,7 @@ P6 deploy  /git:push → /gh-cli:pr-create
    - Target PR Branch: default remote branch (e.g. `main`)
    - Branch Name to Create: `feat/{slug}` or similar
    - Execution Mode: `auto` or `manual` (from settings or argument)
-   In auto mode, log the feature receipt (slug, branch, execution mode) and proceed automatically without prompting. In manual mode, use `default_api:ask_question` to ask: "Do you approve checking out this feature branch and starting development?" with options `(Recommended) Yes, proceed` and `No, abort`.
+     In auto mode, log the feature receipt (slug, branch, execution mode) and proceed automatically without prompting. In manual mode, use `default_api:ask_question` to ask: "Do you approve checking out this feature branch and starting development?" with options `(Recommended) Yes, proceed` and `No, abort`.
 4. **Detect remote default branch.**
    ```bash
    DEFAULT=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@')
@@ -72,14 +72,15 @@ P6 deploy  /git:push → /gh-cli:pr-create
 
 To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. Each loop runs up to **3** times.
 
-| Phase | Subagent | Generate Workflow | Review Workflow | Commit Gate |
-|---|---|---|---|---|
-| **P1 Specs** | `design-analyst` | `/design:grill` (first cycle) then `/design:specs` | `/design:specs-review` | None |
-| **P2 Design** | `design-architect` | `/design:design` | `/design:design-review` | None |
-| **P3 Tasks** | `planner-agent` | `/planner:tasks` | `/planner:tasks-review` | **Docs Commit** (`/git:commit` for specs, design, tasks) |
-| **P4 Build** | `dev-coder` | `/dev:build` | `/qa:build-review` | **Implementation Commit** (`/git:commit` for build/code) |
+| Phase         | Subagent           | Generate Workflow                                  | Review Workflow         | Commit Gate                                              |
+| ------------- | ------------------ | -------------------------------------------------- | ----------------------- | -------------------------------------------------------- |
+| **P1 Specs**  | `design-analyst`   | `/design:grill` (first cycle) then `/design:specs` | `/design:specs-review`  | None                                                     |
+| **P2 Design** | `design-architect` | `/design:init`                                     | `/design:review`        | None                                                     |
+| **P3 Tasks**  | `planner-agent`    | `/planner:tasks`                                   | `/planner:review`       | **Docs Commit** (`/git:commit` for specs, design, tasks) |
+| **P4 Build**  | `dev-coder`        | `/dev:implement`                                   | `/qa:review`            | **Implementation Commit** (`/git:commit` for build/code) |
 
 For each phase:
+
 1. **Delegate execution.** Spawn the corresponding subagent (`design-analyst`, `design-architect`, `planner-agent`, or `dev-coder`) with a system prompt outlining the phase goal and feed it the relevant specs, designs, and tasks.
 2. **Review verdict.** The subagent runs the review skill and parses the `verdict:` output from:
    ```sdd-review
@@ -87,12 +88,13 @@ For each phase:
    findings:
      - {severity: blocker|major|nit, msg: "..."}
    ```
+
    - **GO** → Proceed to the next phase.
    - **NO-GO** and cycles remaining → Re-run generate, feeding `findings` to resolve.
    - **NO-GO** on 3rd cycle → In `auto` mode, stop the workflow and report findings. In `manual` mode, ask via `default_api:ask_question` whether to `Proceed anyway` or `Stop`.
 3. **Commit checkpoints.**
-    - End of P3: Run `/git:commit` to commit all docs.
-    - End of P4: Run `/git:commit` to commit all implementation changes.
+   - End of P3: Run `/git:commit` to commit all docs.
+   - End of P4: Run `/git:commit` to commit all implementation changes.
 
 ### P5 — AI Validation & Fix Loop (Delegated to `qa-validator`)
 
@@ -131,6 +133,7 @@ In **auto** mode, LEVEL 2 phases run automatically. In **manual** mode, they gat
 ### 10. Notify User (P10)
 
 Upon completion or abortion, brief the user with a summary:
+
 - Final status (e.g. Success, Merged, or Aborted)
 - Summary of documentation and implementation edits made
 - Direct link to the merged PR and feature logs

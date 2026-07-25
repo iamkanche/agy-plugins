@@ -1,7 +1,7 @@
 {
   "name": "dev",
   "version": "0.1.0",
-  "description": "Software Development & Implementation plugin for Antigravity: build.",
+  "description": "Software Development & Implementation plugin for Antigravity: implement.",
   "author": { "name": "iamkanche" },
   "rules": [
     "rules/output-language.md"

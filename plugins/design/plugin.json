@@ -1,7 +1,7 @@
 {
   "name": "design",
   "version": "0.1.0",
-  "description": "Design & Specifications plugin for Antigravity: grill, specs, specs-review, design, design-review.",
+  "description": "Design & Specifications plugin for Antigravity: grill, specs, specs-review, init, review.",
   "author": { "name": "iamkanche" },
   "rules": [
     "rules/output-language.md"

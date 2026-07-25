@@ -1,7 +1,7 @@
 {
   "name": "qa",
   "version": "0.1.0",
-  "description": "Quality Assurance & Testing plugin for Antigravity: validate, test-plan, build-review.",
+  "description": "Quality Assurance & Testing plugin for Antigravity: validate, test-plan, review.",
   "author": { "name": "iamkanche" },
   "rules": [
     "rules/output-language.md"

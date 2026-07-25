@@ -61,23 +61,23 @@ Provides skills and specialized agents (`design-analyst`, `design-architect`) fo
 - `/design:grill` - Adversarially probe feature requests and compile questions.
 - `/design:specs` - Generate functional specifications draft.
 - `/design:specs-review` - Validate specifications draft against rules.
-- `/design:design` - Generate architectural and database specifications.
-- `/design:design-review` - Verify architecture design against guidelines.
+- `/design:init` - Generate system architecture, API, and database specifications.
+- `/design:review` - Verify architecture design against guidelines.
 
 ### 4. Quality Assurance Plugin (`qa`)
 Provides skills and subagents (`qa-validator`) for testing, test plan creation, build code review, and automated validation:
 - `/qa:validate` - Run linters, compilers, and test suites.
 - `/qa:test-plan` - Generate test plan matrix and test cases.
-- `/qa:build-review` - Audit code diffs and test coverage.
+- `/qa:review` - Audit code diffs and test coverage.
 
 ### 5. Task Planner Plugin (`planner`)
 Provides skills and subagents (`planner-agent`) for task breakdown and task manifests:
 - `/planner:tasks` - Generate implementation checklist task manifest.
-- `/planner:tasks-review` - Audit task list completeness and ordering.
+- `/planner:review` - Audit task list completeness and ordering.
 
 ### 6. Development & Coding Plugin (`dev`)
 Provides skills and subagents (`dev-coder`) for code implementation:
-- `/dev:build` - Modify codebase incrementally and run verifications.
+- `/dev:implement` - Modify codebase incrementally and run verifications.
 
 ### 7. SDD Master Orchestrator Plugin (`sdd`)
 Provides master workflow orchestrator slash commands for lifecycle steering and document synchronization:

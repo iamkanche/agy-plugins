@@ -1,9 +1,9 @@
 ---
-name: design
+name: init
 description: Generate system design specifications including component boundaries, data model, and user flow.
 ---
 
-# design-architect (skill)
+# /design:init
 
 **Mission.** Translate the approved `specs.md` into an implementable technical design — the HOW
 — and return three bodies: `design.md`, `api-diff.md`, and `db-diff.md` for

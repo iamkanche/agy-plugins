@@ -1,9 +1,9 @@
 ---
-name: build-review
-description: Review build modifications.
+name: review
+description: Audit code quality, implementation diffs, and test coverage.
 ---
 
-# code-reviewer (skill)
+# /qa:review
 
 **Mission.** Review the implementation produced by `build` for correctness, spec/design
 conformance, and code quality — using read-only checks and, where useful, a browser — and return
