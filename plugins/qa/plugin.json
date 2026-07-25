@@ -7,7 +7,7 @@
     "rules/output-language.md"
   ],
   "agents": [
-    "agents/qa-validator/agent.json"
+    "agents/validator/agent.json"
   ],
   "skills": "skills"
 }

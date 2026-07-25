@@ -7,7 +7,7 @@
     "rules/output-language.md"
   ],
   "agents": [
-    "agents/dev-coder/agent.json"
+    "agents/coder/agent.json"
   ],
   "skills": "skills"
 }

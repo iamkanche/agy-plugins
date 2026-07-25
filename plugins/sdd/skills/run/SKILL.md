@@ -72,16 +72,16 @@ P6 deploy  /git:push → /gh-cli:pr-create
 
 To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. Each loop runs up to **3** times.
 
-| Phase         | Subagent           | Generate Workflow                                  | Review Workflow         | Commit Gate                                              |
-| ------------- | ------------------ | -------------------------------------------------- | ----------------------- | -------------------------------------------------------- |
-| **P1 Specs**  | `design-analyst`   | `/design:grill` (first cycle) then `/design:specs` | `/design:specs-review`  | None                                                     |
-| **P2 Design** | `design-architect` | `/design:init`                                     | `/design:review`        | None                                                     |
-| **P3 Tasks**  | `planner-agent`    | `/planner:tasks`                                   | `/planner:review`       | **Docs Commit** (`/git:commit` for specs, design, tasks) |
-| **P4 Build**  | `dev-coder`        | `/dev:implement`                                   | `/qa:review`            | **Implementation Commit** (`/git:commit` for build/code) |
+| Phase | Subagent | Generate Workflow | Review Workflow | Commit Gate |
+|---|---|---|---|---|
+| **P1 Specs** | `analyst` | `/design:grill` (first cycle) then `/design:specs` | `/design:specs-review` | None |
+| **P2 Design** | `architect` | `/design:init` | `/design:review` | None |
+| **P3 Tasks** | `planner` | `/planner:tasks` | `/planner:review` | **Docs Commit** (`/git:commit` for specs, design, tasks) |
+| **P4 Build** | `coder` | `/dev:implement` | `/qa:review` | **Implementation Commit** (`/git:commit` for build/code) |
 
 For each phase:
 
-1. **Delegate execution.** Spawn the corresponding subagent (`design-analyst`, `design-architect`, `planner-agent`, or `dev-coder`) with a system prompt outlining the phase goal and feed it the relevant specs, designs, and tasks.
+1. **Delegate execution.** Spawn the corresponding subagent (`analyst`, `architect`, `planner`, or `coder`) with a system prompt outlining the phase goal and feed it the relevant specs, designs, and tasks.
 2. **Review verdict.** The subagent runs the review skill and parses the `verdict:` output from:
    ```sdd-review
    verdict: GO            # or NO-GO
@@ -96,9 +96,9 @@ For each phase:
    - End of P3: Run `/git:commit` to commit all docs.
    - End of P4: Run `/git:commit` to commit all implementation changes.
 
-### P5 — AI Validation & Fix Loop (Delegated to `qa-validator`)
+### P5 — AI Validation & Fix Loop (Delegated to `validator`)
 
-1. **Delegate validation.** Invoke the `qa-validator` subagent to run `/qa:validate` (tests / lint / validations).
+1. **Delegate validation.** Invoke the `validator` subagent to run `/qa:validate` (tests / lint / validations).
 2. **Handle failures.** If validate fails:
    - **Under auto mode:** Re-enter P4 (build) automatically up to 3 times to apply fixes, and re-run validation. If still failing after 3 attempts, abort and report failures.
    - **Under manual mode:** Ask "Validation failed" via `default_api:ask_question` with options `Fix via build loop`, `Continue to deploy`, and `Stop`.

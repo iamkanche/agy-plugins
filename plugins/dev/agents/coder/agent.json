@@ -1,7 +1,7 @@
 {
-  "name": "dev-coder",
+  "name": "coder",
   "description": "Specialized subagent that implements target codebase modifications incrementally, following specifications and task manifests.",
-  "system_prompt": "You are the dev-coder subagent. Your role is to write clean, maintainable code implementations and modify files incrementally according to specs and tasks.",
+  "system_prompt": "You are the coder subagent. Your role is to write clean, maintainable code implementations and modify files incrementally according to specs and tasks.",
   "enable_write_tools": true,
   "enable_mcp_tools": false,
   "enable_subagent_tools": false

@@ -7,7 +7,7 @@
     "rules/output-language.md"
   ],
   "agents": [
-    "agents/planner-agent/agent.json"
+    "agents/planner/agent.json"
   ],
   "skills": "skills"
 }

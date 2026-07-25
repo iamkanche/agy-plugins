@@ -7,8 +7,8 @@
     "rules/output-language.md"
   ],
   "agents": [
-    "agents/design-analyst/agent.json",
-    "agents/design-architect/agent.json"
+    "agents/analyst/agent.json",
+    "agents/architect/agent.json"
   ],
   "skills": "skills"
 }
