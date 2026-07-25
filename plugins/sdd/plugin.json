@@ -1,18 +1,12 @@
 {
   "name": "sdd",
   "version": "0.1.0",
-  "description": "SDD workflow for Antigravity: specs→design→tasks→build→validate→deploy→review, with quality-gate loops and human-gated steps. Pairs with the git plugin.",
+  "description": "SDD Master Workflow Orchestrator & Steering Guidelines for Antigravity: init, init-update, steering, sync, run, continue. Integrates design, planner, dev, qa, git, and gh-cli plugins.",
   "author": { "name": "iamkanche" },
   "rules": [
     "rules/output-language.md",
     "rules/workflow-gating.md"
   ],
-  "agents": [
-    "agents/sdd-analyst/agent.json",
-    "agents/sdd-architect/agent.json",
-    "agents/sdd-planner/agent.json",
-    "agents/sdd-coder/agent.json",
-    "agents/sdd-validator/agent.json"
-  ],
+  "agents": [],
   "skills": "skills"
 }

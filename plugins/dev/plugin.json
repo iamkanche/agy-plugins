@@ -1,0 +1,13 @@
+{
+  "name": "dev",
+  "version": "0.1.0",
+  "description": "Software Development & Implementation plugin for Antigravity: build.",
+  "author": { "name": "iamkanche" },
+  "rules": [
+    "rules/output-language.md"
+  ],
+  "agents": [
+    "agents/dev-coder/agent.json"
+  ],
+  "skills": "skills"
+}

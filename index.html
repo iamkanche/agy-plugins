@@ -564,28 +564,69 @@
             },
             "sdd": {
                 name: "sdd",
-                displayName: "SDD Workflow",
-                desc: "Software Development Document (SDD) lifecycle workflows for Antigravity covering steering rules, adversarial feature interrogation, specifications design, checklist tasks, implementation, and promotion loops.",
+                displayName: "SDD Orchestrator",
+                desc: "Software Development Document (SDD) master workflow orchestrator for Antigravity, coordinating steering rules, feature lifecycle phases, and cross-plugin synchronization.",
                 version: "v0.1.0",
                 theme: "amber",
                 inspectorUrl: "plugins/sdd/index.html",
                 commands: [
-                    { name: "/sdd:steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines. Delegates to the @sdd-planner subagent.", gated: false, path: "plugins/sdd/skills/steering/SKILL.md" },
-                    { name: "/sdd:grill", desc: "Adversarially analyze feature requests to extract ambiguities and rank clarifying questions. Delegates to the @sdd-analyst subagent.", gated: false, path: "plugins/sdd/skills/grill/SKILL.md" },
-                    { name: "/sdd:specs", desc: "Draft functional specifications documenting target changes and acceptance criteria. Delegates to the @sdd-analyst subagent.", gated: false, path: "plugins/sdd/skills/specs/SKILL.md" },
-                    { name: "/sdd:design", desc: "Draft system architecture design specifications including component details and schemas. Delegates to the @sdd-architect subagent.", gated: false, path: "plugins/sdd/skills/design/SKILL.md" },
-                    { name: "/sdd:tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands. Delegates to the @sdd-planner subagent.", gated: false, path: "plugins/sdd/skills/tasks/SKILL.md" },
-                    { name: "/sdd:build", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to the @sdd-coder subagent.", gated: false, path: "plugins/sdd/skills/build/SKILL.md" },
-                    { name: "/sdd:specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict with findings list. Delegates to the @sdd-analyst subagent.", gated: false, path: "plugins/sdd/skills/specs-review/SKILL.md" },
-                    { name: "/sdd:design-review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to the @sdd-architect subagent.", gated: false, path: "plugins/sdd/skills/design-review/SKILL.md" },
-                    { name: "/sdd:tasks-review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict. Delegates to the @sdd-planner subagent.", gated: false, path: "plugins/sdd/skills/tasks-review/SKILL.md" },
-                    { name: "/sdd:build-review", desc: "Perform review on implementation code modifications diff before staging. Delegates to the @sdd-coder subagent.", gated: false, path: "plugins/sdd/skills/build-review/SKILL.md" },
-                    { name: "/sdd:validate", desc: "Run static analysis check, linters, compilers, and test suites. Delegates to the @sdd-validator subagent.", gated: false, path: "plugins/sdd/skills/validate/SKILL.md" },
-                    { name: "/sdd:sync", desc: "Sync development logs and specifications to main product directory. Delegates to the @sdd-validator subagent.", gated: true, path: "plugins/sdd/skills/sync/SKILL.md" },
-                    { name: "/sdd:run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) using specifications, system designs, task check-lists, and testing loops. Delegates to the @sdd-validator subagent.", gated: false, path: "plugins/sdd/skills/run/SKILL.md" },
-                    { name: "/sdd:init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository. Delegates to the @sdd-planner subagent.", gated: false, path: "plugins/sdd/skills/init/SKILL.md" },
-                    { name: "/sdd:init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs. Delegates to the @sdd-planner subagent.", gated: false, path: "plugins/sdd/skills/init-update/SKILL.md" },
-                    { name: "/sdd:continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh. Delegates to the @sdd-validator subagent.", gated: false, path: "plugins/sdd/skills/continue/SKILL.md" }
+                    { name: "/sdd:run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: "plugins/sdd/skills/run/SKILL.md" },
+                    { name: "/sdd:steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/sdd/skills/steering/SKILL.md" },
+                    { name: "/sdd:sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/sdd/skills/sync/SKILL.md" },
+                    { name: "/sdd:init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/sdd/skills/init/SKILL.md" },
+                    { name: "/sdd:init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/sdd/skills/init-update/SKILL.md" },
+                    { name: "/sdd:continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/sdd/skills/continue/SKILL.md" }
+                ]
+            },
+            "design": {
+                name: "design",
+                displayName: "Design & Specs",
+                desc: "Requirements interrogation, functional specifications, system design architecture, and UI/UX wireframing skills.",
+                version: "v0.1.0",
+                theme: "purple",
+                inspectorUrl: "plugins/design/index.html",
+                commands: [
+                    { name: "/design:grill", desc: "Adversarially probe feature requests to extract ambiguities and rank clarifying questions. Delegates to @design-analyst.", gated: false, path: "plugins/design/skills/grill/SKILL.md" },
+                    { name: "/design:specs", desc: "Draft functional specifications documenting target changes and acceptance criteria. Delegates to @design-analyst.", gated: false, path: "plugins/design/skills/specs/SKILL.md" },
+                    { name: "/design:specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict. Delegates to @design-analyst.", gated: false, path: "plugins/design/skills/specs-review/SKILL.md" },
+                    { name: "/design:design", desc: "Draft system architecture design specifications including component details and schemas. Delegates to @design-architect.", gated: false, path: "plugins/design/skills/design/SKILL.md" },
+                    { name: "/design:design-review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @design-architect.", gated: false, path: "plugins/design/skills/design-review/SKILL.md" }
+                ]
+            },
+            "qa": {
+                name: "qa",
+                displayName: "Quality Assurance",
+                desc: "Automated testing, test plan creation, build code reviews, and quality validation workflows.",
+                version: "v0.1.0",
+                theme: "blue",
+                inspectorUrl: "plugins/qa/index.html",
+                commands: [
+                    { name: "/qa:validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @qa-validator.", gated: false, path: "plugins/qa/skills/validate/SKILL.md" },
+                    { name: "/qa:test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @qa-validator.", gated: false, path: "plugins/qa/skills/test-plan/SKILL.md" },
+                    { name: "/qa:build-review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @qa-validator.", gated: false, path: "plugins/qa/skills/build-review/SKILL.md" }
+                ]
+            },
+            "planner": {
+                name: "planner",
+                displayName: "Task Planner",
+                desc: "Task decomposition, checklist manifests, and implementation planning skills.",
+                version: "v0.1.0",
+                theme: "amber",
+                inspectorUrl: "plugins/planner/index.html",
+                commands: [
+                    { name: "/planner:tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands. Delegates to @planner-agent.", gated: false, path: "plugins/planner/skills/tasks/SKILL.md" },
+                    { name: "/planner:tasks-review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict. Delegates to @planner-agent.", gated: false, path: "plugins/planner/skills/tasks-review/SKILL.md" }
+                ]
+            },
+            "dev": {
+                name: "dev",
+                displayName: "Development",
+                desc: "Code implementation, refactoring, and incremental build execution skills.",
+                version: "v0.1.0",
+                theme: "purple",
+                inspectorUrl: "plugins/dev/index.html",
+                commands: [
+                    { name: "/dev:build", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @dev-coder.", gated: false, path: "plugins/dev/skills/build/SKILL.md" }
                 ]
             }
         };
