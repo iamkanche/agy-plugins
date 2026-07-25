@@ -529,21 +529,21 @@
                 desc: "Git workflow commands for Antigravity covering local staging scans, commit writes, branch checkouts, tags, stashes, and rebases. Safely isolates side effects using explicit human confirmations.",
                 version: "v0.1.0",
                 theme: "blue",
-                inspectorUrl: "plugins/git/index.html",
+                inspectorUrl: ".sdd-docs/product/plugins/kanche/git/index.html",
                 commands: [
-                    { name: "/git:commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/git/skills/commit/SKILL.md" },
-                    { name: "/git:branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: false, path: "plugins/git/skills/branch-create/SKILL.md" },
-                    { name: "/git:branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/git/skills/branch-delete/SKILL.md" },
-                    { name: "/git:tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/git/skills/tag-create/SKILL.md" },
-                    { name: "/git:tag-delete", desc: "Delete a local and/or remote tag securely, gated by explicit confirmation.", gated: true, path: "plugins/git/skills/tag-delete/SKILL.md" },
-                    { name: "/git:tag-push", desc: "Push local tags to the remote origin, gated behind explicit confirmation.", gated: true, path: "plugins/git/skills/tag-push/SKILL.md" },
-                    { name: "/git:fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: false, path: "plugins/git/skills/fetch/SKILL.md" },
-                    { name: "/git:pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/git/skills/pull/SKILL.md" },
-                    { name: "/git:push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/git/skills/push/SKILL.md" },
-                    { name: "/git:stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: false, path: "plugins/git/skills/stash/SKILL.md" },
-                    { name: "/git:status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: false, path: "plugins/git/skills/status/SKILL.md" },
-                    { name: "/git:rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/git/skills/rebase/SKILL.md" },
-                    { name: "/git:switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: false, path: "plugins/git/skills/switch/SKILL.md" }
+                    { name: "/git:commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: ".sdd-docs/product/plugins/kanche/git/skills/commit/SKILL.md" },
+                    { name: "/git:branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: false, path: ".sdd-docs/product/plugins/kanche/git/skills/branch-create/SKILL.md" },
+                    { name: "/git:branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: ".sdd-docs/product/plugins/kanche/git/skills/branch-delete/SKILL.md" },
+                    { name: "/git:tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: ".sdd-docs/product/plugins/kanche/git/skills/tag-create/SKILL.md" },
+                    { name: "/git:tag-delete", desc: "Delete a local and/or remote tag securely, gated by explicit confirmation.", gated: true, path: ".sdd-docs/product/plugins/kanche/git/skills/tag-delete/SKILL.md" },
+                    { name: "/git:tag-push", desc: "Push local tags to the remote origin, gated behind explicit confirmation.", gated: true, path: ".sdd-docs/product/plugins/kanche/git/skills/tag-push/SKILL.md" },
+                    { name: "/git:fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: false, path: ".sdd-docs/product/plugins/kanche/git/skills/fetch/SKILL.md" },
+                    { name: "/git:pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: ".sdd-docs/product/plugins/kanche/git/skills/pull/SKILL.md" },
+                    { name: "/git:push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: ".sdd-docs/product/plugins/kanche/git/skills/push/SKILL.md" },
+                    { name: "/git:stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: false, path: ".sdd-docs/product/plugins/kanche/git/skills/stash/SKILL.md" },
+                    { name: "/git:status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: false, path: ".sdd-docs/product/plugins/kanche/git/skills/status/SKILL.md" },
+                    { name: "/git:rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: ".sdd-docs/product/plugins/kanche/git/skills/rebase/SKILL.md" },
+                    { name: "/git:switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: false, path: ".sdd-docs/product/plugins/kanche/git/skills/switch/SKILL.md" }
                 ]
             },
             "gh-cli": {
@@ -552,14 +552,14 @@
                 desc: "GitHub CLI integrations for pull requests lifecycle operations, automated diff auditing against AGENTS.md, approvals, and triaging thread responses.",
                 version: "v0.1.0",
                 theme: "purple",
-                inspectorUrl: "plugins/gh-cli/index.html",
+                inspectorUrl: ".sdd-docs/product/plugins/kanche/gh-cli/index.html",
                 commands: [
-                    { name: "/gh-cli:pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/gh-cli/skills/pr-create/SKILL.md" },
-                    { name: "/gh-cli:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: false, path: "plugins/gh-cli/skills/pr-list/SKILL.md" },
-                    { name: "/gh-cli:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/gh-cli/skills/pr-review/SKILL.md" },
-                    { name: "/gh-cli:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/gh-cli/skills/pr-approve/SKILL.md" },
-                    { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/gh-cli/skills/pr-respond/SKILL.md" },
-                    { name: "/gh-cli:pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/gh-cli/skills/pr-merge/SKILL.md" }
+                    { name: "/gh-cli:pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: ".sdd-docs/product/plugins/kanche/gh-cli/skills/pr-create/SKILL.md" },
+                    { name: "/gh-cli:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: false, path: ".sdd-docs/product/plugins/kanche/gh-cli/skills/pr-list/SKILL.md" },
+                    { name: "/gh-cli:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: ".sdd-docs/product/plugins/kanche/gh-cli/skills/pr-review/SKILL.md" },
+                    { name: "/gh-cli:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: ".sdd-docs/product/plugins/kanche/gh-cli/skills/pr-approve/SKILL.md" },
+                    { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: ".sdd-docs/product/plugins/kanche/gh-cli/skills/pr-respond/SKILL.md" },
+                    { name: "/gh-cli:pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: ".sdd-docs/product/plugins/kanche/gh-cli/skills/pr-merge/SKILL.md" }
                 ]
             },
             "sdd": {
@@ -568,14 +568,14 @@
                 desc: "Software Development Document (SDD) master workflow orchestrator for Antigravity, coordinating steering rules, feature lifecycle phases, and cross-plugin synchronization.",
                 version: "v0.1.0",
                 theme: "amber",
-                inspectorUrl: "plugins/sdd/index.html",
+                inspectorUrl: ".sdd-docs/product/plugins/kanche/sdd/index.html",
                 commands: [
-                    { name: "/sdd:run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: "plugins/sdd/skills/run/SKILL.md" },
-                    { name: "/sdd:steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/sdd/skills/steering/SKILL.md" },
-                    { name: "/sdd:sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/sdd/skills/sync/SKILL.md" },
-                    { name: "/sdd:init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/sdd/skills/init/SKILL.md" },
-                    { name: "/sdd:init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/sdd/skills/init-update/SKILL.md" },
-                    { name: "/sdd:continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/sdd/skills/continue/SKILL.md" }
+                    { name: "/sdd:run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: ".sdd-docs/product/plugins/kanche/sdd/skills/run/SKILL.md" },
+                    { name: "/sdd:steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: ".sdd-docs/product/plugins/kanche/sdd/skills/steering/SKILL.md" },
+                    { name: "/sdd:sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: ".sdd-docs/product/plugins/kanche/sdd/skills/sync/SKILL.md" },
+                    { name: "/sdd:init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: ".sdd-docs/product/plugins/kanche/sdd/skills/init/SKILL.md" },
+                    { name: "/sdd:init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: ".sdd-docs/product/plugins/kanche/sdd/skills/init-update/SKILL.md" },
+                    { name: "/sdd:continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: ".sdd-docs/product/plugins/kanche/sdd/skills/continue/SKILL.md" }
                 ]
             },
             "design": {
@@ -584,13 +584,13 @@
                 desc: "Requirements interrogation, functional specifications, system design architecture, and UI/UX wireframing skills.",
                 version: "v0.1.0",
                 theme: "purple",
-                inspectorUrl: "plugins/design/index.html",
+                inspectorUrl: ".sdd-docs/product/plugins/kanche/design/index.html",
                 commands: [
-                    { name: "/design:grill", desc: "Adversarially probe feature requests to extract ambiguities and rank clarifying questions. Delegates to @design-analyst.", gated: false, path: "plugins/design/skills/grill/SKILL.md" },
-                    { name: "/design:specs", desc: "Draft functional specifications documenting target changes and acceptance criteria. Delegates to @design-analyst.", gated: false, path: "plugins/design/skills/specs/SKILL.md" },
-                    { name: "/design:specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict. Delegates to @design-analyst.", gated: false, path: "plugins/design/skills/specs-review/SKILL.md" },
-                    { name: "/design:init", desc: "Draft system architecture design specifications including component details and schemas. Delegates to @design-architect.", gated: false, path: "plugins/design/skills/init/SKILL.md" },
-                    { name: "/design:review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @design-architect.", gated: false, path: "plugins/design/skills/review/SKILL.md" }
+                    { name: "/design:grill", desc: "Adversarially probe feature requests to extract ambiguities and rank clarifying questions. Delegates to @design-analyst.", gated: false, path: ".sdd-docs/product/plugins/kanche/design/skills/grill/SKILL.md" },
+                    { name: "/design:specs", desc: "Draft functional specifications documenting target changes and acceptance criteria. Delegates to @design-analyst.", gated: false, path: ".sdd-docs/product/plugins/kanche/design/skills/specs/SKILL.md" },
+                    { name: "/design:specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict. Delegates to @design-analyst.", gated: false, path: ".sdd-docs/product/plugins/kanche/design/skills/specs-review/SKILL.md" },
+                    { name: "/design:init", desc: "Draft system architecture design specifications including component details and schemas. Delegates to @design-architect.", gated: false, path: ".sdd-docs/product/plugins/kanche/design/skills/init/SKILL.md" },
+                    { name: "/design:review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @design-architect.", gated: false, path: ".sdd-docs/product/plugins/kanche/design/skills/review/SKILL.md" }
                 ]
             },
             "qa": {
@@ -599,11 +599,11 @@
                 desc: "Automated testing, test plan creation, build code reviews, and quality validation workflows.",
                 version: "v0.1.0",
                 theme: "blue",
-                inspectorUrl: "plugins/qa/index.html",
+                inspectorUrl: ".sdd-docs/product/plugins/kanche/qa/index.html",
                 commands: [
-                    { name: "/qa:validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @qa-validator.", gated: false, path: "plugins/qa/skills/validate/SKILL.md" },
-                    { name: "/qa:test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @qa-validator.", gated: false, path: "plugins/qa/skills/test-plan/SKILL.md" },
-                    { name: "/qa:review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @qa-validator.", gated: false, path: "plugins/qa/skills/review/SKILL.md" }
+                    { name: "/qa:validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @qa-validator.", gated: false, path: ".sdd-docs/product/plugins/kanche/qa/skills/validate/SKILL.md" },
+                    { name: "/qa:test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @qa-validator.", gated: false, path: ".sdd-docs/product/plugins/kanche/qa/skills/test-plan/SKILL.md" },
+                    { name: "/qa:review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @qa-validator.", gated: false, path: ".sdd-docs/product/plugins/kanche/qa/skills/review/SKILL.md" }
                 ]
             },
             "planner": {
@@ -612,10 +612,10 @@
                 desc: "Task decomposition, checklist manifests, and implementation planning skills.",
                 version: "v0.1.0",
                 theme: "amber",
-                inspectorUrl: "plugins/planner/index.html",
+                inspectorUrl: ".sdd-docs/product/plugins/kanche/planner/index.html",
                 commands: [
-                    { name: "/planner:tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands. Delegates to @planner-agent.", gated: false, path: "plugins/planner/skills/tasks/SKILL.md" },
-                    { name: "/planner:review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict. Delegates to @planner-agent.", gated: false, path: "plugins/planner/skills/review/SKILL.md" }
+                    { name: "/planner:tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands. Delegates to @planner-agent.", gated: false, path: ".sdd-docs/product/plugins/kanche/planner/skills/tasks/SKILL.md" },
+                    { name: "/planner:review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict. Delegates to @planner-agent.", gated: false, path: ".sdd-docs/product/plugins/kanche/planner/skills/review/SKILL.md" }
                 ]
             },
             "dev": {
@@ -624,9 +624,9 @@
                 desc: "Code implementation, refactoring, and incremental build execution skills.",
                 version: "v0.1.0",
                 theme: "purple",
-                inspectorUrl: "plugins/dev/index.html",
+                inspectorUrl: ".sdd-docs/product/plugins/kanche/dev/index.html",
                 commands: [
-                    { name: "/dev:implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @dev-coder.", gated: false, path: "plugins/dev/skills/implement/SKILL.md" }
+                    { name: "/dev:implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @dev-coder.", gated: false, path: ".sdd-docs/product/plugins/kanche/dev/skills/implement/SKILL.md" }
                 ]
             }
         };
