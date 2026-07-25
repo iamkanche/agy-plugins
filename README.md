@@ -16,13 +16,13 @@ Create a `marketplace.json` file inside your global plugins directory:
 {
   "name": "global-plugins-registry",
   "plugins": [
-    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/git" },
-    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/gh-cli" },
-    { "name": "sdd", "source": "github:iamkanche/agy-plugins//plugins/sdd" },
-    { "name": "design", "source": "github:iamkanche/agy-plugins//plugins/design" },
-    { "name": "qa", "source": "github:iamkanche/agy-plugins//plugins/qa" },
-    { "name": "planner", "source": "github:iamkanche/agy-plugins//plugins/planner" },
-    { "name": "dev", "source": "github:iamkanche/agy-plugins//plugins/dev" }
+    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/kanche/git" },
+    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/kanche/gh-cli" },
+    { "name": "sdd", "source": "github:iamkanche/agy-plugins//plugins/kanche/sdd" },
+    { "name": "design", "source": "github:iamkanche/agy-plugins//plugins/kanche/design" },
+    { "name": "qa", "source": "github:iamkanche/agy-plugins//plugins/kanche/qa" },
+    { "name": "planner", "source": "github:iamkanche/agy-plugins//plugins/kanche/planner" },
+    { "name": "dev", "source": "github:iamkanche/agy-plugins//plugins/kanche/dev" }
   ]
 }
 ```
@@ -35,13 +35,13 @@ Create a `marketplace.json` file inside your project's local customization direc
 {
   "name": "project-plugins-registry",
   "plugins": [
-    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/git" },
-    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/gh-cli" },
-    { "name": "sdd", "source": "github:iamkanche/agy-plugins//plugins/sdd" },
-    { "name": "design", "source": "github:iamkanche/agy-plugins//plugins/design" },
-    { "name": "qa", "source": "github:iamkanche/agy-plugins//plugins/qa" },
-    { "name": "planner", "source": "github:iamkanche/agy-plugins//plugins/planner" },
-    { "name": "dev", "source": "github:iamkanche/agy-plugins//plugins/dev" }
+    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/kanche/git" },
+    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/kanche/gh-cli" },
+    { "name": "sdd", "source": "github:iamkanche/agy-plugins//plugins/kanche/sdd" },
+    { "name": "design", "source": "github:iamkanche/agy-plugins//plugins/kanche/design" },
+    { "name": "qa", "source": "github:iamkanche/agy-plugins//plugins/kanche/qa" },
+    { "name": "planner", "source": "github:iamkanche/agy-plugins//plugins/kanche/planner" },
+    { "name": "dev", "source": "github:iamkanche/agy-plugins//plugins/kanche/dev" }
   ]
 }
 ```
@@ -98,11 +98,12 @@ agy-plugins/
 │   └── plugins/
 │       └── marketplace.json   # Local registry definition
 └── plugins/
-    ├── git/                   # Git plugin directory
-    ├── gh-cli/                # GitHub CLI plugin directory
-    ├── design/                # Design & Specs plugin directory
-    ├── qa/                    # Quality Assurance & Testing plugin directory
-    ├── planner/               # Task Planner plugin directory
-    ├── dev/                   # Coding & Development plugin directory
-    └── sdd/                   # Master SDD Orchestrator plugin directory
+    └── kanche/
+        ├── git/               # Git plugin directory
+        ├── gh-cli/            # GitHub CLI plugin directory
+        ├── design/            # Design & Specs plugin directory
+        ├── qa/                # Quality Assurance & Testing plugin directory
+        ├── planner/           # Task Planner plugin directory
+        ├── dev/               # Coding & Development plugin directory
+        └── sdd/               # Master SDD Orchestrator plugin directory
 ```

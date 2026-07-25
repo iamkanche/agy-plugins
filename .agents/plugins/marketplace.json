@@ -2,12 +2,12 @@
   "name": "agy-plugins",
   "owner": { "name": "iamkanche" },
   "plugins": [
-    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/git" },
-    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/gh-cli" },
-    { "name": "sdd", "source": "github:iamkanche/agy-plugins//plugins/sdd" },
-    { "name": "design", "source": "github:iamkanche/agy-plugins//plugins/design" },
-    { "name": "qa", "source": "github:iamkanche/agy-plugins//plugins/qa" },
-    { "name": "planner", "source": "github:iamkanche/agy-plugins//plugins/planner" },
-    { "name": "dev", "source": "github:iamkanche/agy-plugins//plugins/dev" }
+    { "name": "git", "source": "github:iamkanche/agy-plugins//plugins/kanche/git" },
+    { "name": "gh-cli", "source": "github:iamkanche/agy-plugins//plugins/kanche/gh-cli" },
+    { "name": "sdd", "source": "github:iamkanche/agy-plugins//plugins/kanche/sdd" },
+    { "name": "design", "source": "github:iamkanche/agy-plugins//plugins/kanche/design" },
+    { "name": "qa", "source": "github:iamkanche/agy-plugins//plugins/kanche/qa" },
+    { "name": "planner", "source": "github:iamkanche/agy-plugins//plugins/kanche/planner" },
+    { "name": "dev", "source": "github:iamkanche/agy-plugins//plugins/kanche/dev" }
   ]
 }
