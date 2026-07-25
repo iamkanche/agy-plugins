@@ -40,7 +40,7 @@ Parse the invocation arguments:
    BASE_BRANCH="<baseRefName returned by gh>"
    ```
 
-4. **Gate — mode-conditional.** If this skill is invoked from SDD auto mode (`mode=auto` in `settings.json` or `--mode=auto` on `/sdd:run`), log the action (PR title, number, base branch, merge method, and branch-deletion flag) and proceed automatically without prompting. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm: present the PR title, number, base branch, merge method, and whether branch deletion is enabled using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, merge PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without merging.
+4. **Gate — mode-conditional.** If this skill is invoked from SDD auto mode (`mode=auto` in `settings.json`) AND `auto_merge` is `true` in `settings.json`, log the action (PR title, number, base branch, merge method, and branch-deletion flag) and proceed automatically without prompting. If `auto_merge` is `false` (or unset), or if invoked standalone/from SDD manual mode, STOP and ask the user to confirm: present the PR title, number, base branch, merge method, and whether branch deletion is enabled using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, merge PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without merging.
 
 5. **Execute merge.** Run the merge command.
 

@@ -28,3 +28,8 @@
 - Changed grid template columns layout in root `index.html` and `plugins/sdd/index.html` from fixed fraction boundaries to responsive `minmax(0, 1fr)` tracks to prevent layout blowout under narrow viewports or wide children.
 - Added `min-width: 0` to main content and details container elements (`.content-area`, `.details-area`) to allow proper browser shrinking.
 - Fixed command card height clipping bug by replacing hardcoded `height: 180px` style with `min-height: 180px` in root dashboard, ensuring no action buttons are cut off.
+
+## 2026-07-25 — human-gated-merge
+- Added `auto_merge` setting handling in `.sdd-docs/settings.json` and workflow skills (`/sdd:run`, `/gh-cli:pr-merge`).
+- Enforced human confirmation via `default_api:ask_question` for PR merging when `auto_merge: false`.
+- Updated durable memory in `.sdd-docs/product/memory.md` to mandate human-gated PR merging.

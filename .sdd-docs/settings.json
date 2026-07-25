@@ -5,7 +5,7 @@
     "interval_seconds": 60,
     "max_attempts": 3
   },
-  "auto_merge": true,
+  "auto_merge": false,
   "preserve_files": [
     "memory.md",
     "settings.json"
