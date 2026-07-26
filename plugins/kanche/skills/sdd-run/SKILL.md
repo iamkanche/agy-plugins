@@ -77,6 +77,10 @@ All commits across the SDD workflow (Docs, Implementation, PR respond fixes, and
 - **P6 PR Respond Fix Commit:** `/kanche:git-commit` with message `fix({slug}): address PR review feedback`
 - **P7 Product Alignment Sync Commit:** `/kanche:git-commit` with message `docs({domain}): promote feature docs and sync product knowledge`
 
+> ⚠️ **Mandatory Commit Rules:**
+> 1. All commits MUST use multi-line HEREDOC format carrying `## Overview`, `## Changes`, and `## Impact` sections as specified in `plugins/kanche/skills/git-commit/SKILL.md`.
+> 2. ❌ **Prohibited:** Never execute inline single-line `git commit -m "..."` commands or merge commits into multi-command shell chains (e.g. `git commit -m ... && git push`). Every commit step MUST be an isolated invocation of `/kanche:git-commit`.
+
 ### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents)
 
 To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. **Every phase review is FORCED and MANDATORY**: each phase MUST automatically execute its paired review workflow immediately after generation, running a retry loop up to **3** times until a `GO` verdict is achieved.
