@@ -34,8 +34,9 @@
 - Enforced human confirmation via `default_api:ask_question` for PR merging when `auto_merge: false`.
 - Updated durable memory in `docs/product/memory.md` to mandate human-gated PR merging.
 
-## 2026-07-26 — update-sdd-phase-model
-- Updated Phase Model diagram layout in sdd-run to position Level 2 below Level 1 in a single vertical progression.
-- Mandated forced automatic phase review execution across P1-P4 (`design-specs-review`, `design-review`, `planner-review`, `qa-review`) with retry loops up to 3x (`≤3x`).
-- Integrated `/kanche:gh-cli-pr-review` at P6 deploy step to perform automated AI code review against project guidelines immediately after PR creation.
+## 2026-07-26 — add-skills-map-index
+- Added interactive SDD Skills & Phase Map visualization to `index.html` dashboard.
+- Mapped 10 SDD phases (P0-P9) with subagent assignments (@analyst, @architect, @planner, @coder, @validator, @gh-operator, @git-operator) and skill flow node sequences.
+- Added visual connector arrows, glow accents, hover states, and search filtering.
+
 
