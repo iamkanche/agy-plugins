@@ -1,0 +1,10 @@
+# Root gitignore rules
+.env
+.env.*
+*.log
+node_modules/
+.DS_Store
+Thumbs.db
+.gemini/antigravity-cli/brain/scratch/
+tmp/
+*.tmp

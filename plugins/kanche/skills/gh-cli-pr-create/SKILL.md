@@ -54,10 +54,11 @@ No positional argument is required.
 
 6. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action (title, full body, base branch, and draft flag) and proceed automatically. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm opening this pull request. Show the title, the full body, the base branch, and whether it is a draft using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, create PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without creating the PR.
 
-7. **Create the PR.** Pass the title and body; add `--draft` and `--base` as parsed. Include `--assignee` (defaults to `@me` if not specified).
+7. **Create the PR.** Pass the title and body; add `--draft` and `--base` as parsed. Include `--assignee` (defaults to `@me` if not specified). If assignment fails due to permission or identity resolution, fallback cleanly to creating the PR without `--assignee`.
 
    ```bash
-   gh pr create --title "<title>" --body "<body>" --assignee "<user>" [--draft] [--base "<branch>"]
+   gh pr create --title "<title>" --body "<body>" --assignee "<user>" [--draft] [--base "<branch>"] || \
+   gh pr create --title "<title>" --body "<body>" [--draft] [--base "<branch>"]
    ```
 
 8. **Report** the PR URL returned by `gh`.
