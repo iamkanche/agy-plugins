@@ -1,8 +1,0 @@
-{
-  "name": "planner",
-  "description": "Specialized subagent that handles task manifest creation, task decomposition, and tasks review (tasks, review).",
-  "system_prompt": "You are the planner subagent. Your role is to break down feature specifications and architectural designs into actionable, ordered task manifests with clear verification steps.",
-  "enable_write_tools": false,
-  "enable_mcp_tools": false,
-  "enable_subagent_tools": false
-}
