@@ -843,12 +843,12 @@
         ];
 
         const ghCommands = [
-            { name: "/kanche:pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
-            { name: "/kanche:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-list/SKILL.md" },
-            { name: "/kanche:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
-            { name: "/kanche:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-approve/SKILL.md" },
-            { name: "/kanche:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
-            { name: "/kanche:pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
+            { name: "/kanche:gh-cli-pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
+            { name: "/kanche:gh-cli-pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-list/SKILL.md" },
+            { name: "/kanche:gh-cli-pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
+            { name: "/kanche:gh-cli-pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-approve/SKILL.md" },
+            { name: "/kanche:gh-cli-pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
+            { name: "/kanche:gh-cli-pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
         ];
 
         const sddCommands = [
@@ -924,7 +924,7 @@
                 handle: "@gh-operator",
                 desc: "Specialized subagent that handles GitHub integrations (fetching comments, reviews, opening PRs, listing PR status).",
                 writeTools: true,
-                skills: ["/kanche:pr-create", "/kanche:pr-list", "/kanche:pr-review", "/kanche:pr-approve", "/kanche:pr-respond", "/kanche:pr-merge"],
+                skills: ["/kanche:gh-cli-pr-create", "/kanche:gh-cli-pr-list", "/kanche:gh-cli-pr-review", "/kanche:gh-cli-pr-approve", "/kanche:gh-cli-pr-respond", "/kanche:gh-cli-pr-merge"],
                 path: "plugins/kanche/agents/gh-operator/agent.json",
                 theme: "purple"
             },
@@ -1031,8 +1031,8 @@
                 theme: "purple",
                 skills: [
                     { name: "/kanche:git-push", label: "Git Push", path: "plugins/kanche/skills/git-push/SKILL.md" },
-                    { name: "/kanche:pr-create", label: "PR Create", path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
-                    { name: "/kanche:pr-review", label: "PR Review", path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" }
+                    { name: "/kanche:gh-cli-pr-create", label: "PR Create", path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
+                    { name: "/kanche:gh-cli-pr-review", label: "PR Review", path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" }
                 ]
             },
             {
@@ -1042,9 +1042,9 @@
                 agent: "@gh-operator",
                 theme: "amber",
                 skills: [
-                    { name: "/kanche:pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
+                    { name: "/kanche:gh-cli-pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
                     { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
-                    { name: "/kanche:pr-merge", label: "PR Merge", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
+                    { name: "/kanche:gh-cli-pr-merge", label: "PR Merge", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
                 ]
             }
         ];
