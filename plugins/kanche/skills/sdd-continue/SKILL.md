@@ -54,8 +54,9 @@ Apply the detection rules **in order** and take the first match as the resume ph
 2. **No feature folder** (or folder exists but empty) → resume at **P0/P1** (ensure branch, then specs).
 3. **`specs.md` absent** → **P1**. **`specs.md` present, `design.md` absent** → **P2**. **`design.md` present, `tasks.md` absent** → **P3**.
 4. **`tasks.md` present with unchecked `- [ ]` items** → **P4 build** (finish the checklist).
-5. **All `tasks.md` items checked** → build is done → **P5** (if not yet validated) then **P6**. If the branch is **already pushed (has upstream) AND a PR is open** → **P7/P8** (human review / PR modifications).
-6. **PR merged AND the dev folder `development/{slug}/` still present** (no `product/features/{slug}/` consolidation) → **P9** (`sync` not yet run).
+5. **All `tasks.md` items checked** → build is done → **P5** (if not yet validated) then **P6** (deploy & 3x review-respond loop).
+6. **P6 deploy complete AND dev folder `development/{slug}/` present** → **P7** (`/kanche:sdd-sync` to promote docs to domain product directories).
+7. **`sdd-sync` completed (dev folder consolidated) AND PR open** → **P8** (Gated human review checklist), then **P9** (PR merge `/kanche:gh-cli-pr-merge`).
 
 `--from` overrides all of the above. Report the detected phase and the evidence for it before walking.
 
@@ -72,19 +73,16 @@ Never generate or commit on a protected branch. If already on a feature branch, 
 From the detected (or `--from`) phase, execute forward exactly as `/kanche:sdd-run` does — same inner-loop, gate, and bound rules. Summary of the walk:
 
 - **P1–P4 inner loop** — generate → review, parse the `sdd-review` `verdict:`; on **NO-GO** re-run generate with the findings, up to **3×**.
-  - P1: `/kanche:design-grill` (once, first cycle) → `/kanche:design-specs` → `/kanche:design-specs-review`
-  - P2: `/kanche:design-init` → `/kanche:design-review`
-  - P3: `/kanche:planner-tasks` → `/kanche:planner-review`
-  - P3 Docs Commit checkpoint: run `/kanche:git-commit` to commit specs, design, tasks.
-  - P4: `/kanche:dev-implement` → `/kanche:qa-review` -> P4 Implementation Commit checkpoint: run `/kanche:git-commit` to commit build changes.
-- **P5** (only if `--until` ≥ build) — **/kanche:qa-validate**; on failure ask "[Fix via build loop | Continue | Stop]".
-- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:pr-create** → **/kanche:gh-cli-pr-review** (AI PR Review). In **auto** mode, proceed to Level 2.
-- **P7–P9 LEVEL 2** —
-  - **auto:** Automatically walk through `/kanche:qa-validate`, `/kanche:pr-respond` (if feedback), and `/kanche:sdd-sync` to completion.
-  - **manual:** Ask "Proceed to `<phase>`? [Yes|No]" before EACH:
-    - P7 `/kanche:qa-validate` (checklist, no side effects)
-    - P8 `/kanche:pr-respond` → optional `/kanche:sdd-sync` → `/kanche:git-commit` → `/kanche:git-push` (loop while unresolved feedback and user says Yes)
-    - P9 `/kanche:sdd-sync` (promotes `development/{slug}/` → `product/features/{slug}/`; own commit/cleanup gate)
+  - P1: `/kanche:design-grill` (once, first cycle) → loop ≤3x (`/kanche:design-specs` → `/kanche:design-specs-review`)
+  - P2: loop ≤3x (`/kanche:design-init` → `/kanche:design-review`)
+  - P3: loop ≤3x (`/kanche:planner-tasks` → `/kanche:planner-review`) → Docs Commit (`/kanche:git-commit -m "docs({slug}): ..."`)
+  - P4: loop ≤3x (`/kanche:dev-implement` → `/kanche:qa-review`) → Implementation Commit (`/kanche:git-commit -m "feat({slug}): ..."`)
+- **P5** (only if `--until` ≥ build) — **/kanche:qa-validate** & fix (≤3x loop).
+- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:gh-cli-pr-create** → **loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit -m "fix({slug}): ..." → /kanche:git-push)**.
+- **P7** (LEVEL 1 AI Final Step) — **/kanche:sdd-sync** (promotes `development/{slug}/` → `docs/product/plugins/kanche/{domain}/`, commits via `/kanche:git-commit -m "docs({domain}): ..."` & pushes to origin).
+- **P8–P9 LEVEL 2 (Human)** —
+  - P8: Gated human review checklist (`/kanche:qa-validate` displaying test/lint checklist)
+  - P9: PR merge (`/kanche:gh-cli-pr-merge`)
 
 In **manual** mode, ask "Proceed to `<next phase>`? [Yes|No]" before every phase transition; "No" stops cleanly and reports where it stopped. Respect `--from`/`--until` bounds throughout; if `--until` < build, stop after committing the last in-bounds P1–P4 phase.
 
@@ -94,7 +92,7 @@ In **manual** mode, ask "Proceed to `<next phase>`? [Yes|No]" before every phase
 - Detection ambiguous (multiple feature folders, no slug) → list and ask; do not guess.
 - Protected branch at a commit/push point → stop, run P0.
 - Review NO-GO after 3 cycles → gate, never silent.
-- `gh` not authed (PR detection / P6) → treat PR state as unknown / relay `/kanche:pr-create`'s stop message.
+- `gh` not authed (PR detection / P6) → treat PR state as unknown / relay `/kanche:gh-cli-pr-create`'s stop message.
 - Any `/git:*` gate declined, merge conflict, or push rejection → surface and stop. Never force-push, never `--no-verify`, never amend a pushed commit, never `reset --hard`.
 
 ## Done when

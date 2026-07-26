@@ -39,4 +39,16 @@
 - Mapped 10 SDD phases (P0-P9) with subagent assignments (@analyst, @architect, @planner, @coder, @validator, @gh-operator, @git-operator) and skill flow node sequences.
 - Added visual connector arrows, glow accents, hover states, and search filtering.
 
+## 2026-07-26 — update-sdd-workflow-full-ai
+- Reorganized SDD workflow into LEVEL 1 AI (P0-P7) and LEVEL 2 Human (P8-P9).
+- P1: design-grill → 3x loop(design-specs → design-specs-review).
+- P2: 3x loop(design-init → design-review).
+- P3: 3x loop(planner-tasks → planner-review) → git-commit.
+- P4: 3x loop(dev-implement → qa-review) → git-commit.
+- P5: qa-validate & fix loop.
+- P6: git-push → gh-cli-pr-create → 3x loop(gh-cli-pr-review → gh-cli-pr-respond → git-commit → git-push).
+- P7: sdd-sync document promotion & cleanup on feature branch.
+- P8: gated human review checklist (qa-validate displaying checklist).
+- P9: PR merge (gh-cli-pr-merge).
+
 

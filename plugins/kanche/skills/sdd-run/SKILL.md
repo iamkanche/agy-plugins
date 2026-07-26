@@ -5,7 +5,7 @@ description: Drive a feature work item through the full SDD phase model (P0 to P
 
 # /kanche:sdd-run
 
-**Summary.** Drive a work item through the full SDD phase model (P0→P9): verify/load settings and memory, present a feature receipt for user confirmation, ensure a feature branch, delegate phase-specific execution (P1-P5) to token-optimized specialized subagents, run inner review loops (≤3x), validate and fix implementation (≤3x), deploy and poll PR comments (≤3x) to automatically respond/fix issues, automatically merge the PR, promote documentation, preserve memory files, and notify the user with a summary briefing and feedback options.
+**Summary.** Drive a work item through the full SDD phase model (P0→P9): verify/load settings and memory, present a feature receipt for user confirmation, ensure a feature branch, delegate phase-specific execution (P1-P5) to token-optimized specialized subagents, run inner review loops (≤3x), validate and fix implementation (≤3x), deploy and poll PR comments (≤3x) to automatically respond/fix issues, promote documentation to product directories, preserve memory files, and hand over the final PR review and merge to the user.
 
 ## User input
 
@@ -27,19 +27,19 @@ If `--from`/`--until` are inconsistent (from > until), stop and report.
 ## Phase model
 
 ```
-LEVEL 1 (AI + Subagents)
+LEVEL 1 (AI: P0 - P7)
 P0 setup   Receipt → /kanche:git-branch-create
-P1 specs   /kanche:design-grill → /kanche:design-specs → FORCED /kanche:design-specs-review (Analyst, ≤3x loop)
-P2 design  /kanche:design-init → FORCED /kanche:design-review (Architect, ≤3x loop)
-P3 tasks   /kanche:planner-tasks → FORCED /kanche:planner-review → Docs Commit (Planner, ≤3x loop)
-P4 build   /kanche:dev-implement → FORCED /kanche:qa-review → Code Commit (Coder, ≤3x loop)
-P5 valid.  /kanche:qa-validate & fix (Validator, ≤3x loop)
-P6 deploy  /kanche:git-push → /kanche:pr-create → FORCED /kanche:gh-cli-pr-review (AI PR Review)
+P1 specs   /kanche:design-grill → loop ≤3x (/kanche:design-specs → /kanche:design-specs-review)
+P2 design  loop ≤3x (/kanche:design-init → /kanche:design-review)
+P3 tasks   loop ≤3x (/kanche:planner-tasks → /kanche:planner-review) → Docs Commit (/kanche:git-commit)
+P4 build   loop ≤3x (/kanche:dev-implement → /kanche:qa-review) → Implementation Commit (/kanche:git-commit)
+P5 valid.  /kanche:qa-validate & fix (≤3x loop)
+P6 deploy  /kanche:git-push → /kanche:gh-cli-pr-create → loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit → /kanche:git-push)
+P7 align   /kanche:sdd-sync → /kanche:git-commit (Promote dev docs → product docs, commit & push)
 
-LEVEL 2 (AI + human, auto/gated)
-P7 human review  /kanche:qa-validate
-P8 PR mods       /kanche:pr-respond & poll (≤3x loop)
-P9 alignment     /kanche:sdd-sync → /kanche:pr-merge & preserve
+LEVEL 2 (Human: P8 - P9)
+P8 human review  gated human-review /kanche:qa-validate (show verification checklist)
+P9 PR merge      /kanche:gh-cli-pr-merge (user merges PR)
 ```
 
 ## Steps
@@ -69,16 +69,24 @@ P9 alignment     /kanche:sdd-sync → /kanche:pr-merge & preserve
 5. **Ensure guidelines exist.** If `docs/guidelines/` does not exist, stop and instruct the user to run `/kanche:sdd-init`.
 6. **Ensure feature branch.** If `$CURRENT` matches `$DEFAULT` or is a protected branch (`main`, `master`, `develop`), create a feature branch using `/kanche:git-branch-create` as `feat/{slug}`.
 
+### 3. Commit Checkpoint Policy
+
+All commits across the SDD workflow (Docs, Implementation, PR respond fixes, and Product Alignment Sync) MUST execute via the **/kanche:git-commit** skill to enforce standardized Conventional Commits formatting:
+- **P3 Docs Commit:** `/kanche:git-commit` with message `docs({slug}): add specs, design, and task checklist`
+- **P4 Implementation Commit:** `/kanche:git-commit` with message `feat({slug}): implement feature logic and unit tests`
+- **P6 PR Respond Fix Commit:** `/kanche:git-commit` with message `fix({slug}): address PR review feedback`
+- **P7 Product Alignment Sync Commit:** `/kanche:git-commit` with message `docs({domain}): promote feature docs and sync product knowledge`
+
 ### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents)
 
 To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. **Every phase review is FORCED and MANDATORY**: each phase MUST automatically execute its paired review workflow immediately after generation, running a retry loop up to **3** times until a `GO` verdict is achieved.
 
-| Phase | Subagent | Generate Workflow | Mandatory Review Workflow (Forced, ≤3x Loop) | Commit Gate |
+| Phase | Subagent | Generate Workflow | Mandatory Review Workflow (Forced, ≤3x Loop) | Commit Gate (via `/kanche:git-commit`) |
 |---|---|---|---|---|
 | **P1 Specs** | `analyst` | `/kanche:design-grill` (first cycle) then `/kanche:design-specs` | `/kanche:design-specs-review` | None |
 | **P2 Design** | `architect` | `/kanche:design-init` | `/kanche:design-review` | None |
-| **P3 Tasks** | `planner` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit` for specs, design, tasks) |
-| **P4 Build** | `coder` | `/kanche:dev-implement` | `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit` for build/code) |
+| **P3 Tasks** | `planner` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit -m "docs({slug}): ..."`) |
+| **P4 Build** | `coder` | `/kanche:dev-implement` | `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit -m "feat({slug}): ..."`) |
 
 For each phase:
 
@@ -94,8 +102,8 @@ For each phase:
    - **NO-GO** and cycles remaining (up to 3x) → Re-run generate, feeding `findings` to resolve, then automatically re-run review.
    - **NO-GO** on 3rd cycle → In `auto` mode, stop the workflow and report findings. In `manual` mode, ask via `default_api:ask_question` whether to `Proceed anyway` or `Stop`.
 3. **Commit checkpoints.**
-   - End of P3: Run `/kanche:git-commit` to commit all docs.
-   - End of P4: Run `/kanche:git-commit` to commit all implementation changes.
+   - End of P3: Run `/kanche:git-commit` with conventional prefix `docs({slug}): ...` to commit all docs.
+   - End of P4: Run `/kanche:git-commit` with conventional prefix `feat({slug}): ...` to commit all implementation changes.
 
 ### P5 — AI Validation & Fix Loop (Delegated to `validator`)
 
@@ -104,41 +112,34 @@ For each phase:
    - **Under auto mode:** Re-enter P4 (build) automatically up to 3 times to apply fixes, and re-run validation. If still failing after 3 attempts, abort and report failures.
    - **Under manual mode:** Ask "Validation failed" via `default_api:ask_question` with options `Fix via build loop`, `Continue to deploy`, and `Stop`.
 
-### P6 — Deploy & AI PR Review
+### P6 — Deploy & AI PR Review/Respond Loop
 
 1. **Push branch.** Run `/kanche:git-push`.
-2. **Create PR.** Run `/kanche:pr-create`.
-3. **AI PR Review (Mandatory).** Run `/kanche:gh-cli-pr-review` to automatically audit the pull request diff against project guidelines and post structured review comments on GitHub.
+2. **Create PR.** Run `/kanche:gh-cli-pr-create`.
+3. **AI PR Review & Respond Loop (≤3x Loop).** Run `/kanche:gh-cli-pr-review` to audit the PR diff against project guidelines and post review comments on GitHub. If review feedback exists, automatically execute `/kanche:gh-cli-pr-respond` → `/kanche:git-commit` (with conventional message `fix({slug}): address PR review feedback`) → `/kanche:git-push` up to 3 times to parse feedback, apply code fixes, re-validate (P5), commit, and push updates to origin.
 
-### P7–P9 — Level 2 Automation (PR Review, Merging & Alignment)
+### P7 — Product Alignment & Doc Sync (LEVEL 1 AI Final Step)
 
-In **auto** mode, LEVEL 2 phases run automatically. In **manual** mode, they gate on user question prompts.
+1. **Promote documentation.** Run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder `docs/development/{slug}/`, commits via `/kanche:git-commit` with conventional message `docs({domain}): promote feature docs and sync product knowledge`, and pushes updates to origin feature branch).
 
-- **P7 Human Review & Checklist.**
-  - **auto:** Automatically check off verification checklists if local tests and validations passed.
-  - **manual:** Ask "Proceed to P7?" using `default_api:ask_question`.
+### P8–P9 — Level 2 (Human Review & PR Merge)
 
-- **P8 PR Modifications & Polling.**
-  - **auto:** Poll the pull request status and review comments using:
-    ```bash
-    gh pr view --json reviews,comments,state
-    ```
-    Poll up to 3 times (with sleep intervals configured in settings). If new review feedback or comments are found:
-    - Automatically invoke `/kanche:pr-respond` to parse comments, fix files, run validations (P5), and commit/push updates.
-    - Repeat checking until reviews are approved.
-  - **manual:** Ask "Address PR feedback now?" using `default_api:ask_question`.
+In **auto** mode, LEVEL 1 (P0-P7) runs automatically end-to-end. LEVEL 2 begins at P8 where the user is presented with the interactive verification checklist and PR merge gate.
 
-- **P9 Product Alignment & Merge.**
-  - **auto:** Once the PR is approved, first run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder, commits and pushes to the feature branch). Poll CI/status checks on the new commit using `pr_polling` settings from `docs/settings.json` (default 30s interval, 3 max attempts). Once checks pass, if `auto_merge` is `true` in `docs/settings.json`, run `/kanche:pr-merge` (no `--keep-branch`) to merge the PR and delete both local and remote branches. If `auto_merge` is `false` (or unset), gate on human confirmation via `default_api:ask_question` ("Do you approve merging PR #X to main?") before calling `/kanche:pr-merge`.
-  - **manual:** Two separate gates: (1) `"Proceed with /kanche:sdd-sync to promote docs and push to feature branch? [Yes|No]"`, (2) `"Proceed with /kanche:pr-merge to merge the PR and clean up branches? [Yes|No]"`.
+- **P8 Gated Human Review.**
+  - Present the interactive verification checklist via `/kanche:qa-validate` (shows test results, lint checks, and checklist items) and ask for human review approval using `default_api:ask_question`.
+
+- **P9 PR Merge.**
+  - Execute PR merge via `/kanche:gh-cli-pr-merge` upon human confirmation, or hand over final merge to the user on GitHub.
 
 ### 10. Notify User (P10)
 
 Upon completion or abortion, brief the user with a summary:
 
-- Final status (e.g. Success, Merged, or Aborted)
+- Final status (e.g. Ready for Human Review & PR Merge, or Aborted)
 - Summary of documentation and implementation edits made
-- Direct link to the merged PR and feature logs
+- Direct link to the open PR and feature logs
+- **Hand over to Level 2:** Present P8 human review checklist and prompt for P9 PR merge approval.
 - **Ask for feedback:** Show a prompt requesting feedback on the automation run.
 - **Ask for deployment:** Request if they want to deploy the feature further (e.g. production servers), saving preferences/instructions to memory if they want the agent to remember it.
 
@@ -147,7 +148,8 @@ Upon completion or abortion, brief the user with a summary:
 - All in-bounds phases ran in order.
 - The feature receipt was presented and displayed to the user (confirmed in manual mode; logged in auto mode).
 - Subagent delegation was performed to conserve tokens.
-- Review loops, validation loops, and PR response loops successfully executed.
-- The PR was merged automatically on approval, and product docs synced.
+- LEVEL 1 AI (P0-P7) ran specs, design, tasks, build, validation, deploy, 3x PR review/respond loop, and sdd-sync.
+- Product docs were promoted to domain directories in P7.
+- LEVEL 2 Human (P8-P9) presented gated human review checklist at P8 and PR merge at P9.
 - Memory and settings files were preserved.
 - The user was briefed with a summary and optional feedback requests.

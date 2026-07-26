@@ -999,7 +999,8 @@
                 theme: "indigo",
                 skills: [
                     { name: "/kanche:planner-tasks", label: "Planner Tasks", path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
-                    { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner-review/SKILL.md" }
+                    { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner-review/SKILL.md" },
+                    { name: "/kanche:git-commit", label: "Docs Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
                 ]
             },
             {
@@ -1010,7 +1011,8 @@
                 theme: "teal",
                 skills: [
                     { name: "/kanche:dev-implement", label: "Dev Implement", path: "plugins/kanche/skills/dev-implement/SKILL.md" },
-                    { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa-review/SKILL.md" }
+                    { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa-review/SKILL.md" },
+                    { name: "/kanche:git-commit", label: "Code Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
                 ]
             },
             {
@@ -1025,25 +1027,37 @@
             },
             {
                 phase: "P6",
-                name: "Deploy & PR Review",
-                desc: "Push feature branch to origin, open pull request, and post AI review comments.",
+                name: "Deploy & PR Review/Respond",
+                desc: "Push feature branch, open pull request, and run 3x AI review-respond feedback loop with git-commit & push.",
                 agent: "@gh-operator",
                 theme: "purple",
                 skills: [
                     { name: "/kanche:git-push", label: "Git Push", path: "plugins/kanche/skills/git-push/SKILL.md" },
                     { name: "/kanche:gh-cli-pr-create", label: "PR Create", path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
-                    { name: "/kanche:gh-cli-pr-review", label: "PR Review", path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" }
+                    { name: "/kanche:gh-cli-pr-review", label: "PR Review", path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
+                    { name: "/kanche:gh-cli-pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
+                    { name: "/kanche:git-commit", label: "Fix Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
                 ]
             },
             {
-                phase: "P7-P9",
-                name: "PR Modifications & Alignment",
-                desc: "Poll review feedback, address comments, sync product docs, and merge PR.",
+                phase: "P7",
+                name: "Product Alignment & Doc Sync",
+                desc: "Promote dev docs to permanent domain product directories and clean up dev folder on feature branch.",
                 agent: "@gh-operator",
+                theme: "blue",
+                skills: [
+                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
+                    { name: "/kanche:git-commit", label: "Sync Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P8-P9",
+                name: "Human Review & PR Merge",
+                desc: "LEVEL 2 Human execution: Gated verification checklist (qa-validate) and PR merge (gh-cli-pr-merge).",
+                agent: "@validator",
                 theme: "amber",
                 skills: [
-                    { name: "/kanche:gh-cli-pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
-                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
+                    { name: "/kanche:qa-validate", label: "Human Review", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
                     { name: "/kanche:gh-cli-pr-merge", label: "PR Merge", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
                 ]
             }
