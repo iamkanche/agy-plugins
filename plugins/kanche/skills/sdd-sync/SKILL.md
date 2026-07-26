@@ -55,10 +55,27 @@ Delete the development feature directory to prevent drift and keep the workspace
 
 ### 5. Commit and Push
 
-Create a conventional commit detailing the domain sync and cleanup:
+Create a conventional commit detailing the domain sync and cleanup using **/kanche:git-commit**:
 - Stage the updated domain product files and the deleted development directory.
-- Run **/kanche:git-commit** with a conventional message (e.g., `docs(sync): merge {slug} into {domain} domain docs and cleanup dev folder`).
-- Run **/kanche:git-push** to update remote.
+- Run **/kanche:git-commit** using multi-line HEREDOC format:
+
+```bash
+git commit -F - <<'EOF'
+docs(sync): merge {slug} into {domain} domain docs and cleanup dev folder
+
+## Overview
+Promote development documentation from docs/development/{slug}/ into permanent domain product directory docs/product/plugins/kanche/{domain}/ and clean up ephemeral dev folder.
+
+## Changes
+- Consolidated specs and design documents into docs/product/plugins/kanche/{domain}/.
+- Cleaned up development folder docs/development/{slug}/.
+
+## Impact
+Maintains long-term project memory integrity without ephemeral feature slug accumulation.
+EOF
+```
+
+- Run **/kanche:git-push** to update remote (as an isolated subsequent step).
 
 ---
 
