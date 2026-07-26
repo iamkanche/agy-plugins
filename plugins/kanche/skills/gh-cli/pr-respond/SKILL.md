@@ -1,9 +1,9 @@
 ---
-name: pr-respond
+name: gh-cli-pr-respond
 description: Triage PR review comments, apply code fixes locally, commit, push, and reply to reviewers in-thread.
 ---
 
-# /kanche:pr-respond
+# /kanche:gh-cli-pr-respond
 
 **Summary.** Fetch a PR's review comments and threads, triage each one, apply the actionable code fixes locally, then commit, push, and reply to the reviewers — each side effect behind its own explicit confirmation. The workflow delegates GitHub PR view, comment queries, and replies to the specialized `@gh-operator` subagent (defined in `agents/gh-operator/agent.json`), and local workspace modifications, commits, and pushes to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 

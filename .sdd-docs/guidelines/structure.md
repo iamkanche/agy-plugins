@@ -3,7 +3,7 @@
 ## Repository Layout
 - `plugins/`: Plugin bundle directories.
   - `kanche/`: Unified plugin directory (`plugin.json` with `"name": "kanche"`).
-    - `skills/`: Workflow skills exposed as `/kanche:<skill_name>` (e.g. `git-commit`, `pr-create`, `sdd-run`).
+    - `skills/`: Nested workflow skills across 7 domain groups (`sdd/`, `git/`, `gh-cli/`, `design/`, `dev/`, `planner/`, `qa/`), exposed as `/kanche:<group>-<action>` (e.g. `/kanche:sdd-run`, `/kanche:git-commit`, `/kanche:gh-cli-pr-create`).
     - `agents/`: Operator subagents (`git-operator`, `gh-operator`, `analyst`, `architect`, `planner`, `coder`, `validator`).
     - `rules/`: Hard rules and gating guidelines.
 - `index.html`: Root registry dashboard for browser preview.
@@ -20,10 +20,10 @@
 
 ## Naming Conventions
 - **Plugin Name:** `"kanche"` (`plugins/kanche/plugin.json`).
-- **Slash Commands / Skills:** Skill directories under `plugins/kanche/skills/` formatted as `/<group>-<action>` (e.g., `git-commit`, `sdd-run`) or `<action>` (e.g. `pr-create`). Triggers are invoked as `/kanche:<skill_name>`.
+- **Slash Commands / Skills:** Skill directories under `plugins/kanche/skills/` structured as `plugins/kanche/skills/<group>/<action>/SKILL.md`. Frontmatter specifies `name: <group>-<action>` (e.g. `name: sdd-run`, `name: git-commit`, `name: gh-cli-pr-create`). Commands are invoked as `/kanche:<group>-<action>`.
 - **Subagents:** Operator subagents are defined inside `plugins/kanche/agents/` folders containing `agent.json`.
 - **Rules:** Rules are stored in `plugins/kanche/rules/` as `.md` files.
 
 ## Tests and Fixtures
 - No automated test files are present (inferred).
-- Development workflow templates and examples are housed in `plugins/kanche/sdd/.sdd-docs-example/`.
+- Verification is performed by inspecting plugin structure and checking installed skill definitions.
