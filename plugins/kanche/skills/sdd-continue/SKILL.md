@@ -75,11 +75,11 @@ From the detected (or `--from`) phase, execute forward exactly as `/kanche:sdd-r
 - **P1–P4 inner loop** — generate → review, parse the `sdd-review` `verdict:`; on **NO-GO** re-run generate with the findings, up to **3×**.
   - P1: `/kanche:design-grill` (once, first cycle) → loop ≤3x (`/kanche:design-specs` → `/kanche:design-specs-review`)
   - P2: loop ≤3x (`/kanche:design-init` → `/kanche:design-review`)
-  - P3: loop ≤3x (`/kanche:planner-tasks` → `/kanche:planner-review`) → Docs Commit (`/kanche:git-commit`)
-  - P4: loop ≤3x (`/kanche:dev-implement` → `/kanche:qa-review`) → Implementation Commit (`/kanche:git-commit`)
+  - P3: loop ≤3x (`/kanche:planner-tasks` → `/kanche:planner-review`) → Docs Commit (`/kanche:git-commit -m "docs({slug}): ..."`)
+  - P4: loop ≤3x (`/kanche:dev-implement` → `/kanche:qa-review`) → Implementation Commit (`/kanche:git-commit -m "feat({slug}): ..."`)
 - **P5** (only if `--until` ≥ build) — **/kanche:qa-validate** & fix (≤3x loop).
-- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:gh-cli-pr-create** → **loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit → /kanche:git-push)**.
-- **P7** (LEVEL 1 AI Final Step) — **/kanche:sdd-sync** (promotes `development/{slug}/` → `docs/product/plugins/kanche/{domain}/`, commits & pushes to origin).
+- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:gh-cli-pr-create** → **loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit -m "fix({slug}): ..." → /kanche:git-push)**.
+- **P7** (LEVEL 1 AI Final Step) — **/kanche:sdd-sync** (promotes `development/{slug}/` → `docs/product/plugins/kanche/{domain}/`, commits via `/kanche:git-commit -m "docs({domain}): ..."` & pushes to origin).
 - **P8–P9 LEVEL 2 (Human)** —
   - P8: Gated human review checklist (`/kanche:qa-validate` displaying test/lint checklist)
   - P9: PR merge (`/kanche:gh-cli-pr-merge`)

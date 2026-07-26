@@ -69,16 +69,24 @@ P9 PR merge      /kanche:gh-cli-pr-merge (user merges PR)
 5. **Ensure guidelines exist.** If `docs/guidelines/` does not exist, stop and instruct the user to run `/kanche:sdd-init`.
 6. **Ensure feature branch.** If `$CURRENT` matches `$DEFAULT` or is a protected branch (`main`, `master`, `develop`), create a feature branch using `/kanche:git-branch-create` as `feat/{slug}`.
 
+### 3. Commit Checkpoint Policy
+
+All commits across the SDD workflow (Docs, Implementation, PR respond fixes, and Product Alignment Sync) MUST execute via the **/kanche:git-commit** skill to enforce standardized Conventional Commits formatting:
+- **P3 Docs Commit:** `/kanche:git-commit` with message `docs({slug}): add specs, design, and task checklist`
+- **P4 Implementation Commit:** `/kanche:git-commit` with message `feat({slug}): implement feature logic and unit tests`
+- **P6 PR Respond Fix Commit:** `/kanche:git-commit` with message `fix({slug}): address PR review feedback`
+- **P7 Product Alignment Sync Commit:** `/kanche:git-commit` with message `docs({domain}): promote feature docs and sync product knowledge`
+
 ### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents)
 
 To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. **Every phase review is FORCED and MANDATORY**: each phase MUST automatically execute its paired review workflow immediately after generation, running a retry loop up to **3** times until a `GO` verdict is achieved.
 
-| Phase | Subagent | Generate Workflow | Mandatory Review Workflow (Forced, ≤3x Loop) | Commit Gate |
+| Phase | Subagent | Generate Workflow | Mandatory Review Workflow (Forced, ≤3x Loop) | Commit Gate (via `/kanche:git-commit`) |
 |---|---|---|---|---|
 | **P1 Specs** | `analyst` | `/kanche:design-grill` (first cycle) then `/kanche:design-specs` | `/kanche:design-specs-review` | None |
 | **P2 Design** | `architect` | `/kanche:design-init` | `/kanche:design-review` | None |
-| **P3 Tasks** | `planner` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit` for specs, design, tasks) |
-| **P4 Build** | `coder` | `/kanche:dev-implement` | `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit` for build/code) |
+| **P3 Tasks** | `planner` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit -m "docs({slug}): ..."`) |
+| **P4 Build** | `coder` | `/kanche:dev-implement` | `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit -m "feat({slug}): ..."`) |
 
 For each phase:
 
@@ -94,8 +102,8 @@ For each phase:
    - **NO-GO** and cycles remaining (up to 3x) → Re-run generate, feeding `findings` to resolve, then automatically re-run review.
    - **NO-GO** on 3rd cycle → In `auto` mode, stop the workflow and report findings. In `manual` mode, ask via `default_api:ask_question` whether to `Proceed anyway` or `Stop`.
 3. **Commit checkpoints.**
-   - End of P3: Run `/kanche:git-commit` to commit all docs.
-   - End of P4: Run `/kanche:git-commit` to commit all implementation changes.
+   - End of P3: Run `/kanche:git-commit` with conventional prefix `docs({slug}): ...` to commit all docs.
+   - End of P4: Run `/kanche:git-commit` with conventional prefix `feat({slug}): ...` to commit all implementation changes.
 
 ### P5 — AI Validation & Fix Loop (Delegated to `validator`)
 
@@ -108,11 +116,11 @@ For each phase:
 
 1. **Push branch.** Run `/kanche:git-push`.
 2. **Create PR.** Run `/kanche:gh-cli-pr-create`.
-3. **AI PR Review & Respond Loop (≤3x Loop).** Run `/kanche:gh-cli-pr-review` to audit the PR diff against project guidelines and post review comments on GitHub. If review feedback exists, automatically execute `/kanche:gh-cli-pr-respond` → `/kanche:git-commit` → `/kanche:git-push` up to 3 times to parse feedback, apply code fixes, re-validate (P5), commit, and push updates to origin.
+3. **AI PR Review & Respond Loop (≤3x Loop).** Run `/kanche:gh-cli-pr-review` to audit the PR diff against project guidelines and post review comments on GitHub. If review feedback exists, automatically execute `/kanche:gh-cli-pr-respond` → `/kanche:git-commit` (with conventional message `fix({slug}): address PR review feedback`) → `/kanche:git-push` up to 3 times to parse feedback, apply code fixes, re-validate (P5), commit, and push updates to origin.
 
 ### P7 — Product Alignment & Doc Sync (LEVEL 1 AI Final Step)
 
-1. **Promote documentation.** Run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder `docs/development/{slug}/`, commits and pushes updates to origin feature branch).
+1. **Promote documentation.** Run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder `docs/development/{slug}/`, commits via `/kanche:git-commit` with conventional message `docs({domain}): promote feature docs and sync product knowledge`, and pushes updates to origin feature branch).
 
 ### P8–P9 — Level 2 (Human Review & PR Merge)
 
