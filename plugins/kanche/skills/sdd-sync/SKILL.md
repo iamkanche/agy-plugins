@@ -1,11 +1,11 @@
 ---
 name: sdd-sync
-description: Sync development logs and documents to the repository-wide product directory, cleaning up feature files.
+description: Sync development logs and documents to domain-level product directories, merging changes into domain docs instead of creating ephemeral slug folders.
 ---
 
 # /kanche:sdd-sync
 
-**Summary.** Promote the final feature documentation from the temporary development folder `docs/development/{slug}/` to the permanent product directory `docs/product/plugins/kanche/{slug}/`, then delete the development folder. State every action before executing it.
+**Summary.** Promote the final feature documentation from the temporary development folder `docs/development/{slug}/` into the permanent domain-level product directories (`docs/product/plugins/kanche/{domain}/` e.g. `design/`, `git/`, `gh-cli/`, `sdd/`, `dev/`, `planner/`, `qa/`), merging changes into existing domain docs rather than creating ephemeral feature slug folders. State every action before executing it.
 
 ## User input
 
@@ -15,7 +15,8 @@ The invocation arguments.
 
 Parse the arguments:
 
-- **slug** (optional, positional) — the feature slug/short description (e.g. `improve-sdd-plugins` or `login`). If omitted, pick the feature folder under `docs/development/`. If ambiguous or empty, ask the user.
+- **slug** (optional, positional) — the feature slug/short description under `docs/development/` (e.g. `improve-sdd-plugins` or `login`). If omitted, pick the feature folder under `docs/development/`. If ambiguous or empty, ask the user.
+- **domain** (optional, flag `--domain=<domain>`) — explicitly specify the target domain group folder (`design`, `git`, `gh-cli`, `sdd`, `dev`, `planner`, `qa`). If omitted, infer from the modified skills or files.
 
 ## Steps
 
@@ -25,21 +26,26 @@ Locate the target development folder:
 - Source path: `docs/development/{slug}/` (e.g. `docs/development/improve-sdd-plugins/`).
 - Confirm it exists and contains documentation (`specs.md`, `design.md`, `tasks.md`). If not, STOP and report.
 
-### 2. Promote to Product
+### 2. Identify Target Domain Group(s)
 
-Sync the final files to the permanent product feature directory:
-- Destination path: `docs/product/plugins/kanche/{slug}/` (e.g. `docs/product/plugins/kanche/improve-sdd-plugins/`).
-- Create the destination directory if it does not exist:
+Identify the domain group directory under `docs/product/plugins/kanche/`:
+- Map modified skills or code paths to their domain group (`design`, `git`, `gh-cli`, `sdd`, `dev`, `planner`, `qa`).
+- Target directory path: `docs/product/plugins/kanche/{domain}/` (e.g., `docs/product/plugins/kanche/design/` or `docs/product/plugins/kanche/sdd/`). Do NOT create ephemeral feature slug folders (such as `docs/product/plugins/kanche/{slug}/`).
+
+### 3. Promote & Merge to Product Domain Docs
+
+Sync and merge final documentation into the permanent domain directory:
+- Destination path: `docs/product/plugins/kanche/{domain}/`
+- Create the domain directory if it does not exist:
   ```bash
-  mkdir -p docs/product/plugins/kanche/{slug}
+  mkdir -p docs/product/plugins/kanche/{domain}
   ```
-- Copy the final documentation files:
-  - `docs/development/{slug}/specs.md` -> `docs/product/plugins/kanche/{slug}/specs.md`
-  - `docs/development/{slug}/design.md` -> `docs/product/plugins/kanche/{slug}/design.md`
-  - `docs/development/{slug}/notes.md` -> `docs/product/plugins/kanche/{slug}/notes.md` (if present)
-- Keep other relevant files if appropriate (e.g. openapi or database diffs), merging or copying them into `docs/product/plugins/kanche/{slug}/` or repository-wide product directories.
+- **Merge Content into Domain Docs:**
+  - Merge requirements and capabilities from `docs/development/{slug}/specs.md` into `docs/product/plugins/kanche/{domain}/specs.md`.
+  - Merge design choices and architecture from `docs/development/{slug}/design.md` into `docs/product/plugins/kanche/{domain}/design.md`.
+  - If additional domain groups were impacted, update each corresponding `docs/product/plugins/kanche/{domain}/` documentation set accordingly.
 
-### 3. Cleanup Development Folder
+### 4. Cleanup Development Folder
 
 Delete the development feature directory to prevent drift and keep the workspace clean:
 - Command:
@@ -47,11 +53,11 @@ Delete the development feature directory to prevent drift and keep the workspace
   rm -rf docs/development/{slug}/
   ```
 
-### 4. Commit and Push
+### 5. Commit and Push
 
-Create a conventional commit detailing the synchronization and cleanup:
-- Stage the new/updated product files and the deleted development directory.
-- Run **/kanche:git-commit** with a conventional message (e.g., `docs: sync {slug} to product and clean up dev folder`).
+Create a conventional commit detailing the domain sync and cleanup:
+- Stage the updated domain product files and the deleted development directory.
+- Run **/kanche:git-commit** with a conventional message (e.g., `docs(sync): merge {slug} into {domain} domain docs and cleanup dev folder`).
 - Run **/kanche:git-push** to update remote.
 
 ---
@@ -67,7 +73,7 @@ Detect drift — between the feature docs and each other, and between the docs a
 ### Read
 
 - Feature docs: `docs/development/{slug}/{specs,design,tasks,api-diff,db-diff}.md`.
-- Consolidated docs: `docs/product/plugins/kanche/{slug}/*`.
+- Consolidated domain docs: `docs/product/plugins/kanche/{domain}/*`.
 - Guidelines: `docs/guidelines/{tech,structure,rules}.md`.
 - As-built code: use read-only git to check actual endpoints, schema, and behavior against what the docs claim.
 

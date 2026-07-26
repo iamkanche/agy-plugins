@@ -9,8 +9,13 @@ Automates the Spec-Driven Development (SDD) lifecycle for autonomous Google Anti
 - `/kanche:sdd-run`: Drives feature work items through the full SDD phase model (P0 to P9).
 - `/kanche:sdd-continue`: Resumes SDD workflow from on-disk state.
 - `/kanche:sdd-steering`: Analyzes repository and returns steering guideline bodies.
-- `/kanche:sdd-sync`: Promotes feature documentation to product directory and cleans up dev folders.
+- `/kanche:sdd-sync`: Promotes feature documentation to domain-level product directories (`docs/product/plugins/kanche/{domain}/`) and cleans up dev folders.
 
-## 3. Product Invariants
+## 3. Domain-Based Document Routing
+- `/kanche:sdd-sync` maps modified skills and code paths to one of the 7 core domain groups (`sdd`, `git`, `gh-cli`, `design`, `dev`, `planner`, `qa`).
+- Document specifications and design decisions are merged into permanent `docs/product/plugins/kanche/{domain}/specs.md` and `design.md` files rather than creating transient feature slug subfolders.
+
+## 4. Product Invariants
 - Preserves human-tuned guidelines and safety rules during updates.
 - Enforces gated confirmation for PR merges when `auto_merge: false`.
+- Eliminates ephemeral feature slug subfolders in product documentation.
