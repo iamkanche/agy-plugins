@@ -1,24 +1,29 @@
 ---
 name: qa-test-plan
-description: Generate comprehensive test plans, unit/integration test specifications, and acceptance test cases.
+description: Generate comprehensive test plans, unit/integration test specifications, Playwright E2E visual matrices, and test stubs.
 ---
 
 # /kanche:qa-test-plan
 
-**Summary.** Generate comprehensive test plans, unit/integration test specifications, edge-case test matrices, and automated test suite guidelines for a feature.
+**Summary.** Generate comprehensive test plans, unit/integration test specifications, edge-case test matrices, Playwright E2E visual verification scenarios, and test file stubs for a feature.
 
 ## Inputs
 - Feature specs (`specs.md`) and design docs (`design.md`) in `docs/development/{slug}/`.
-- Project test suite setup (e.g., PHPUnit, Playwright, Jest, PyTest).
+- Project test suite setup (PHPUnit, Playwright, Jest, PyTest, etc.).
 
 ## Steps
-1. **Analyze Requirements & Contracts.** Read feature specs and design specifications to map out acceptance criteria and public interface contracts.
-2. **Define Test Strategy.**
-   - Unit Test Scenarios (isolated domain logic, edge cases, boundaries).
-   - Integration Test Scenarios (API endpoints, database operations, external integrations).
-   - End-to-End / Visual Verification Scenarios (UI workflows, user interactions).
-3. **Draft Test Plan.** Create `docs/development/{slug}/test-plan.md` outlining the test matrix, preconditions, test data requirements, and assertion checklists.
-4. **Report.** Output the test plan summary with total test coverage goals.
+1. **Analyze Requirements & Contracts.** Map out acceptance criteria and public interface contracts.
+2. **Inspect Existing Test Patterns.** Scan project test directories to align naming conventions and directory structures (`tests/`, `__tests__/`, `e2e/`).
+3. **Define Multi-Tiered Test Strategy.**
+   - **Unit Test Scenarios**: Domain logic, boundary conditions, edge cases (Given/When/Then).
+   - **Integration Test Scenarios**: API endpoints, DB operations, external services.
+   - **Playwright E2E & Visual Scenarios**: Browser interaction flows, UI element assertions, console error checks, visual screenshot comparisons.
+   - **Risk & Test Data Seeding**: Data fixtures, mocks, and risk mitigation matrix.
+4. **Draft Test Plan & Generate Test Stubs.**
+   - Create `docs/development/{slug}/test-plan.md` outlining the test matrix and assertion checklists.
+   - Generate stub test files matching project framework patterns (e.g. `tests/Feature/ExampleTest.php` or `e2e/example.spec.ts`).
+5. **Report.** Output test plan summary and generated stub list.
 
 ## Done when
-- `docs/development/{slug}/test-plan.md` is generated with clear test scenarios and acceptance criteria verification.
+- `docs/development/{slug}/test-plan.md` is generated with full multi-tiered coverage details.
+- Runnable test stubs/skeletons are generated for the project's test framework.

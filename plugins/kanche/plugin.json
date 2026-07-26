@@ -1,8 +1,18 @@
 {
   "name": "kanche",
-  "version": "0.1.0",
-  "description": "Unified Antigravity developer plugin bundle by kanche covering Git, GitHub CLI, SDD, Design, QA, Planner, and Dev workflows.",
+  "version": "0.2.0",
+  "description": "Unified Antigravity developer plugin bundle by kanche covering Git, GitHub CLI, SDD, Design, QA (MCP Playwright), Security, and Dev workflows.",
   "author": {
     "name": "iamkanche"
+  },
+  "repository": "https://github.com/iamkanche/agy-plugins",
+  "license": "MIT",
+  "keywords": ["git", "github", "sdd", "qa", "mcp", "playwright", "security", "workflow", "antigravity"],
+  "engines": {
+    "antigravity": ">=2.0.0"
+  },
+  "dependencies": {
+    "tools": ["gh", "git"],
+    "mcp_servers": ["playwright", "chrome_devtools"]
   }
 }

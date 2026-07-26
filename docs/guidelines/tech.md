@@ -24,6 +24,7 @@
 ## External Services & Integrations
 - GitHub Repository Host (git clone/push/pull).
 - GitHub API (via `gh` CLI) for pull request reviews, comments, and approvals (`gh-cli-pr-*` workflows).
+- Playwright MCP / Chrome DevTools MCP for automated browser E2E, visual regression verification, and UI console log capture (`/kanche:qa-validate`, `/kanche:qa-review`).
 
 ## Known Technical Constraints
 - Side effects are mode-gated: in manual mode, every side effect MUST use the interactive `default_api:ask_question` tool; in SDD auto mode, the gate is suppressed and the action is logged automatically. (Grounded in `docs/product/memory.md`.)

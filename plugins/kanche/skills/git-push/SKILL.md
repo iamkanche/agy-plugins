@@ -1,11 +1,11 @@
 ---
 name: git-push
-description: Push the current feature branch to origin, gated behind explicit confirmation. Sets upstream tracking on first push.
+description: Push the current feature branch to origin, gated behind explicit confirmation. Sets upstream tracking on first push and handles non-fast-forward push rejections.
 ---
 
 # /kanche:git-push
 
-**Summary.** Push the current feature branch to `origin`, gated behind explicit confirmation; sets upstream on first push. The workflow delegates remote push executions and tracking configuration to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
+**Summary.** Push the current feature branch to `origin`, gated behind explicit confirmation; sets upstream on first push and handles push rejections safely. The workflow delegates remote push executions and tracking configuration to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 
 ## Inputs
 
@@ -39,15 +39,12 @@ No positional argument is required.
 
    ```bash
    git status --short --branch
-   ```
-
-   ```bash
    git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || echo "NO_UPSTREAM"
    ```
 
 4. **Decide the push command.** If `--set-upstream` was passed OR the branch reported `NO_UPSTREAM`, use `git push -u origin "$BRANCH"`. Otherwise use `git push`.
 
-5. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action (exact push command and ahead/behind summary from step 3) and proceed automatically. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm pushing `<branch>` to origin. Show the exact command (with or without `-u`) and the ahead/behind summary from step 3 using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with push` and `No, abort push`. Proceed only on selecting Yes; on No, STOP without pushing.
+5. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action and proceed automatically. If invoked standalone or from SDD manual mode, ask user confirmation via `default_api:ask_question`.
 
 6. **Push.** Never `--force`, never `--force-with-lease`, never `--no-verify`.
 
@@ -55,7 +52,9 @@ No positional argument is required.
    git push -u origin "$BRANCH"   # or: git push
    ```
 
-7. **Report** the result to the user (branch, remote, upstream set y/n).
+7. **Handle push rejection.** If `git push` fails with `![rejected]` or `non-fast-forward`, STOP and report remote conflicts to the user. Direct the user to execute `/kanche:git-rebase` or `/kanche:git-pull` to integrate upstream changes before retrying push. Never force push.
+
+8. **Report** the result to the user.
 
 ## git hard rules
 
@@ -64,5 +63,4 @@ Never force-push · never `--no-verify` · never amend a pushed commit · never 
 ## Done when
 
 - The current feature branch is pushed to `origin`, with upstream tracking configured on first push.
-- The action was confirmed (manual mode) or logged (auto mode) before the push ran.
-- No force flag or `--no-verify` was used, and no protected branch was pushed.
+- Non-fast-forward push rejections are handled by prompting rebase/pull integration.

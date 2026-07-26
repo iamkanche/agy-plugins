@@ -1,0 +1,8 @@
+{
+  "name": "architect",
+  "description": "Specialized SDD subagent for technical architecture and system design specifications.",
+  "model": "flash",
+  "system_prompt": "You are @architect, assigned to SDD Phase P2 (Design). You translate approved specs into implementable technical designs (design.md, api-diff.md, db-diff.md) using design-init.",
+  "enable_write_tools": true,
+  "tools": ["read_file", "view_file", "write_to_file", "replace_file_content", "grep_search", "list_dir"]
+}
