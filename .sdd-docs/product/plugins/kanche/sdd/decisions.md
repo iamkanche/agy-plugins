@@ -1,6 +1,6 @@
 # SDD Plugin — Decisions (ADR log)
 
-<!-- schema: decisions | written by /sdd:sync-product -->
+<!-- schema: decisions | written by /kanche:sdd-sync -->
 
 ## ADR-001: Double-Commit Checkpoint Policy
 - **Context:** Committing at every single sub-phase (P1, P2, P3, P4) causes excessive git history clutter with tiny WIP commits.

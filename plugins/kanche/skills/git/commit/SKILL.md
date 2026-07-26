@@ -1,9 +1,9 @@
 ---
-name: commit
+name: git-commit
 description: Commit staged work with a Conventional Commits message gated behind explicit confirmation. Use when ready to record changes.
 ---
 
-# /git:commit
+# /kanche:git-commit
 
 **Summary.** Commit staged work with a Conventional Commits message whose body has Overview / Changes / Impact sections, gated behind explicit confirmation. The workflow delegates all local Git operations (staging, scanning, committing) to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 
@@ -29,11 +29,11 @@ No positional argument is required. Never invent a scope — omit it rather than
    ```bash
    BRANCH=$(git rev-parse --abbrev-ref HEAD)
    case "$BRANCH" in
-     main|master|develop) echo "PROTECTED: $BRANCH — create a feature branch first (/git:branch-create)"; exit 1 ;;
+     main|master|develop) echo "PROTECTED: $BRANCH — create a feature branch first (/kanche:git-branch-create)"; exit 1 ;;
    esac
    ```
 
-   If protected, STOP and point the user to `/git:branch-create`.
+   If protected, STOP and point the user to `/kanche:git-branch-create`.
 
 3. **Inspect the change set.** Understand what is staged vs unstaged before composing anything.
 

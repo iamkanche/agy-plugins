@@ -1,9 +1,9 @@
 ---
-name: init
+name: sdd-init
 description: Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.
 ---
 
-# /sdd:init
+# /kanche:sdd-init
 
 **Summary.** Analyze this repository and write the four steering docs under `.sdd-docs/guidelines/`, applying the **steering** skill for the analysis and drafting.
 
@@ -25,7 +25,7 @@ This workflow takes no arguments. It operates on the current repo.
    ```
    If not a git repo, STOP and tell the user to run this inside a repository.
 
-2. **Idempotency check.** If `.sdd-docs/guidelines/` already exists with any of `product.md`, `tech.md`, `structure.md`, `rules.md`, STOP and tell the user to run `/sdd:init-update` instead (that workflow merges into existing docs; this one bootstraps).
+2. **Idempotency check.** If `.sdd-docs/guidelines/` already exists with any of `product.md`, `tech.md`, `structure.md`, `rules.md`, STOP and tell the user to run `/kanche:sdd-init-update` instead (that workflow merges into existing docs; this one bootstraps).
 
 3. **Survey the repo** (read-only, keep it cheap — the skill will go deeper):
    ```bash
@@ -47,7 +47,7 @@ This workflow takes no arguments. It operates on the current repo.
 ## Failure cases
 
 - Not a git repo → STOP (step 1).
-- Guidelines already exist → STOP, point to `/sdd:init-update` (step 2).
+- Guidelines already exist → STOP, point to `/kanche:sdd-init-update` (step 2).
 - Skill returns incomplete docs → write what came back, list the missing docs in the report, and suggest re-running rather than fabricating content.
 
 ## Done when

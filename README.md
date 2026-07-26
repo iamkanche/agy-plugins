@@ -42,22 +42,22 @@ Create a `marketplace.json` file inside your project's local customization direc
 
 ### 1. Git Workflow Commands
 - `/kanche:git-commit` - Commit staged work with Conventional Commits message (gated).
-- `/kanche:git-branch-create` - Create and switch to a new feature branch.
+- `/kanche:git-branch-create` - Create and switch to a new feature branch (gated).
 - `/kanche:git-branch-delete` - Delete a git branch locally/remotely (gated).
 - `/kanche:git-tag-create` - Create an annotated tag at HEAD and push (gated).
 - `/kanche:git-tag-delete` - Delete a tag locally/remotely (gated).
 - `/kanche:git-tag-push` - Push local tags to remote origin (gated).
-- `/kanche:git-fetch` - Fetch branches and tags from origin.
+- `/kanche:git-fetch` - Fetch branches and tags from origin (gated).
 - `/kanche:git-pull` - Integrate changes from upstream (gated).
 - `/kanche:git-push` - Push current feature branch to origin (gated).
-- `/kanche:git-stash` - Save, restore, list, or discard stashes.
-- `/kanche:git-status` - Show working-tree state and branch status.
+- `/kanche:git-stash` - Save, restore, list, or discard stashes (gated).
+- `/kanche:git-status` - Show working-tree state and branch status (gated).
 - `/kanche:git-rebase` - Rebase current branch onto target branch (gated).
-- `/kanche:git-switch` - Switch working tree to a different branch.
+- `/kanche:git-switch` - Switch working tree to a different branch (gated).
 
 ### 2. GitHub CLI Commands
 - `/kanche:pr-create` - Push branch and open a pull request on GitHub (gated).
-- `/kanche:pr-list` - List open pull requests and display branch PR context.
+- `/kanche:pr-list` - List open pull requests and display branch PR context (gated).
 - `/kanche:pr-review` - Review a pull request diff against rules and post inline suggestions (gated).
 - `/kanche:pr-approve` - Approve a pull request on GitHub (gated).
 - `/kanche:pr-respond` - Triage PR review comments, fix code, and reply in-thread (gated).

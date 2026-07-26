@@ -1,9 +1,9 @@
 ---
-name: review
+name: planner-review
 description: Review task manifests and planning breakdown layout.
 ---
 
-# /planner:review
+# /kanche:planner-review
 
 **Mission.** Critically review `tasks.md` for coverage, dependency ordering, sizing, and
 verifiability against the design and specs, and return a GO/NO-GO verdict with findings.
@@ -46,7 +46,7 @@ fixable. If clean, `findings: []`.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:tasks-review`); does NOT edit tasks, commit, push,
+- Returns DATA to the calling workflow (`/kanche:planner-review`); does NOT edit tasks, commit, push,
   or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
 - Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.

@@ -1,9 +1,9 @@
 ---
-name: branch-delete
+name: git-branch-delete
 description: Delete a git branch locally and/or on origin remote, refusing protected branches, gated by explicit confirmation.
 ---
 
-# /git:branch-delete
+# /kanche:git-branch-delete
 
 **Summary.** Delete a git branch locally and/or on the remote (`origin`), refusing to delete protected branches, gated by explicit confirmation. The workflow delegates local and remote branch deletions to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 
@@ -39,7 +39,7 @@ If `<branch-name>` is missing, ask the user (do not invent one).
    ```bash
    CURRENT=$(git rev-parse --abbrev-ref HEAD)
    if [ "$CURRENT" = "$TARGET" ]; then
-     echo "REJECTED: Cannot delete current branch '$CURRENT'. Switch to another branch first (/git:switch)."
+     echo "REJECTED: Cannot delete current branch '$CURRENT'. Switch to another branch first (/kanche:git-switch)."
      exit 1
    fi
    ```

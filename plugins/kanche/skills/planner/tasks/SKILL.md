@@ -1,9 +1,9 @@
 ---
-name: tasks
+name: planner-tasks
 description: Generate implementation checklist task manifest.
 ---
 
-# task-planner (skill)
+# /kanche:planner-tasks
 
 **Mission.** Decompose the approved `design.md` (and its deltas) into an ordered, dependency-
 correct, checkable `tasks.md` body for `.sdd-docs/development/{NNN}_{slug}/tasks.md` that
@@ -41,7 +41,7 @@ covered.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:tasks`); does NOT write files, commit, push, or
+- Returns DATA to the calling workflow (`/kanche:planner-tasks`); does NOT write files, commit, push, or
   orchestrate. Read-only — no writes/edits.
 - Cover the whole design and every acceptance criterion; flag any gap instead of quietly
   dropping it. Do not invent work beyond the design.

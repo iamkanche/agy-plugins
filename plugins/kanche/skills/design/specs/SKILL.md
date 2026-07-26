@@ -1,9 +1,9 @@
 ---
-name: specs
+name: design-specs
 description: Generate the functional specifications file based on feature description and guidelines.
 ---
 
-# spec-author (skill)
+# /kanche:design-specs
 
 **Mission.** Turn the feature request plus the answered grill questions into a complete,
 testable `specs.md` body for `.sdd-docs/development/{NNN}_{slug}/specs.md` — the WHAT, not the
@@ -46,7 +46,7 @@ Keep acceptance criteria and NFRs concrete enough that `specs-review` can judge 
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:specs`); does NOT write files, commit, push, or
+- Returns DATA to the calling workflow (`/kanche:design-specs`); does NOT write files, commit, push, or
   orchestrate. Read-only — no writes/edits.
 - Specify WHAT and WHY; leave HOW (components, interfaces, tech choices) to `design`.
 - Every acceptance criterion must be testable and traceable to a user story or NFR; flag any

@@ -1,6 +1,6 @@
 # SDD Plugin — Changelog
 
-<!-- schema: changelog | written by /sdd:sync-product -->
+<!-- schema: changelog | written by /kanche:sdd-sync -->
 
 ## 2026-07-18 — improve-sdd-plugins
 - Corrected incorrect git/gh-cli command namespaces in workflows.
@@ -30,6 +30,6 @@
 - Fixed command card height clipping bug by replacing hardcoded `height: 180px` style with `min-height: 180px` in root dashboard, ensuring no action buttons are cut off.
 
 ## 2026-07-25 — human-gated-merge
-- Added `auto_merge` setting handling in `.sdd-docs/settings.json` and workflow skills (`/sdd:run`, `/gh-cli:pr-merge`).
+- Added `auto_merge` setting handling in `.sdd-docs/settings.json` and workflow skills (`/kanche:sdd-run`, `/kanche:pr-merge`).
 - Enforced human confirmation via `default_api:ask_question` for PR merging when `auto_merge: false`.
 - Updated durable memory in `.sdd-docs/product/memory.md` to mandate human-gated PR merging.

@@ -3,7 +3,7 @@ name: pr-respond
 description: Triage PR review comments, apply code fixes locally, commit, push, and reply to reviewers in-thread.
 ---
 
-# /gh-cli:pr-respond
+# /kanche:pr-respond
 
 **Summary.** Fetch a PR's review comments and threads, triage each one, apply the actionable code fixes locally, then commit, push, and reply to the reviewers — each side effect behind its own explicit confirmation. The workflow delegates GitHub PR view, comment queries, and replies to the specialized `@gh-operator` subagent (defined in `agents/gh-operator/agent.json`), and local workspace modifications, commits, and pushes to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 
@@ -38,7 +38,7 @@ No options are required.
    - For code changes, draft the exact local changes needed.
    - For text replies, draft the explanation.
 
-5. **Gate (Triage Review) — mode-conditional.** If this skill is invoked from SDD auto mode (`mode=auto` in `settings.json` or `--mode=auto` on `/sdd:run`), log the action (active comments, proposed code changes, and drafted text replies) and proceed automatically without prompting. If invoked standalone or from SDD manual mode, STOP and show the user the list of active comments, your proposed code changes, and your drafted text replies. Proceed only on selecting Yes using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with response` and `No, abort`; if the user wants revisions, update and re-ask.
+5. **Gate (Triage Review) — mode-conditional.** If this skill is invoked from SDD auto mode (`mode=auto` in `settings.json` or `--mode=auto` on `/kanche:sdd-run`), log the action (active comments, proposed code changes, and drafted text replies) and proceed automatically without prompting. If invoked standalone or from SDD manual mode, STOP and show the user the list of active comments, your proposed code changes, and your drafted text replies. Proceed only on selecting Yes using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with response` and `No, abort`; if the user wants revisions, update and re-ask.
 
 6. **Apply code fixes locally.** Modify the target files in the workspace. Verify compilation, build, and tests locally.
 

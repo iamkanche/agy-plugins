@@ -1,9 +1,9 @@
 ---
-name: review
+name: design-review
 description: Review system design specifications and architecture.
 ---
 
-# /design:review
+# /kanche:design-review
 
 **Mission.** Critically review `design.md` and its `api-diff.md`/`db-diff.md` for technical
 soundness, spec coverage, and consistency with the codebase and guidelines, and return a
@@ -48,7 +48,7 @@ fixable. If clean, `findings: []`.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:design-review`); does NOT edit the design, commit,
+- Returns DATA to the calling workflow (`/kanche:design-review`); does NOT edit the design, commit,
   push, or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
 - Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.

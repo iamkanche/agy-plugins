@@ -1,9 +1,9 @@
 ---
-name: switch
+name: git-switch
 description: Switch the working tree to a different branch, fetching first to resolve remote tracking branches.
 ---
 
-# /git:switch
+# /kanche:git-switch
 
 **Summary.** Switch the current working tree to a different branch, fetching first to resolve remote branches and tracking. The workflow delegates all local checkouts, fetches, and remote branch tracking configuration to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 

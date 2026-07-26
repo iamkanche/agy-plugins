@@ -1,9 +1,9 @@
 ---
-name: tag-push
+name: git-tag-push
 description: Push local tags to the remote origin, gated behind explicit confirmation.
 ---
 
-# /git:tag-push
+# /kanche:git-tag-push
 
 **Summary.** Push a specific local tag or all local tags to the remote origin, gated behind explicit confirmation. The workflow delegates pushing tags to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 

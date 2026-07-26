@@ -1,9 +1,9 @@
 ---
-name: rebase
+name: git-rebase
 description: Rebase the current branch onto a target branch, gated by confirmation. Handles conflicts without force-resolving.
 ---
 
-# /git:rebase
+# /kanche:git-rebase
 
 **Summary.** Rebase the current branch onto a target branch, gated by confirmation; handles conflicts without force-resolving. The workflow delegates all local fetch, review, and rebase operations to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 
@@ -23,7 +23,7 @@ If the target branch is missing, ask the user (do not guess).
    git rev-parse --is-inside-work-tree
    ```
 
-2. **Check the working tree is clean.** If there are uncommitted changes, STOP and tell the user to commit or stash first (`/git:stash`).
+2. **Check the working tree is clean.** If there are uncommitted changes, STOP and tell the user to commit or stash first (`/kanche:git-stash`).
 
    ```bash
    git status --short

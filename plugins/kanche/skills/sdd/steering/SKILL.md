@@ -1,9 +1,9 @@
 ---
-name: steering
+name: sdd-steering
 description: Analyze the repository and return the four steering guideline bodies.
 ---
 
-# steering-analyst (skill)
+# /kanche:sdd-steering
 
 **Mission.** Analyze the repository and return the four steering guideline bodies —
 `product.md`, `tech.md`, `structure.md`, `rules.md` — grounded in what the code actually
@@ -54,7 +54,7 @@ the top unknowns the human should confirm.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:init`, `/sdd:init-update`); does NOT write files,
+- Returns DATA to the calling workflow (`/kanche:sdd-init`, `/kanche:sdd-init-update`); does NOT write files,
   commit, push, or orchestrate.
 - Read-only: never attempt to modify files.
 - Ground every non-obvious claim in a file; label inferences as **(inferred)** and unknowns as

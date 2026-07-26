@@ -1,9 +1,9 @@
 ---
-name: specs-review
+name: design-specs-review
 description: Review specifications against rules and guidelines.
 ---
 
-# specs-reviewer (skill)
+# /kanche:design-specs-review
 
 **Mission.** Critically review `specs.md` for completeness, testability, and consistency, and
 return a GO/NO-GO verdict with actionable findings.
@@ -47,7 +47,7 @@ fixable (what's wrong + which section). If clean, `findings: []`.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:specs-review`); does NOT edit specs, commit, push,
+- Returns DATA to the calling workflow (`/kanche:design-specs-review`); does NOT edit specs, commit, push,
   or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
 - Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.

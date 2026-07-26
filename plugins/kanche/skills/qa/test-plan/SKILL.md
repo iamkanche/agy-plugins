@@ -1,9 +1,9 @@
 ---
-name: test-plan
+name: qa-test-plan
 description: Generate comprehensive test plans, unit/integration test specifications, and acceptance test cases.
 ---
 
-# /qa:test-plan
+# /kanche:qa-test-plan
 
 **Summary.** Generate comprehensive test plans, unit/integration test specifications, edge-case test matrices, and automated test suite guidelines for a feature.
 

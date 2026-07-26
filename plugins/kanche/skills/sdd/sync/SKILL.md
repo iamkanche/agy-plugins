@@ -1,9 +1,9 @@
 ---
-name: sync
+name: sdd-sync
 description: Sync development logs and documents to the repository-wide product directory, cleaning up feature files.
 ---
 
-# /sdd:sync
+# /kanche:sdd-sync
 
 **Summary.** Promote the final feature documentation from the temporary development folder `.sdd-docs/development/{slug}/` to the permanent product directory `.sdd-docs/product/plugins/kanche/{slug}/`, then delete the development folder. State every action before executing it.
 
@@ -51,8 +51,8 @@ Delete the development feature directory to prevent drift and keep the workspace
 
 Create a conventional commit detailing the synchronization and cleanup:
 - Stage the new/updated product files and the deleted development directory.
-- Run **/git:commit** with a conventional message (e.g., `docs: sync {slug} to product and clean up dev folder`).
-- Run **/git:push** to update remote.
+- Run **/kanche:git-commit** with a conventional message (e.g., `docs: sync {slug} to product and clean up dev folder`).
+- Run **/kanche:git-push** to update remote.
 
 ---
 

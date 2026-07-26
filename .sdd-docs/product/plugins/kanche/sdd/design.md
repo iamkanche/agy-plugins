@@ -7,7 +7,7 @@ updated_at: 2026-07-19
 
 # SDD Plugin — Consolidated Technical Design
 
-<!-- schema: design | written by /sdd:sync-product (dev-only sections stripped) -->
+<!-- schema: design | written by /kanche:sdd-sync (dev-only sections stripped) -->
 
 ## Approach
 Improve the workflows in the `sdd` plugin by editing orchestration logic in namespaced skill files under its `skills/` directory, adding frontmatter, and updating the inspection web dashboard. Mandate `default_api:ask_question` tool for all human gates. Add support for token-optimized specialized subagents and full workflow automation loops.
@@ -15,7 +15,7 @@ Improve the workflows in the `sdd` plugin by editing orchestration logic in name
 ## Components
 - `skills/run/SKILL.md` (Modified): Logic updated to correct command namespaces, consolidate docs/code commits, automate Level 2, use slug directories, use `default_api:ask_question` tool for all manual gates, generate verification receipts in P0, delegate tasks to specialized subagents, parse settings from `settings.json`, and run 3x loops for review retry, validation fix, and PR polling.
 - `skills/continue/SKILL.md` (Modified): State restoration rules updated to align with automated Level 2 execution and slug paths.
-- `skills/sync/SKILL.md` (Modified): Converted from drift detector worker to `/sdd:sync` orchestrator. Adds support for copying to `/features/{slug}/`, cleanup of development directory, and auto-committing.
+- `skills/sync/SKILL.md` (Modified): Converted from drift detector worker to `/kanche:sdd-sync` orchestrator. Adds support for copying to `/features/{slug}/`, cleanup of development directory, and auto-committing.
 - `rules/workflow-gating.md` (Modified): Mandate interactive `default_api:ask_question` tool for all side-effect confirmations.
 - Worker skills (Modified): Added frontmatter blocks to all worker skills so they trigger as standard commands.
 - `settings.json` (New): Configuration schema at `.sdd-docs/settings.json` to control automation loops and polling.
@@ -54,10 +54,10 @@ Improve the workflows in the `sdd` plugin by editing orchestration logic in name
   ```
 
 ## P9 Alignment Sequence Optimization
-Reorders the SDD Level 2 P9 step to run `/sdd:sync` on the feature branch before `/gh-cli:pr-merge`.
+Reorders the SDD Level 2 P9 step to run `/kanche:sdd-sync` on the feature branch before `/kanche:pr-merge`.
 
-- **`plugins/sdd/skills/run/SKILL.md` (Modified)**: Phase model diagram updated: `P9 alignment /sdd:sync → /gh-cli:pr-merge & preserve`. P9 auto mode now runs `/sdd:sync` locally (promoting dev docs, committing and pushing to feature branch), polls CI via `pr_polling` settings, then invokes `/gh-cli:pr-merge`. P9 manual mode gated with two separate `default_api:ask_question` prompts.
-- **`plugins/sdd/index.html` (Modified)**: Node coordinates swapped: `/sdd:sync` → `(1080, 540, P9 Sync)`, `/gh-cli:pr-merge` → `(1080, 640, P9 Merge)`. Edges updated: removed `pr-approve→pr-merge`, `pr-merge→sync`, `sync→branch-delete`; added `pr-approve→sync`, `sync→pr-merge`. `/sdd:run` commandData steps extended with P7/P8/P9 entries.
+- **`plugins/sdd/skills/run/SKILL.md` (Modified)**: Phase model diagram updated: `P9 alignment /kanche:sdd-sync → /kanche:pr-merge & preserve`. P9 auto mode now runs `/kanche:sdd-sync` locally (promoting dev docs, committing and pushing to feature branch), polls CI via `pr_polling` settings, then invokes `/kanche:pr-merge`. P9 manual mode gated with two separate `default_api:ask_question` prompts.
+- **`plugins/sdd/index.html` (Modified)**: Node coordinates swapped: `/kanche:sdd-sync` → `(1080, 540, P9 Sync)`, `/kanche:pr-merge` → `(1080, 640, P9 Merge)`. Edges updated: removed `pr-approve→pr-merge`, `pr-merge→sync`, `sync→branch-delete`; added `pr-approve→sync`, `sync→pr-merge`. `/kanche:sdd-run` commandData steps extended with P7/P8/P9 entries.
 
 ## Fully AI-Automated Workflow
 Removes interactive `default_api:ask_question` confirmation gates when running in auto mode.

@@ -1,9 +1,9 @@
 ---
-name: review
+name: qa-review
 description: Audit code quality, implementation diffs, and test coverage.
 ---
 
-# /qa:review
+# /kanche:qa-review
 
 **Mission.** Review the implementation produced by `build` for correctness, spec/design
 conformance, and code quality — using read-only checks and, where useful, a browser — and return
@@ -47,7 +47,7 @@ fixable (file:line where possible). If clean, `findings: []`.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:build-review`); does NOT edit code, commit, push,
+- Returns DATA to the calling workflow (`/kanche:qa-review`); does NOT edit code, commit, push,
   or orchestrate. Use bash for read-only inspection/tests only — never git write/commit/push.
 - Review only; propose fixes as findings, do not apply them.
 - Do not overstate verification: report exactly which checks you actually ran and their results.

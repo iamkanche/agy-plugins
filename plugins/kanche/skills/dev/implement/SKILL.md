@@ -1,9 +1,9 @@
 ---
-name: implement
+name: dev-implement
 description: Implement target code changes incrementally and run tests.
 ---
 
-# /dev:implement
+# /kanche:dev-implement
 
 **Mission.** Implement the feature exactly as laid out in `tasks.md`, writing real code with a
 minimal diff, then return a change summary and which tasks are now complete. This is the one
@@ -39,7 +39,7 @@ Then return (as chat data, not a file) a **change summary**:
 
 ## Rules
 
-- Returns DATA (the change summary) to the calling workflow (`/sdd:build`). It DOES write code
+- Returns DATA (the change summary) to the calling workflow (`/kanche:dev-implement`). It DOES write code
   files and may update `tasks.md` checkboxes, but does NOT commit, push, or orchestrate — the
   workflow owns git side effects.
 - Minimal diff: implement only what the tasks require. No speculative refactors, renames, or

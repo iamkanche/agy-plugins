@@ -1,9 +1,9 @@
 ---
-name: tag-create
+name: git-tag-create
 description: Create an annotated tag at HEAD and push it to origin remote, gated behind explicit confirmation.
 ---
 
-# /git:tag-create
+# /kanche:git-tag-create
 
 **Summary.** Create an annotated tag at HEAD and push it to origin, gated behind explicit confirmation. The workflow delegates local Git tag creations and pushes to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 

@@ -1,9 +1,9 @@
 ---
-name: init
+name: design-init
 description: Generate system design specifications including component boundaries, data model, and user flow.
 ---
 
-# /design:init
+# /kanche:design-init
 
 **Mission.** Translate the approved `specs.md` into an implementable technical design — the HOW
 — and return three bodies: `design.md`, `api-diff.md`, and `db-diff.md` for
@@ -53,7 +53,7 @@ do not cover as an open question rather than silently expanding scope.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:design`); does NOT write files, commit, push, or
+- Returns DATA to the calling workflow (`/kanche:design-init`); does NOT write files, commit, push, or
   orchestrate. Read-only — no writes/edits.
 - Design only within the approved specs and the guidelines' boundaries/versions; do not
   introduce new dependencies or scope without flagging them.

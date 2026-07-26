@@ -3,7 +3,7 @@ name: pr-create
 description: Open a pull request for the current branch on GitHub, building title and body from commits and diff, gated by confirmation.
 ---
 
-# /gh-cli:pr-create
+# /kanche:pr-create
 
 **Summary.** Open a pull request for the current branch against the default (or given) base, building title + body from the branch's commits and diff, gated behind explicit confirmation. The workflow delegates all GitHub PR creation and interactions to the specialized `@gh-operator` subagent (defined in `agents/gh-operator/agent.json`).
 

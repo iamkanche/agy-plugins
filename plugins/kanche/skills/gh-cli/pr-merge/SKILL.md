@@ -3,7 +3,7 @@ name: pr-merge
 description: Merge a pull request on GitHub, with deleting the branch enabled by default, gated by confirmation.
 ---
 
-# /gh-cli:pr-merge
+# /kanche:pr-merge
 
 **Summary.** Merge the current branch's PR (or a specified PR) on GitHub, deleting the remote and local branch by default unless `--keep-branch` is requested. The workflow delegates all GitHub authentication, PR metadata checks, and merge executions to the specialized `@gh-operator` subagent (defined in `agents/gh-operator/agent.json`).
 

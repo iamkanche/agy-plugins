@@ -1,9 +1,9 @@
 ---
-name: grill
+name: design-grill
 description: Interrogate the feature request adversarially and return a ranked list of clarifying questions.
 ---
 
-# adversarial-interviewer (skill)
+# /kanche:design-grill
 
 **Mission.** Interrogate the feature request adversarially and return a *ranked* list of
 clarifying questions that must be answered before specs can be written — surfacing hidden
@@ -44,7 +44,7 @@ questions are answered, or still fundamentally underspecified.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:grill-me`); does NOT edit specs, commit, push, or
+- Returns DATA to the calling workflow (`/kanche:design-grill`); does NOT edit specs, commit, push, or
   orchestrate. The main session asks the human and folds answers back in.
 - Read-only — never attempt to modify files.
 - Ask; do not answer for the human. Where you must assume, label it as the "Assumption if

@@ -1,9 +1,9 @@
 ---
-name: validate
+name: qa-validate
 description: Verify task checklist and run validations.
 ---
 
-# validator (skill)
+# /kanche:qa-validate
 
 **Mission.** Run the project's automated checks — build, tests, lint, and any browser/e2e
 checks — for the current feature and return a per-suite pass/fail report with evidence.
@@ -38,7 +38,7 @@ Return a **validation report** (chat data, not a file):
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/sdd:ai-validation`); does NOT edit code, fix failures,
+- Returns DATA to the calling workflow (`/kanche:qa-validate`); does NOT edit code, fix failures,
   commit, push, or orchestrate. Use bash to run checks only — never git write/commit/push,
   never modify source.
 - Report results faithfully: never mark something PASS you did not actually run and observe pass.

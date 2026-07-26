@@ -1,9 +1,9 @@
 ---
-name: run
+name: sdd-run
 description: Drive a feature work item through the full SDD phase model (P0 to P9) using specifications, system designs, task check-lists, and testing loops.
 ---
 
-# /sdd:run
+# /kanche:sdd-run
 
 **Summary.** Drive a work item through the full SDD phase model (P0→P9): verify/load settings and memory, present a feature receipt for user confirmation, ensure a feature branch, delegate phase-specific execution (P1-P5) to token-optimized specialized subagents, run inner review loops (≤3x), validate and fix implementation (≤3x), deploy and poll PR comments (≤3x) to automatically respond/fix issues, automatically merge the PR, promote documentation, preserve memory files, and notify the user with a summary briefing and feedback options.
 
@@ -28,17 +28,17 @@ If `--from`/`--until` are inconsistent (from > until), stop and report.
 
 ```
 LEVEL 1 (AI + Subagents)                         LEVEL 2 (AI + human, auto/gated)
-P0 setup   Receipt /git:branch-create            P7 human review  /sdd:human-validation
-P1 specs   /design:grill → /design:specs         P8 PR mods       /gh-cli:pr-respond & poll
-           → /design:specs-review (Analyst)      P9 alignment     /sdd:sync -> /gh-cli:pr-merge & preserve
-P2 design  /design:init → /design:review
+P0 setup   Receipt /kanche:git-branch-create            P7 human review  /kanche:qa-validate
+P1 specs   /kanche:design-grill → /kanche:design-specs         P8 PR mods       /kanche:pr-respond & poll
+           → /kanche:design-specs-review (Analyst)      P9 alignment     /kanche:sdd-sync -> /kanche:pr-merge & preserve
+P2 design  /kanche:design-init → /kanche:design-review
            (Architect)
-P3 tasks   /planner:tasks → /planner:review
+P3 tasks   /kanche:planner-tasks → /kanche:planner-review
            → Docs Commit (Planner)
-P4 build   /dev:implement → /qa:review
+P4 build   /kanche:dev-implement → /kanche:qa-review
            → Code Commit (Coder)
-P5 valid.  /qa:validate & fix (Validator)
-P6 deploy  /git:push → /gh-cli:pr-create
+P5 valid.  /kanche:qa-validate & fix (Validator)
+P6 deploy  /kanche:git-push → /kanche:pr-create
 ```
 
 ## Steps
@@ -65,8 +65,8 @@ P6 deploy  /git:push → /gh-cli:pr-create
    DEFAULT=${DEFAULT:-main}
    CURRENT=$(git rev-parse --abbrev-ref HEAD)
    ```
-5. **Ensure guidelines exist.** If `.sdd-docs/guidelines/` does not exist, stop and instruct the user to run `/sdd:init`.
-6. **Ensure feature branch.** If `$CURRENT` matches `$DEFAULT` or is a protected branch (`main`, `master`, `develop`), create a feature branch using `/git:branch-create` as `feat/{slug}`.
+5. **Ensure guidelines exist.** If `.sdd-docs/guidelines/` does not exist, stop and instruct the user to run `/kanche:sdd-init`.
+6. **Ensure feature branch.** If `$CURRENT` matches `$DEFAULT` or is a protected branch (`main`, `master`, `develop`), create a feature branch using `/kanche:git-branch-create` as `feat/{slug}`.
 
 ### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents)
 
@@ -74,10 +74,10 @@ To optimize token consumption, the parent agent delegates Phase P1-P4 workflows 
 
 | Phase | Subagent | Generate Workflow | Review Workflow | Commit Gate |
 |---|---|---|---|---|
-| **P1 Specs** | `analyst` | `/design:grill` (first cycle) then `/design:specs` | `/design:specs-review` | None |
-| **P2 Design** | `architect` | `/design:init` | `/design:review` | None |
-| **P3 Tasks** | `planner` | `/planner:tasks` | `/planner:review` | **Docs Commit** (`/git:commit` for specs, design, tasks) |
-| **P4 Build** | `coder` | `/dev:implement` | `/qa:review` | **Implementation Commit** (`/git:commit` for build/code) |
+| **P1 Specs** | `analyst` | `/kanche:design-grill` (first cycle) then `/kanche:design-specs` | `/kanche:design-specs-review` | None |
+| **P2 Design** | `architect` | `/kanche:design-init` | `/kanche:design-review` | None |
+| **P3 Tasks** | `planner` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit` for specs, design, tasks) |
+| **P4 Build** | `coder` | `/kanche:dev-implement` | `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit` for build/code) |
 
 For each phase:
 
@@ -93,20 +93,20 @@ For each phase:
    - **NO-GO** and cycles remaining → Re-run generate, feeding `findings` to resolve.
    - **NO-GO** on 3rd cycle → In `auto` mode, stop the workflow and report findings. In `manual` mode, ask via `default_api:ask_question` whether to `Proceed anyway` or `Stop`.
 3. **Commit checkpoints.**
-   - End of P3: Run `/git:commit` to commit all docs.
-   - End of P4: Run `/git:commit` to commit all implementation changes.
+   - End of P3: Run `/kanche:git-commit` to commit all docs.
+   - End of P4: Run `/kanche:git-commit` to commit all implementation changes.
 
 ### P5 — AI Validation & Fix Loop (Delegated to `validator`)
 
-1. **Delegate validation.** Invoke the `validator` subagent to run `/qa:validate` (tests / lint / validations).
+1. **Delegate validation.** Invoke the `validator` subagent to run `/kanche:qa-validate` (tests / lint / validations).
 2. **Handle failures.** If validate fails:
    - **Under auto mode:** Re-enter P4 (build) automatically up to 3 times to apply fixes, and re-run validation. If still failing after 3 attempts, abort and report failures.
    - **Under manual mode:** Ask "Validation failed" via `default_api:ask_question` with options `Fix via build loop`, `Continue to deploy`, and `Stop`.
 
 ### P6 — Deploy (Push & Create PR)
 
-1. **Push branch.** Run `/git:push`.
-2. **Create PR.** Run `/gh-cli:pr-create`.
+1. **Push branch.** Run `/kanche:git-push`.
+2. **Create PR.** Run `/kanche:pr-create`.
 
 ### P7–P9 — Level 2 Automation (PR Review, Merging & Alignment)
 
@@ -122,13 +122,13 @@ In **auto** mode, LEVEL 2 phases run automatically. In **manual** mode, they gat
     gh pr view --json reviews,comments,state
     ```
     Poll up to 3 times (with sleep intervals configured in settings). If new review feedback or comments are found:
-    - Automatically invoke `/gh-cli:pr-respond` to parse comments, fix files, run validations (P5), and commit/push updates.
+    - Automatically invoke `/kanche:pr-respond` to parse comments, fix files, run validations (P5), and commit/push updates.
     - Repeat checking until reviews are approved.
   - **manual:** Ask "Address PR feedback now?" using `default_api:ask_question`.
 
 - **P9 Product Alignment & Merge.**
-  - **auto:** Once the PR is approved, first run `/sdd:sync` locally on the feature branch (promotes dev docs to `product/`, removes the dev folder, commits and pushes to the feature branch). Poll CI/status checks on the new commit using `pr_polling` settings from `.sdd-docs/settings.json` (default 30s interval, 3 max attempts). Once checks pass, if `auto_merge` is `true` in `.sdd-docs/settings.json`, run `/gh-cli:pr-merge` (no `--keep-branch`) to merge the PR and delete both local and remote branches. If `auto_merge` is `false` (or unset), gate on human confirmation via `default_api:ask_question` ("Do you approve merging PR #X to main?") before calling `/gh-cli:pr-merge`.
-  - **manual:** Two separate gates: (1) `"Proceed with /sdd:sync to promote docs and push to feature branch? [Yes|No]"`, (2) `"Proceed with /gh-cli:pr-merge to merge the PR and clean up branches? [Yes|No]"`.
+  - **auto:** Once the PR is approved, first run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to `product/`, removes the dev folder, commits and pushes to the feature branch). Poll CI/status checks on the new commit using `pr_polling` settings from `.sdd-docs/settings.json` (default 30s interval, 3 max attempts). Once checks pass, if `auto_merge` is `true` in `.sdd-docs/settings.json`, run `/kanche:pr-merge` (no `--keep-branch`) to merge the PR and delete both local and remote branches. If `auto_merge` is `false` (or unset), gate on human confirmation via `default_api:ask_question` ("Do you approve merging PR #X to main?") before calling `/kanche:pr-merge`.
+  - **manual:** Two separate gates: (1) `"Proceed with /kanche:sdd-sync to promote docs and push to feature branch? [Yes|No]"`, (2) `"Proceed with /kanche:pr-merge to merge the PR and clean up branches? [Yes|No]"`.
 
 ### 10. Notify User (P10)
 
