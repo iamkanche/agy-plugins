@@ -90,7 +90,7 @@ Create a `marketplace.json` file inside your project's local customization direc
 - `/kanche:planner-review` - Audit task checklist layout.
 
 ### 7. Coding & Development Commands
-- `/kanche:dev-implement` - Modify codebase incrementally according to task checklist.
+- `/kanche:code-implement` - Incremental codebase implementation and task checklist execution.
 
 ---
 

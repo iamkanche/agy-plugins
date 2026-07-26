@@ -3,7 +3,7 @@
 ## Repository Layout
 - `plugins/`: Plugin bundle directories.
   - `kanche/`: Unified plugin directory (`plugin.json` with `"name": "kanche"`).
-    - `skills/`: Flattened workflow skill directories across 36 skills (`sdd-init/`, `sdd-run/`, `git-commit/`, `gh-cli-pr-create/`, `design-init/`, `dev-implement/`, `planner-tasks/`, `qa-test-plan/`, etc.), exposed as `/kanche:<skill-name>`.
+    - `skills/`: Flattened workflow skill directories across 38 skills (`sdd-init/`, `sdd-run/`, `git-commit/`, `gh-cli-pr-create/`, `design-init/`, `code-implement/`, `planner-tasks/`, `qa-test-plan/`, etc.), exposed as `/kanche:<skill-name>`.
     - `agents/`: Operator subagents (`git-operator`, `gh-operator`, `analyst`, `architect`, `planner`, `coder`, `validator`).
     - `rules/`: Hard rules and gating guidelines.
 - `index.html`: Root registry dashboard for browser preview.
