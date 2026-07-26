@@ -7,10 +7,11 @@ The SDD workflow family provides structured phase progression (P0-P9):
 - P2: Technical Design & Architecture (`design.md`)
 - P3: Task Breakdown & Manifest (`tasks.md`)
 - P4: Implementation & Verification (`dev-implement`)
-- P5-P6: AI Validation & Deployment (`qa-validate`, `git-push`, `pr-create`, `gh-cli-pr-review`)
-- P8: PR Modifications & Polling (`pr-respond`)
+- P5: AI Validation (`qa-validate`)
+- P6: Deploy & AI PR Review/Respond Loop (`git-push`, `gh-cli-pr-create`, `gh-cli-pr-review`, `gh-cli-pr-respond` ≤3x loop)
 - P9: Documentation Promotion (`sdd-sync`)
-- P7: Human Review & Manual PR Merge
+- P7: Human Review Checklist (`qa-validate`)
+- P8: User PR Merge (`gh-cli-pr-merge` / manual)
 
 ## 2. File Organization
 - Steering Guidelines: `docs/guidelines/{product,tech,structure,rules}.md`

@@ -32,7 +32,7 @@
 - **Decision:** Apply flexible `minmax(0, 1fr)` tracks for main dashboard columns, use `min-width: 0` on content wrappers, and swap fixed heights for `min-height: 180px` on command cards.
 - **Consequences:** Bulletproof viewport constraints that restrict horizontal scrolling solely to local SVG map and pipeline step scroll containers.
 
-## ADR-007: Level 2 Reorganization and Human PR Merge at P7
-- **Context:** Automatically merging pull requests in P9 before human review can bypass developer verification and release control.
-- **Decision:** Shift Level 2 automation to Full AI execution through P8 (PR modifications) and P9 (document promotion via `/kanche:sdd-sync`), moving Phase P7 (Human Review & PR Merge) to the final position in Level 2 so the human user retains final review and merge authority.
-- **Consequences:** Autonomous AI deployment and documentation promotion occur headlessly, leaving the final PR merge cleanly in the developer's control.
+## ADR-007: P6 3x Review-Respond Loop and Level 2 Reorganization (P9 -> P7 -> P8)
+- **Context:** Separate polling in Level 2 delayed PR triaging, and auto-merging in P9 bypassed developer release validation.
+- **Decision:** Include an automated 3x PR review/respond loop (`gh-cli-pr-review` -> `gh-cli-pr-respond`) directly in Phase P6. Reorganize Level 2 as P9 (Alignment/Sync via `sdd-sync`), P7 (Human Review Checklist via `qa-validate`), and P8 (User PR Merge).
+- **Consequences:** AI handles deployment, PR review, feedback triaging, and documentation promotion autonomously, handing over final review and PR merge cleanly to the developer.

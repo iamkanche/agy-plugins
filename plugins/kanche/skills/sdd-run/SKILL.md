@@ -34,12 +34,12 @@ P2 design  /kanche:design-init → FORCED /kanche:design-review (Architect, ≤3
 P3 tasks   /kanche:planner-tasks → FORCED /kanche:planner-review → Docs Commit (Planner, ≤3x loop)
 P4 build   /kanche:dev-implement → FORCED /kanche:qa-review → Code Commit (Coder, ≤3x loop)
 P5 valid.  /kanche:qa-validate & fix (Validator, ≤3x loop)
-P6 deploy  /kanche:git-push → /kanche:pr-create → FORCED /kanche:gh-cli-pr-review (AI PR Review)
+P6 deploy  /kanche:git-push → /kanche:gh-cli-pr-create → loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond)
 
 LEVEL 2 (Full AI Automation + Human Merge)
-P8 PR mods       /kanche:pr-respond & poll (≤3x loop)
 P9 alignment     /kanche:sdd-sync (Promote dev docs → product docs & push)
-P7 human review  Human Review & Manual PR Merge
+P7 human review  /kanche:qa-validate (Human review & verification checklist)
+P8 PR merge      User merges the PR (or /kanche:gh-cli-pr-merge by user)
 ```
 
 ## Steps
@@ -104,33 +104,26 @@ For each phase:
    - **Under auto mode:** Re-enter P4 (build) automatically up to 3 times to apply fixes, and re-run validation. If still failing after 3 attempts, abort and report failures.
    - **Under manual mode:** Ask "Validation failed" via `default_api:ask_question` with options `Fix via build loop`, `Continue to deploy`, and `Stop`.
 
-### P6 — Deploy & AI PR Review
+### P6 — Deploy & AI PR Review/Respond Loop
 
 1. **Push branch.** Run `/kanche:git-push`.
-2. **Create PR.** Run `/kanche:pr-create`.
-3. **AI PR Review (Mandatory).** Run `/kanche:gh-cli-pr-review` to automatically audit the pull request diff against project guidelines and post structured review comments on GitHub.
+2. **Create PR.** Run `/kanche:gh-cli-pr-create`.
+3. **AI PR Review & Respond Loop (≤3x Loop).** Run `/kanche:gh-cli-pr-review` to audit the PR diff against project guidelines and post review comments on GitHub. If review feedback exists, automatically execute `/kanche:gh-cli-pr-respond` up to 3 times to parse feedback, apply code fixes, re-validate (P5), commit, and push updates.
 
-### P7–P9 — Level 2 Automation (PR Review, Sync & Human Merge)
+### P9–P8 — Level 2 Automation (Alignment, Human Review & PR Merge)
 
-In **auto** mode, LEVEL 2 phases run automatically through P8 (PR modifications) and P9 (document alignment sync), ending at P7 where the user is presented with the finalized PR for review and manual merge. In **manual** mode, each step gates on user prompts.
-
-- **P8 PR Modifications & Polling.**
-  - **auto:** Poll the pull request status and review comments using:
-    ```bash
-    gh pr view --json reviews,comments,state
-    ```
-    Poll up to 3 times (with sleep intervals configured in settings). If new review feedback or comments are found:
-    - Automatically invoke `/kanche:pr-respond` to parse comments, fix files, run validations (P5), and commit/push updates.
-    - Repeat checking until reviews are approved.
-  - **manual:** Ask "Address PR feedback now?" using `default_api:ask_question`.
+In **auto** mode, LEVEL 2 phases execute P9 automatically to promote documentation, then present P7 human review checklist and P8 PR merge to the user. In **manual** mode, each step gates on user prompts.
 
 - **P9 Product Alignment & Doc Sync.**
-  - **auto:** Once the PR feedback is resolved/approved, run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder, commits and pushes updates to the remote feature branch).
+  - **auto:** Once P6 review/respond checks pass, run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder, commits and pushes updates to origin feature branch).
   - **manual:** Ask "Proceed with /kanche:sdd-sync to promote docs and push to feature branch?" using `default_api:ask_question`.
 
-- **P7 Human Review & Manual PR Merge.**
-  - **auto:** Present the finalized PR link, summary of changes, and synced product docs to the human user. Hand over PR merging to the user (the user reviews and merges the PR on GitHub or via `/kanche:gh-cli-pr-merge` at their discretion).
-  - **manual:** Prompt the user: "Review PR #X and proceed with PR merge when ready".
+- **P7 Human Review & Checklist.**
+  - **auto:** Present verification checklist (`/kanche:qa-validate`), test results, and synced product docs to the human user for review.
+  - **manual:** Ask "Proceed to P7 human review checklist?" using `default_api:ask_question`.
+
+- **P8 User PR Merge.**
+  - **auto / manual:** Hand over PR merging to the user. The user reviews the PR and completes the merge on GitHub or via `/kanche:gh-cli-pr-merge`.
 
 ### 10. Notify User (P10)
 
@@ -139,7 +132,7 @@ Upon completion or abortion, brief the user with a summary:
 - Final status (e.g. PR Ready for Human Merge, or Aborted)
 - Summary of documentation and implementation edits made
 - Direct link to the open PR and feature logs
-- **Hand over merge:** Notify user that product docs are synced and the PR is ready for human review and merge.
+- **Hand over merge:** Notify user that product docs are synced and the PR is ready for human review (P7) and merge (P8).
 - **Ask for feedback:** Show a prompt requesting feedback on the automation run.
 - **Ask for deployment:** Request if they want to deploy the feature further (e.g. production servers), saving preferences/instructions to memory if they want the agent to remember it.
 
@@ -148,8 +141,8 @@ Upon completion or abortion, brief the user with a summary:
 - All in-bounds phases ran in order.
 - The feature receipt was presented and displayed to the user (confirmed in manual mode; logged in auto mode).
 - Subagent delegation was performed to conserve tokens.
-- Review loops, validation loops, PR response loops, and doc sync successfully executed.
+- Review loops, validation loops, P6 PR review-respond loop, and doc sync (P9) successfully executed.
 - Product docs were promoted to domain directories in P9.
-- The PR was handed over to the user at P7 for human review and manual merge.
+- Human review checklist ran at P7 and PR merge handed over to the user at P8.
 - Memory and settings files were preserved.
 - The user was briefed with a summary and optional feedback requests.

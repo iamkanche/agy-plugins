@@ -54,9 +54,9 @@ Apply the detection rules **in order** and take the first match as the resume ph
 2. **No feature folder** (or folder exists but empty) → resume at **P0/P1** (ensure branch, then specs).
 3. **`specs.md` absent** → **P1**. **`specs.md` present, `design.md` absent** → **P2**. **`design.md` present, `tasks.md` absent** → **P3**.
 4. **`tasks.md` present with unchecked `- [ ]` items** → **P4 build** (finish the checklist).
-5. **All `tasks.md` items checked** → build is done → **P5** (if not yet validated) then **P6**. If the branch is **already pushed (has upstream) AND a PR is open** → **P8** (PR modifications & polling).
-6. **PR feedback resolved AND dev folder `development/{slug}/` present** → **P9** (`/kanche:sdd-sync` to promote docs to domain product directories).
-7. **`sdd-sync` completed (dev folder consolidated) AND PR open** → **P7** (Human review & manual PR merge).
+5. **All `tasks.md` items checked** → build is done → **P5** (if not yet validated) then **P6** (deploy & 3x review-respond loop).
+6. **P6 deploy complete AND dev folder `development/{slug}/` present** → **P9** (`/kanche:sdd-sync` to promote docs to domain product directories).
+7. **`sdd-sync` completed (dev folder consolidated) AND PR open** → **P7** (Human review checklist), then **P8** (User PR merge).
 
 `--from` overrides all of the above. Report the detected phase and the evidence for it before walking.
 
@@ -79,13 +79,13 @@ From the detected (or `--from`) phase, execute forward exactly as `/kanche:sdd-r
   - P3 Docs Commit checkpoint: run `/kanche:git-commit` to commit specs, design, tasks.
   - P4: `/kanche:dev-implement` → `/kanche:qa-review` -> P4 Implementation Commit checkpoint: run `/kanche:git-commit` to commit build changes.
 - **P5** (only if `--until` ≥ build) — **/kanche:qa-validate**; on failure ask "[Fix via build loop | Continue | Stop]".
-- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:pr-create** → **/kanche:gh-cli-pr-review** (AI PR Review). In **auto** mode, proceed to Level 2.
-- **P7–P9 LEVEL 2** —
-  - **auto:** Automatically walk through **P8** (`/kanche:pr-respond` polling & fixes) and **P9** (`/kanche:sdd-sync` to promote product docs), then present **P7** (human review & manual PR merge) to the user.
+- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:gh-cli-pr-create** → **loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond)**. In **auto** mode, proceed to Level 2.
+- **P9–P8 LEVEL 2** —
+  - **auto:** Automatically execute **P9** (`/kanche:sdd-sync` to promote product docs), then present **P7** (human review checklist) and **P8** (user PR merge).
   - **manual:** Ask "Proceed to `<phase>`? [Yes|No]" before EACH:
-    - P8 `/kanche:pr-respond` (address PR feedback and re-validate)
     - P9 `/kanche:sdd-sync` (promotes `development/{slug}/` → `product/plugins/kanche/{domain}/`)
-    - P7 Human Review & PR Merge (user reviews PR and completes merge)
+    - P7 `/kanche:qa-validate` (Human review & verification checklist)
+    - P8 User PR Merge (user reviews PR and completes merge)
 
 In **manual** mode, ask "Proceed to `<next phase>`? [Yes|No]" before every phase transition; "No" stops cleanly and reports where it stopped. Respect `--from`/`--until` bounds throughout; if `--until` < build, stop after committing the last in-bounds P1–P4 phase.
 
