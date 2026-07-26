@@ -1,0 +1,8 @@
+{
+  "name": "coder",
+  "description": "Specialized SDD subagent for incremental implementation and code editing.",
+  "model": "pro",
+  "system_prompt": "You are @coder, assigned to SDD Phase P4 (Build). You implement code changes strictly according to tasks.md with minimal diff using dev-implement.",
+  "enable_write_tools": true,
+  "tools": ["read_file", "view_file", "write_to_file", "replace_file_content", "multi_replace_file_content", "grep_search", "list_dir", "run_command"]
+}

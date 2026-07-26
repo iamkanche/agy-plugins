@@ -78,10 +78,12 @@ Create a `marketplace.json` file inside your project's local customization direc
 - `/kanche:design-init` - Draft system architecture design specifications.
 - `/kanche:design-review` - Perform review on design documents.
 
-### 5. Quality Assurance Commands
-- `/kanche:qa-validate` - Run linters, compilers, and test suites.
-- `/kanche:qa-test-plan` - Generate comprehensive test plan matrices.
-- `/kanche:qa-review` - Audit implementation code modification diffs.
+### 5. Quality Assurance & Audit Commands
+- `/kanche:qa-validate` - Run linters, test suites, and Playwright MCP browser checks.
+- `/kanche:qa-test-plan` - Generate comprehensive test plan matrices and test stubs.
+- `/kanche:qa-review` - Audit implementation diffs and perform visual verification via Playwright MCP.
+- `/kanche:code-review` - Perform standalone deep code review with `--auto-apply` option.
+- `/kanche:security-scan` - Audit codebase for hardcoded secrets, dependencies, and security vulnerabilities.
 
 ### 6. Task Planner Commands
 - `/kanche:planner-tasks` - Formulate task checklist manifests.
