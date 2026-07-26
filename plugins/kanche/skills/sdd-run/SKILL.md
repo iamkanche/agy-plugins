@@ -32,7 +32,7 @@ P0 setup   Receipt → /kanche:git-branch-create
 P1 specs   /kanche:design-grill → loop ≤3x (/kanche:design-specs → /kanche:design-specs-review)
 P2 design  loop ≤3x (/kanche:design-init → /kanche:design-review)
 P3 tasks   loop ≤3x (/kanche:planner-tasks → /kanche:planner-review) → Docs Commit (/kanche:git-commit)
-P4 build   loop ≤3x (/kanche:dev-implement → /kanche:qa-review) → Implementation Commit (/kanche:git-commit)
+P4 build   loop ≤3x (/kanche:code-implement → /kanche:qa-review) → Implementation Commit (/kanche:git-commit)
 P5 valid.  /kanche:qa-validate & fix (≤3x loop)
 P6 deploy  /kanche:git-push → /kanche:gh-cli-pr-create → loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit → /kanche:git-push)
 P7 align   /kanche:sdd-sync → /kanche:git-commit (Promote dev docs → product docs, commit & push)
@@ -86,7 +86,7 @@ To optimize token consumption, the parent agent delegates Phase P1-P4 workflows 
 | **P1 Specs** | `analyst` | `/kanche:design-grill` (first cycle) then `/kanche:design-specs` | `/kanche:design-specs-review` | None |
 | **P2 Design** | `architect` | `/kanche:design-init` | `/kanche:design-review` | None |
 | **P3 Tasks** | `planner` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit -m "docs({slug}): ..."`) |
-| **P4 Build** | `coder` | `/kanche:dev-implement` | `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit -m "feat({slug}): ..."`) |
+| **P4 Build** | `coder` | `/kanche:code-implement` | `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit -m "feat({slug}): ..."`) |
 
 For each phase:
 

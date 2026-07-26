@@ -871,7 +871,9 @@
         const qaCommands = [
             { name: "/kanche:qa-validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-validate/SKILL.md" },
             { name: "/kanche:qa-test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-test-plan/SKILL.md" },
-            { name: "/kanche:qa-review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-review/SKILL.md" }
+            { name: "/kanche:qa-review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-review/SKILL.md" },
+            { name: "/kanche:code-review", desc: "Perform deep static and functional code review on changed or staged files with optional auto-fix.", gated: false, path: "plugins/kanche/skills/code-review/SKILL.md" },
+            { name: "/kanche:security-scan", desc: "Scan codebase for secrets, dependency vulnerabilities, exposed credentials, and security anti-patterns.", gated: false, path: "plugins/kanche/skills/security-scan/SKILL.md" }
         ];
 
         const plannerCommands = [
@@ -880,7 +882,7 @@
         ];
 
         const devCommands = [
-            { name: "/kanche:dev-implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @coder.", gated: false, path: "plugins/kanche/skills/dev-implement/SKILL.md" }
+            { name: "/kanche:code-implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @coder.", gated: false, path: "plugins/kanche/skills/code-implement/SKILL.md" }
         ];
 
         gitCommands.forEach(c => { c.gated = true; c.theme = "cyan"; });
@@ -915,7 +917,7 @@
                 handle: "@coder",
                 desc: "Specialized subagent that implements target codebase modifications incrementally, following specifications and task manifests.",
                 writeTools: true,
-                skills: ["/kanche:dev-implement"],
+                skills: ["/kanche:code-implement"],
                 path: "plugins/kanche/agents/coder/agent.json",
                 theme: "teal"
             },
@@ -951,7 +953,7 @@
                 handle: "@validator",
                 desc: "Specialized subagent that executes automated validation suites, linter checks, test plan verification, and build code reviews.",
                 writeTools: true,
-                skills: ["/kanche:qa-validate", "/kanche:qa-test-plan", "/kanche:qa-review"],
+                skills: ["/kanche:qa-validate", "/kanche:qa-test-plan", "/kanche:qa-review", "/kanche:code-review", "/kanche:security-scan"],
                 path: "plugins/kanche/agents/validator/agent.json",
                 theme: "emerald"
             }
@@ -1010,7 +1012,7 @@
                 agent: "@coder",
                 theme: "teal",
                 skills: [
-                    { name: "/kanche:dev-implement", label: "Dev Implement", path: "plugins/kanche/skills/dev-implement/SKILL.md" },
+                    { name: "/kanche:code-implement", label: "Code Implement", path: "plugins/kanche/skills/code-implement/SKILL.md" },
                     { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa-review/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Code Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
                 ]
@@ -1139,11 +1141,11 @@
             },
             "dev": {
                 name: "dev",
-                displayName: "Dev Implement",
+                displayName: "Code Implement",
                 desc: "Incremental code implementation and task checklist execution.",
                 version: "v0.1.0",
                 theme: "teal",
-                inspectorUrl: "plugins/kanche/skills/dev-implement/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/code-implement/SKILL.md",
                 commands: devCommands
             },
             "agents": {
