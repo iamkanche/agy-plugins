@@ -602,6 +602,153 @@
             border: 1px solid rgba(148, 163, 184, 0.2);
         }
 
+        /* Workflow & Skills Map Styles */
+        .skills-map-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            width: 100%;
+            grid-column: 1 / -1;
+        }
+
+        .phase-pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .phase-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.25rem 1.5rem;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .phase-card:hover {
+            transform: translateX(6px);
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 158, 11, 0.1);
+        }
+
+        .phase-card.cyan-card:hover { border-color: rgba(6, 182, 212, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.1); }
+        .phase-card.pink-card:hover { border-color: rgba(236, 72, 153, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(236, 72, 153, 0.1); }
+        .phase-card.indigo-card:hover { border-color: rgba(99, 102, 241, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.1); }
+        .phase-card.teal-card:hover { border-color: rgba(20, 184, 166, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(20, 184, 166, 0.1); }
+        .phase-card.emerald-card:hover { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 185, 129, 0.1); }
+        .phase-card.purple-card:hover { border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(139, 92, 246, 0.1); }
+        .phase-card.amber-card:hover { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 158, 11, 0.1); }
+
+        .phase-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .phase-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .phase-badge {
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.3rem 0.7rem;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .phase-badge.cyan { background: rgba(6, 182, 212, 0.2); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .phase-badge.pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+        .phase-badge.indigo { background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+        .phase-badge.teal { background: rgba(20, 184, 166, 0.2); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.3); }
+        .phase-badge.emerald { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .phase-badge.purple { background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
+        .phase-badge.amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        .phase-name {
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .phase-agent-tag {
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .phase-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .skills-flow-sequence {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+            padding: 0.75rem 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .skill-flow-node {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            font-family: var(--font-code);
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .skill-flow-node:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+            color: #60a5fa;
+            transform: translateY(-2px);
+        }
+
+        .skill-flow-arrow {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            opacity: 0.6;
+        }
+
+        .phase-flow-connector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 20px;
+            color: rgba(245, 158, 11, 0.6);
+        }
+
         @media (max-width: 1024px) {
             main { grid-template-columns: 1fr; }
         }
@@ -810,6 +957,98 @@
             }
         ];
 
+        const sddWorkflowPhases = [
+            {
+                phase: "P0",
+                name: "Setup & Feature Branching",
+                desc: "Verify repository, parse settings & memory, present receipt, and checkout feature branch.",
+                agent: "@git-operator",
+                theme: "cyan",
+                skills: [
+                    { name: "/kanche:git-branch-create", label: "Branch Create", path: "plugins/kanche/skills/git/branch-create/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P1",
+                name: "Specs & Requirements",
+                desc: "Adversarial probing, drafting functional specs, and forced analyst review loop.",
+                agent: "@analyst",
+                theme: "pink",
+                skills: [
+                    { name: "/kanche:design-grill", label: "Design Grill", path: "plugins/kanche/skills/design/grill/SKILL.md" },
+                    { name: "/kanche:design-specs", label: "Specs Draft", path: "plugins/kanche/skills/design/specs/SKILL.md" },
+                    { name: "/kanche:design-specs-review", label: "Specs Review", path: "plugins/kanche/skills/design/specs-review/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P2",
+                name: "Architecture & Design",
+                desc: "System design specs, component boundaries, and forced architect review loop.",
+                agent: "@architect",
+                theme: "pink",
+                skills: [
+                    { name: "/kanche:design-init", label: "Design Init", path: "plugins/kanche/skills/design/init/SKILL.md" },
+                    { name: "/kanche:design-review", label: "Design Review", path: "plugins/kanche/skills/design/review/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P3",
+                name: "Task Planning",
+                desc: "Task manifest decomposition, file editing order, review loop, and docs commit checkpoint.",
+                agent: "@planner",
+                theme: "indigo",
+                skills: [
+                    { name: "/kanche:planner-tasks", label: "Planner Tasks", path: "plugins/kanche/skills/planner/tasks/SKILL.md" },
+                    { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner/review/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P4",
+                name: "Implementation",
+                desc: "Incremental code modifications, QA review audit gate, and code commit checkpoint.",
+                agent: "@coder",
+                theme: "teal",
+                skills: [
+                    { name: "/kanche:dev-implement", label: "Dev Implement", path: "plugins/kanche/skills/dev/implement/SKILL.md" },
+                    { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa/review/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P5",
+                name: "AI Validation & Fix Loop",
+                desc: "Automated test suite verification, linter checks, and build fix loop.",
+                agent: "@validator",
+                theme: "emerald",
+                skills: [
+                    { name: "/kanche:qa-validate", label: "QA Validate", path: "plugins/kanche/skills/qa/validate/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P6",
+                name: "Deploy & PR Review",
+                desc: "Push feature branch to origin, open pull request, and post AI review comments.",
+                agent: "@gh-operator",
+                theme: "purple",
+                skills: [
+                    { name: "/kanche:git-push", label: "Git Push", path: "plugins/kanche/skills/git/push/SKILL.md" },
+                    { name: "/kanche:pr-create", label: "PR Create", path: "plugins/kanche/skills/gh-cli/pr-create/SKILL.md" },
+                    { name: "/kanche:pr-review", label: "PR Review", path: "plugins/kanche/skills/gh-cli/pr-review/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P7-P9",
+                name: "PR Modifications & Alignment",
+                desc: "Poll review feedback, address comments, sync product docs, and merge PR.",
+                agent: "@gh-operator",
+                theme: "amber",
+                skills: [
+                    { name: "/kanche:pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli/pr-respond/SKILL.md" },
+                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd/sync/SKILL.md" },
+                    { name: "/kanche:pr-merge", label: "PR Merge", path: "plugins/kanche/skills/gh-cli/pr-merge/SKILL.md" }
+                ]
+            }
+        ];
+
         const pluginsData = {
             "kanche": {
                 name: "kanche",
@@ -819,6 +1058,16 @@
                 theme: "blue",
                 inspectorUrl: "plugins/kanche/plugin.json",
                 commands: [...gitCommands, ...ghCommands, ...sddCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands]
+            },
+            "skills-map": {
+                name: "skills-map",
+                displayName: "SDD Skills & Phase Map",
+                desc: "Interactive visual flow of the 10 SDD phases (P0-P9) showing orchestrator execution: sdd-run → design → planner → dev → qa → deploy → merge.",
+                version: "v0.1.0",
+                theme: "amber",
+                inspectorUrl: "plugins/kanche/skills/sdd/run/SKILL.md",
+                isMapView: true,
+                commands: []
             },
             "git": {
                 name: "git",
@@ -925,7 +1174,7 @@
             // Update search placeholder
             searchInput.placeholder = data.isAgentsView
                 ? "Search subagents by handle, name, or skills..."
-                : `Search ${data.displayName} commands...`;
+                : (data.isMapView ? "Search workflow phases or skills..." : `Search ${data.displayName} commands...`);
             searchInput.value = "";
 
             renderCommands();
@@ -935,6 +1184,59 @@
             container.innerHTML = "";
             const data = pluginsData[activePluginKey];
             const themeClass = data.theme;
+
+            if (data.isMapView) {
+                const searchLower = filterText.toLowerCase();
+                const filteredPhases = sddWorkflowPhases.filter(p =>
+                    p.phase.toLowerCase().includes(searchLower) ||
+                    p.name.toLowerCase().includes(searchLower) ||
+                    p.desc.toLowerCase().includes(searchLower) ||
+                    p.agent.toLowerCase().includes(searchLower) ||
+                    p.skills.some(s => s.name.toLowerCase().includes(searchLower) || s.label.toLowerCase().includes(searchLower))
+                );
+
+                if (filteredPhases.length === 0) {
+                    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 3rem;">No matching workflow phases found.</div>`;
+                    return;
+                }
+
+                const mapWrapper = document.createElement("div");
+                mapWrapper.className = "skills-map-container";
+
+                filteredPhases.forEach((phase, idx) => {
+                    const phaseCard = document.createElement("div");
+                    phaseCard.className = `phase-card ${phase.theme}-card`;
+                    phaseCard.innerHTML = `
+                        <div class="phase-card-header">
+                            <div class="phase-title-group">
+                                <span class="phase-badge ${phase.theme}">${phase.phase}</span>
+                                <span class="phase-name">${phase.name}</span>
+                            </div>
+                            <span class="phase-agent-tag">${phase.agent}</span>
+                        </div>
+                        <p class="phase-desc">${phase.desc}</p>
+                        <div class="skills-flow-sequence">
+                            ${phase.skills.map((s, i) => `
+                                <a href="${s.path}" target="_blank" class="skill-flow-node" title="${s.name}">
+                                    <span>${s.name}</span>
+                                </a>
+                                ${i < phase.skills.length - 1 ? `<span class="skill-flow-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>` : ''}
+                            `).join('')}
+                        </div>
+                    `;
+                    mapWrapper.appendChild(phaseCard);
+
+                    if (idx < filteredPhases.length - 1) {
+                        const connector = document.createElement("div");
+                        connector.className = "phase-flow-connector";
+                        connector.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>`;
+                        mapWrapper.appendChild(connector);
+                    }
+                });
+
+                container.appendChild(mapWrapper);
+                return;
+            }
 
             if (data.isAgentsView) {
                 const filteredAgents = agentsData.filter(agent =>
@@ -1011,7 +1313,7 @@
                 const data = pluginsData[key];
                 const btn = document.createElement("button");
                 btn.className = `plugin-nav-btn ${key === activePluginKey ? "active" : ""} ${data.theme}-theme`;
-                const count = data.isAgentsView ? agentsData.length : data.commands.length;
+                const count = data.isMapView ? sddWorkflowPhases.length : (data.isAgentsView ? agentsData.length : data.commands.length);
                 btn.innerHTML = `
                     <span>${data.displayName}</span>
                     <span class="badge">${count}</span>
