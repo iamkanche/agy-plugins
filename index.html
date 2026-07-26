@@ -474,6 +474,134 @@
 
         .cmd-link:hover { color: var(--text-primary); }
 
+        /* Agent Cards */
+        .agent-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 220px;
+        }
+
+        .agent-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .agent-card.cyan-card::before { background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0.01) 100%); }
+        .agent-card.purple-card::before { background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(139, 92, 246, 0.01) 100%); }
+        .agent-card.amber-card::before { background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.01) 100%); }
+        .agent-card.pink-card::before { background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(236, 72, 153, 0.01) 100%); }
+        .agent-card.emerald-card::before { background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.01) 100%); }
+        .agent-card.indigo-card::before { background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0.01) 100%); }
+        .agent-card.teal-card::before { background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(20, 184, 166, 0.01) 100%); }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .agent-card.cyan-card:hover { border-color: rgba(6, 182, 212, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.08); }
+        .agent-card.purple-card:hover { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.08); }
+        .agent-card.amber-card:hover { border-color: rgba(245, 158, 11, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.08); }
+        .agent-card.pink-card:hover { border-color: rgba(236, 72, 153, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(236, 72, 153, 0.08); }
+        .agent-card.emerald-card:hover { border-color: rgba(16, 185, 129, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.08); }
+        .agent-card.indigo-card:hover { border-color: rgba(99, 102, 241, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.08); }
+        .agent-card.teal-card:hover { border-color: rgba(20, 184, 166, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(20, 184, 166, 0.08); }
+
+        .agent-card:hover::before { opacity: 1; }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            z-index: 1;
+        }
+
+        .agent-handle {
+            font-family: var(--font-title);
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1;
+        }
+
+        .agent-card.cyan-card .agent-handle { color: #22d3ee; }
+        .agent-card.purple-card .agent-handle { color: #c084fc; }
+        .agent-card.amber-card .agent-handle { color: #fbbf24; }
+        .agent-card.pink-card .agent-handle { color: #f472b6; }
+        .agent-card.emerald-card .agent-handle { color: #34d399; }
+        .agent-card.indigo-card .agent-handle { color: #818cf8; }
+        .agent-card.teal-card .agent-handle { color: #2dd4bf; }
+
+        .agent-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0.5rem 0 0.75rem 0;
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        .agent-skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            z-index: 1;
+        }
+
+        .agent-skill-badge {
+            font-size: 0.72rem;
+            font-family: var(--font-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .write-tools-badge {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 1;
+        }
+
+        .write-tools-badge.enabled {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .write-tools-badge.disabled {
+            background: rgba(148, 163, 184, 0.1);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
         @media (max-width: 1024px) {
             main { grid-template-columns: 1fr; }
         }
@@ -518,6 +646,16 @@
                 </div>
                 <div class="plugin-nav-list" id="plugin-selection-list">
                     <!-- Nav items loaded dynamically -->
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div class="panel-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #34d399;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Specialized Agents
+                </div>
+                <div class="plugin-nav-list" id="agent-selection-list">
+                    <!-- Agent nav items loaded dynamically -->
                 </div>
             </div>
         </div>
@@ -606,6 +744,72 @@
         plannerCommands.forEach(c => c.theme = "indigo");
         devCommands.forEach(c => c.theme = "teal");
 
+        const agentsData = [
+            {
+                name: "analyst",
+                handle: "@analyst",
+                desc: "Specialized subagent that handles feature interrogation, specs drafting, and specs review (grill, specs, specs-review).",
+                writeTools: false,
+                skills: ["/kanche:design-grill", "/kanche:design-specs", "/kanche:design-specs-review"],
+                path: "plugins/kanche/agents/analyst/agent.json",
+                theme: "pink"
+            },
+            {
+                name: "architect",
+                handle: "@architect",
+                desc: "Specialized subagent that handles system design architecture, API specs, UI wireframes, and design review (init, review).",
+                writeTools: false,
+                skills: ["/kanche:design-init", "/kanche:design-review"],
+                path: "plugins/kanche/agents/architect/agent.json",
+                theme: "pink"
+            },
+            {
+                name: "coder",
+                handle: "@coder",
+                desc: "Specialized subagent that implements target codebase modifications incrementally, following specifications and task manifests.",
+                writeTools: true,
+                skills: ["/kanche:dev-implement"],
+                path: "plugins/kanche/agents/coder/agent.json",
+                theme: "teal"
+            },
+            {
+                name: "gh-operator",
+                handle: "@gh-operator",
+                desc: "Specialized subagent that handles GitHub integrations (fetching comments, reviews, opening PRs, listing PR status).",
+                writeTools: true,
+                skills: ["/kanche:pr-create", "/kanche:pr-list", "/kanche:pr-review", "/kanche:pr-approve", "/kanche:pr-respond", "/kanche:pr-merge"],
+                path: "plugins/kanche/agents/gh-operator/agent.json",
+                theme: "purple"
+            },
+            {
+                name: "git-operator",
+                handle: "@git-operator",
+                desc: "Specialized subagent that handles pure git operations (commit, checkout, stash, branch creation, tag creation).",
+                writeTools: true,
+                skills: ["/kanche:git-commit", "/kanche:git-branch-create", "/kanche:git-branch-delete", "/kanche:git-tag-create", "/kanche:git-tag-delete", "/kanche:git-tag-push", "/kanche:git-fetch", "/kanche:git-pull", "/kanche:git-push", "/kanche:git-stash", "/kanche:git-status", "/kanche:git-rebase", "/kanche:git-switch"],
+                path: "plugins/kanche/agents/git-operator/agent.json",
+                theme: "cyan"
+            },
+            {
+                name: "planner",
+                handle: "@planner",
+                desc: "Specialized subagent that handles task manifest creation, task decomposition, and tasks review (tasks, review).",
+                writeTools: false,
+                skills: ["/kanche:planner-tasks", "/kanche:planner-review"],
+                path: "plugins/kanche/agents/planner/agent.json",
+                theme: "indigo"
+            },
+            {
+                name: "validator",
+                handle: "@validator",
+                desc: "Specialized subagent that executes automated validation suites, linter checks, test plan verification, and build code reviews.",
+                writeTools: true,
+                skills: ["/kanche:qa-validate", "/kanche:qa-test-plan", "/kanche:qa-review"],
+                path: "plugins/kanche/agents/validator/agent.json",
+                theme: "emerald"
+            }
+        ];
+
         const pluginsData = {
             "kanche": {
                 name: "kanche",
@@ -678,11 +882,22 @@
                 theme: "teal",
                 inspectorUrl: "plugins/kanche/skills/dev/implement/SKILL.md",
                 commands: devCommands
+            },
+            "agents": {
+                name: "agents",
+                displayName: "Specialized Subagents",
+                desc: "Autonomous specialized AI subagents defined in plugins/kanche/agents/ that handle domain-specific workflows across Git, GitHub CLI, SDD, Design, QA, Planning, and Implementation.",
+                version: "v0.1.0",
+                theme: "emerald",
+                inspectorUrl: "plugins/kanche/plugin.json",
+                isAgentsView: true,
+                commands: []
             }
         };
 
         let activePluginKey = "kanche";
         const selectionList = document.getElementById("plugin-selection-list");
+        const agentSelectionList = document.getElementById("agent-selection-list");
         const headerSection = document.getElementById("plugin-header-section");
         const container = document.getElementById("commands-container");
         const searchInput = document.getElementById("command-search");
@@ -708,7 +923,9 @@
             `;
 
             // Update search placeholder
-            searchInput.placeholder = `Search ${data.displayName} commands...`;
+            searchInput.placeholder = data.isAgentsView
+                ? "Search subagents by handle, name, or skills..."
+                : `Search ${data.displayName} commands...`;
             searchInput.value = "";
 
             renderCommands();
@@ -718,6 +935,46 @@
             container.innerHTML = "";
             const data = pluginsData[activePluginKey];
             const themeClass = data.theme;
+
+            if (data.isAgentsView) {
+                const filteredAgents = agentsData.filter(agent =>
+                    agent.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                    agent.handle.toLowerCase().includes(filterText.toLowerCase()) ||
+                    agent.desc.toLowerCase().includes(filterText.toLowerCase()) ||
+                    agent.skills.some(s => s.toLowerCase().includes(filterText.toLowerCase()))
+                );
+
+                if (filteredAgents.length === 0) {
+                    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 3rem;">No matching subagents found.</div>`;
+                    return;
+                }
+
+                filteredAgents.forEach(agent => {
+                    const card = document.createElement("div");
+                    card.className = `agent-card ${agent.theme}-card`;
+                    card.innerHTML = `
+                        <div class="agent-header">
+                            <div class="agent-handle">${agent.handle}</div>
+                            <span class="write-tools-badge ${agent.writeTools ? "enabled" : "disabled"}">
+                                ${agent.writeTools ? "Write Tools: Enabled" : "Read-Only"}
+                            </span>
+                        </div>
+                        <div class="agent-desc">${agent.desc}</div>
+                        <div class="agent-skills-list">
+                            ${agent.skills.map(s => `<span class="agent-skill-badge">${s}</span>`).join('')}
+                        </div>
+                        <div class="cmd-footer">
+                            <span class="cmd-tag">Subagent Manifest</span>
+                            <a href="${agent.path}" class="cmd-link" target="_blank">
+                                <span>agent.json</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+                return;
+            }
 
             const filtered = data.commands.filter(cmd =>
                 cmd.name.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -754,9 +1011,10 @@
                 const data = pluginsData[key];
                 const btn = document.createElement("button");
                 btn.className = `plugin-nav-btn ${key === activePluginKey ? "active" : ""} ${data.theme}-theme`;
+                const count = data.isAgentsView ? agentsData.length : data.commands.length;
                 btn.innerHTML = `
                     <span>${data.displayName}</span>
-                    <span class="badge">${data.commands.length}</span>
+                    <span class="badge">${count}</span>
                 `;
                 btn.addEventListener("click", () => {
                     document.querySelectorAll(".plugin-nav-btn").forEach(b => b.classList.remove("active"));
@@ -765,6 +1023,26 @@
                 });
                 selectionList.appendChild(btn);
             });
+
+            if (agentSelectionList) {
+                agentSelectionList.innerHTML = "";
+                agentsData.forEach(agent => {
+                    const btn = document.createElement("button");
+                    btn.className = `plugin-nav-btn ${activePluginKey === "agents" ? "active" : ""} ${agent.theme}-theme`;
+                    btn.innerHTML = `
+                        <span>${agent.handle}</span>
+                        <span class="badge" style="font-size: 0.65rem;">${agent.skills.length} skills</span>
+                    `;
+                    btn.addEventListener("click", () => {
+                        document.querySelectorAll(".plugin-nav-btn").forEach(b => b.classList.remove("active"));
+                        btn.classList.add("active");
+                        loadPlugin("agents");
+                        searchInput.value = agent.handle;
+                        renderCommands(agent.handle);
+                    });
+                    agentSelectionList.appendChild(btn);
+                });
+            }
         }
 
         searchInput.addEventListener("input", (e) => {
