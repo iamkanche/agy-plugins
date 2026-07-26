@@ -92,7 +92,7 @@ In **manual** mode, ask "Proceed to `<next phase>`? [Yes|No]" before every phase
 - Detection ambiguous (multiple feature folders, no slug) → list and ask; do not guess.
 - Protected branch at a commit/push point → stop, run P0.
 - Review NO-GO after 3 cycles → gate, never silent.
-- `gh` not authed (PR detection / P6) → treat PR state as unknown / relay `/kanche:pr-create`'s stop message.
+- `gh` not authed (PR detection / P6) → treat PR state as unknown / relay `/kanche:gh-cli-pr-create`'s stop message.
 - Any `/git:*` gate declined, merge conflict, or push rejection → surface and stop. Never force-push, never `--no-verify`, never amend a pushed commit, never `reset --hard`.
 
 ## Done when
