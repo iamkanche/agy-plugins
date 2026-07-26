@@ -31,11 +31,11 @@ LEVEL 1 (AI: P0 - P7)
 P0 setup   Receipt → /kanche:git-branch-create
 P1 specs   /kanche:design-grill → loop ≤3x (/kanche:design-specs → /kanche:design-specs-review)
 P2 design  loop ≤3x (/kanche:design-init → /kanche:design-review)
-P3 tasks   loop ≤3x (/kanche:planner-tasks → /kanche:planner-review) → Docs Commit
-P4 build   loop ≤3x (/kanche:dev-implement → /kanche:qa-review) → Implementation Commit
+P3 tasks   loop ≤3x (/kanche:planner-tasks → /kanche:planner-review) → Docs Commit (/kanche:git-commit)
+P4 build   loop ≤3x (/kanche:dev-implement → /kanche:qa-review) → Implementation Commit (/kanche:git-commit)
 P5 valid.  /kanche:qa-validate & fix (≤3x loop)
 P6 deploy  /kanche:git-push → /kanche:gh-cli-pr-create → loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit → /kanche:git-push)
-P7 align   /kanche:sdd-sync (Promote dev docs → product docs, commit & push)
+P7 align   /kanche:sdd-sync → /kanche:git-commit (Promote dev docs → product docs, commit & push)
 
 LEVEL 2 (Human: P8 - P9)
 P8 human review  gated human-review /kanche:qa-validate (show verification checklist)
