@@ -40,8 +40,15 @@
 - Added visual connector arrows, glow accents, hover states, and search filtering.
 
 ## 2026-07-26 — update-sdd-workflow-full-ai
-- Updated SDD workflow (`/kanche:sdd-run`, `/kanche:sdd-continue`) to Full AI execution model.
-- Reorganized Level 2 phases to execute PR modifications (P8) and document alignment sync (P9) automatically via AI.
-- Moved Phase P7 (Human Review & PR Merge) to the final step of Level 2, handing over PR review and manual PR merge to the user.
+- Reorganized SDD workflow into LEVEL 1 AI (P0-P7) and LEVEL 2 Human (P8-P9).
+- P1: design-grill → 3x loop(design-specs → design-specs-review).
+- P2: 3x loop(design-init → design-review).
+- P3: 3x loop(planner-tasks → planner-review) → git-commit.
+- P4: 3x loop(dev-implement → qa-review) → git-commit.
+- P5: qa-validate & fix loop.
+- P6: git-push → gh-cli-pr-create → 3x loop(gh-cli-pr-review → gh-cli-pr-respond → git-commit → git-push).
+- P7: sdd-sync document promotion & cleanup on feature branch.
+- P8: gated human review checklist (qa-validate displaying checklist).
+- P9: PR merge (gh-cli-pr-merge).
 
 

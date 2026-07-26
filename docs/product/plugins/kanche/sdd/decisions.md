@@ -32,7 +32,7 @@
 - **Decision:** Apply flexible `minmax(0, 1fr)` tracks for main dashboard columns, use `min-width: 0` on content wrappers, and swap fixed heights for `min-height: 180px` on command cards.
 - **Consequences:** Bulletproof viewport constraints that restrict horizontal scrolling solely to local SVG map and pipeline step scroll containers.
 
-## ADR-007: P6 3x Review-Respond Loop and Level 2 Reorganization (P9 -> P7 -> P8)
-- **Context:** Separate polling in Level 2 delayed PR triaging, and auto-merging in P9 bypassed developer release validation.
-- **Decision:** Include an automated 3x PR review/respond loop (`gh-cli-pr-review` -> `gh-cli-pr-respond`) directly in Phase P6. Reorganize Level 2 as P9 (Alignment/Sync via `sdd-sync`), P7 (Human Review Checklist via `qa-validate`), and P8 (User PR Merge).
-- **Consequences:** AI handles deployment, PR review, feedback triaging, and documentation promotion autonomously, handing over final review and PR merge cleanly to the developer.
+## ADR-007: LEVEL 1 AI (P0-P7) and LEVEL 2 Human (P8-P9) Workflow Partitioning
+- **Context:** Coupling AI deployment loops with human review gates caused boundary confusion in automated SDD runs.
+- **Decision:** Explicitly partition the 10 SDD phases into LEVEL 1 AI Automation (P0-P7: P1 specs loop, P2 design loop, P3 tasks loop & commit, P4 build loop & commit, P5 validation, P6 deploy & 3x PR review-respond loop with commit/push, P7 sdd-sync document promotion) and LEVEL 2 Human Review & Deployment (P8 gated human review checklist, P9 PR merge).
+- **Consequences:** Clean separation of AI autonomous work (P0-P7) and human release authorization (P8-P9).

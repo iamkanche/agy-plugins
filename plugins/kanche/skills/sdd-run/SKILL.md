@@ -27,19 +27,19 @@ If `--from`/`--until` are inconsistent (from > until), stop and report.
 ## Phase model
 
 ```
-LEVEL 1 (AI + Subagents)
+LEVEL 1 (AI: P0 - P7)
 P0 setup   Receipt → /kanche:git-branch-create
-P1 specs   /kanche:design-grill → /kanche:design-specs → FORCED /kanche:design-specs-review (Analyst, ≤3x loop)
-P2 design  /kanche:design-init → FORCED /kanche:design-review (Architect, ≤3x loop)
-P3 tasks   /kanche:planner-tasks → FORCED /kanche:planner-review → Docs Commit (Planner, ≤3x loop)
-P4 build   /kanche:dev-implement → FORCED /kanche:qa-review → Code Commit (Coder, ≤3x loop)
-P5 valid.  /kanche:qa-validate & fix (Validator, ≤3x loop)
-P6 deploy  /kanche:git-push → /kanche:gh-cli-pr-create → loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond)
+P1 specs   /kanche:design-grill → loop ≤3x (/kanche:design-specs → /kanche:design-specs-review)
+P2 design  loop ≤3x (/kanche:design-init → /kanche:design-review)
+P3 tasks   loop ≤3x (/kanche:planner-tasks → /kanche:planner-review) → Docs Commit
+P4 build   loop ≤3x (/kanche:dev-implement → /kanche:qa-review) → Implementation Commit
+P5 valid.  /kanche:qa-validate & fix (≤3x loop)
+P6 deploy  /kanche:git-push → /kanche:gh-cli-pr-create → loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit → /kanche:git-push)
+P7 align   /kanche:sdd-sync (Promote dev docs → product docs, commit & push)
 
-LEVEL 2 (Full AI Automation + Human Merge)
-P9 alignment     /kanche:sdd-sync (Promote dev docs → product docs & push)
-P7 human review  /kanche:qa-validate (Human review & verification checklist)
-P8 PR merge      User merges the PR (or /kanche:gh-cli-pr-merge by user)
+LEVEL 2 (Human: P8 - P9)
+P8 human review  gated human-review /kanche:qa-validate (show verification checklist)
+P9 PR merge      /kanche:gh-cli-pr-merge (user merges PR)
 ```
 
 ## Steps
@@ -108,31 +108,30 @@ For each phase:
 
 1. **Push branch.** Run `/kanche:git-push`.
 2. **Create PR.** Run `/kanche:gh-cli-pr-create`.
-3. **AI PR Review & Respond Loop (≤3x Loop).** Run `/kanche:gh-cli-pr-review` to audit the PR diff against project guidelines and post review comments on GitHub. If review feedback exists, automatically execute `/kanche:gh-cli-pr-respond` up to 3 times to parse feedback, apply code fixes, re-validate (P5), commit, and push updates.
+3. **AI PR Review & Respond Loop (≤3x Loop).** Run `/kanche:gh-cli-pr-review` to audit the PR diff against project guidelines and post review comments on GitHub. If review feedback exists, automatically execute `/kanche:gh-cli-pr-respond` → `/kanche:git-commit` → `/kanche:git-push` up to 3 times to parse feedback, apply code fixes, re-validate (P5), commit, and push updates to origin.
 
-### P9–P8 — Level 2 Automation (Alignment, Human Review & PR Merge)
+### P7 — Product Alignment & Doc Sync (LEVEL 1 AI Final Step)
 
-In **auto** mode, LEVEL 2 phases execute P9 automatically to promote documentation, then present P7 human review checklist and P8 PR merge to the user. In **manual** mode, each step gates on user prompts.
+1. **Promote documentation.** Run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder `docs/development/{slug}/`, commits and pushes updates to origin feature branch).
 
-- **P9 Product Alignment & Doc Sync.**
-  - **auto:** Once P6 review/respond checks pass, run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder, commits and pushes updates to origin feature branch).
-  - **manual:** Ask "Proceed with /kanche:sdd-sync to promote docs and push to feature branch?" using `default_api:ask_question`.
+### P8–P9 — Level 2 (Human Review & PR Merge)
 
-- **P7 Human Review & Checklist.**
-  - **auto:** Present verification checklist (`/kanche:qa-validate`), test results, and synced product docs to the human user for review.
-  - **manual:** Ask "Proceed to P7 human review checklist?" using `default_api:ask_question`.
+In **auto** mode, LEVEL 1 (P0-P7) runs automatically end-to-end. LEVEL 2 begins at P8 where the user is presented with the interactive verification checklist and PR merge gate.
 
-- **P8 User PR Merge.**
-  - **auto / manual:** Hand over PR merging to the user. The user reviews the PR and completes the merge on GitHub or via `/kanche:gh-cli-pr-merge`.
+- **P8 Gated Human Review.**
+  - Present the interactive verification checklist via `/kanche:qa-validate` (shows test results, lint checks, and checklist items) and ask for human review approval using `default_api:ask_question`.
+
+- **P9 PR Merge.**
+  - Execute PR merge via `/kanche:gh-cli-pr-merge` upon human confirmation, or hand over final merge to the user on GitHub.
 
 ### 10. Notify User (P10)
 
 Upon completion or abortion, brief the user with a summary:
 
-- Final status (e.g. PR Ready for Human Merge, or Aborted)
+- Final status (e.g. Ready for Human Review & PR Merge, or Aborted)
 - Summary of documentation and implementation edits made
 - Direct link to the open PR and feature logs
-- **Hand over merge:** Notify user that product docs are synced and the PR is ready for human review (P7) and merge (P8).
+- **Hand over to Level 2:** Present P8 human review checklist and prompt for P9 PR merge approval.
 - **Ask for feedback:** Show a prompt requesting feedback on the automation run.
 - **Ask for deployment:** Request if they want to deploy the feature further (e.g. production servers), saving preferences/instructions to memory if they want the agent to remember it.
 
@@ -141,8 +140,8 @@ Upon completion or abortion, brief the user with a summary:
 - All in-bounds phases ran in order.
 - The feature receipt was presented and displayed to the user (confirmed in manual mode; logged in auto mode).
 - Subagent delegation was performed to conserve tokens.
-- Review loops, validation loops, P6 PR review-respond loop, and doc sync (P9) successfully executed.
-- Product docs were promoted to domain directories in P9.
-- Human review checklist ran at P7 and PR merge handed over to the user at P8.
+- LEVEL 1 AI (P0-P7) ran specs, design, tasks, build, validation, deploy, 3x PR review/respond loop, and sdd-sync.
+- Product docs were promoted to domain directories in P7.
+- LEVEL 2 Human (P8-P9) presented gated human review checklist at P8 and PR merge at P9.
 - Memory and settings files were preserved.
 - The user was briefed with a summary and optional feedback requests.

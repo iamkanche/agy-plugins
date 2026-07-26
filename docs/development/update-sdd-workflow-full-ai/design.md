@@ -1,37 +1,30 @@
-# System Design: Full AI SDD Workflow & Level 2 Reorganization (P9 -> P7 -> P8)
+# System Design: SDD Workflow Architecture (P0-P7 Level 1 AI, P8-P9 Level 2 Human)
 
 ## 1. Phase Architecture
 
 ```
-LEVEL 1 (Full AI + Subagents)
+LEVEL 1 (AI: P0 - P7)
 P0 setup   Receipt → /kanche:git-branch-create
-P1 specs   /kanche:design-grill → /kanche:design-specs → FORCED /kanche:design-specs-review (Analyst, ≤3x loop)
-P2 design  /kanche:design-init → FORCED /kanche:design-review (Architect, ≤3x loop)
-P3 tasks   /kanche:planner-tasks → FORCED /kanche:planner-review → Docs Commit (Planner, ≤3x loop)
-P4 build   /kanche:dev-implement → FORCED /kanche:qa-review → Code Commit (Coder, ≤3x loop)
-P5 valid.  /kanche:qa-validate & fix (Validator, ≤3x loop)
-P6 deploy  /kanche:git-push → /kanche:gh-cli-pr-create → loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond)
+P1 specs   /kanche:design-grill → loop ≤3x (/kanche:design-specs → /kanche:design-specs-review)
+P2 design  loop ≤3x (/kanche:design-init → /kanche:design-review)
+P3 tasks   loop ≤3x (/kanche:planner-tasks → /kanche:planner-review) → Docs Commit
+P4 build   loop ≤3x (/kanche:dev-implement → /kanche:qa-review) → Implementation Commit
+P5 valid.  /kanche:qa-validate & fix (≤3x loop)
+P6 deploy  /kanche:git-push → /kanche:gh-cli-pr-create → loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit → /kanche:git-push)
+P7 align   /kanche:sdd-sync (Promote dev docs → product docs, commit & push)
 
-LEVEL 2 (Full AI Automation + Human Merge)
-P9 alignment     /kanche:sdd-sync (Promote dev docs → product docs & push feature branch)
-P7 human review  /kanche:qa-validate (Human review & verification checklist)
-P8 PR merge      User merges the PR (or /kanche:gh-cli-pr-merge by user)
+LEVEL 2 (Human: P8 - P9)
+P8 human review  gated human-review /kanche:qa-validate (show verification checklist)
+P9 PR merge      /kanche:gh-cli-pr-merge (user merges PR)
 ```
 
-## 2. Structural Component Changes
+## 2. Structural Component Mapping
 
-### 2.1 `sdd-run` Skill
-- Update Phase Model to show Level 1 P6 with 3x review-respond loop.
-- Level 2 updated to P9 -> P7 -> P8:
-  - P9 runs `/kanche:sdd-sync` to promote documentation to `docs/product/plugins/kanche/{domain}/` and remove `docs/development/{slug}/`, committing and pushing to the feature branch.
-  - P7 runs human review and verification checklist (`/kanche:qa-validate`).
-  - P8 hands over PR merge to the user.
+### 2.1 `sdd-run` & `sdd-continue` Skills
+- Level 1 AI automates P0 through P7 straight through in auto mode.
+- P6 deploys, creates PR, and loops up to 3x reviewing, fixing, committing, and pushing PR updates.
+- P7 runs `/kanche:sdd-sync` to consolidate dev docs into permanent domain directories under `docs/product/plugins/kanche/{domain}/`.
+- Level 2 Human gates execution at P8 (gated human review checklist) and P9 (`gh-cli-pr-merge`).
 
-### 2.2 `sdd-continue` Skill
-- Update detection logic:
-  - If PR is open and dev folder exists -> P9 (`sdd-sync`).
-  - If `sdd-sync` completed and PR is ready -> P7 (Human review & checklist).
-  - If human review passed -> P8 (User PR merge).
-
-### 2.3 `index.html` & `docs/product/plugins/kanche/sdd/*`
-- Update UI cards and sdd domain docs to reflect P6 (Deploy & PR Review/Respond Loop), P9 (Doc Sync), P7 (Human Review), and P8 (User PR Merge).
+### 2.2 `index.html` Pipeline Visualization
+- Pipeline map updated to render 10 distinct phases (P0-P9) grouped into LEVEL 1 AI (P0-P7) and LEVEL 2 Human (P8-P9).

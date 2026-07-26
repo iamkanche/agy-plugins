@@ -55,8 +55,8 @@ Apply the detection rules **in order** and take the first match as the resume ph
 3. **`specs.md` absent** → **P1**. **`specs.md` present, `design.md` absent** → **P2**. **`design.md` present, `tasks.md` absent** → **P3**.
 4. **`tasks.md` present with unchecked `- [ ]` items** → **P4 build** (finish the checklist).
 5. **All `tasks.md` items checked** → build is done → **P5** (if not yet validated) then **P6** (deploy & 3x review-respond loop).
-6. **P6 deploy complete AND dev folder `development/{slug}/` present** → **P9** (`/kanche:sdd-sync` to promote docs to domain product directories).
-7. **`sdd-sync` completed (dev folder consolidated) AND PR open** → **P7** (Human review checklist), then **P8** (User PR merge).
+6. **P6 deploy complete AND dev folder `development/{slug}/` present** → **P7** (`/kanche:sdd-sync` to promote docs to domain product directories).
+7. **`sdd-sync` completed (dev folder consolidated) AND PR open** → **P8** (Gated human review checklist), then **P9** (PR merge `/kanche:gh-cli-pr-merge`).
 
 `--from` overrides all of the above. Report the detected phase and the evidence for it before walking.
 
@@ -73,19 +73,16 @@ Never generate or commit on a protected branch. If already on a feature branch, 
 From the detected (or `--from`) phase, execute forward exactly as `/kanche:sdd-run` does — same inner-loop, gate, and bound rules. Summary of the walk:
 
 - **P1–P4 inner loop** — generate → review, parse the `sdd-review` `verdict:`; on **NO-GO** re-run generate with the findings, up to **3×**.
-  - P1: `/kanche:design-grill` (once, first cycle) → `/kanche:design-specs` → `/kanche:design-specs-review`
-  - P2: `/kanche:design-init` → `/kanche:design-review`
-  - P3: `/kanche:planner-tasks` → `/kanche:planner-review`
-  - P3 Docs Commit checkpoint: run `/kanche:git-commit` to commit specs, design, tasks.
-  - P4: `/kanche:dev-implement` → `/kanche:qa-review` -> P4 Implementation Commit checkpoint: run `/kanche:git-commit` to commit build changes.
-- **P5** (only if `--until` ≥ build) — **/kanche:qa-validate**; on failure ask "[Fix via build loop | Continue | Stop]".
-- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:gh-cli-pr-create** → **loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond)**. In **auto** mode, proceed to Level 2.
-- **P9–P8 LEVEL 2** —
-  - **auto:** Automatically execute **P9** (`/kanche:sdd-sync` to promote product docs), then present **P7** (human review checklist) and **P8** (user PR merge).
-  - **manual:** Ask "Proceed to `<phase>`? [Yes|No]" before EACH:
-    - P9 `/kanche:sdd-sync` (promotes `development/{slug}/` → `product/plugins/kanche/{domain}/`)
-    - P7 `/kanche:qa-validate` (Human review & verification checklist)
-    - P8 User PR Merge (user reviews PR and completes merge)
+  - P1: `/kanche:design-grill` (once, first cycle) → loop ≤3x (`/kanche:design-specs` → `/kanche:design-specs-review`)
+  - P2: loop ≤3x (`/kanche:design-init` → `/kanche:design-review`)
+  - P3: loop ≤3x (`/kanche:planner-tasks` → `/kanche:planner-review`) → Docs Commit (`/kanche:git-commit`)
+  - P4: loop ≤3x (`/kanche:dev-implement` → `/kanche:qa-review`) → Implementation Commit (`/kanche:git-commit`)
+- **P5** (only if `--until` ≥ build) — **/kanche:qa-validate** & fix (≤3x loop).
+- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:gh-cli-pr-create** → **loop ≤3x (/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → /kanche:git-commit → /kanche:git-push)**.
+- **P7** (LEVEL 1 AI Final Step) — **/kanche:sdd-sync** (promotes `development/{slug}/` → `docs/product/plugins/kanche/{domain}/`, commits & pushes to origin).
+- **P8–P9 LEVEL 2 (Human)** —
+  - P8: Gated human review checklist (`/kanche:qa-validate` displaying test/lint checklist)
+  - P9: PR merge (`/kanche:gh-cli-pr-merge`)
 
 In **manual** mode, ask "Proceed to `<next phase>`? [Yes|No]" before every phase transition; "No" stops cleanly and reports where it stopped. Respect `--from`/`--until` bounds throughout; if `--until` < build, stop after committing the last in-bounds P1–P4 phase.
 

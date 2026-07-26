@@ -17,5 +17,5 @@ Automates the Spec-Driven Development (SDD) lifecycle for autonomous Google Anti
 
 ## 4. Product Invariants
 - Preserves human-tuned guidelines and safety rules during updates.
-- Executes Level 1 with 3x PR review-respond loop in P6, and Level 2 as Full AI automation running document sync (P9) before handing over human review checklist (P7) and PR merge (P8) to the user.
+- Executes LEVEL 1 AI (P0-P7) autonomously straight through with a 3x PR review-respond loop in P6 and sdd-sync document promotion in P7, handing over LEVEL 2 Human Review (P8) and PR Merge (P9) to the user.
 - Eliminates ephemeral feature slug subfolders in product documentation.

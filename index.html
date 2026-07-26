@@ -1026,7 +1026,7 @@
             {
                 phase: "P6",
                 name: "Deploy & PR Review/Respond",
-                desc: "Push feature branch, open pull request, and run 3x AI review-respond feedback loop.",
+                desc: "Push feature branch, open pull request, and run 3x AI review-respond feedback loop with git-commit & push.",
                 agent: "@gh-operator",
                 theme: "purple",
                 skills: [
@@ -1037,15 +1037,24 @@
                 ]
             },
             {
-                phase: "P9-P8",
-                name: "Alignment, Review & Human Merge",
-                desc: "Sync product docs via sdd-sync, perform P7 human review checklist, and hand over P8 PR merge to user.",
+                phase: "P7",
+                name: "Product Alignment & Doc Sync",
+                desc: "Promote dev docs to permanent domain product directories and clean up dev folder on feature branch.",
                 agent: "@gh-operator",
+                theme: "blue",
+                skills: [
+                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P8-P9",
+                name: "Human Review & PR Merge",
+                desc: "LEVEL 2 Human execution: Gated verification checklist (qa-validate) and PR merge (gh-cli-pr-merge).",
+                agent: "@validator",
                 theme: "amber",
                 skills: [
-                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
                     { name: "/kanche:qa-validate", label: "Human Review", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
-                    { name: "/kanche:gh-cli-pr-merge", label: "User PR Merge", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
+                    { name: "/kanche:gh-cli-pr-merge", label: "PR Merge", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
                 ]
             }
         ];
