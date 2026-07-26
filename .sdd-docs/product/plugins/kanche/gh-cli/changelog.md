@@ -1,10 +1,10 @@
 # GitHub CLI Plugin — Changelog
 
-<!-- schema: changelog | written by /sdd:sync-product -->
+<!-- schema: changelog | written by /kanche:sdd-sync -->
 
 ## 2026-07-18 — 001_update_plugins
-- Implemented `/gh-cli:pr-merge` with auto branch deletion default.
-- Updated `/gh-cli:pr-create` to auto-assign PRs to creator.
+- Implemented `/kanche:pr-merge` with auto branch deletion default.
+- Updated `/kanche:pr-create` to auto-assign PRs to creator.
 - Updated the plugin inspector dashboard index file.
 
 ## 2026-07-19 — improvements_of_plugins

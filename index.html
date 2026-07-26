@@ -3,215 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antigravity Plugins Marketplace</title>
+    <title>Antigravity Plugins Registry - Kanche Developer Suite</title>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-color: #080710;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text-primary: #ffffff;
-            --text-secondary: #a0aec0;
-            --accent-purple: #805ad5;
-            --accent-blue: #3182ce;
-            --accent-gradient-purple: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
-            --accent-gradient-blue: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            --glow-color: rgba(124, 58, 237, 0.3);
-            --font-main: 'Plus Jakarta Sans', sans-serif;
-            --font-title: 'Outfit', sans-serif;
+            --bg-gradient: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #0f172a 45%, #020617 100%);
+            --glass-bg: rgba(15, 23, 42, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(30, 41, 59, 0.5);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-amber: #f59e0b;
+            --accent-pink: #ec4899;
+            --accent-emerald: #10b981;
+            --accent-indigo: #6366f1;
+            --accent-teal: #14b8a6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --font-main: "Inter", sans-serif;
+            --font-title: "Outfit", sans-serif;
+            --font-code: "Fira Code", monospace;
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg-color);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text-primary);
             font-family: var(--font-main);
             min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
-        }
-
-        header {
-            padding: 2.5rem 2rem;
-            max-width: 1400px;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--card-border);
-        }
-
-        .logo {
-            font-family: var(--font-title);
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #60a5fa;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #60a5fa;
-        }
-
-        .marketplace-badge {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #60a5fa;
-            letter-spacing: 0.5px;
-        }
-
-        main {
-            flex: 1;
-            max-width: 1400px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            display: grid;
-            grid-template-columns: 320px minmax(0, 1fr);
-            gap: 3rem;
-        }
-
-        /* Sidebar styling */
-        .sidebar {
+            padding: 2rem;
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .logo-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent-blue);
+        }
+
+        .marketplace-badge {
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            letter-spacing: 1px;
+        }
+
+        /* Layout */
+        main {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            flex-grow: 1;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
         .glass-panel {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
         }
 
         .panel-title {
             font-family: var(--font-title);
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .meta-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 0.75rem;
         }
 
         .meta-item {
             display: flex;
             flex-direction: column;
-            gap: 0.35rem;
+            gap: 0.25rem;
         }
 
         .meta-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.8rem;
             color: var(--text-secondary);
         }
 
         .meta-val {
             font-size: 0.95rem;
             font-weight: 500;
+            color: var(--text-primary);
         }
 
         /* Plugin Navigation List */
         .plugin-nav-list {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
-            margin-top: 1rem;
+            gap: 0.5rem;
         }
 
         .plugin-nav-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.25rem;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
             color: var(--text-secondary);
+            padding: 0.85rem 1rem;
+            border-radius: 14px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-family: var(--font-main);
             font-size: 0.95rem;
             font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: left;
         }
 
-        .plugin-nav-btn:hover, .plugin-nav-btn.active {
+        .plugin-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
             color: var(--text-primary);
-            background: rgba(59, 130, 246, 0.06);
+        }
+
+        .plugin-nav-btn.active {
+            background: rgba(59, 130, 246, 0.1);
             border-color: rgba(59, 130, 246, 0.3);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
-            transform: translateX(4px);
+            color: #60a5fa;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
         }
 
-        .plugin-nav-btn.active.purple-theme {
-            background: rgba(139, 92, 246, 0.06);
+        .plugin-nav-btn.cyan-theme.active {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: rgba(6, 182, 212, 0.3);
+            color: #22d3ee;
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.1);
+        }
+
+        .plugin-nav-btn.purple-theme.active {
+            background: rgba(139, 92, 246, 0.1);
             border-color: rgba(139, 92, 246, 0.3);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.1);
+            color: #c084fc;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
         }
 
-        .plugin-nav-btn.active.amber-theme {
-            background: rgba(245, 158, 11, 0.06);
+        .plugin-nav-btn.amber-theme.active {
+            background: rgba(245, 158, 11, 0.1);
             border-color: rgba(245, 158, 11, 0.3);
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);
+        }
+
+        .plugin-nav-btn.pink-theme.active {
+            background: rgba(236, 72, 153, 0.1);
+            border-color: rgba(236, 72, 153, 0.3);
+            color: #f472b6;
+            box-shadow: 0 4px 20px rgba(236, 72, 153, 0.1);
+        }
+
+        .plugin-nav-btn.emerald-theme.active {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+        }
+
+        .plugin-nav-btn.indigo-theme.active {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.3);
+            color: #818cf8;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+        }
+
+        .plugin-nav-btn.teal-theme.active {
+            background: rgba(20, 184, 166, 0.1);
+            border-color: rgba(20, 184, 166, 0.3);
+            color: #2dd4bf;
+            box-shadow: 0 4px 20px rgba(20, 184, 166, 0.1);
         }
 
         .plugin-nav-btn .badge {
             font-size: 0.75rem;
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
+            background: rgba(255, 255, 255, 0.05);
             padding: 0.2rem 0.6rem;
             border-radius: 50px;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .plugin-nav-btn.purple-theme .badge {
-            background: rgba(139, 92, 246, 0.2);
-            color: #c084fc;
-            border-color: rgba(139, 92, 246, 0.3);
-        }
-
-        .plugin-nav-btn.amber-theme .badge {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-            border-color: rgba(245, 158, 11, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Content Area */
@@ -279,17 +309,14 @@
             color: var(--text-primary);
         }
 
-        .plugin-title span {
-            color: #60a5fa;
-        }
-
-        .plugin-title.purple span {
-            color: #a78bfa;
-        }
-
-        .plugin-title.amber span {
-            color: #fbbf24;
-        }
+        .plugin-title span { color: #60a5fa; }
+        .plugin-title.cyan span { color: #22d3ee; }
+        .plugin-title.purple span { color: #a78bfa; }
+        .plugin-title.amber span { color: #fbbf24; }
+        .plugin-title.pink span { color: #f472b6; }
+        .plugin-title.emerald span { color: #34d399; }
+        .plugin-title.indigo span { color: #818cf8; }
+        .plugin-title.teal span { color: #2dd4bf; }
 
         .plugin-meta {
             display: flex;
@@ -350,7 +377,7 @@
         }
 
         .command-card::before {
-            content: '';
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
@@ -361,13 +388,13 @@
             transition: opacity 0.3s ease;
         }
 
-        .command-card.purple-card::before {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.01) 100%);
-        }
-
-        .command-card.amber-card::before {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.01) 100%);
-        }
+        .command-card.cyan-card::before { background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(6, 182, 212, 0.01) 100%); }
+        .command-card.purple-card::before { background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.01) 100%); }
+        .command-card.amber-card::before { background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.01) 100%); }
+        .command-card.pink-card::before { background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(236, 72, 153, 0.01) 100%); }
+        .command-card.emerald-card::before { background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.01) 100%); }
+        .command-card.indigo-card::before { background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.01) 100%); }
+        .command-card.teal-card::before { background: linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(20, 184, 166, 0.01) 100%); }
 
         .command-card:hover {
             transform: translateY(-5px);
@@ -375,19 +402,15 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.05);
         }
 
-        .command-card.purple-card:hover {
-            border-color: rgba(139, 92, 246, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.05);
-        }
+        .command-card.cyan-card:hover { border-color: rgba(6, 182, 212, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.05); }
+        .command-card.purple-card:hover { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.05); }
+        .command-card.amber-card:hover { border-color: rgba(245, 158, 11, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.05); }
+        .command-card.pink-card:hover { border-color: rgba(236, 72, 153, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(236, 72, 153, 0.05); }
+        .command-card.emerald-card:hover { border-color: rgba(16, 185, 129, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.05); }
+        .command-card.indigo-card:hover { border-color: rgba(99, 102, 241, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.05); }
+        .command-card.teal-card:hover { border-color: rgba(20, 184, 166, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(20, 184, 166, 0.05); }
 
-        .command-card.amber-card:hover {
-            border-color: rgba(245, 158, 11, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.05);
-        }
-
-        .command-card:hover::before {
-            opacity: 1;
-        }
+        .command-card:hover::before { opacity: 1; }
 
         .cmd-name {
             font-family: var(--font-title);
@@ -397,13 +420,13 @@
             z-index: 1;
         }
 
-        .command-card.purple-card .cmd-name {
-            color: #a78bfa;
-        }
-
-        .command-card.amber-card .cmd-name {
-            color: #fbbf24;
-        }
+        .command-card.cyan-card .cmd-name { color: #22d3ee; }
+        .command-card.purple-card .cmd-name { color: #a78bfa; }
+        .command-card.amber-card .cmd-name { color: #fbbf24; }
+        .command-card.pink-card .cmd-name { color: #f472b6; }
+        .command-card.emerald-card .cmd-name { color: #34d399; }
+        .command-card.indigo-card .cmd-name { color: #818cf8; }
+        .command-card.teal-card .cmd-name { color: #2dd4bf; }
 
         .cmd-desc {
             font-size: 0.88rem;
@@ -449,14 +472,138 @@
             transition: color 0.2s ease;
         }
 
-        .cmd-link:hover {
-            color: var(--text-primary);
+        .cmd-link:hover { color: var(--text-primary); }
+
+        /* Agent Cards */
+        .agent-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 220px;
+        }
+
+        .agent-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .agent-card.cyan-card::before { background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0.01) 100%); }
+        .agent-card.purple-card::before { background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(139, 92, 246, 0.01) 100%); }
+        .agent-card.amber-card::before { background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.01) 100%); }
+        .agent-card.pink-card::before { background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(236, 72, 153, 0.01) 100%); }
+        .agent-card.emerald-card::before { background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.01) 100%); }
+        .agent-card.indigo-card::before { background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0.01) 100%); }
+        .agent-card.teal-card::before { background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(20, 184, 166, 0.01) 100%); }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .agent-card.cyan-card:hover { border-color: rgba(6, 182, 212, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.08); }
+        .agent-card.purple-card:hover { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.08); }
+        .agent-card.amber-card:hover { border-color: rgba(245, 158, 11, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.08); }
+        .agent-card.pink-card:hover { border-color: rgba(236, 72, 153, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(236, 72, 153, 0.08); }
+        .agent-card.emerald-card:hover { border-color: rgba(16, 185, 129, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.08); }
+        .agent-card.indigo-card:hover { border-color: rgba(99, 102, 241, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.08); }
+        .agent-card.teal-card:hover { border-color: rgba(20, 184, 166, 0.3); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(20, 184, 166, 0.08); }
+
+        .agent-card:hover::before { opacity: 1; }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            z-index: 1;
+        }
+
+        .agent-handle {
+            font-family: var(--font-title);
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1;
+        }
+
+        .agent-card.cyan-card .agent-handle { color: #22d3ee; }
+        .agent-card.purple-card .agent-handle { color: #c084fc; }
+        .agent-card.amber-card .agent-handle { color: #fbbf24; }
+        .agent-card.pink-card .agent-handle { color: #f472b6; }
+        .agent-card.emerald-card .agent-handle { color: #34d399; }
+        .agent-card.indigo-card .agent-handle { color: #818cf8; }
+        .agent-card.teal-card .agent-handle { color: #2dd4bf; }
+
+        .agent-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0.5rem 0 0.75rem 0;
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        .agent-skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            z-index: 1;
+        }
+
+        .agent-skill-badge {
+            font-size: 0.72rem;
+            font-family: var(--font-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .write-tools-badge {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 1;
+        }
+
+        .write-tools-badge.enabled {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .write-tools-badge.disabled {
+            background: rgba(148, 163, 184, 0.1);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.2);
         }
 
         @media (max-width: 1024px) {
-            main {
-                grid-template-columns: 1fr;
-            }
+            main { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -495,10 +642,20 @@
             <div class="glass-panel">
                 <div class="panel-title">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a78bfa;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
-                    Active Plugins
+                    Skills & Sub-Skills
                 </div>
                 <div class="plugin-nav-list" id="plugin-selection-list">
                     <!-- Nav items loaded dynamically -->
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div class="panel-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #34d399;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Specialized Agents
+                </div>
+                <div class="plugin-nav-list" id="agent-selection-list">
+                    <!-- Agent nav items loaded dynamically -->
                 </div>
             </div>
         </div>
@@ -522,134 +679,242 @@
     </main>
 
     <script>
+        const gitCommands = [
+            { name: "/kanche:git-commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/skills/git/commit/SKILL.md" },
+            { name: "/kanche:git-branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: true, path: "plugins/kanche/skills/git/branch-create/SKILL.md" },
+            { name: "/kanche:git-branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/kanche/skills/git/branch-delete/SKILL.md" },
+            { name: "/kanche:git-tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/kanche/skills/git/tag-create/SKILL.md" },
+            { name: "/kanche:git-tag-delete", desc: "Delete a local and/or remote tag securely, gated by explicit confirmation.", gated: true, path: "plugins/kanche/skills/git/tag-delete/SKILL.md" },
+            { name: "/kanche:git-tag-push", desc: "Push local tags to the remote origin, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/skills/git/tag-push/SKILL.md" },
+            { name: "/kanche:git-fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: true, path: "plugins/kanche/skills/git/fetch/SKILL.md" },
+            { name: "/kanche:git-pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/kanche/skills/git/pull/SKILL.md" },
+            { name: "/kanche:git-push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/kanche/skills/git/push/SKILL.md" },
+            { name: "/kanche:git-stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: true, path: "plugins/kanche/skills/git/stash/SKILL.md" },
+            { name: "/kanche:git-status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: true, path: "plugins/kanche/skills/git/status/SKILL.md" },
+            { name: "/kanche:git-rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/kanche/skills/git/rebase/SKILL.md" },
+            { name: "/kanche:git-switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: true, path: "plugins/kanche/skills/git/switch/SKILL.md" }
+        ];
+
+        const ghCommands = [
+            { name: "/kanche:pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-create/SKILL.md" },
+            { name: "/kanche:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-list/SKILL.md" },
+            { name: "/kanche:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-review/SKILL.md" },
+            { name: "/kanche:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-approve/SKILL.md" },
+            { name: "/kanche:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-respond/SKILL.md" },
+            { name: "/kanche:pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-merge/SKILL.md" }
+        ];
+
+        const sddCommands = [
+            { name: "/kanche:sdd-run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: "plugins/kanche/skills/sdd/run/SKILL.md" },
+            { name: "/kanche:sdd-steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/kanche/skills/sdd/steering/SKILL.md" },
+            { name: "/kanche:sdd-sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/kanche/skills/sdd/sync/SKILL.md" },
+            { name: "/kanche:sdd-init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/kanche/skills/sdd/init/SKILL.md" },
+            { name: "/kanche:sdd-init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/kanche/skills/sdd/init-update/SKILL.md" },
+            { name: "/kanche:sdd-continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/kanche/skills/sdd/continue/SKILL.md" }
+        ];
+
+        const designCommands = [
+            { name: "/kanche:design-grill", desc: "Adversarially probe feature requests to extract ambiguities and rank clarifying questions. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design/grill/SKILL.md" },
+            { name: "/kanche:design-specs", desc: "Draft functional specifications documenting target criteria. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design/specs/SKILL.md" },
+            { name: "/kanche:design-specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design/specs-review/SKILL.md" },
+            { name: "/kanche:design-init", desc: "Draft system architecture design specifications including component details and schemas. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design/init/SKILL.md" },
+            { name: "/kanche:design-review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design/review/SKILL.md" }
+        ];
+
+        const qaCommands = [
+            { name: "/kanche:qa-validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa/validate/SKILL.md" },
+            { name: "/kanche:qa-test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa/test-plan/SKILL.md" },
+            { name: "/kanche:qa-review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa/review/SKILL.md" }
+        ];
+
+        const plannerCommands = [
+            { name: "/kanche:planner-tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands. Delegates to @planner.", gated: false, path: "plugins/kanche/skills/planner/tasks/SKILL.md" },
+            { name: "/kanche:planner-review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict. Delegates to @planner.", gated: false, path: "plugins/kanche/skills/planner/review/SKILL.md" }
+        ];
+
+        const devCommands = [
+            { name: "/kanche:dev-implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @coder.", gated: false, path: "plugins/kanche/skills/dev/implement/SKILL.md" }
+        ];
+
+        gitCommands.forEach(c => { c.gated = true; c.theme = "cyan"; });
+        ghCommands.forEach(c => { c.gated = true; c.theme = "purple"; });
+        sddCommands.forEach(c => c.theme = "amber");
+        designCommands.forEach(c => c.theme = "pink");
+        qaCommands.forEach(c => c.theme = "emerald");
+        plannerCommands.forEach(c => c.theme = "indigo");
+        devCommands.forEach(c => c.theme = "teal");
+
+        const agentsData = [
+            {
+                name: "analyst",
+                handle: "@analyst",
+                desc: "Specialized subagent that handles feature interrogation, specs drafting, and specs review (grill, specs, specs-review).",
+                writeTools: false,
+                skills: ["/kanche:design-grill", "/kanche:design-specs", "/kanche:design-specs-review"],
+                path: "plugins/kanche/agents/analyst/agent.json",
+                theme: "pink"
+            },
+            {
+                name: "architect",
+                handle: "@architect",
+                desc: "Specialized subagent that handles system design architecture, API specs, UI wireframes, and design review (init, review).",
+                writeTools: false,
+                skills: ["/kanche:design-init", "/kanche:design-review"],
+                path: "plugins/kanche/agents/architect/agent.json",
+                theme: "pink"
+            },
+            {
+                name: "coder",
+                handle: "@coder",
+                desc: "Specialized subagent that implements target codebase modifications incrementally, following specifications and task manifests.",
+                writeTools: true,
+                skills: ["/kanche:dev-implement"],
+                path: "plugins/kanche/agents/coder/agent.json",
+                theme: "teal"
+            },
+            {
+                name: "gh-operator",
+                handle: "@gh-operator",
+                desc: "Specialized subagent that handles GitHub integrations (fetching comments, reviews, opening PRs, listing PR status).",
+                writeTools: true,
+                skills: ["/kanche:pr-create", "/kanche:pr-list", "/kanche:pr-review", "/kanche:pr-approve", "/kanche:pr-respond", "/kanche:pr-merge"],
+                path: "plugins/kanche/agents/gh-operator/agent.json",
+                theme: "purple"
+            },
+            {
+                name: "git-operator",
+                handle: "@git-operator",
+                desc: "Specialized subagent that handles pure git operations (commit, checkout, stash, branch creation, tag creation).",
+                writeTools: true,
+                skills: ["/kanche:git-commit", "/kanche:git-branch-create", "/kanche:git-branch-delete", "/kanche:git-tag-create", "/kanche:git-tag-delete", "/kanche:git-tag-push", "/kanche:git-fetch", "/kanche:git-pull", "/kanche:git-push", "/kanche:git-stash", "/kanche:git-status", "/kanche:git-rebase", "/kanche:git-switch"],
+                path: "plugins/kanche/agents/git-operator/agent.json",
+                theme: "cyan"
+            },
+            {
+                name: "planner",
+                handle: "@planner",
+                desc: "Specialized subagent that handles task manifest creation, task decomposition, and tasks review (tasks, review).",
+                writeTools: false,
+                skills: ["/kanche:planner-tasks", "/kanche:planner-review"],
+                path: "plugins/kanche/agents/planner/agent.json",
+                theme: "indigo"
+            },
+            {
+                name: "validator",
+                handle: "@validator",
+                desc: "Specialized subagent that executes automated validation suites, linter checks, test plan verification, and build code reviews.",
+                writeTools: true,
+                skills: ["/kanche:qa-validate", "/kanche:qa-test-plan", "/kanche:qa-review"],
+                path: "plugins/kanche/agents/validator/agent.json",
+                theme: "emerald"
+            }
+        ];
+
         const pluginsData = {
-            "git": {
-                name: "git",
-                displayName: "Git Control",
-                desc: "Git workflow commands for Antigravity covering local staging scans, commit writes, branch checkouts, tags, stashes, and rebases. Safely isolates side effects using explicit human confirmations.",
+            "kanche": {
+                name: "kanche",
+                displayName: "All Kanche Skills",
+                desc: "Unified Antigravity developer plugin bundle packaging all 36 skills across Git, GitHub CLI, SDD Orchestrator, Design & Specs, Quality Assurance, Planner, and Development workflows into the /kanche: namespace.",
                 version: "v0.1.0",
                 theme: "blue",
-                inspectorUrl: "plugins/kanche/git/index.html",
-                commands: [
-                    { name: "/git:commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/git/skills/commit/SKILL.md" },
-                    { name: "/git:branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: false, path: "plugins/kanche/git/skills/branch-create/SKILL.md" },
-                    { name: "/git:branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/kanche/git/skills/branch-delete/SKILL.md" },
-                    { name: "/git:tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/kanche/git/skills/tag-create/SKILL.md" },
-                    { name: "/git:tag-delete", desc: "Delete a local and/or remote tag securely, gated by explicit confirmation.", gated: true, path: "plugins/kanche/git/skills/tag-delete/SKILL.md" },
-                    { name: "/git:tag-push", desc: "Push local tags to the remote origin, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/git/skills/tag-push/SKILL.md" },
-                    { name: "/git:fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: false, path: "plugins/kanche/git/skills/fetch/SKILL.md" },
-                    { name: "/git:pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/kanche/git/skills/pull/SKILL.md" },
-                    { name: "/git:push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/kanche/git/skills/push/SKILL.md" },
-                    { name: "/git:stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: false, path: "plugins/kanche/git/skills/stash/SKILL.md" },
-                    { name: "/git:status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: false, path: "plugins/kanche/git/skills/status/SKILL.md" },
-                    { name: "/git:rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/kanche/git/skills/rebase/SKILL.md" },
-                    { name: "/git:switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: false, path: "plugins/kanche/git/skills/switch/SKILL.md" }
-                ]
+                inspectorUrl: "plugins/kanche/plugin.json",
+                commands: [...gitCommands, ...ghCommands, ...sddCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands]
+            },
+            "git": {
+                name: "git",
+                displayName: "Git Controls",
+                desc: "Safe staging, conventional commits, branch management, stashes, rebasing, tags, and remote tracking.",
+                version: "v0.1.0",
+                theme: "cyan",
+                inspectorUrl: "plugins/kanche/skills/git/commit/SKILL.md",
+                commands: gitCommands
             },
             "gh-cli": {
                 name: "gh-cli",
                 displayName: "GitHub CLI",
-                desc: "GitHub CLI integrations for pull requests lifecycle operations, automated diff auditing against AGENTS.md, approvals, and triaging thread responses.",
+                desc: "Pull request lifecycle management, automated PR creation, review triaging, approvals, and merging.",
                 version: "v0.1.0",
                 theme: "purple",
-                inspectorUrl: "plugins/kanche/gh-cli/index.html",
-                commands: [
-                    { name: "/gh-cli:pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/kanche/gh-cli/skills/pr-create/SKILL.md" },
-                    { name: "/gh-cli:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: false, path: "plugins/kanche/gh-cli/skills/pr-list/SKILL.md" },
-                    { name: "/gh-cli:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/kanche/gh-cli/skills/pr-review/SKILL.md" },
-                    { name: "/gh-cli:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/kanche/gh-cli/skills/pr-approve/SKILL.md" },
-                    { name: "/gh-cli:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/kanche/gh-cli/skills/pr-respond/SKILL.md" },
-                    { name: "/gh-cli:pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/gh-cli/skills/pr-merge/SKILL.md" }
-                ]
+                inspectorUrl: "plugins/kanche/skills/gh-cli/pr-create/SKILL.md",
+                commands: ghCommands
             },
             "sdd": {
                 name: "sdd",
                 displayName: "SDD Orchestrator",
-                desc: "Software Development Document (SDD) master workflow orchestrator for Antigravity, coordinating steering rules, feature lifecycle phases, and cross-plugin synchronization.",
+                desc: "Spec-Driven Development phase orchestrator (P0-P9), steering guideline generation, and document sync.",
                 version: "v0.1.0",
                 theme: "amber",
-                inspectorUrl: "plugins/kanche/sdd/index.html",
-                commands: [
-                    { name: "/sdd:run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: "plugins/kanche/sdd/skills/run/SKILL.md" },
-                    { name: "/sdd:steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/kanche/sdd/skills/steering/SKILL.md" },
-                    { name: "/sdd:sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/kanche/sdd/skills/sync/SKILL.md" },
-                    { name: "/sdd:init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/kanche/sdd/skills/init/SKILL.md" },
-                    { name: "/sdd:init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/kanche/sdd/skills/init-update/SKILL.md" },
-                    { name: "/sdd:continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/kanche/sdd/skills/continue/SKILL.md" }
-                ]
+                inspectorUrl: "plugins/kanche/skills/sdd/run/SKILL.md",
+                commands: sddCommands
             },
             "design": {
                 name: "design",
                 displayName: "Design & Specs",
-                desc: "Requirements interrogation, functional specifications, system design architecture, and UI/UX wireframing skills.",
+                desc: "Adversarial requirements grilling, functional specification drafting, system architecture design, and spec reviews.",
                 version: "v0.1.0",
-                theme: "purple",
-                inspectorUrl: "plugins/kanche/design/index.html",
-                commands: [
-                    { name: "/design:grill", desc: "Adversarially probe feature requests to extract ambiguities and rank clarifying questions. Delegates to @design-analyst.", gated: false, path: "plugins/kanche/design/skills/grill/SKILL.md" },
-                    { name: "/design:specs", desc: "Draft functional specifications documenting target changes and acceptance criteria. Delegates to @design-analyst.", gated: false, path: "plugins/kanche/design/skills/specs/SKILL.md" },
-                    { name: "/design:specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict. Delegates to @design-analyst.", gated: false, path: "plugins/kanche/design/skills/specs-review/SKILL.md" },
-                    { name: "/design:init", desc: "Draft system architecture design specifications including component details and schemas. Delegates to @design-architect.", gated: false, path: "plugins/kanche/design/skills/init/SKILL.md" },
-                    { name: "/design:review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @design-architect.", gated: false, path: "plugins/kanche/design/skills/review/SKILL.md" }
-                ]
+                theme: "pink",
+                inspectorUrl: "plugins/kanche/skills/design/specs/SKILL.md",
+                commands: designCommands
             },
             "qa": {
                 name: "qa",
                 displayName: "Quality Assurance",
-                desc: "Automated testing, test plan creation, build code reviews, and quality validation workflows.",
+                desc: "Automated lint/compile/test suite verification, test plan generation, and code review audit gates.",
                 version: "v0.1.0",
-                theme: "blue",
-                inspectorUrl: "plugins/kanche/qa/index.html",
-                commands: [
-                    { name: "/qa:validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @qa-validator.", gated: false, path: "plugins/kanche/qa/skills/validate/SKILL.md" },
-                    { name: "/qa:test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @qa-validator.", gated: false, path: "plugins/kanche/qa/skills/test-plan/SKILL.md" },
-                    { name: "/qa:review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @qa-validator.", gated: false, path: "plugins/kanche/qa/skills/review/SKILL.md" }
-                ]
+                theme: "emerald",
+                inspectorUrl: "plugins/kanche/skills/qa/validate/SKILL.md",
+                commands: qaCommands
             },
             "planner": {
                 name: "planner",
-                displayName: "Task Planner",
-                desc: "Task decomposition, checklist manifests, and implementation planning skills.",
+                displayName: "Planner & Tasks",
+                desc: "Task breakdown checklist generation, file-by-file dependency ordering, and planning review audits.",
                 version: "v0.1.0",
-                theme: "amber",
-                inspectorUrl: "plugins/kanche/planner/index.html",
-                commands: [
-                    { name: "/planner:tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands. Delegates to @planner-agent.", gated: false, path: "plugins/kanche/planner/skills/tasks/SKILL.md" },
-                    { name: "/planner:review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict. Delegates to @planner-agent.", gated: false, path: "plugins/kanche/planner/skills/review/SKILL.md" }
-                ]
+                theme: "indigo",
+                inspectorUrl: "plugins/kanche/skills/planner/tasks/SKILL.md",
+                commands: plannerCommands
             },
             "dev": {
                 name: "dev",
-                displayName: "Development",
-                desc: "Code implementation, refactoring, and incremental build execution skills.",
+                displayName: "Dev Implement",
+                desc: "Incremental code implementation and task checklist execution.",
                 version: "v0.1.0",
-                theme: "purple",
-                inspectorUrl: "plugins/kanche/dev/index.html",
-                commands: [
-                    { name: "/dev:implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @dev-coder.", gated: false, path: "plugins/kanche/dev/skills/implement/SKILL.md" }
-                ]
+                theme: "teal",
+                inspectorUrl: "plugins/kanche/skills/dev/implement/SKILL.md",
+                commands: devCommands
+            },
+            "agents": {
+                name: "agents",
+                displayName: "Specialized Subagents",
+                desc: "Autonomous specialized AI subagents defined in plugins/kanche/agents/ that handle domain-specific workflows across Git, GitHub CLI, SDD, Design, QA, Planning, and Implementation.",
+                version: "v0.1.0",
+                theme: "emerald",
+                inspectorUrl: "plugins/kanche/plugin.json",
+                isAgentsView: true,
+                commands: []
             }
         };
 
-        let activePluginKey = "git";
-        const selectionList = document.getElementById('plugin-selection-list');
-        const headerSection = document.getElementById('plugin-header-section');
-        const container = document.getElementById('commands-container');
-        const searchInput = document.getElementById('command-search');
+        let activePluginKey = "kanche";
+        const selectionList = document.getElementById("plugin-selection-list");
+        const agentSelectionList = document.getElementById("agent-selection-list");
+        const headerSection = document.getElementById("plugin-header-section");
+        const container = document.getElementById("commands-container");
+        const searchInput = document.getElementById("command-search");
 
         function loadPlugin(pluginKey) {
             activePluginKey = pluginKey;
             const data = pluginsData[pluginKey];
-            const themeClass = data.theme; // 'purple', 'amber', 'blue'
+            const themeClass = data.theme;
 
             // Update header
             headerSection.innerHTML = `
                 <div class="plugin-title-row">
-                    <h2 class="plugin-title ${themeClass}">Plugin: <span>${data.name}</span></h2>
+                    <h2 class="plugin-title ${themeClass}">View: <span>${data.displayName}</span></h2>
                     <div class="plugin-meta">
                         <span class="plugin-version">${data.version}</span>
-                        <button class="inspect-plugin-btn" onclick="location.href='${data.inspectorUrl}'">
-                            Inspect
+                        <button class="inspect-plugin-btn" onclick="window.open('${data.inspectorUrl}', '_blank')">
+                            Inspect File
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </button>
                     </div>
@@ -658,30 +923,78 @@
             `;
 
             // Update search placeholder
-            searchInput.placeholder = `Search ${data.displayName} commands...`;
-            searchInput.value = '';
+            searchInput.placeholder = data.isAgentsView
+                ? "Search subagents by handle, name, or skills..."
+                : `Search ${data.displayName} commands...`;
+            searchInput.value = "";
 
             renderCommands();
         }
 
-        function renderCommands(filterText = '') {
-            container.innerHTML = '';
+        function renderCommands(filterText = "") {
+            container.innerHTML = "";
             const data = pluginsData[activePluginKey];
-            const themeClass = data.theme; // 'purple', 'amber', 'blue'
+            const themeClass = data.theme;
 
-            const filtered = data.commands.filter(cmd => 
-                cmd.name.toLowerCase().includes(filterText.toLowerCase()) || 
+            if (data.isAgentsView) {
+                const filteredAgents = agentsData.filter(agent =>
+                    agent.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                    agent.handle.toLowerCase().includes(filterText.toLowerCase()) ||
+                    agent.desc.toLowerCase().includes(filterText.toLowerCase()) ||
+                    agent.skills.some(s => s.toLowerCase().includes(filterText.toLowerCase()))
+                );
+
+                if (filteredAgents.length === 0) {
+                    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 3rem;">No matching subagents found.</div>`;
+                    return;
+                }
+
+                filteredAgents.forEach(agent => {
+                    const card = document.createElement("div");
+                    card.className = `agent-card ${agent.theme}-card`;
+                    card.innerHTML = `
+                        <div class="agent-header">
+                            <div class="agent-handle">${agent.handle}</div>
+                            <span class="write-tools-badge ${agent.writeTools ? "enabled" : "disabled"}">
+                                ${agent.writeTools ? "Write Tools: Enabled" : "Read-Only"}
+                            </span>
+                        </div>
+                        <div class="agent-desc">${agent.desc}</div>
+                        <div class="agent-skills-list">
+                            ${agent.skills.map(s => `<span class="agent-skill-badge">${s}</span>`).join('')}
+                        </div>
+                        <div class="cmd-footer">
+                            <span class="cmd-tag">Subagent Manifest</span>
+                            <a href="${agent.path}" class="cmd-link" target="_blank">
+                                <span>agent.json</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+                return;
+            }
+
+            const filtered = data.commands.filter(cmd =>
+                cmd.name.toLowerCase().includes(filterText.toLowerCase()) ||
                 cmd.desc.toLowerCase().includes(filterText.toLowerCase())
             );
 
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 3rem;">No matching commands found.</div>`;
+                return;
+            }
+
             filtered.forEach(cmd => {
-                const card = document.createElement('div');
-                card.className = `command-card ${themeClass}-card`;
+                const card = document.createElement("div");
+                const cardTheme = cmd.theme || themeClass;
+                card.className = `command-card ${cardTheme}-card`;
                 card.innerHTML = `
                     <div class="cmd-name">${cmd.name}</div>
                     <div class="cmd-desc">${cmd.desc}</div>
                     <div class="cmd-footer">
-                        <span class="cmd-tag ${cmd.gated ? 'gated' : ''}">${cmd.gated ? 'Gated Confirmation' : 'Direct Action'}</span>
+                        <span class="cmd-tag ${cmd.gated ? "gated" : ""}">${cmd.gated ? "Gated Confirmation" : "Direct Action"}</span>
                         <a href="${cmd.path}" class="cmd-link" target="_blank">
                             <span>Workflow</span>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -693,25 +1006,46 @@
         }
 
         function renderPluginNavigation() {
-            selectionList.innerHTML = '';
+            selectionList.innerHTML = "";
             Object.keys(pluginsData).forEach(key => {
                 const data = pluginsData[key];
-                const btn = document.createElement('button');
-                btn.className = `plugin-nav-btn ${key === activePluginKey ? 'active' : ''} ${data.theme}-theme`;
+                const btn = document.createElement("button");
+                btn.className = `plugin-nav-btn ${key === activePluginKey ? "active" : ""} ${data.theme}-theme`;
+                const count = data.isAgentsView ? agentsData.length : data.commands.length;
                 btn.innerHTML = `
                     <span>${data.displayName}</span>
-                    <span class="badge">${data.commands.length} Commands</span>
+                    <span class="badge">${count}</span>
                 `;
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.plugin-nav-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
+                btn.addEventListener("click", () => {
+                    document.querySelectorAll(".plugin-nav-btn").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
                     loadPlugin(key);
                 });
                 selectionList.appendChild(btn);
             });
+
+            if (agentSelectionList) {
+                agentSelectionList.innerHTML = "";
+                agentsData.forEach(agent => {
+                    const btn = document.createElement("button");
+                    btn.className = `plugin-nav-btn ${activePluginKey === "agents" ? "active" : ""} ${agent.theme}-theme`;
+                    btn.innerHTML = `
+                        <span>${agent.handle}</span>
+                        <span class="badge" style="font-size: 0.65rem;">${agent.skills.length} skills</span>
+                    `;
+                    btn.addEventListener("click", () => {
+                        document.querySelectorAll(".plugin-nav-btn").forEach(b => b.classList.remove("active"));
+                        btn.classList.add("active");
+                        loadPlugin("agents");
+                        searchInput.value = agent.handle;
+                        renderCommands(agent.handle);
+                    });
+                    agentSelectionList.appendChild(btn);
+                });
+            }
         }
 
-        searchInput.addEventListener('input', (e) => {
+        searchInput.addEventListener("input", (e) => {
             renderCommands(e.target.value);
         });
 
