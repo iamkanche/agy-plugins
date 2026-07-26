@@ -827,60 +827,60 @@
 
     <script>
         const gitCommands = [
-            { name: "/kanche:git-commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/skills/git/commit/SKILL.md" },
-            { name: "/kanche:git-branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: true, path: "plugins/kanche/skills/git/branch-create/SKILL.md" },
-            { name: "/kanche:git-branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/kanche/skills/git/branch-delete/SKILL.md" },
-            { name: "/kanche:git-tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/kanche/skills/git/tag-create/SKILL.md" },
-            { name: "/kanche:git-tag-delete", desc: "Delete a local and/or remote tag securely, gated by explicit confirmation.", gated: true, path: "plugins/kanche/skills/git/tag-delete/SKILL.md" },
-            { name: "/kanche:git-tag-push", desc: "Push local tags to the remote origin, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/skills/git/tag-push/SKILL.md" },
-            { name: "/kanche:git-fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: true, path: "plugins/kanche/skills/git/fetch/SKILL.md" },
-            { name: "/kanche:git-pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/kanche/skills/git/pull/SKILL.md" },
-            { name: "/kanche:git-push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/kanche/skills/git/push/SKILL.md" },
-            { name: "/kanche:git-stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: true, path: "plugins/kanche/skills/git/stash/SKILL.md" },
-            { name: "/kanche:git-status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: true, path: "plugins/kanche/skills/git/status/SKILL.md" },
-            { name: "/kanche:git-rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/kanche/skills/git/rebase/SKILL.md" },
-            { name: "/kanche:git-switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: true, path: "plugins/kanche/skills/git/switch/SKILL.md" }
+            { name: "/kanche:git-commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/skills/git-commit/SKILL.md" },
+            { name: "/kanche:git-branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: true, path: "plugins/kanche/skills/git-branch-create/SKILL.md" },
+            { name: "/kanche:git-branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/kanche/skills/git-branch-delete/SKILL.md" },
+            { name: "/kanche:git-tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/kanche/skills/git-tag-create/SKILL.md" },
+            { name: "/kanche:git-tag-delete", desc: "Delete a local and/or remote tag securely, gated by explicit confirmation.", gated: true, path: "plugins/kanche/skills/git-tag-delete/SKILL.md" },
+            { name: "/kanche:git-tag-push", desc: "Push local tags to the remote origin, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/skills/git-tag-push/SKILL.md" },
+            { name: "/kanche:git-fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: true, path: "plugins/kanche/skills/git-fetch/SKILL.md" },
+            { name: "/kanche:git-pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/kanche/skills/git-pull/SKILL.md" },
+            { name: "/kanche:git-push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/kanche/skills/git-push/SKILL.md" },
+            { name: "/kanche:git-stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: true, path: "plugins/kanche/skills/git-stash/SKILL.md" },
+            { name: "/kanche:git-status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: true, path: "plugins/kanche/skills/git-status/SKILL.md" },
+            { name: "/kanche:git-rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/kanche/skills/git-rebase/SKILL.md" },
+            { name: "/kanche:git-switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: true, path: "plugins/kanche/skills/git-switch/SKILL.md" }
         ];
 
         const ghCommands = [
-            { name: "/kanche:pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-create/SKILL.md" },
-            { name: "/kanche:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-list/SKILL.md" },
-            { name: "/kanche:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-review/SKILL.md" },
-            { name: "/kanche:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-approve/SKILL.md" },
-            { name: "/kanche:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-respond/SKILL.md" },
-            { name: "/kanche:pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli/pr-merge/SKILL.md" }
+            { name: "/kanche:pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
+            { name: "/kanche:pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-list/SKILL.md" },
+            { name: "/kanche:pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
+            { name: "/kanche:pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-approve/SKILL.md" },
+            { name: "/kanche:pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
+            { name: "/kanche:pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
         ];
 
         const sddCommands = [
-            { name: "/kanche:sdd-run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: "plugins/kanche/skills/sdd/run/SKILL.md" },
-            { name: "/kanche:sdd-steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/kanche/skills/sdd/steering/SKILL.md" },
-            { name: "/kanche:sdd-sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/kanche/skills/sdd/sync/SKILL.md" },
-            { name: "/kanche:sdd-init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/kanche/skills/sdd/init/SKILL.md" },
-            { name: "/kanche:sdd-init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/kanche/skills/sdd/init-update/SKILL.md" },
-            { name: "/kanche:sdd-continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/kanche/skills/sdd/continue/SKILL.md" }
+            { name: "/kanche:sdd-run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: "plugins/kanche/skills/sdd-run/SKILL.md" },
+            { name: "/kanche:sdd-steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/kanche/skills/sdd-steering/SKILL.md" },
+            { name: "/kanche:sdd-sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
+            { name: "/kanche:sdd-init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/kanche/skills/sdd-init/SKILL.md" },
+            { name: "/kanche:sdd-init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/kanche/skills/sdd-init-update/SKILL.md" },
+            { name: "/kanche:sdd-continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/kanche/skills/sdd-continue/SKILL.md" }
         ];
 
         const designCommands = [
-            { name: "/kanche:design-grill", desc: "Adversarially probe feature requests to extract ambiguities and rank clarifying questions. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design/grill/SKILL.md" },
-            { name: "/kanche:design-specs", desc: "Draft functional specifications documenting target criteria. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design/specs/SKILL.md" },
-            { name: "/kanche:design-specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design/specs-review/SKILL.md" },
-            { name: "/kanche:design-init", desc: "Draft system architecture design specifications including component details and schemas. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design/init/SKILL.md" },
-            { name: "/kanche:design-review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design/review/SKILL.md" }
+            { name: "/kanche:design-grill", desc: "Adversarially probe feature requests to extract ambiguities and rank clarifying questions. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design-grill/SKILL.md" },
+            { name: "/kanche:design-specs", desc: "Draft functional specifications documenting target criteria. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design-specs/SKILL.md" },
+            { name: "/kanche:design-specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design-specs-review/SKILL.md" },
+            { name: "/kanche:design-init", desc: "Draft system architecture design specifications including component details and schemas. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design-init/SKILL.md" },
+            { name: "/kanche:design-review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design-review/SKILL.md" }
         ];
 
         const qaCommands = [
-            { name: "/kanche:qa-validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa/validate/SKILL.md" },
-            { name: "/kanche:qa-test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa/test-plan/SKILL.md" },
-            { name: "/kanche:qa-review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa/review/SKILL.md" }
+            { name: "/kanche:qa-validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-validate/SKILL.md" },
+            { name: "/kanche:qa-test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-test-plan/SKILL.md" },
+            { name: "/kanche:qa-review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-review/SKILL.md" }
         ];
 
         const plannerCommands = [
-            { name: "/kanche:planner-tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands. Delegates to @planner.", gated: false, path: "plugins/kanche/skills/planner/tasks/SKILL.md" },
-            { name: "/kanche:planner-review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict. Delegates to @planner.", gated: false, path: "plugins/kanche/skills/planner/review/SKILL.md" }
+            { name: "/kanche:planner-tasks", desc: "Formulate task checklist lists representing discrete files to edit and test plan commands. Delegates to @planner.", gated: false, path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
+            { name: "/kanche:planner-review", desc: "Perform review on tasks checklist layout, returning a GO/NO-GO verdict. Delegates to @planner.", gated: false, path: "plugins/kanche/skills/planner-review/SKILL.md" }
         ];
 
         const devCommands = [
-            { name: "/kanche:dev-implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @coder.", gated: false, path: "plugins/kanche/skills/dev/implement/SKILL.md" }
+            { name: "/kanche:dev-implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @coder.", gated: false, path: "plugins/kanche/skills/dev-implement/SKILL.md" }
         ];
 
         gitCommands.forEach(c => { c.gated = true; c.theme = "cyan"; });
@@ -965,7 +965,7 @@
                 agent: "@git-operator",
                 theme: "cyan",
                 skills: [
-                    { name: "/kanche:git-branch-create", label: "Branch Create", path: "plugins/kanche/skills/git/branch-create/SKILL.md" }
+                    { name: "/kanche:git-branch-create", label: "Branch Create", path: "plugins/kanche/skills/git-branch-create/SKILL.md" }
                 ]
             },
             {
@@ -975,9 +975,9 @@
                 agent: "@analyst",
                 theme: "pink",
                 skills: [
-                    { name: "/kanche:design-grill", label: "Design Grill", path: "plugins/kanche/skills/design/grill/SKILL.md" },
-                    { name: "/kanche:design-specs", label: "Specs Draft", path: "plugins/kanche/skills/design/specs/SKILL.md" },
-                    { name: "/kanche:design-specs-review", label: "Specs Review", path: "plugins/kanche/skills/design/specs-review/SKILL.md" }
+                    { name: "/kanche:design-grill", label: "Design Grill", path: "plugins/kanche/skills/design-grill/SKILL.md" },
+                    { name: "/kanche:design-specs", label: "Specs Draft", path: "plugins/kanche/skills/design-specs/SKILL.md" },
+                    { name: "/kanche:design-specs-review", label: "Specs Review", path: "plugins/kanche/skills/design-specs-review/SKILL.md" }
                 ]
             },
             {
@@ -987,8 +987,8 @@
                 agent: "@architect",
                 theme: "pink",
                 skills: [
-                    { name: "/kanche:design-init", label: "Design Init", path: "plugins/kanche/skills/design/init/SKILL.md" },
-                    { name: "/kanche:design-review", label: "Design Review", path: "plugins/kanche/skills/design/review/SKILL.md" }
+                    { name: "/kanche:design-init", label: "Design Init", path: "plugins/kanche/skills/design-init/SKILL.md" },
+                    { name: "/kanche:design-review", label: "Design Review", path: "plugins/kanche/skills/design-review/SKILL.md" }
                 ]
             },
             {
@@ -998,8 +998,8 @@
                 agent: "@planner",
                 theme: "indigo",
                 skills: [
-                    { name: "/kanche:planner-tasks", label: "Planner Tasks", path: "plugins/kanche/skills/planner/tasks/SKILL.md" },
-                    { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner/review/SKILL.md" }
+                    { name: "/kanche:planner-tasks", label: "Planner Tasks", path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
+                    { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner-review/SKILL.md" }
                 ]
             },
             {
@@ -1009,8 +1009,8 @@
                 agent: "@coder",
                 theme: "teal",
                 skills: [
-                    { name: "/kanche:dev-implement", label: "Dev Implement", path: "plugins/kanche/skills/dev/implement/SKILL.md" },
-                    { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa/review/SKILL.md" }
+                    { name: "/kanche:dev-implement", label: "Dev Implement", path: "plugins/kanche/skills/dev-implement/SKILL.md" },
+                    { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa-review/SKILL.md" }
                 ]
             },
             {
@@ -1020,7 +1020,7 @@
                 agent: "@validator",
                 theme: "emerald",
                 skills: [
-                    { name: "/kanche:qa-validate", label: "QA Validate", path: "plugins/kanche/skills/qa/validate/SKILL.md" }
+                    { name: "/kanche:qa-validate", label: "QA Validate", path: "plugins/kanche/skills/qa-validate/SKILL.md" }
                 ]
             },
             {
@@ -1030,9 +1030,9 @@
                 agent: "@gh-operator",
                 theme: "purple",
                 skills: [
-                    { name: "/kanche:git-push", label: "Git Push", path: "plugins/kanche/skills/git/push/SKILL.md" },
-                    { name: "/kanche:pr-create", label: "PR Create", path: "plugins/kanche/skills/gh-cli/pr-create/SKILL.md" },
-                    { name: "/kanche:pr-review", label: "PR Review", path: "plugins/kanche/skills/gh-cli/pr-review/SKILL.md" }
+                    { name: "/kanche:git-push", label: "Git Push", path: "plugins/kanche/skills/git-push/SKILL.md" },
+                    { name: "/kanche:pr-create", label: "PR Create", path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
+                    { name: "/kanche:pr-review", label: "PR Review", path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" }
                 ]
             },
             {
@@ -1042,9 +1042,9 @@
                 agent: "@gh-operator",
                 theme: "amber",
                 skills: [
-                    { name: "/kanche:pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli/pr-respond/SKILL.md" },
-                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd/sync/SKILL.md" },
-                    { name: "/kanche:pr-merge", label: "PR Merge", path: "plugins/kanche/skills/gh-cli/pr-merge/SKILL.md" }
+                    { name: "/kanche:pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
+                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
+                    { name: "/kanche:pr-merge", label: "PR Merge", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
                 ]
             }
         ];
@@ -1065,7 +1065,7 @@
                 desc: "Interactive visual flow of the 10 SDD phases (P0-P9) showing orchestrator execution: sdd-run → design → planner → dev → qa → deploy → merge.",
                 version: "v0.1.0",
                 theme: "amber",
-                inspectorUrl: "plugins/kanche/skills/sdd/run/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/sdd-run/SKILL.md",
                 isMapView: true,
                 commands: []
             },
@@ -1075,7 +1075,7 @@
                 desc: "Safe staging, conventional commits, branch management, stashes, rebasing, tags, and remote tracking.",
                 version: "v0.1.0",
                 theme: "cyan",
-                inspectorUrl: "plugins/kanche/skills/git/commit/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/git-commit/SKILL.md",
                 commands: gitCommands
             },
             "gh-cli": {
@@ -1084,7 +1084,7 @@
                 desc: "Pull request lifecycle management, automated PR creation, review triaging, approvals, and merging.",
                 version: "v0.1.0",
                 theme: "purple",
-                inspectorUrl: "plugins/kanche/skills/gh-cli/pr-create/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md",
                 commands: ghCommands
             },
             "sdd": {
@@ -1093,7 +1093,7 @@
                 desc: "Spec-Driven Development phase orchestrator (P0-P9), steering guideline generation, and document sync.",
                 version: "v0.1.0",
                 theme: "amber",
-                inspectorUrl: "plugins/kanche/skills/sdd/run/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/sdd-run/SKILL.md",
                 commands: sddCommands
             },
             "design": {
@@ -1102,7 +1102,7 @@
                 desc: "Adversarial requirements grilling, functional specification drafting, system architecture design, and spec reviews.",
                 version: "v0.1.0",
                 theme: "pink",
-                inspectorUrl: "plugins/kanche/skills/design/specs/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/design-specs/SKILL.md",
                 commands: designCommands
             },
             "qa": {
@@ -1111,7 +1111,7 @@
                 desc: "Automated lint/compile/test suite verification, test plan generation, and code review audit gates.",
                 version: "v0.1.0",
                 theme: "emerald",
-                inspectorUrl: "plugins/kanche/skills/qa/validate/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/qa-validate/SKILL.md",
                 commands: qaCommands
             },
             "planner": {
@@ -1120,7 +1120,7 @@
                 desc: "Task breakdown checklist generation, file-by-file dependency ordering, and planning review audits.",
                 version: "v0.1.0",
                 theme: "indigo",
-                inspectorUrl: "plugins/kanche/skills/planner/tasks/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/planner-tasks/SKILL.md",
                 commands: plannerCommands
             },
             "dev": {
@@ -1129,7 +1129,7 @@
                 desc: "Incremental code implementation and task checklist execution.",
                 version: "v0.1.0",
                 theme: "teal",
-                inspectorUrl: "plugins/kanche/skills/dev/implement/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/dev-implement/SKILL.md",
                 commands: devCommands
             },
             "agents": {
