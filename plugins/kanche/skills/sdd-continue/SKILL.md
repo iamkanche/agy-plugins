@@ -78,7 +78,7 @@ From the detected (or `--from`) phase, execute forward exactly as `/kanche:sdd-r
   - P3 Docs Commit checkpoint: run `/kanche:git-commit` to commit specs, design, tasks.
   - P4: `/kanche:dev-implement` → `/kanche:qa-review` -> P4 Implementation Commit checkpoint: run `/kanche:git-commit` to commit build changes.
 - **P5** (only if `--until` ≥ build) — **/kanche:qa-validate**; on failure ask "[Fix via build loop | Continue | Stop]".
-- **P6** (only if `--until` ≥ build) — **/kanche:git-push** then **/kanche:pr-create** (each self-gated). In **auto** mode, proceed to Level 2.
+- **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:pr-create** → **/kanche:gh-cli-pr-review** (AI PR Review). In **auto** mode, proceed to Level 2.
 - **P7–P9 LEVEL 2** —
   - **auto:** Automatically walk through `/kanche:qa-validate`, `/kanche:pr-respond` (if feedback), and `/kanche:sdd-sync` to completion.
   - **manual:** Ask "Proceed to `<phase>`? [Yes|No]" before EACH:

@@ -27,18 +27,19 @@ If `--from`/`--until` are inconsistent (from > until), stop and report.
 ## Phase model
 
 ```
-LEVEL 1 (AI + Subagents)                         LEVEL 2 (AI + human, auto/gated)
-P0 setup   Receipt /kanche:git-branch-create            P7 human review  /kanche:qa-validate
-P1 specs   /kanche:design-grill → /kanche:design-specs         P8 PR mods       /kanche:pr-respond & poll
-           → /kanche:design-specs-review (Analyst)      P9 alignment     /kanche:sdd-sync -> /kanche:pr-merge & preserve
-P2 design  /kanche:design-init → /kanche:design-review
-           (Architect)
-P3 tasks   /kanche:planner-tasks → /kanche:planner-review
-           → Docs Commit (Planner)
-P4 build   /kanche:dev-implement → /kanche:qa-review
-           → Code Commit (Coder)
-P5 valid.  /kanche:qa-validate & fix (Validator)
-P6 deploy  /kanche:git-push → /kanche:pr-create
+LEVEL 1 (AI + Subagents)
+P0 setup   Receipt → /kanche:git-branch-create
+P1 specs   /kanche:design-grill → /kanche:design-specs → FORCED /kanche:design-specs-review (Analyst, ≤3x loop)
+P2 design  /kanche:design-init → FORCED /kanche:design-review (Architect, ≤3x loop)
+P3 tasks   /kanche:planner-tasks → FORCED /kanche:planner-review → Docs Commit (Planner, ≤3x loop)
+P4 build   /kanche:dev-implement → FORCED /kanche:qa-review → Code Commit (Coder, ≤3x loop)
+P5 valid.  /kanche:qa-validate & fix (Validator, ≤3x loop)
+P6 deploy  /kanche:git-push → /kanche:pr-create → FORCED /kanche:gh-cli-pr-review (AI PR Review)
+
+LEVEL 2 (AI + human, auto/gated)
+P7 human review  /kanche:qa-validate
+P8 PR mods       /kanche:pr-respond & poll (≤3x loop)
+P9 alignment     /kanche:sdd-sync → /kanche:pr-merge & preserve
 ```
 
 ## Steps
@@ -70,9 +71,9 @@ P6 deploy  /kanche:git-push → /kanche:pr-create
 
 ### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents)
 
-To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. Each loop runs up to **3** times.
+To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. **Every phase review is FORCED and MANDATORY**: each phase MUST automatically execute its paired review workflow immediately after generation, running a retry loop up to **3** times until a `GO` verdict is achieved.
 
-| Phase | Subagent | Generate Workflow | Review Workflow | Commit Gate |
+| Phase | Subagent | Generate Workflow | Mandatory Review Workflow (Forced, ≤3x Loop) | Commit Gate |
 |---|---|---|---|---|
 | **P1 Specs** | `analyst` | `/kanche:design-grill` (first cycle) then `/kanche:design-specs` | `/kanche:design-specs-review` | None |
 | **P2 Design** | `architect` | `/kanche:design-init` | `/kanche:design-review` | None |
@@ -81,8 +82,8 @@ To optimize token consumption, the parent agent delegates Phase P1-P4 workflows 
 
 For each phase:
 
-1. **Delegate execution.** Spawn the corresponding subagent (`analyst`, `architect`, `planner`, or `coder`) with a system prompt outlining the phase goal and feed it the relevant specs, designs, and tasks.
-2. **Review verdict.** The subagent runs the review skill and parses the `verdict:` output from:
+1. **Delegate execution & mandatory review.** Spawn the corresponding subagent (`analyst`, `architect`, `planner`, or `coder`) with explicit instructions outlining the phase goal. The subagent MUST automatically run both the generation workflow AND the review workflow in sequence without skipping review.
+2. **Review verdict.** The subagent runs the review skill (P1: `/kanche:design-specs-review`, P2: `/kanche:design-review`, P3: `/kanche:planner-review`, P4: `/kanche:qa-review`) and parses the `verdict:` output from:
    ```sdd-review
    verdict: GO            # or NO-GO
    findings:
@@ -90,7 +91,7 @@ For each phase:
    ```
 
    - **GO** → Proceed to the next phase.
-   - **NO-GO** and cycles remaining → Re-run generate, feeding `findings` to resolve.
+   - **NO-GO** and cycles remaining (up to 3x) → Re-run generate, feeding `findings` to resolve, then automatically re-run review.
    - **NO-GO** on 3rd cycle → In `auto` mode, stop the workflow and report findings. In `manual` mode, ask via `default_api:ask_question` whether to `Proceed anyway` or `Stop`.
 3. **Commit checkpoints.**
    - End of P3: Run `/kanche:git-commit` to commit all docs.
@@ -103,10 +104,11 @@ For each phase:
    - **Under auto mode:** Re-enter P4 (build) automatically up to 3 times to apply fixes, and re-run validation. If still failing after 3 attempts, abort and report failures.
    - **Under manual mode:** Ask "Validation failed" via `default_api:ask_question` with options `Fix via build loop`, `Continue to deploy`, and `Stop`.
 
-### P6 — Deploy (Push & Create PR)
+### P6 — Deploy & AI PR Review
 
 1. **Push branch.** Run `/kanche:git-push`.
 2. **Create PR.** Run `/kanche:pr-create`.
+3. **AI PR Review (Mandatory).** Run `/kanche:gh-cli-pr-review` to automatically audit the pull request diff against project guidelines and post structured review comments on GitHub.
 
 ### P7–P9 — Level 2 Automation (PR Review, Merging & Alignment)
 
