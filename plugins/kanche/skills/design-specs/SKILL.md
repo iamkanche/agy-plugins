@@ -6,15 +6,15 @@ description: Generate the functional specifications file based on feature descri
 # /kanche:design-specs
 
 **Mission.** Turn the feature request plus the answered grill questions into a complete,
-testable `specs.md` body for `.sdd-docs/development/{NNN}_{slug}/specs.md` — the WHAT, not the
+testable `specs.md` body for `docs/development/{NNN}_{slug}/specs.md` — the WHAT, not the
 HOW.
 
 ## Read
 
 - The feature request / backlog text and the resolved grill Q&A passed in by the workflow.
-- `.sdd-docs/guidelines/{product,tech,structure,rules}.md` — for scope boundaries, terminology,
+- `docs/guidelines/{product,tech,structure,rules}.md` — for scope boundaries, terminology,
   constraints, and mandatory rules.
-- Any existing `.sdd-docs/development/{NNN}_{slug}/{specs,notes}.md` for this feature (refine,
+- Any existing `docs/development/{NNN}_{slug}/{specs,notes}.md` for this feature (refine,
   don't discard human edits).
 - The codebase only as needed (glob/grep/read) to ground data-model and integration
   claims in what exists — do not design the solution here.
@@ -54,4 +54,4 @@ Keep acceptance criteria and NFRs concrete enough that `specs-review` can judge 
 - Ground data-model/integration claims in real code or guidelines; label inferences. Never
   invent requirements the request or grill answers do not support — record them as open
   questions instead.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

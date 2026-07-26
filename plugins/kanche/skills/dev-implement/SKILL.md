@@ -11,11 +11,11 @@ skill that edits source files — it still does **not** commit, push, or orchest
 
 ## Read
 
-- `.sdd-docs/development/{NNN}_{slug}/tasks.md` — the ordered work list; this is your plan of
+- `docs/development/{NNN}_{slug}/tasks.md` — the ordered work list; this is your plan of
   record.
-- `.sdd-docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — for the interfaces,
+- `docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — for the interfaces,
   contracts, and acceptance criteria each task must satisfy.
-- `.sdd-docs/guidelines/{tech,structure,rules}.md` — stack, conventions, where code/tests live,
+- `docs/guidelines/{tech,structure,rules}.md` — stack, conventions, where code/tests live,
   mandatory rules, and the build/test/lint commands.
 - The actual source files each task names, plus their existing patterns and neighbors, before
   changing them.
@@ -46,4 +46,4 @@ Then return (as chat data, not a file) a **change summary**:
   scope beyond `tasks.md`; surface such ideas as follow-ups.
 - Never commit secrets (`.env`, credentials, keys). Never run git write/commit/push commands.
 - If a task is ambiguous or conflicts with the design, stop and report it rather than guessing.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

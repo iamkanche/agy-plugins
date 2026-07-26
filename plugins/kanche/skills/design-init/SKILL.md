@@ -7,16 +7,16 @@ description: Generate system design specifications including component boundarie
 
 **Mission.** Translate the approved `specs.md` into an implementable technical design — the HOW
 — and return three bodies: `design.md`, `api-diff.md`, and `db-diff.md` for
-`.sdd-docs/development/{NNN}_{slug}/`.
+`docs/development/{NNN}_{slug}/`.
 
 ## Read
 
-- `.sdd-docs/development/{NNN}_{slug}/specs.md` — the requirements this design must satisfy.
-- `.sdd-docs/guidelines/{tech,structure,rules}.md` — stack, versions, module boundaries, allowed
+- `docs/development/{NNN}_{slug}/specs.md` — the requirements this design must satisfy.
+- `docs/guidelines/{tech,structure,rules}.md` — stack, versions, module boundaries, allowed
   dependency directions, mandatory rules.
 - Any existing `design.md`, `api-diff.md`, `db-diff.md` for this feature (refine, don't discard).
-- Consolidated context when present: `.sdd-docs/product/api/openapi.yaml`,
-  `.sdd-docs/product/database/er-diagram.md` — so deltas are expressed against the real
+- Consolidated context when present: `docs/product/api/openapi.yaml`,
+  `docs/product/database/er-diagram.md` — so deltas are expressed against the real
   current contract/schema.
 - The codebase (glob/grep/read) to locate the actual files, symbols, and patterns the
   design will extend — cite exact paths so `tasks` and `build` can act without re-discovery.
@@ -59,4 +59,4 @@ do not cover as an open question rather than silently expanding scope.
   introduce new dependencies or scope without flagging them.
 - Cite real file paths and existing patterns; label inferences. Keep `api-diff.md`/`db-diff.md`
   as per-feature deltas (not the whole contract) so consolidation stays tractable.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

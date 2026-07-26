@@ -10,10 +10,10 @@ verifiability against the design and specs, and return a GO/NO-GO verdict with f
 
 ## Read
 
-- `.sdd-docs/development/{NNN}_{slug}/tasks.md` — the list under review.
-- `.sdd-docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — to confirm the tasks
+- `docs/development/{NNN}_{slug}/tasks.md` — the list under review.
+- `docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — to confirm the tasks
   cover the whole design and every acceptance criterion.
-- `.sdd-docs/guidelines/{tech,structure,rules}.md` — for correct build/test/lint commands,
+- `docs/guidelines/{tech,structure,rules}.md` — for correct build/test/lint commands,
   code/test locations, and mandatory rules the tasks must reflect.
 - The codebase only to confirm that file paths named by tasks are plausible.
 
@@ -49,4 +49,4 @@ fixable. If clean, `findings: []`.
 - Returns DATA to the calling workflow (`/kanche:planner-review`); does NOT edit tasks, commit, push,
   or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

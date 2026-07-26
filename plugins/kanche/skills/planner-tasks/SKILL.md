@@ -6,15 +6,15 @@ description: Generate implementation checklist task manifest.
 # /kanche:planner-tasks
 
 **Mission.** Decompose the approved `design.md` (and its deltas) into an ordered, dependency-
-correct, checkable `tasks.md` body for `.sdd-docs/development/{NNN}_{slug}/tasks.md` that
+correct, checkable `tasks.md` body for `docs/development/{NNN}_{slug}/tasks.md` that
 `build` can execute top-to-bottom.
 
 ## Read
 
-- `.sdd-docs/development/{NNN}_{slug}/design.md`, `api-diff.md`, `db-diff.md` — what to build.
-- `.sdd-docs/development/{NNN}_{slug}/specs.md` — so every acceptance criterion has a task that
+- `docs/development/{NNN}_{slug}/design.md`, `api-diff.md`, `db-diff.md` — what to build.
+- `docs/development/{NNN}_{slug}/specs.md` — so every acceptance criterion has a task that
   makes it true and a task that verifies it.
-- `.sdd-docs/guidelines/{tech,structure,rules}.md` — build/test/lint commands, where code and
+- `docs/guidelines/{tech,structure,rules}.md` — build/test/lint commands, where code and
   tests live, mandatory rules.
 - Existing `tasks.md` (preserve already-checked `[x]` items when refining).
 - The codebase (glob/grep/read) only to confirm file locations the tasks will name.
@@ -46,4 +46,4 @@ covered.
 - Cover the whole design and every acceptance criterion; flag any gap instead of quietly
   dropping it. Do not invent work beyond the design.
 - Keep tasks minimal-diff oriented — no speculative refactors or gold-plating.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

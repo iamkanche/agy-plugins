@@ -10,10 +10,10 @@ checks — for the current feature and return a per-suite pass/fail report with 
 
 ## Read
 
-- `.sdd-docs/guidelines/tech.md` — the source of truth for the exact build/test/lint/run
+- `docs/guidelines/tech.md` — the source of truth for the exact build/test/lint/run
   commands. Discover the commands from here first; fall back to project manifests
   (`Makefile`, `package.json` scripts, `go.mod`, CI configs) only if `tech.md` is silent.
-- `.sdd-docs/development/{NNN}_{slug}/{tasks,specs}.md` — the tasks' Verification section and the
+- `docs/development/{NNN}_{slug}/{tasks,specs}.md` — the tasks' Verification section and the
   acceptance criteria, so you run the checks that actually cover this feature and know what
   "pass" means.
 
@@ -43,4 +43,4 @@ Return a **validation report** (chat data, not a file):
   never modify source.
 - Report results faithfully: never mark something PASS you did not actually run and observe pass.
 - Do not attempt to repair a failing suite; report it for the build/loop to address.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

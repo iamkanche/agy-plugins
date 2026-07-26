@@ -5,7 +5,7 @@ description: Bootstrap the steering guidelines (product.md, tech.md, structure.m
 
 # /kanche:sdd-init
 
-**Summary.** Analyze this repository and write the four steering docs under `.sdd-docs/guidelines/`, applying the **steering** skill for the analysis and drafting.
+**Summary.** Analyze this repository and write the four steering docs under `docs/guidelines/`, applying the **steering** skill for the analysis and drafting.
 
 This workflow runs in the main conversation context. The steering skill only returns document data; this workflow owns all writes to disk.
 
@@ -25,7 +25,7 @@ This workflow takes no arguments. It operates on the current repo.
    ```
    If not a git repo, STOP and tell the user to run this inside a repository.
 
-2. **Idempotency check.** If `.sdd-docs/guidelines/` already exists with any of `product.md`, `tech.md`, `structure.md`, `rules.md`, STOP and tell the user to run `/kanche:sdd-init-update` instead (that workflow merges into existing docs; this one bootstraps).
+2. **Idempotency check.** If `docs/guidelines/` already exists with any of `product.md`, `tech.md`, `structure.md`, `rules.md`, STOP and tell the user to run `/kanche:sdd-init-update` instead (that workflow merges into existing docs; this one bootstraps).
 
 3. **Survey the repo** (read-only, keep it cheap — the skill will go deeper):
    ```bash
@@ -38,9 +38,9 @@ This workflow takes no arguments. It operates on the current repo.
 
 5. **Persist.** Create the directory and write each returned document verbatim:
    ```bash
-   mkdir -p .sdd-docs/guidelines
+   mkdir -p docs/guidelines
    ```
-   Then write each of `.sdd-docs/guidelines/{product,tech,structure,rules}.md` from the skill's output. Do not invent content the skill did not return; if it returned a doc with open questions, keep them so the user can fill them in.
+   Then write each of `docs/guidelines/{product,tech,structure,rules}.md` from the skill's output. Do not invent content the skill did not return; if it returned a doc with open questions, keep them so the user can fill them in.
 
 6. **Report.** Print the four written paths and a 2–3 line summary of what was captured (product one-liner, primary stack, notable structural boundaries). Note that `guidelines/rules.md` is meant to be hand-tuned by the team.
 
@@ -52,6 +52,6 @@ This workflow takes no arguments. It operates on the current repo.
 
 ## Done when
 
-- `.sdd-docs/guidelines/{product,tech,structure,rules}.md` all exist and are non-empty.
+- `docs/guidelines/{product,tech,structure,rules}.md` all exist and are non-empty.
 - Each was written from the **steering** skill's returned content.
 - The report lists the four paths and the captured summary.

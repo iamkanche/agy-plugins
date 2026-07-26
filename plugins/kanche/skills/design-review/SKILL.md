@@ -11,11 +11,11 @@ GO/NO-GO verdict with findings.
 
 ## Read
 
-- `.sdd-docs/development/{NNN}_{slug}/{design,api-diff,db-diff}.md` — the documents under review.
-- `.sdd-docs/development/{NNN}_{slug}/specs.md` — to verify the design satisfies every
+- `docs/development/{NNN}_{slug}/{design,api-diff,db-diff}.md` — the documents under review.
+- `docs/development/{NNN}_{slug}/specs.md` — to verify the design satisfies every
   acceptance criterion and NFR without over-reaching scope.
-- `.sdd-docs/guidelines/{tech,structure,rules}.md` and, when present,
-  `.sdd-docs/product/api/openapi.yaml` + `.sdd-docs/product/database/er-diagram.md` — to check
+- `docs/guidelines/{tech,structure,rules}.md` and, when present,
+  `docs/product/api/openapi.yaml` + `docs/product/database/er-diagram.md` — to check
   the deltas are expressed correctly against the real contract/schema and respect module
   boundaries and versions.
 - The codebase to confirm the cited files/symbols/patterns actually exist and the approach fits.
@@ -51,4 +51,4 @@ fixable. If clean, `findings: []`.
 - Returns DATA to the calling workflow (`/kanche:design-review`); does NOT edit the design, commit,
   push, or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

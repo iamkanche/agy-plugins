@@ -10,10 +10,10 @@ return a GO/NO-GO verdict with actionable findings.
 
 ## Read
 
-- `.sdd-docs/development/{NNN}_{slug}/specs.md` — the document under review.
+- `docs/development/{NNN}_{slug}/specs.md` — the document under review.
 - The original feature request / grill Q&A passed in by the workflow — to check the specs answer
   what was asked and captured the resolved clarifications.
-- `.sdd-docs/guidelines/{product,tech,rules}.md` — for scope boundaries, constraints, and rules
+- `docs/guidelines/{product,tech,rules}.md` — for scope boundaries, constraints, and rules
   the specs must honor.
 - The codebase only to sanity-check that data-model/integration claims are plausible against
   reality — do not review implementation.
@@ -50,4 +50,4 @@ fixable (what's wrong + which section). If clean, `findings: []`.
 - Returns DATA to the calling workflow (`/kanche:design-specs-review`); does NOT edit specs, commit, push,
   or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

@@ -18,7 +18,7 @@ Parse the arguments:
 - **`--mode=auto|manual`** — default **auto** (also accept a bare `auto`/`manual` positional). Same semantics as `/kanche:sdd-run`: auto runs to P9; manual asks "Proceed to `<next phase>`? [Yes|No]" before each phase transition.
 - **`--from=<phase>`** — override detection and force the resume point.
 - **`--until=<phase>`** — stop after this phase (inclusive). If `--until` < `build` (P4), skip P5 validation, P6 deploy, and Level 2 entirely.
-- **slug** (optional, positional) — disambiguates when several dev folders exist. If omitted, pick the most recently modified `.sdd-docs/development/{slug}/`; if that is ambiguous, list the candidates and ask the user.
+- **slug** (optional, positional) — disambiguates when several dev folders exist. If omitted, pick the most recently modified `docs/development/{slug}/`; if that is ambiguous, list the candidates and ask the user.
 
 ## Steps
 
@@ -28,10 +28,10 @@ Gather on-disk and repo signals, then map to the resume phase. Do NOT re-run com
 
 ```bash
 # Steering
-ls .sdd-docs/guidelines 2>/dev/null
+ls docs/guidelines 2>/dev/null
 
 # Feature folder + docs
-FEAT=$(ls -dt .sdd-docs/development/*/ 2>/dev/null | head -1)
+FEAT=$(ls -dt docs/development/*/ 2>/dev/null | head -1)
 echo "feature_dir=$FEAT"
 [ -n "$FEAT" ] && ls "$FEAT"                        # specs.md? design.md? tasks.md?
 # tasks completion: are any checkboxes still unchecked?
@@ -45,12 +45,12 @@ DEFAULT=${DEFAULT:-main}
 CURRENT=$(git rev-parse --abbrev-ref HEAD)
 git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || echo "NO_UPSTREAM"
 gh pr view --json state,number,mergedAt 2>/dev/null || echo "NO_PR"   # needs gh auth
-ls .sdd-docs/product/features/ 2>/dev/null                                      # consolidated yet?
+ls docs/product/features/ 2>/dev/null                                      # consolidated yet?
 ```
 
 Apply the detection rules **in order** and take the first match as the resume phase:
 
-1. **No `.sdd-docs/guidelines/`** → steering missing. STOP; tell the user to run `/kanche:sdd-init` first. Do not resume.
+1. **No `docs/guidelines/`** → steering missing. STOP; tell the user to run `/kanche:sdd-init` first. Do not resume.
 2. **No feature folder** (or folder exists but empty) → resume at **P0/P1** (ensure branch, then specs).
 3. **`specs.md` absent** → **P1**. **`specs.md` present, `design.md` absent** → **P2**. **`design.md` present, `tasks.md` absent** → **P3**.
 4. **`tasks.md` present with unchecked `- [ ]` items** → **P4 build** (finish the checklist).

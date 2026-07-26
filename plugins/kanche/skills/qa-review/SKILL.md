@@ -13,9 +13,9 @@ a GO/NO-GO verdict with findings.
 
 - The change under review: `git diff` / `git status` against the feature branch's base (use
   read-only git commands only) plus the changed source files.
-- `.sdd-docs/development/{NNN}_{slug}/{tasks,design,specs,api-diff,db-diff}.md` — to verify the
+- `docs/development/{NNN}_{slug}/{tasks,design,specs,api-diff,db-diff}.md` — to verify the
   code matches what was specified/designed and that every checked task is actually done.
-- `.sdd-docs/guidelines/{tech,structure,rules}.md` — for conventions, mandatory rules, and the
+- `docs/guidelines/{tech,structure,rules}.md` — for conventions, mandatory rules, and the
   build/test/lint commands.
 
 ## Produce
@@ -51,4 +51,4 @@ fixable (file:line where possible). If clean, `findings: []`.
   or orchestrate. Use bash for read-only inspection/tests only — never git write/commit/push.
 - Review only; propose fixes as findings, do not apply them.
 - Do not overstate verification: report exactly which checks you actually ran and their results.
-- Follow `.sdd-docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `docs/guidelines/rules.md` and the project's output-language policy.

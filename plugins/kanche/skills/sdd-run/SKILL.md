@@ -15,7 +15,7 @@ The invocation arguments.
 
 Parse the arguments:
 
-- **slug** (optional, positional) — the feature slug/short description (e.g. `improve-sdd-plugins` or `login`). If absent, prompt the user for it to construct the folder path `.sdd-docs/development/{slug}/`.
+- **slug** (optional, positional) — the feature slug/short description (e.g. `improve-sdd-plugins` or `login`). If absent, prompt the user for it to construct the folder path `docs/development/{slug}/`.
 - **`--mode=auto|manual`** — default **auto**. Also accept a bare `auto`/`manual` positional.
   - **auto:** run the entire workflow (P0→P9) straight through, executing Level 2 automatically (checks PR status, runs validation checklists, syncs docs, and cleans up folders) without per-phase prompt or interactive confirmation dialogs.
   - **manual:** before advancing to each next phase, ask "Proceed to `<next phase>`? [Yes|No]". "No" stops the walk cleanly (state where it stopped).
@@ -49,7 +49,7 @@ P6 deploy  /kanche:git-push → /kanche:pr-create
    ```bash
    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || echo "NOT_A_GIT_REPO"
    ```
-2. **Load settings & memory.** Check if `.sdd-docs/settings.json` exists. If so, parse settings (e.g. loops, polling time, custom commands). Read `.sdd-docs/product/memory.md` to load project-specific rules and constraints.
+2. **Load settings & memory.** Check if `docs/settings.json` exists. If so, parse settings (e.g. loops, polling time, custom commands). Read `docs/product/memory.md` to load project-specific rules and constraints.
 3. **Present Feature Receipt.** Generate a structured receipt for the user. Ask for confirmation before creating the feature branch:
    - Feature Slug: `{slug}`
    - Feature Title: derived from description/backlog
@@ -65,7 +65,7 @@ P6 deploy  /kanche:git-push → /kanche:pr-create
    DEFAULT=${DEFAULT:-main}
    CURRENT=$(git rev-parse --abbrev-ref HEAD)
    ```
-5. **Ensure guidelines exist.** If `.sdd-docs/guidelines/` does not exist, stop and instruct the user to run `/kanche:sdd-init`.
+5. **Ensure guidelines exist.** If `docs/guidelines/` does not exist, stop and instruct the user to run `/kanche:sdd-init`.
 6. **Ensure feature branch.** If `$CURRENT` matches `$DEFAULT` or is a protected branch (`main`, `master`, `develop`), create a feature branch using `/kanche:git-branch-create` as `feat/{slug}`.
 
 ### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents)
@@ -127,7 +127,7 @@ In **auto** mode, LEVEL 2 phases run automatically. In **manual** mode, they gat
   - **manual:** Ask "Address PR feedback now?" using `default_api:ask_question`.
 
 - **P9 Product Alignment & Merge.**
-  - **auto:** Once the PR is approved, first run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to `product/`, removes the dev folder, commits and pushes to the feature branch). Poll CI/status checks on the new commit using `pr_polling` settings from `.sdd-docs/settings.json` (default 30s interval, 3 max attempts). Once checks pass, if `auto_merge` is `true` in `.sdd-docs/settings.json`, run `/kanche:pr-merge` (no `--keep-branch`) to merge the PR and delete both local and remote branches. If `auto_merge` is `false` (or unset), gate on human confirmation via `default_api:ask_question` ("Do you approve merging PR #X to main?") before calling `/kanche:pr-merge`.
+  - **auto:** Once the PR is approved, first run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to `product/`, removes the dev folder, commits and pushes to the feature branch). Poll CI/status checks on the new commit using `pr_polling` settings from `docs/settings.json` (default 30s interval, 3 max attempts). Once checks pass, if `auto_merge` is `true` in `docs/settings.json`, run `/kanche:pr-merge` (no `--keep-branch`) to merge the PR and delete both local and remote branches. If `auto_merge` is `false` (or unset), gate on human confirmation via `default_api:ask_question` ("Do you approve merging PR #X to main?") before calling `/kanche:pr-merge`.
   - **manual:** Two separate gates: (1) `"Proceed with /kanche:sdd-sync to promote docs and push to feature branch? [Yes|No]"`, (2) `"Proceed with /kanche:pr-merge to merge the PR and clean up branches? [Yes|No]"`.
 
 ### 10. Notify User (P10)
