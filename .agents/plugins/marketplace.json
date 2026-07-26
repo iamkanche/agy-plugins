@@ -1,5 +1,6 @@
 {
-  "name": "project-plugins-registry",
+  "name": "agy-plugins",
+  "owner": { "name": "iamkanche" },
   "plugins": [
     { "name": "kanche", "source": "github:iamkanche/agy-plugins//plugins/kanche" }
   ]
