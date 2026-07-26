@@ -90,7 +90,7 @@ To optimize token consumption, the parent agent delegates Phase P1-P4 workflows 
 
 For each phase:
 
-1. **Delegate execution & mandatory review.** Spawn the corresponding subagent (`analyst`, `architect`, `planner`, or `coder`) with explicit instructions outlining the phase goal. The subagent MUST automatically run both the generation workflow AND the review workflow in sequence without skipping review.
+1. **Delegate execution & mandatory review.** Spawn the corresponding subagent (`analyst`, `architect`, `planner`, or `coder`) with explicit instructions outlining the phase goal. **The subagent MUST invoke `view_file` on `plugins/kanche/skills/<skill>/SKILL.md` before executing any workflow or underlying command**, and automatically run both the generation workflow AND the review workflow in sequence without skipping review.
 2. **Review verdict.** The subagent runs the review skill (P1: `/kanche:design-specs-review`, P2: `/kanche:design-review`, P3: `/kanche:planner-review`, P4: `/kanche:qa-review`) and parses the `verdict:` output from:
    ```sdd-review
    verdict: GO            # or NO-GO
