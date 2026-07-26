@@ -54,8 +54,9 @@ Apply the detection rules **in order** and take the first match as the resume ph
 2. **No feature folder** (or folder exists but empty) → resume at **P0/P1** (ensure branch, then specs).
 3. **`specs.md` absent** → **P1**. **`specs.md` present, `design.md` absent** → **P2**. **`design.md` present, `tasks.md` absent** → **P3**.
 4. **`tasks.md` present with unchecked `- [ ]` items** → **P4 build** (finish the checklist).
-5. **All `tasks.md` items checked** → build is done → **P5** (if not yet validated) then **P6**. If the branch is **already pushed (has upstream) AND a PR is open** → **P7/P8** (human review / PR modifications).
-6. **PR merged AND the dev folder `development/{slug}/` still present** (no `product/features/{slug}/` consolidation) → **P9** (`sync` not yet run).
+5. **All `tasks.md` items checked** → build is done → **P5** (if not yet validated) then **P6**. If the branch is **already pushed (has upstream) AND a PR is open** → **P8** (PR modifications & polling).
+6. **PR feedback resolved AND dev folder `development/{slug}/` present** → **P9** (`/kanche:sdd-sync` to promote docs to domain product directories).
+7. **`sdd-sync` completed (dev folder consolidated) AND PR open** → **P7** (Human review & manual PR merge).
 
 `--from` overrides all of the above. Report the detected phase and the evidence for it before walking.
 
@@ -80,11 +81,11 @@ From the detected (or `--from`) phase, execute forward exactly as `/kanche:sdd-r
 - **P5** (only if `--until` ≥ build) — **/kanche:qa-validate**; on failure ask "[Fix via build loop | Continue | Stop]".
 - **P6** (only if `--until` ≥ build) — **/kanche:git-push** → **/kanche:pr-create** → **/kanche:gh-cli-pr-review** (AI PR Review). In **auto** mode, proceed to Level 2.
 - **P7–P9 LEVEL 2** —
-  - **auto:** Automatically walk through `/kanche:qa-validate`, `/kanche:pr-respond` (if feedback), and `/kanche:sdd-sync` to completion.
+  - **auto:** Automatically walk through **P8** (`/kanche:pr-respond` polling & fixes) and **P9** (`/kanche:sdd-sync` to promote product docs), then present **P7** (human review & manual PR merge) to the user.
   - **manual:** Ask "Proceed to `<phase>`? [Yes|No]" before EACH:
-    - P7 `/kanche:qa-validate` (checklist, no side effects)
-    - P8 `/kanche:pr-respond` → optional `/kanche:sdd-sync` → `/kanche:git-commit` → `/kanche:git-push` (loop while unresolved feedback and user says Yes)
-    - P9 `/kanche:sdd-sync` (promotes `development/{slug}/` → `product/features/{slug}/`; own commit/cleanup gate)
+    - P8 `/kanche:pr-respond` (address PR feedback and re-validate)
+    - P9 `/kanche:sdd-sync` (promotes `development/{slug}/` → `product/plugins/kanche/{domain}/`)
+    - P7 Human Review & PR Merge (user reviews PR and completes merge)
 
 In **manual** mode, ask "Proceed to `<next phase>`? [Yes|No]" before every phase transition; "No" stops cleanly and reports where it stopped. Respect `--from`/`--until` bounds throughout; if `--until` < build, stop after committing the last in-bounds P1–P4 phase.
 

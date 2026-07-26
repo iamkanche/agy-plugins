@@ -17,5 +17,5 @@ Automates the Spec-Driven Development (SDD) lifecycle for autonomous Google Anti
 
 ## 4. Product Invariants
 - Preserves human-tuned guidelines and safety rules during updates.
-- Enforces gated confirmation for PR merges when `auto_merge: false`.
+- Executes Level 1 and Level 2 as Full AI automation, running PR modifications (P8) and document sync (P9) before handing over final review and PR merge to the user at P7.
 - Eliminates ephemeral feature slug subfolders in product documentation.

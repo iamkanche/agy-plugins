@@ -31,3 +31,8 @@
 - **Context:** Hardcoded card heights and grid column tracking created horizontal body scroll blowouts and bottom content clipping on smaller viewports.
 - **Decision:** Apply flexible `minmax(0, 1fr)` tracks for main dashboard columns, use `min-width: 0` on content wrappers, and swap fixed heights for `min-height: 180px` on command cards.
 - **Consequences:** Bulletproof viewport constraints that restrict horizontal scrolling solely to local SVG map and pipeline step scroll containers.
+
+## ADR-007: Level 2 Reorganization and Human PR Merge at P7
+- **Context:** Automatically merging pull requests in P9 before human review can bypass developer verification and release control.
+- **Decision:** Shift Level 2 automation to Full AI execution through P8 (PR modifications) and P9 (document promotion via `/kanche:sdd-sync`), moving Phase P7 (Human Review & PR Merge) to the final position in Level 2 so the human user retains final review and merge authority.
+- **Consequences:** Autonomous AI deployment and documentation promotion occur headlessly, leaving the final PR merge cleanly in the developer's control.

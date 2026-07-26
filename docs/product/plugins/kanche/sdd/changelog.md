@@ -39,4 +39,9 @@
 - Mapped 10 SDD phases (P0-P9) with subagent assignments (@analyst, @architect, @planner, @coder, @validator, @gh-operator, @git-operator) and skill flow node sequences.
 - Added visual connector arrows, glow accents, hover states, and search filtering.
 
+## 2026-07-26 — update-sdd-workflow-full-ai
+- Updated SDD workflow (`/kanche:sdd-run`, `/kanche:sdd-continue`) to Full AI execution model.
+- Reorganized Level 2 phases to execute PR modifications (P8) and document alignment sync (P9) automatically via AI.
+- Moved Phase P7 (Human Review & PR Merge) to the final step of Level 2, handing over PR review and manual PR merge to the user.
+
 
