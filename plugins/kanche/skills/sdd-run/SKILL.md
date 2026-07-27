@@ -81,33 +81,39 @@ All commits across the SDD workflow (Docs, Implementation, PR respond fixes, and
 > 1. All commits MUST use multi-line HEREDOC format carrying `## Overview`, `## Changes`, and `## Impact` sections as specified in `plugins/kanche/skills/git-commit/SKILL.md`.
 > 2. ❌ **Prohibited:** Never execute inline single-line `git commit -m "..."` commands or merge commits into multi-command shell chains (e.g. `git commit -m ... && git push`). Every commit step MUST be an isolated invocation of `/kanche:git-commit`.
 
-### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents)
+### P1–P4 — Inner Review Loops (Delegated to Token-Optimized Subagents & Loop Engineering Protocol)
 
-To optimize token consumption, the parent agent delegates Phase P1-P4 workflows to specialized subagents. **Every phase review is FORCED and MANDATORY**: each phase MUST automatically execute its paired review workflow immediately after generation, running a retry loop up to **3** times until a `GO` verdict is achieved.
+To optimize token consumption and enforce continuous quality, the parent agent delegates Phase P1-P4 workflows to specialized subagents under the **Loop Engineering Framework (`plugins/kanche/rules/loop-engineering.md`)**. **Every phase review is FORCED and MANDATORY**: each generator phase MUST automatically execute its paired reviewer workflow immediately after generation, running a closed-loop retry cycle up to **3** times until a `GO` verdict is achieved.
 
-| Phase | Subagent | Generate Workflow | Mandatory Review Workflow (Forced, ≤3x Loop) | Commit Gate (via `/kanche:git-commit`) |
+| Phase | Subagent | Generator Skill | Reviewer / Evaluator Skill (≤3x Loop) | Commit Gate (via `/kanche:git-commit`) |
 |---|---|---|---|---|
 | **P1 Specs** | `analyst` | `/kanche:design-grill` (first cycle) then `/kanche:design-specs` | `/kanche:design-specs-review` | None |
 | **P2 Design** | `architect` | `/kanche:design-init` | `/kanche:design-review` | None |
 | **P3 Tasks** | `planner` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit -m "docs({slug}): ..."`) |
-| **P4 Build** | `coder` | `/kanche:code-implement` | `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit -m "feat({slug}): ..."`) |
+| **P4 Build** | `coder` | `/kanche:code-implement` | `/kanche:code-review` / `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit -m "feat({slug}): ..."`) |
 
 For each phase:
 
-1. **Delegate execution & mandatory review.** Spawn the corresponding subagent (`analyst`, `architect`, `planner`, or `coder`) with explicit instructions outlining the phase goal. **The subagent MUST invoke `view_file` on `plugins/kanche/skills/<skill>/SKILL.md` before executing any workflow or underlying command**, and automatically run both the generation workflow AND the review workflow in sequence without skipping review.
-2. **Review verdict.** The subagent runs the review skill (P1: `/kanche:design-specs-review`, P2: `/kanche:design-review`, P3: `/kanche:planner-review`, P4: `/kanche:qa-review`) and parses the `verdict:` output from:
+1. **Delegate execution & mandatory review.** Spawn the corresponding subagent (`analyst`, `architect`, `planner`, or `coder`) with explicit instructions outlining the phase goal. **The subagent MUST invoke `view_file` on `plugins/kanche/skills/<skill>/SKILL.md` before executing any workflow or underlying command**, and automatically run both the generator skill AND the reviewer skill in sequence following `plugins/kanche/rules/loop-engineering.md`.
+2. **Review verdict.** The subagent runs the review skill (P1: `/kanche:design-specs-review`, P2: `/kanche:design-review`, P3: `/kanche:planner-review`, P4: `/kanche:code-review` / `/kanche:qa-review`) and parses the `verdict:` output from:
    ```sdd-review
    verdict: GO            # or NO-GO
+   loop_iteration: 1/3    # current iteration / max_loops
    findings:
-     - {severity: blocker|major|nit, msg: "..."}
+     - severity: blocker  # blocker | major | nit
+       msg: "..."
+       file: "..."
+       line: 123
+       fix_suggestion: "..."
    ```
 
    - **GO** → Proceed to the next phase.
-   - **NO-GO** and cycles remaining (up to 3x) → Re-run generate, feeding `findings` to resolve, then automatically re-run review.
+   - **NO-GO** and cycles remaining (up to 3x) → Re-run generator skill with targeted delta fixes addressing `findings`, then automatically re-run reviewer skill.
    - **NO-GO** on 3rd cycle → In `auto` mode, stop the workflow and report findings. In `manual` mode, ask via `default_api:ask_question` whether to `Proceed anyway` or `Stop`.
 3. **Commit checkpoints.**
    - End of P3: Run `/kanche:git-commit` with conventional prefix `docs({slug}): ...` to commit all docs.
    - End of P4: Run `/kanche:git-commit` with conventional prefix `feat({slug}): ...` to commit all implementation changes.
+
 
 ### P5 — AI Validation & Fix Loop (Delegated to `validator`)
 
