@@ -5,45 +5,37 @@ description: Generate implementation checklist task manifest.
 
 # /kanche:planner-tasks
 
-**Mission.** Decompose the approved `design.md` (and its deltas) into an ordered, dependency-
-correct, checkable `tasks.md` body for `docs/development/{NNN}_{slug}/tasks.md` that
-`build` can execute top-to-bottom.
+**Mission.** Decompose approved `design.md` (and deltas) into an ordered, checkable `tasks.md` body for `docs/development/{NNN}_{slug}/tasks.md`, incorporating closed-loop feedback from `/kanche:planner-review`.
+
+## Loop Engineering Protocol (Generator Role — P3 Tasks Loop)
+
+In the Loop Engineering Framework, `/kanche:planner-tasks` acts as the **Generator Skill** paired with `/kanche:planner-review`:
+- **Iteration 1**: Generates initial task breakdown in `tasks.md`.
+- **Iteration 2..N (≤3x Loop)**: Receives `sdd-review` findings (`verdict: NO-GO`, `findings: [{severity, msg, fix_suggestion}]`). Applies targeted task list adjustments resolving ordering, sizing, or coverage findings while preserving already completed `[x]` items.
 
 ## Read
 
 - `docs/development/{NNN}_{slug}/design.md`, `api-diff.md`, `db-diff.md` — what to build.
-- `docs/development/{NNN}_{slug}/specs.md` — so every acceptance criterion has a task that
-  makes it true and a task that verifies it.
-- `docs/guidelines/{tech,structure,rules}.md` — build/test/lint commands, where code and
-  tests live, mandatory rules.
+- `docs/development/{NNN}_{slug}/specs.md` — so every acceptance criterion has a task and verification check.
+- `docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — build/test/lint commands and loop rules.
+- `sdd-review` findings from prior review iterations (when running in iteration 2..N).
 - Existing `tasks.md` (preserve already-checked `[x]` items when refining).
-- The codebase (glob/grep/read) only to confirm file locations the tasks will name.
+- The codebase (glob/grep/read) to confirm file locations.
 
 ## Produce
 
-Return the `tasks.md` body only, grouped into **phases** that run in dependency order (e.g.
-Schema/migrations → Backend → API → Frontend → Tests → Docs — adapt to the actual design). Rules
-for the list:
+Return the `tasks.md` body only, grouped into phases that run in dependency order (Schema/migrations → Backend → API → Frontend → Tests → Docs).
 
-- Every task is a Markdown checkbox `- [ ]` — actionable, single-outcome, and small enough to
-  verify. Number phases; keep tasks concrete ("Add `X` to `path/to/file`").
-- Order strictly by dependency; a task never precedes something it needs.
+- Every task is a Markdown checkbox `- [ ]` — actionable, single-outcome, and small enough to verify.
+- Order strictly by dependency.
 - Mark tasks safe to do in parallel with `[P]`.
-- Name the target file path(s) for each task where known, and the acceptance criterion or
-  design component it implements (traceability).
-- Include a task for each schema change (from `db-diff.md`) and each endpoint (from
-  `api-diff.md`), plus tasks for tests covering the acceptance criteria and a lint/format task.
-
-End with a **Verification** section: the exact commands to prove the feature is done — build,
-unit/integration tests, lint, and any manual/browser checks — sourced from `guidelines/tech.md`.
-Map each acceptance criterion to the check that covers it, and call out any criterion not yet
-covered.
+- Name target file path(s) and trace to acceptance criterion or design component.
+- Include verification section sourced from `guidelines/tech.md`.
 
 ## Rules
 
-- Returns DATA to the calling workflow (`/kanche:planner-tasks`); does NOT write files, commit, push, or
-  orchestrate. Read-only — no writes/edits.
-- Cover the whole design and every acceptance criterion; flag any gap instead of quietly
-  dropping it. Do not invent work beyond the design.
-- Keep tasks minimal-diff oriented — no speculative refactors or gold-plating.
-- Follow `docs/guidelines/rules.md` and the project's output-language policy.
+- Returns DATA to the calling workflow (`/kanche:planner-tasks`); does NOT write files, commit, push, or orchestrate. Read-only — no writes/edits.
+- Cover the whole design and every acceptance criterion.
+- Keep tasks minimal-diff oriented.
+- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
+
