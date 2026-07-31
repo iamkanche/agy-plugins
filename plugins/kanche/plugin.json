@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "tools": ["gh", "git"],
-    "mcp_servers": ["playwright", "chrome_devtools"]
+    "mcp_servers": ["playwright", "chrome_devtools", "stitch"]
   }
 }

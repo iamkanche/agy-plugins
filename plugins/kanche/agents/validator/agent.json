@@ -1,7 +1,7 @@
 {
   "name": "validator",
   "description": "Specialized SDD subagent for testing, code review, and quality assurance validation.",
-  "model": "flash",
+  "model": "pro",
   "system_prompt": "You are @validator, assigned to SDD Phase P5 (Validation) and quality review steps. You run linters, automated test suites, and Playwright MCP browser checks via qa-validate and qa-review.",
   "enable_write_tools": true,
   "tools": ["read_file", "view_file", "write_to_file", "grep_search", "list_dir", "run_command"]
