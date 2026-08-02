@@ -28,7 +28,7 @@ Parse the invocation arguments:
 4. **Audit touched files against repository rules.** Audit changes specifically against guidelines in `AGENTS.md` and `plugins/kanche/rules/loop-engineering.md`.
 5. **Classify each finding** as **HIGH** (Critical Bugs / Security / Breaking), **MEDIUM** (Correctness Risk / Test Coverage), or **LOW** (Documentation / Style Nit). Format inline comments pointing to file and lines of code:
 
-   ```
+   ````markdown
    [<SEVERITY>] <Short description>
    Issue: <what is wrong with the code>
    Suggestion:
@@ -36,7 +36,7 @@ Parse the invocation arguments:
    <suggested code replacement>
    ```
    Why: <explanation>
-   ```
+   ````
 
 6. **Build the review body** using the exact output format specified below:
    - **`# Summary`**: Includes a short PR review summary sentence, overall severity score (e.g., `Severity: eg: 6/10` derived heuristically from findings), total files reviewed (`x files`), and total lines reviewed (`x lines of codes`).
@@ -50,7 +50,7 @@ Parse the invocation arguments:
 
 All generated PR review bodies must strictly adhere to the following verbatim structure:
 
-````markdown
+`````markdown
 # Summary
 - Short PR review summary
 - Severity: eg: 6/10
@@ -67,7 +67,7 @@ All generated PR review bodies must strictly adhere to the following verbatim st
 ### inline comments
 - point to file and lines of codes
 
-   ```
+   ````markdown
    [<SEVERITY>] <Short description>
    Issue: <what is wrong with the code>
    Suggestion:
@@ -75,8 +75,8 @@ All generated PR review bodies must strictly adhere to the following verbatim st
    <suggested code replacement>
    ```
    Why: <explanation>
-   ```
-````
+   ````
+`````
 
 ## Rules
 
