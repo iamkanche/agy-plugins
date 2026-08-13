@@ -1,6 +1,7 @@
 ---
 name: ui-design-stitch
 description: Generate visual UI screens, variants, and design systems using StitchMCP during system design (P2).
+model: pro
 ---
 
 # /kanche:ui-design-stitch
@@ -23,7 +24,7 @@ This skill utilizes lazy-loaded StitchMCP tools:
 2. **Generate Design System**: Call `create_design_system` to establish token themes, typography (Google Fonts Inter/Outfit), and HSL color palettes.
 3. **Generate Visual Screens**: Call `generate_screen_from_text` for each user flow screen described in `specs.md`.
 4. **Produce Variants**: Call `generate_variants` to create light/dark mode and responsive layout variations.
-5. **Export to `design.md`**: Embed generated screen links, visual design tokens, and layout guidelines directly into `docs/development/{slug}/design.md`.
+5. **Export to `design.md`**: Embed generated screen links, visual design tokens, and layout guidelines directly into `.docs/development/{slug}/design.md`.
 
 ## Integration with SDD Phase P2
 

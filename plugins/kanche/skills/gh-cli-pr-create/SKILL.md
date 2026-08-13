@@ -1,6 +1,7 @@
 ---
 name: gh-cli-pr-create
 description: Open a pull request for the current branch on GitHub, building title and body from commits and diff, gated by confirmation.
+model: flash
 ---
 
 # /kanche:gh-cli-pr-create

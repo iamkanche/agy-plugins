@@ -12,7 +12,7 @@ Align skill naming by renaming `dev-implement` to `code-implement` across skills
 2. **Update Subagent & SDD References:**
    - Update `@coder` subagent definition (`plugins/kanche/agents/coder/agent.json`) to reference `code-implement` skill.
    - Update SDD orchestrators (`sdd-run/SKILL.md`, `sdd-continue/SKILL.md`) to invoke `/kanche:code-implement` in Phase P4 (Build).
-   - Update documentation (`README.md`, `docs/guidelines/structure.md`, product specs/changelogs).
+   - Update documentation (`README.md`, `.docs/guidelines/structure.md`, product specs/changelogs).
 
 3. **Update Dashboard (`index.html`):**
    - Update command definition `devCommands` / `codeCommands` from `/kanche:dev-implement` to `/kanche:code-implement` with path `plugins/kanche/skills/code-implement/SKILL.md`.

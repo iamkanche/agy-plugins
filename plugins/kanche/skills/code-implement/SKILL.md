@@ -1,6 +1,7 @@
 ---
 name: code-implement
 description: Implement target code changes incrementally, execute closed-loop fixes from reviews, and run tests.
+model: flash
 ---
 
 # /kanche:code-implement
@@ -17,9 +18,9 @@ In the Loop Engineering Framework, `/kanche:code-implement` acts as the **Genera
 
 ## Read
 
-- `docs/development/{NNN}_{slug}/tasks.md` — the ordered work list; this is your plan of record.
-- `docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — for the interfaces, contracts, and acceptance criteria each task must satisfy.
-- `docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — stack conventions, loop rules, where code/tests live, mandatory rules, and build/test/lint commands.
+- `.docs/development/{NNN}_{slug}/tasks.md` — the ordered work list; this is your plan of record.
+- `.docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — for the interfaces, contracts, and acceptance criteria each task must satisfy.
+- `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — stack conventions, loop rules, where code/tests live, mandatory rules, and build/test/lint commands.
 - `sdd-review` findings or test execution logs from prior loop iterations (when running in iteration 2..N).
 - The actual source files each task names, plus their existing patterns and neighbors, before changing them.
 
@@ -42,5 +43,5 @@ Then return (as chat data, not a file) a **change summary**:
 - Zero-regression rule: when fixing review findings in loop iterations 2..N, verify that previously passing tests and criteria remain green.
 - Never commit secrets (`.env`, credentials, keys). Never run git write/commit/push commands.
 - If a task is ambiguous or conflicts with the design, stop and report it rather than guessing.
-- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
+- Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
 

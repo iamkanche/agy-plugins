@@ -1,6 +1,7 @@
 ---
 name: design-specs-review
 description: Review specifications against rules and guidelines.
+model: pro
 ---
 
 # /kanche:design-specs-review
@@ -15,9 +16,9 @@ In the Loop Engineering Framework, `/kanche:design-specs-review` acts as the **R
 
 ## Read
 
-- `docs/development/{NNN}_{slug}/specs.md` — the document under review.
+- `.docs/development/{NNN}_{slug}/specs.md` — the document under review.
 - The original feature request / grill Q&A passed in by the workflow — to check the specs answer what was asked and captured the resolved clarifications.
-- `docs/guidelines/{product,tech,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — scope boundaries, constraints, loop rules, and guidelines.
+- `.docs/guidelines/{product,tech,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — scope boundaries, constraints, loop rules, and guidelines.
 - The codebase only to sanity-check that data-model/integration claims are plausible against reality — do not review implementation.
 
 ## Produce
@@ -39,7 +40,7 @@ loop_iteration: 1/3    # current iteration / max_loops
 findings:
   - severity: blocker  # blocker | major | nit
     msg: "Description of issue"
-    file: "docs/development/{slug}/specs.md"
+    file: ".docs/development/{slug}/specs.md"
     line: 25
     fix_suggestion: "Concrete guidance to fix specs"
 ```
@@ -50,5 +51,5 @@ Any unresolved `blocker` or `major` ⇒ `NO-GO`. `nit`-only ⇒ `GO`. Make each 
 
 - Returns DATA to the calling workflow (`/kanche:design-specs-review`); does NOT edit specs, commit, push, or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
-- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
+- Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
 

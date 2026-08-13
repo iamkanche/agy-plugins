@@ -885,6 +885,10 @@
             { name: "/kanche:code-implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @coder.", gated: false, path: "plugins/kanche/skills/code-implement/SKILL.md" }
         ];
 
+        const scrumCommands = [
+            { name: "/kanche:scrum-pbi-create", desc: "Create standardized Product Backlog Items (PBI) with user stories, acceptance criteria, priority, and story points.", gated: false, path: "plugins/kanche/skills/scrum-pbi-create/SKILL.md" }
+        ];
+
         gitCommands.forEach(c => { c.gated = true; c.theme = "cyan"; });
         ghCommands.forEach(c => { c.gated = true; c.theme = "purple"; });
         sddCommands.forEach(c => c.theme = "amber");
@@ -892,6 +896,7 @@
         qaCommands.forEach(c => c.theme = "emerald");
         plannerCommands.forEach(c => c.theme = "indigo");
         devCommands.forEach(c => c.theme = "teal");
+        scrumCommands.forEach(c => c.theme = "blue");
 
         const agentsData = [
             {
@@ -1069,11 +1074,11 @@
             "kanche": {
                 name: "kanche",
                 displayName: "All Kanche Skills",
-                desc: "Unified Antigravity developer plugin bundle packaging all 36 skills across Git, GitHub CLI, SDD Orchestrator, Design & Specs, Quality Assurance, Planner, and Development workflows into the /kanche: namespace.",
-                version: "v0.1.0",
+                desc: "Unified Antigravity developer plugin bundle packaging all 40 skills across Git, GitHub CLI, SDD Orchestrator, Design & Specs, Quality Assurance, Planner, Development, and Scrum PBI workflows into the /kanche: namespace.",
+                version: "v0.2.0",
                 theme: "blue",
                 inspectorUrl: "plugins/kanche/plugin.json",
-                commands: [...gitCommands, ...ghCommands, ...sddCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands]
+                commands: [...gitCommands, ...ghCommands, ...sddCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands]
             },
             "skills-map": {
                 name: "skills-map",

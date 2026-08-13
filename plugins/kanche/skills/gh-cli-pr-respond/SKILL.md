@@ -1,6 +1,7 @@
 ---
 name: gh-cli-pr-respond
 description: Triage PR review comments, apply code fixes locally, commit via /kanche:git-commit, push, resolve threads via GraphQL, and reply to reviewers in-thread.
+model: flash
 ---
 
 # /kanche:gh-cli-pr-respond

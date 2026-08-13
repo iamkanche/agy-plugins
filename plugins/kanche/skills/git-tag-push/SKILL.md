@@ -1,6 +1,7 @@
 ---
 name: git-tag-push
 description: Push local tags to the remote origin, gated behind explicit confirmation.
+model: flash
 ---
 
 # /kanche:git-tag-push

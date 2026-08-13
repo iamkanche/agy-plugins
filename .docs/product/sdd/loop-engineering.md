@@ -33,7 +33,7 @@ findings:
 ```
 
 ### C. State Tracking & Delta Fixes (`loop-state.json`)
-State per phase is tracked in `docs/development/{slug}/loop-state.json`. When iterating on `NO-GO` verdicts:
+State per phase is tracked in `.docs/development/{slug}/loop-state.json`. When iterating on `NO-GO` verdicts:
 1. Generator reads the `findings` list.
 2. Applies targeted delta modifications resolving reported `blocker` and `major` items.
 3. Re-runs local verification commands to guarantee zero regressions against existing passing tests.

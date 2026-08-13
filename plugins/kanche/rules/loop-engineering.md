@@ -29,7 +29,7 @@ findings:
 
 ## 4. Closed-Loop Iteration & State Tracking (`loop-state.json`)
 1. **Initial Run (Iteration 1)**: Generator produces the initial artifact or code. Paired reviewer evaluates and returns `sdd-review`.
-2. **State Persistence**: The workflow updates `docs/development/{slug}/loop-state.json` recording phase iteration count and verdict status.
+2. **State Persistence**: The workflow updates `.docs/development/{slug}/loop-state.json` recording phase iteration count and verdict status.
 3. **Feedback Loop (Iterations 2..N, N <= max_loops)**:
    - If verdict is `NO-GO`, the Generator receives the previous `sdd-review` findings.
    - The Generator performs **Targeted Delta Fixes** — resolving reported `blocker` and `major` findings without altering unrelated code or introducing regressions.

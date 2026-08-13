@@ -1,6 +1,7 @@
 ---
 name: git-rebase
 description: Rebase the current branch onto a target branch, gated by confirmation (auto-mode compatible). Handles conflicts without force-resolving.
+model: flash
 ---
 
 # /kanche:git-rebase

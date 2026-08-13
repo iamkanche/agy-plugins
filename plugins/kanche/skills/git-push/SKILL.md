@@ -1,6 +1,7 @@
 ---
 name: git-push
 description: Push the current feature branch to origin, gated behind explicit confirmation. Sets upstream tracking on first push and handles non-fast-forward push rejections.
+model: flash
 ---
 
 # /kanche:git-push

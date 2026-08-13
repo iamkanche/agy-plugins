@@ -6,4 +6,4 @@ Design workflows leverage specialized subagents:
 - `@architect`: Component boundary definitions, data modeling, and architectural reviews.
 
 ## 2. Outputs
-Artifact outputs feed directly into `docs/development/{slug}/specs.md` and `design.md` during phase P1 and P2 of SDD workflows.
+Artifact outputs feed directly into `.docs/development/{slug}/specs.md` and `design.md` during phase P1 and P2 of SDD workflows.

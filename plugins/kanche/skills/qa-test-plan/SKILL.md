@@ -1,6 +1,7 @@
 ---
 name: qa-test-plan
 description: Generate comprehensive test plans, unit/integration test specifications, Playwright E2E visual matrices, and test stubs.
+model: pro
 ---
 
 # /kanche:qa-test-plan
@@ -14,7 +15,7 @@ In the Loop Engineering Framework, `/kanche:qa-test-plan` defines the multi-tier
 - Provides test assertions that drive automated pass/fail evaluation in the P5 validation loop.
 
 ## Inputs
-- Feature specs (`specs.md`) and design docs (`design.md`) in `docs/development/{slug}/`.
+- Feature specs (`specs.md`) and design docs (`design.md`) in `.docs/development/{slug}/`.
 - Project test suite setup (PHPUnit, Playwright, Jest, PyTest, etc.) and `plugins/kanche/rules/loop-engineering.md`.
 
 ## Steps
@@ -26,11 +27,11 @@ In the Loop Engineering Framework, `/kanche:qa-test-plan` defines the multi-tier
    - **Playwright E2E & Visual Scenarios**: Browser interaction flows, UI element assertions, console error checks, visual screenshot comparisons.
    - **Risk & Test Data Seeding**: Data fixtures, mocks, and risk mitigation matrix.
 4. **Draft Test Plan & Generate Test Stubs.**
-   - Create `docs/development/{slug}/test-plan.md` outlining the test matrix and assertion checklists.
+   - Create `.docs/development/{slug}/test-plan.md` outlining the test matrix and assertion checklists.
    - Generate stub test files matching project framework patterns.
 5. **Report.** Output test plan summary and generated stub list.
 
 ## Done when
-- `docs/development/{slug}/test-plan.md` is generated with full multi-tiered coverage details.
+- `.docs/development/{slug}/test-plan.md` is generated with full multi-tiered coverage details.
 - Runnable test stubs/skeletons are generated for the project's test framework.
 

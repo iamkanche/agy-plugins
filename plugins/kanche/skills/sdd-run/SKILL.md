@@ -1,11 +1,12 @@
 ---
 name: sdd-run
-description: Drive a feature work item through the full SDD phase model (P0 to P9) using specifications, system designs, task check-lists, and testing loops.
+description: Drive a feature work item through the full SDD phase model (P0 to P9) using specifications, system designs, task check-lists, testing loops, and persistent /goal execution.
+model: flash
 ---
 
 # /kanche:sdd-run
 
-**Summary.** Drive a work item through the full SDD phase model (P0→P9): verify/load settings and memory, present a feature receipt for user confirmation, ensure a feature branch, delegate phase-specific execution (P1-P5) to token-optimized specialized subagents, run inner review loops (≤3x), validate and fix implementation (≤3x), deploy and poll PR comments (≤3x) to automatically respond/fix issues, promote documentation to product directories, preserve memory files, and hand over the final PR review and merge to the user.
+**Summary.** Drive a work item through the full SDD phase model (P0→P9): verify/load settings and memory, present a feature receipt for user confirmation, ensure a feature branch, delegate phase-specific execution (P1-P5) to token-optimized specialized subagents, run inner review loops (≤3x), validate and fix implementation (≤3x), deploy and poll PR comments (≤3x) to automatically respond/fix issues, promote documentation to product directories, preserve memory files, and hand over the final PR review and merge to the user. Supports `/goal` long-running persistent mode.
 
 ## User input
 
@@ -15,10 +16,11 @@ The invocation arguments.
 
 Parse the arguments:
 
-- **slug** (optional, positional) — the feature slug/short description (e.g. `improve-sdd-plugins` or `login`). If absent, prompt the user for it to construct the folder path `docs/development/{slug}/`.
+- **slug** (optional, positional) — the feature slug/short description (e.g. `improve-sdd-plugins` or `login`). If absent, prompt the user for it to construct the folder path `.docs/development/{slug}/`.
 - **`--mode=auto|manual`** — default **auto**. Also accept a bare `auto`/`manual` positional.
   - **auto:** run the entire workflow (P0→P9) straight through, executing Level 2 automatically (checks PR status, runs validation checklists, syncs docs, and cleans up folders) without per-phase prompt or interactive confirmation dialogs.
   - **manual:** before advancing to each next phase, ask "Proceed to `<next phase>`? [Yes|No]". "No" stops the walk cleanly (state where it stopped).
+- **`--goal` / `/goal`** — enable goal-driven persistent execution mode for long-running or overnight tasks. The workflow continuously self-audits, automatically retries failed steps up to policy limits, and appends `<!-- GOAL_COMPLETE -->` upon full completion.
 - **`--from=<phase>`** — start the walk at this phase instead of P0 (`P0`..`P9`, or a name like `design`/`build`). Phases before it are assumed already done; do not re-run them.
 - **`--until=<phase>`** — stop after this phase (inclusive). If `--until` < `build` (P4), skip P5 AI-validation, P6 deploy, and Level 2 entirely. Bound both ends: never run outside `[from, until]`.
 
@@ -42,6 +44,13 @@ P8 human review  gated human-review /kanche:qa-validate (show verification check
 P9 PR merge      /kanche:gh-cli-pr-merge (user merges PR)
 ```
 
+## Goal Mode Protocol (`/goal`)
+
+When `--goal` or `/goal` is passed:
+1. **Persistent Execution:** Do not abort on transient errors; attempt up to 3 automatic remediation loops for failed validations or code reviews.
+2. **Self-Auditing:** Audit all output files (`.docs/development/{slug}/*`, implementation diffs, test logs) before moving across phase boundaries.
+3. **Completion Marker:** Upon successfully completing the workflow, append `<!-- GOAL_COMPLETE -->` to the final summary output.
+
 ## Steps
 
 ### 0. Preconditions & Setup (P0)
@@ -50,7 +59,7 @@ P9 PR merge      /kanche:gh-cli-pr-merge (user merges PR)
    ```bash
    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || echo "NOT_A_GIT_REPO"
    ```
-2. **Load settings & memory.** Check if `docs/settings.json` exists. If so, parse settings (e.g. loops, polling time, custom commands). Read `docs/product/memory.md` to load project-specific rules and constraints.
+2. **Load settings & memory.** Check if `.docs/settings.json` exists. If so, parse settings (e.g. loops, polling time, custom commands). Read `.docs/product/memory.md` to load project-specific rules and constraints.
 3. **Present Feature Receipt.** Generate a structured receipt for the user. Ask for confirmation before creating the feature branch:
    - Feature Slug: `{slug}`
    - Feature Title: derived from description/backlog
@@ -66,7 +75,7 @@ P9 PR merge      /kanche:gh-cli-pr-merge (user merges PR)
    DEFAULT=${DEFAULT:-main}
    CURRENT=$(git rev-parse --abbrev-ref HEAD)
    ```
-5. **Ensure guidelines exist.** If `docs/guidelines/` does not exist, stop and instruct the user to run `/kanche:sdd-init`.
+5. **Ensure guidelines exist.** If `.docs/guidelines/` does not exist, stop and instruct the user to run `/kanche:sdd-init`.
 6. **Ensure feature branch.** If `$CURRENT` matches `$DEFAULT` or is a protected branch (`main`, `master`, `develop`), create a feature branch using `/kanche:git-branch-create` as `feat/{slug}`.
 
 ### 3. Commit Checkpoint Policy
@@ -85,12 +94,12 @@ All commits across the SDD workflow (Docs, Implementation, PR respond fixes, and
 
 To optimize token consumption and enforce continuous quality, the parent agent delegates Phase P1-P4 workflows to specialized subagents under the **Loop Engineering Framework (`plugins/kanche/rules/loop-engineering.md`)**. **Every phase review is FORCED and MANDATORY**: each generator phase MUST automatically execute its paired reviewer workflow immediately after generation, running a closed-loop retry cycle up to **3** times until a `GO` verdict is achieved.
 
-| Phase | Subagent | Generator Skill | Reviewer / Evaluator Skill (≤3x Loop) | Commit Gate (via `/kanche:git-commit`) |
-|---|---|---|---|---|
-| **P1 Specs** | `analyst` | `/kanche:design-grill` (first cycle) then `/kanche:design-specs` | `/kanche:design-specs-review` | None |
-| **P2 Design** | `architect` | `/kanche:design-init` | `/kanche:design-review` | None |
-| **P3 Tasks** | `planner` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit -m "docs({slug}): ..."`) |
-| **P4 Build** | `coder` | `/kanche:code-implement` | `/kanche:code-review` / `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit -m "feat({slug}): ..."`) |
+| Phase | Subagent | Model | Generator Skill | Reviewer / Evaluator Skill (≤3x Loop) | Commit Gate (via `/kanche:git-commit`) |
+|---|---|---|---|---|---|
+| **P1 Specs** | `analyst` | `pro` | `/kanche:design-grill` (first cycle) then `/kanche:design-specs` | `/kanche:design-specs-review` | None |
+| **P2 Design** | `architect` | `pro` | `/kanche:design-init` | `/kanche:design-review` | None |
+| **P3 Tasks** | `planner` | `pro` | `/kanche:planner-tasks` | `/kanche:planner-review` | **Docs Commit** (`/kanche:git-commit -m "docs({slug}): ..."`) |
+| **P4 Build** | `coder` | `flash` | `/kanche:code-implement` | `/kanche:code-review` / `/kanche:qa-review` | **Implementation Commit** (`/kanche:git-commit -m "feat({slug}): ..."`) |
 
 For each phase:
 
@@ -130,7 +139,7 @@ For each phase:
 
 ### P7 — Product Alignment & Doc Sync (LEVEL 1 AI Final Step)
 
-1. **Promote documentation.** Run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `docs/product/plugins/kanche/{domain}/`, removes the dev folder `docs/development/{slug}/`, commits via `/kanche:git-commit` with conventional message `docs({domain}): promote feature docs and sync product knowledge`, and pushes updates to origin feature branch).
+1. **Promote documentation.** Run `/kanche:sdd-sync` locally on the feature branch (promotes dev docs to domain product directories under `.docs/product/{domain}/`, removes the dev folder `.docs/development/{slug}/`, commits via `/kanche:git-commit` with conventional message `docs({domain}): promote feature docs and sync product knowledge`, and pushes updates to origin feature branch).
 
 ### P8–P9 — Level 2 (Human Review & PR Merge)
 
@@ -152,6 +161,7 @@ Upon completion or abortion, brief the user with a summary:
 - **Hand over to Level 2:** Present P8 human review checklist and prompt for P9 PR merge approval.
 - **Ask for feedback:** Show a prompt requesting feedback on the automation run.
 - **Ask for deployment:** Request if they want to deploy the feature further (e.g. production servers), saving preferences/instructions to memory if they want the agent to remember it.
+- **Goal Mode Marker:** Include `<!-- GOAL_COMPLETE -->` if `/goal` was active.
 
 ## Done when
 
@@ -159,7 +169,7 @@ Upon completion or abortion, brief the user with a summary:
 - The feature receipt was presented and displayed to the user (confirmed in manual mode; logged in auto mode).
 - Subagent delegation was performed to conserve tokens.
 - LEVEL 1 AI (P0-P7) ran specs, design, tasks, build, validation, deploy, 3x PR review/respond loop, and sdd-sync.
-- Product docs were promoted to domain directories in P7.
+- Product docs were promoted to domain directories in P7 (`.docs/product/{domain}/`).
 - LEVEL 2 Human (P8-P9) presented gated human review checklist at P8 and PR merge at P9.
 - Memory and settings files were preserved.
-- The user was briefed with a summary and optional feedback requests.
+- If `/goal` mode was requested, `<!-- GOAL_COMPLETE -->` tag is appended to final response upon completion.
