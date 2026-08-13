@@ -26,9 +26,9 @@ Parse the invocation arguments:
 2. **Fetch PR metadata, diff, and checks.** Retrieve target branch metadata, diff contents, and head SHA (`headRefOid`).
 3. **Assess diff size.** Target ~400–500 substantive lines; note size in Summary if larger.
 4. **Audit touched files against repository rules.** Audit changes specifically against guidelines in `AGENTS.md` and `plugins/kanche/rules/loop-engineering.md`.
-5. **Classify each finding** as **HIGH** (bug/security/breaking), **MEDIUM** (correctness risk, missing test), or **LOW** (style/nit/optional). Format inline comments:
+5. **Classify each finding** as **HIGH** (Critical Bugs / Security / Breaking), **MEDIUM** (Correctness Risk / Test Coverage), or **LOW** (Documentation / Style Nit). Format inline comments pointing to file and lines of code:
 
-   ```
+   ````markdown
    [<SEVERITY>] <Short description>
    Issue: <what is wrong with the code>
    Suggestion:
@@ -36,12 +36,47 @@ Parse the invocation arguments:
    <suggested code replacement>
    ```
    Why: <explanation>
-   ```
+   ````
 
-6. **Build the review body** (Summary + severity count table + CI line).
+6. **Build the review body** using the exact output format specified below:
+   - **`# Summary`**: Includes a short PR review summary sentence, overall severity score (e.g., `Severity: eg: 6/10` derived heuristically from findings), total files reviewed (`x files`), and total lines reviewed (`x lines of codes`).
+   - **`## Review Summary`**: ASCII table detailing `Severity`, `Count`, and `Category` using `🔴 HIGH`, `🟡 MEDIUM`, and `🟢 LOW` indicators.
+   - **`### inline comments`**: Details inline comments pointing to file and lines of code using the formatted suggestion blocks.
 7. **Gate — STOP.** Ask user to confirm posting review to GitHub (or auto-confirm in automated SDD runs).
 8. **Post the review with inline comments in one request** via `@gh-operator`.
 9. **Report** posted review URL, counts, and status.
+
+## Target Output Format
+
+All generated PR review bodies must strictly adhere to the following verbatim structure:
+
+`````markdown
+# Summary
+- Short PR review summary
+- Severity: eg: 6/10
+- Total files: x files
+- Total lines: x lines of codes
+## Review Summary
+  
+   Severity       │ Count         │ Category
+  ────────────────┼───────────────┼─────────────────────────────────────
+   🔴 HIGH        │ 0             │ Critical Bugs / Security / Breaking
+   🟡 MEDIUM      │ 0             │ Correctness Risk / Test Coverage
+   🟢 LOW         │ 1             │ Documentation / Style Nit
+
+### inline comments
+- point to file and lines of codes
+
+   ````markdown
+   [<SEVERITY>] <Short description>
+   Issue: <what is wrong with the code>
+   Suggestion:
+   ```suggestion
+   <suggested code replacement>
+   ```
+   Why: <explanation>
+   ````
+`````
 
 ## Rules
 
