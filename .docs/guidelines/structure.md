@@ -10,7 +10,7 @@
 - `README.md`: Registry global/local installation guidelines.
 - `.agents/`: Project-based agent configurations and plugins workspace.
   - `plugins/marketplace.json`: Local registration mapping single plugin `kanche` to source.
-- `docs/`: SDD documentation guidelines and metadata.
+- `.docs/`: SDD documentation guidelines and metadata.
   - `guidelines/`: Steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
   - `product/`: Long-term project memory (`memory.md`) and feature specifications (`plugins/kanche/`).
 

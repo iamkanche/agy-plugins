@@ -1,6 +1,7 @@
 ---
 name: git-tag-delete
 description: Delete a local and/or remote tag securely, gated by explicit confirmation.
+model: flash
 ---
 
 # /kanche:git-tag-delete

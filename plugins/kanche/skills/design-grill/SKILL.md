@@ -1,6 +1,7 @@
 ---
 name: design-grill
 description: Interrogate the feature request adversarially and return a ranked list of clarifying questions.
+model: pro
 ---
 
 # /kanche:design-grill
@@ -12,9 +13,9 @@ assumptions, missing scope, and unstated constraints while they are still cheap 
 ## Read
 
 - The raw feature request / backlog text handed to you by the calling workflow.
-- `docs/guidelines/{product,tech,structure,rules}.md` — so you do not re-ask what
+- `.docs/guidelines/{product,tech,structure,rules}.md` — so you do not re-ask what
   guidelines already answer, and so you can spot conflicts between the request and the guidelines.
-- Any existing `docs/development/{NNN}_{slug}/notes.md` or partial `specs.md` for this
+- Any existing `.docs/development/{NNN}_{slug}/notes.md` or partial `specs.md` for this
   feature, if present.
 - Only touch the codebase (glob/grep/read) to confirm whether an assumption in the
   request holds against current reality (e.g. "does this endpoint already exist?"). Keep it
@@ -49,4 +50,4 @@ questions are answered, or still fundamentally underspecified.
 - Read-only — never attempt to modify files.
 - Ask; do not answer for the human. Where you must assume, label it as the "Assumption if
   unanswered" default, never as an established fact.
-- Follow `docs/guidelines/rules.md` and the project's output-language policy.
+- Follow `.docs/guidelines/rules.md` and the project's output-language policy.

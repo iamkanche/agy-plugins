@@ -1,6 +1,7 @@
 ---
 name: code-review
 description: Perform deep code review on staged/modified files with auto-fix capability and security checks.
+model: pro
 ---
 
 # /kanche:code-review
@@ -45,5 +46,5 @@ findings:
 
 - Returns DATA (including the `sdd-review` block) to the calling workflow. Does NOT commit, push, or orchestrate.
 - Read-only by default; only modifies files if `--auto-apply` is explicitly passed for minor nit fixes.
-- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and project output-language policies.
+- Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and project output-language policies.
 

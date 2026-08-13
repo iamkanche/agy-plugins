@@ -1,6 +1,7 @@
 ---
 name: git-tag-create
 description: Create an annotated tag at HEAD and push it to origin remote, gated behind explicit confirmation.
+model: flash
 ---
 
 # /kanche:git-tag-create

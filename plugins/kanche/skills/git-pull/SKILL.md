@@ -1,6 +1,7 @@
 ---
 name: git-pull
 description: Integrate changes from the remote branch into the current branch, supporting fast-forward or gated rebase.
+model: flash
 ---
 
 # /kanche:git-pull

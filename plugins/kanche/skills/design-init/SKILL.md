@@ -1,6 +1,7 @@
 ---
 name: design-init
 description: Generate system design specifications including component boundaries, data model, and user flow.
+model: pro
 ---
 
 # /kanche:design-init
@@ -15,11 +16,11 @@ In the Loop Engineering Framework, `/kanche:design-init` acts as the **Generator
 
 ## Read
 
-- `docs/development/{NNN}_{slug}/specs.md` — the requirements this design must satisfy.
-- `docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — stack, versions, module boundaries, allowed dependency directions, loop rules, and mandatory rules.
+- `.docs/development/{NNN}_{slug}/specs.md` — the requirements this design must satisfy.
+- `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — stack, versions, module boundaries, allowed dependency directions, loop rules, and mandatory rules.
 - `sdd-review` findings from prior review iterations (when running in iteration 2..N).
 - Any existing `design.md`, `api-diff.md`, `db-diff.md` for this feature (refine, don't discard).
-- Consolidated context when present: `docs/product/api/openapi.yaml`, `docs/product/database/er-diagram.md` — so deltas are expressed against the real current contract/schema.
+- Consolidated context when present: `.docs/product/api/openapi.yaml`, `.docs/product/database/er-diagram.md` — so deltas are expressed against the real current contract/schema.
 - The codebase (glob/grep/read) to locate actual files, symbols, and patterns.
 
 ## Produce
@@ -43,5 +44,5 @@ Return three clearly labeled bodies (`design.md`, `api-diff.md`, `db-diff.md`).
 - Returns DATA to the calling workflow (`/kanche:design-init`); does NOT write files, commit, push, or orchestrate. Read-only — no writes/edits.
 - Design only within approved specs and guideline boundaries.
 - Cite real file paths and existing patterns.
-- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
+- Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
 

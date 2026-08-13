@@ -1,6 +1,7 @@
 ---
 name: gh-cli-pr-approve
 description: Approve the current branch's PR on GitHub using gh CLI, refusing self-approval and gated by confirmation.
+model: flash
 ---
 
 # /kanche:gh-cli-pr-approve

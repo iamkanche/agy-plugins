@@ -14,8 +14,8 @@
 - Local Registry: `.agents/plugins/marketplace.json` defines registered plugins.
 - Plugin manifests: `plugin.json` in each plugin folder (`plugins/kanche/plugin.json`).
 - Skill definitions: `SKILL.md` frontmatters (`name: <skill-name>`) under flattened directories `plugins/kanche/skills/<skill-name>/SKILL.md`.
-- SDD workflow configurations: `docs/settings.json`.
-- SDD persistent state: `docs/product/memory.md`.
+- SDD workflow configurations: `.docs/settings.json`.
+- SDD persistent state: `.docs/product/memory.md`.
 
 ## Build/Test/Lint/Run Commands
 - Currently, no automated build, compilation, linting, or test execution suite is configured in the repository (inferred).
@@ -27,6 +27,6 @@
 - Playwright MCP / Chrome DevTools MCP for automated browser E2E, visual regression verification, and UI console log capture (`/kanche:qa-validate`, `/kanche:qa-review`).
 
 ## Known Technical Constraints
-- Side effects are mode-gated: in manual mode, every side effect MUST use the interactive `default_api:ask_question` tool; in SDD auto mode, the gate is suppressed and the action is logged automatically. (Grounded in `docs/product/memory.md`.)
+- Side effects are mode-gated: in manual mode, every side effect MUST use the interactive `default_api:ask_question` tool; in SDD auto mode, the gate is suppressed and the action is logged automatically. (Grounded in `.docs/product/memory.md`.)
 - Safety invariants (protected-branch refusal, no force-push, no `--no-verify`, secrets detection, self-approval prohibition) are unconditional and enforced in both modes.
 - Skill directories inside `plugins/kanche/skills/` use a flattened single-level directory structure (`plugins/kanche/skills/<skill-name>/SKILL.md`) for CLI plugin installation compatibility, and frontmatters specify `name: <skill-name>` so Antigravity registers slash commands as `/kanche:<skill-name>`.

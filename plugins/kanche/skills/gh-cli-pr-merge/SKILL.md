@@ -1,6 +1,7 @@
 ---
 name: gh-cli-pr-merge
 description: Merge a pull request on GitHub, with deleting the branch enabled by default, gated by confirmation.
+model: flash
 ---
 
 # /kanche:gh-cli-pr-merge

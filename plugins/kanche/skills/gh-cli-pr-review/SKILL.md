@@ -1,6 +1,7 @@
 ---
 name: gh-cli-pr-review
 description: Review a pull request diff against AGENTS.md rules and post structured inline suggestion comments to GitHub.
+model: flash
 ---
 
 # /kanche:gh-cli-pr-review

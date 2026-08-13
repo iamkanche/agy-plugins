@@ -1,6 +1,7 @@
 ---
 name: planner-review
 description: Review task manifests and planning breakdown layout.
+model: pro
 ---
 
 # /kanche:planner-review
@@ -15,9 +16,9 @@ In the Loop Engineering Framework, `/kanche:planner-review` acts as the **Review
 
 ## Read
 
-- `docs/development/{NNN}_{slug}/tasks.md` — the list under review.
-- `docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — to confirm tasks cover whole design.
-- `docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — build/test/lint commands and loop rules.
+- `.docs/development/{NNN}_{slug}/tasks.md` — the list under review.
+- `.docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — to confirm tasks cover whole design.
+- `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — build/test/lint commands and loop rules.
 - The codebase to confirm file paths are plausible.
 
 ## Produce
@@ -37,7 +38,7 @@ loop_iteration: 1/3    # current iteration / max_loops
 findings:
   - severity: blocker  # blocker | major | nit
     msg: "Description of issue"
-    file: "docs/development/{slug}/tasks.md"
+    file: ".docs/development/{slug}/tasks.md"
     line: 18
     fix_suggestion: "Concrete guidance to fix task breakdown"
 ```
@@ -48,5 +49,5 @@ Any unresolved `blocker` or `major` ⇒ `NO-GO`; `nit`-only ⇒ `GO`. Each `msg`
 
 - Returns DATA to the calling workflow (`/kanche:planner-review`); does NOT edit tasks, commit, push, or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
-- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
+- Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
 

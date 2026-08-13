@@ -1,6 +1,7 @@
 ---
 name: design-review
 description: Review system design specifications and architecture.
+model: pro
 ---
 
 # /kanche:design-review
@@ -15,10 +16,10 @@ In the Loop Engineering Framework, `/kanche:design-review` acts as the **Reviewe
 
 ## Read
 
-- `docs/development/{NNN}_{slug}/{design,api-diff,db-diff}.md` — the documents under review.
-- `docs/development/{NNN}_{slug}/specs.md` — to verify the design satisfies every acceptance criterion.
-- `docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — guidelines and loop rules.
-- Consolidated context when present: `docs/product/api/openapi.yaml` + `docs/product/database/er-diagram.md`.
+- `.docs/development/{NNN}_{slug}/{design,api-diff,db-diff}.md` — the documents under review.
+- `.docs/development/{NNN}_{slug}/specs.md` — to verify the design satisfies every acceptance criterion.
+- `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — guidelines and loop rules.
+- Consolidated context when present: `.docs/product/api/openapi.yaml` + `.docs/product/database/er-diagram.md`.
 - The codebase to confirm cited files/symbols/patterns exist.
 
 ## Produce
@@ -40,7 +41,7 @@ loop_iteration: 1/3    # current iteration / max_loops
 findings:
   - severity: blocker  # blocker | major | nit
     msg: "Description of issue"
-    file: "docs/development/{slug}/design.md"
+    file: ".docs/development/{slug}/design.md"
     line: 14
     fix_suggestion: "Concrete guidance to refine technical design"
 ```
@@ -51,5 +52,5 @@ Any unresolved `blocker` or `major` ⇒ `NO-GO`; `nit`-only ⇒ `GO`. Each `msg`
 
 - Returns DATA to the calling workflow (`/kanche:design-review`); does NOT edit the design, commit, push, or orchestrate. Read-only — no writes/edits.
 - Review only; propose fixes as findings, do not apply them.
-- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
+- Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
 

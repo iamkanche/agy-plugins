@@ -1,6 +1,7 @@
 ---
 name: sdd-steering
 description: Analyze the repository and return the four steering guideline bodies.
+model: pro
 ---
 
 # /kanche:sdd-steering
@@ -13,7 +14,7 @@ shows, so every later phase shares one project understanding.
 
 Read only what is needed to characterize the project; do not read the whole tree.
 
-- Existing `docs/guidelines/{product,tech,structure,rules}.md` if present (you are
+- Existing `.docs/guidelines/{product,tech,structure,rules}.md` if present (you are
   refreshing, not overwriting blindly — preserve intentional human edits, especially in
   `rules.md`).
 - Manifests & config to fix the stack and versions: `package.json`, `go.mod`, `pyproject.toml`,
@@ -59,4 +60,4 @@ the top unknowns the human should confirm.
 - Read-only: never attempt to modify files.
 - Ground every non-obvious claim in a file; label inferences as **(inferred)** and unknowns as
   open questions. Never present a guess as fact.
-- Follow `docs/guidelines/rules.md` (when refreshing) and the project's output-language policy.
+- Follow `.docs/guidelines/rules.md` (when refreshing) and the project's output-language policy.

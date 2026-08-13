@@ -1,6 +1,7 @@
 ---
 name: git-switch
 description: Switch the working tree to a different branch, fetching first to resolve remote tracking branches.
+model: flash
 ---
 
 # /kanche:git-switch

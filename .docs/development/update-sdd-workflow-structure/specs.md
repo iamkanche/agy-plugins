@@ -1,17 +1,17 @@
 # Specs: SDD Workflow Structure & Governance Refactor
 
 ## Overview
-This specification details the structural refactoring of SDD documentation paths, removal of legacy `/plugins/kanche` path nesting in product documentation and `sdd-sync`, renaming of `docs/` to `.docs/`, addition of explicit AI model declarations (`flash` vs `pro`/`claude`) to all skills, integration of `/goal` into `/sdd-run`, and the creation of a new Scrum PBI (Product Backlog Item) Creator skill.
+This specification details the structural refactoring of SDD documentation paths, removal of legacy `/plugins/kanche` path nesting in product documentation and `sdd-sync`, renaming of `.docs/` to `.docs/`, addition of explicit AI model declarations (`flash` vs `pro`/`claude`) to all skills, integration of `/goal` into `/sdd-run`, and the creation of a new Scrum PBI (Product Backlog Item) Creator skill.
 
 ## Requirements
 
 ### 1. Remove `/plugins/kanche` from `sdd-sync`
-- Update `plugins/kanche/skills/sdd-sync/SKILL.md` so target product documentation path is `.docs/product/{domain}/` rather than `docs/product/plugins/kanche/{domain}/`.
+- Update `plugins/kanche/skills/sdd-sync/SKILL.md` so target product documentation path is `.docs/product/{domain}/` rather than `.docs/product/{domain}/`.
 - Ensure domain group mappings (`design`, `dev`, `gh-cli`, `git`, `planner`, `qa`, `sdd`, `scrum`) sync directly to `.docs/product/{domain}/`.
 
 ### 2. Rename `docs` to `.docs`
-- Rename root `docs/` directory to `.docs/`.
-- Update all path references across `plugins/kanche/skills/`, `plugins/kanche/agents/`, `plugins/kanche/rules/`, `plugin.json`, `index.html`, `README.md`, and steering docs from `docs/` to `.docs/`.
+- Rename root `.docs/` directory to `.docs/`.
+- Update all path references across `plugins/kanche/skills/`, `plugins/kanche/agents/`, `plugins/kanche/rules/`, `plugin.json`, `index.html`, `README.md`, and steering docs from `.docs/` to `.docs/`.
 
 ### 3. Simplify Product Docs Structure
 - Product documentation structure is simplified to `.docs/product/{domain}/` (removing any `plugins/kanche/` nesting).
@@ -32,8 +32,8 @@ This specification details the structural refactoring of SDD documentation paths
 - Register command `/kanche:scrum-pbi-create` in `plugins/kanche/plugin.json` and `index.html`.
 
 ## Acceptance Criteria
-- [ ] No references to `docs/product/plugins/kanche/` remain in any active skills, agents, or rules.
-- [ ] `docs/` directory is renamed to `.docs/` and all references updated cleanly.
+- [ ] No references to `.docs/product/` remain in any active skills, agents, or rules.
+- [ ] `.docs/` directory is renamed to `.docs/` and all references updated cleanly.
 - [ ] All 40 skills have valid `model:` attributes in YAML frontmatter.
 - [ ] `/kanche:sdd-run` incorporates `/goal` mode instructions and goal completion markers.
 - [ ] `/kanche:scrum-pbi-create` skill is implemented, functional, and registered in `plugin.json` and `index.html`.

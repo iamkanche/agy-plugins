@@ -1,6 +1,7 @@
 ---
 name: git-branch-create
 description: Create and switch to a new feature branch from the up-to-date remote default branch. Use when starting new work.
+model: flash
 ---
 
 # /kanche:git-branch-create

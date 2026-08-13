@@ -1,6 +1,7 @@
 ---
 name: git-fetch
 description: Fetch branches and tags from origin, updating remote-tracking branches. Read-only to working-tree.
+model: flash
 ---
 
 # /kanche:git-fetch

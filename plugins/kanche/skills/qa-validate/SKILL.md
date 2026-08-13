@@ -1,6 +1,7 @@
 ---
 name: qa-validate
 description: Verify task checklist and run validations using CLI test runners and MCP Playwright / Chrome DevTools browser automation with self-healing repair loops.
+model: flash
 ---
 
 # /kanche:qa-validate
@@ -16,8 +17,8 @@ In the Loop Engineering Framework, `/kanche:qa-validate` acts as the **Validatio
 
 ## Read
 
-- `docs/guidelines/tech.md` and `plugins/kanche/rules/loop-engineering.md` — source of truth for build/test/lint commands, loop rules, and model tiering.
-- `docs/development/{slug}/{tasks,specs}.md` — the tasks' Verification section and acceptance criteria.
+- `.docs/guidelines/tech.md` and `plugins/kanche/rules/loop-engineering.md` — source of truth for build/test/lint commands, loop rules, and model tiering.
+- `.docs/development/{slug}/{tasks,specs}.md` — the tasks' Verification section and acceptance criteria.
 
 ## Produce
 
@@ -45,4 +46,4 @@ Return a **validation report** (chat data, not a file):
 - Returns DATA to the calling workflow (`/kanche:qa-validate`); does NOT directly commit, push, or alter git branches.
 - Report results faithfully: never mark something PASS you did not actually run and observe pass.
 - In case of failures, automatically trigger the 3-cycle self-healing repair loop with `/kanche:code-implement`.
-- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.
+- Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and output-language policies.

@@ -14,6 +14,6 @@ The SDD workflow family provides structured phase progression (P0-P9):
 - P9: PR Merge (`gh-cli-pr-merge`)
 
 ## 2. File Organization
-- Steering Guidelines: `docs/guidelines/{product,tech,structure,rules}.md`
-- Active Development: `docs/development/{slug}/`
-- Consolidated Product Knowledge: `docs/product/plugins/kanche/{group}/`
+- Steering Guidelines: `.docs/guidelines/{product,tech,structure,rules}.md`
+- Active Development: `.docs/development/{slug}/`
+- Consolidated Product Knowledge: `.docs/product/{group}/`

@@ -1,6 +1,7 @@
 ---
 name: git-branch-delete
 description: Delete a git branch locally and/or on origin remote, refusing protected branches, gated by explicit confirmation.
+model: flash
 ---
 
 # /kanche:git-branch-delete

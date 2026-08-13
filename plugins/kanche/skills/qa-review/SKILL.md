@@ -1,6 +1,7 @@
 ---
 name: qa-review
 description: Audit code quality, implementation diffs, and test coverage using static inspection and Playwright MCP browser verification.
+model: pro
 ---
 
 # /kanche:qa-review
@@ -16,8 +17,8 @@ In the Loop Engineering Framework, `/kanche:qa-review` acts as the **QA & Visual
 ## Read
 
 - The change under review: `git diff` / `git status` against the feature branch's base plus changed source files.
-- `docs/development/{slug}/{tasks,design,specs,api-diff,db-diff}.md` — to verify the code matches specified design and checked-off tasks.
-- `docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — conventions, mandatory rules, loop standards, and build/test/lint commands.
+- `.docs/development/{slug}/{tasks,design,specs,api-diff,db-diff}.md` — to verify the code matches specified design and checked-off tasks.
+- `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — conventions, mandatory rules, loop standards, and build/test/lint commands.
 
 ## Produce
 
@@ -47,5 +48,5 @@ Any unresolved `blocker` or `major` ⇒ `NO-GO`; `nit`-only ⇒ `GO`. Each `msg`
 
 - Returns DATA to the calling workflow (`/kanche:qa-review`); does NOT edit code, commit, push, or orchestrate.
 - Review only; propose fixes as findings, do not apply them.
-- Follow `docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and project output-language policies.
+- Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and project output-language policies.
 
