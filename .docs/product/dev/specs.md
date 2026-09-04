@@ -1,21 +1,22 @@
-# Functional Specification: Rename dev-implement to code-implement & Update index.html
+# Development Workflows Specification
 
-## Overview
-Align skill naming by renaming `dev-implement` to `code-implement` across skills, subagents, steering docs, and SDD orchestrators. In addition, update `index.html` to register all missing skills (`code-review`, `code-implement`, `security-scan`) and ensure the dashboard is fully aligned.
+## 1. Overview
+Provides autonomous implementation and code modification workflows across frontend, backend, database, and full-stack layers.
 
-## Requirements
-1. **Rename Skill Folder & Frontmatter:**
-   - Move `plugins/kanche/skills/dev-implement/` → `plugins/kanche/skills/code-implement/`.
-   - Update frontmatter `name: code-implement` and title `# /kanche:code-implement`.
-   - Update return data references inside `SKILL.md`.
+## 2. Included Skills & Commands
+- `/kanche:code-implement`: Implements target code changes incrementally against task manifests, executes closed-loop fixes from reviews, and executes verification tests.
 
-2. **Update Subagent & SDD References:**
-   - Update `@coder` subagent definition (`plugins/kanche/agents/coder/agent.json`) to reference `code-implement` skill.
-   - Update SDD orchestrators (`sdd-run/SKILL.md`, `sdd-continue/SKILL.md`) to invoke `/kanche:code-implement` in Phase P4 (Build).
-   - Update documentation (`README.md`, `.docs/guidelines/structure.md`, product specs/changelogs).
+## 3. Specialized Agent Orchestration
+Implementation is delegated according to architectural domain:
+- `@coder`: General full-stack and systems engineering tasks.
+- `@frontend-expert`: React, TypeScript, modern web styling, client-side state, and UI component engineering.
+- `@backend-expert`: API services, MSC architecture, server business logic, and routing.
+- `@database-engineer`: Schema migrations, indexing, query optimizations, and data integrity.
 
-3. **Update Dashboard (`index.html`):**
-   - Update command definition `devCommands` / `codeCommands` from `/kanche:dev-implement` to `/kanche:code-implement` with path `plugins/kanche/skills/code-implement/SKILL.md`.
-   - Add `/kanche:code-review` and `/kanche:security-scan` to `qaCommands`.
-   - Update `agentsData` `@coder` skills to `["/kanche:code-implement"]`.
-   - Update `sddWorkflowPhases` P4 (Build) skills list to show `/kanche:code-implement`.
+## 4. Product Invariants
+- Incremental, test-backed code modification preserving project conventions.
+- Consumes structured `review-verdict` blocks (`verdict: GO` | `NO-GO`) in closed-loop cycles (≤3x) to address review findings.
+- Standalone execution: `/kanche:code-implement` operates independently without orchestrator coupling.
+- Safety: Code commits are gated by explicit interactive human confirmation via `/kanche:git-commit`.
+- All implementation agents and skills are unified on `model: flash`.
+

@@ -1,7 +1,7 @@
 ---
 name: sdd-steering
 description: Analyze the repository and return the four steering guideline bodies.
-model: pro
+model: flash
 ---
 
 # /kanche:sdd-steering

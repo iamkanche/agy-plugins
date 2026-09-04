@@ -1,18 +1,18 @@
 ---
 name: qa-review
 description: Audit code quality, implementation diffs, and test coverage using static inspection and Playwright MCP browser verification.
-model: pro
+model: flash
 ---
 
 # /kanche:qa-review
 
 **Mission.** Review the implementation produced by `build` for correctness, spec/design conformance, code quality, and visual integrity — using read-only checks and Playwright MCP browser tools — and return a GO/NO-GO verdict with structured findings for closed-loop iteration with `/kanche:code-implement`.
 
-## Loop Engineering Protocol (Reviewer Role — P4 Build Loop)
+## Loop Engineering Protocol (Reviewer Role — Code Quality & Visual Review Loop)
 
 In the Loop Engineering Framework, `/kanche:qa-review` acts as the **QA & Visual Reviewer Skill** paired with `/kanche:code-implement`:
 - Evaluates code correctness, design conformance, visual layout via MCP Playwright, and test suite results.
-- Outputs structured `sdd-review` block formatted for closed-loop consumption by `/kanche:code-implement`.
+- Outputs structured `review-verdict` block formatted for closed-loop consumption by `/kanche:code-implement`.
 
 ## Read
 
@@ -29,9 +29,9 @@ Assess and record every issue as a finding:
 - **Quality & rules** — adheres to repo rules, minimal diff, no secrets committed.
 - **Verification evidence (CLI & MCP Playwright)** — run read-only build/test/lint commands. For UI changes, launch dev server if needed and use Playwright MCP tools (`browser_navigate`, `browser_screenshot`, `browser_console`) to perform visual verification, capturing screenshots and console log evidence.
 
-Return exactly one fenced `sdd-review` block plus short prose rationale:
+Return exactly one fenced `review-verdict` block plus short prose rationale:
 
-```sdd-review
+```review-verdict
 verdict: GO            # or NO-GO
 loop_iteration: 1/3    # current iteration / max_loops
 findings:

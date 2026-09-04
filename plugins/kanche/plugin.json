@@ -1,13 +1,13 @@
 {
   "name": "kanche",
-  "version": "0.2.0",
-  "description": "Unified Antigravity developer plugin bundle by kanche covering Git, GitHub CLI, SDD, Design, QA (MCP Playwright), Security, and Dev workflows.",
+  "version": "0.3.0",
+  "description": "Complete AI software development team bundle by kanche featuring 16 specialized subagents, closed-loop SDD workflows, strict destructive command safety gating, and GitHub CLI PR reviews with JSON format support.",
   "author": {
     "name": "iamkanche"
   },
   "repository": "https://github.com/iamkanche/agy-plugins",
   "license": "MIT",
-  "keywords": ["git", "github", "sdd", "qa", "mcp", "playwright", "security", "workflow", "antigravity"],
+  "keywords": ["git", "github", "sdd", "qa", "mcp", "playwright", "security", "workflow", "antigravity", "agents", "full-team"],
   "engines": {
     "antigravity": ">=2.0.0"
   },

@@ -49,6 +49,12 @@
 - P6: git-push → gh-cli-pr-create → 3x loop(gh-cli-pr-review → gh-cli-pr-respond → git-commit → git-push).
 - P7: sdd-sync document promotion & cleanup on feature branch.
 - P8: gated human review checklist (qa-validate displaying checklist).
-- P9: PR merge (gh-cli-pr-merge).
+## 2026-09-04 — autonomous-team-and-destructive-safety
+- Formed complete 16-agent autonomous software engineering team across 40 standalone skills.
+- Unified all 16 subagents and 40 skills on `model: flash` (Gemini Flash High).
+- Enforced strict human confirmation policy for all destructive commands (`git push`, `git commit`, `rm -rf`, `gh pr merge`, branch/tag deletes) per `rules/destructive-safety.md`.
+- Completely decoupled skills from SDD orchestrator; eliminated auto-mode bypass branches and mode-conditional skips.
+- Standardized universal `review-verdict` protocol (`verdict: GO` | `NO-GO`) across all review and generator skills.
+- Upgraded `gh-cli-pr-review` with `--json` format export, `#  Summary` structure, and atomic `gh api` submission.
 
 

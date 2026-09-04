@@ -1,12 +1,12 @@
 ---
 name: git-rebase
-description: Rebase the current branch onto a target branch, gated by confirmation (auto-mode compatible). Handles conflicts without force-resolving.
+description: Rebase the current branch onto a target branch, gated by explicit human confirmation. Handles conflicts without force-resolving.
 model: flash
 ---
 
 # /kanche:git-rebase
 
-**Summary.** Rebase the current branch onto a target branch, supporting both interactive manual mode and automated SDD mode; handles conflicts without force-resolving. The workflow delegates all local fetch, review, and rebase operations to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
+**Summary.** Rebase the current branch onto a target branch, gated by explicit human confirmation; handles conflicts without force-resolving. The workflow delegates all local fetch, review, and rebase operations to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
 
 ## Inputs
 
@@ -45,7 +45,7 @@ If the target branch is missing, ask the user (do not guess).
 
 5. **Refuse protected branches.** Refuse to rebase if the current branch is a protected branch (`main`/`master`/`develop`).
 
-6. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action (target branch and commit replay list `git log --oneline <target>..HEAD`) and proceed automatically. If invoked standalone or from SDD manual mode, ask user confirmation via `default_api:ask_question`.
+6. **Gate — Mandatory Human Confirmation.** Never rebase without explicit confirmation. STOP and ask the user to confirm: present the target branch and commit replay list (`git log --oneline <target>..HEAD`) using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, proceed with rebase` and `No, abort`. Proceed only on selecting Yes; on No, STOP.
 
    ```bash
    git rebase "$TARGET"
@@ -62,5 +62,5 @@ Never force-push · never `--no-verify` · never amend a pushed commit · never 
 ## Done when
 
 - The current branch is rebased onto `<base-branch>`.
-- Mode-conditional gating executed appropriately (logged in auto mode, confirmed in manual mode).
+- The user explicitly confirmed the rebase operation via the gate.
 - Conflicts are reported clearly without force-resolving.

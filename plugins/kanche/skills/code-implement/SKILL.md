@@ -9,11 +9,11 @@ model: flash
 **Mission.** Implement the feature exactly as laid out in `tasks.md`, writing real code with a
 minimal diff, execute closed-loop fixes when handling review findings from `/kanche:code-review` or `/kanche:qa-review`, then return a change summary and task completion status. This is the primary skill that edits source files — it still does **not** commit, push, or orchestrate.
 
-## Loop Engineering Protocol (Generator Role — P4 Build Loop)
+## Loop Engineering Protocol (Generator Role — Code Implementation Loop)
 
 In the Loop Engineering Framework, `/kanche:code-implement` acts as the **Generator & Fixer Skill** paired with Evaluator skills (`/kanche:code-review` / `/kanche:qa-review`):
 - **Iteration 1**: Implements initial code and tests from `tasks.md`.
-- **Iteration 2..N (≤3x Loop)**: Receives `sdd-review` findings (`verdict: NO-GO`, `findings: [{severity, msg, file, line, fix_suggestion}]`) or test failure reports from previous review/validation runs.
+- **Iteration 2..N (≤3x Loop)**: Receives `review-verdict` findings (`verdict: NO-GO`, `findings: [{severity, msg, file, line, fix_suggestion}]`) or test failure reports from previous review/validation runs.
 - **Targeted Delta Fixes**: Applies minimal, focused changes strictly resolving reported `blocker` and `major` findings without introducing unrequested refactors or regressions to passing tests.
 
 ## Read
@@ -21,7 +21,7 @@ In the Loop Engineering Framework, `/kanche:code-implement` acts as the **Genera
 - `.docs/development/{NNN}_{slug}/tasks.md` — the ordered work list; this is your plan of record.
 - `.docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — for the interfaces, contracts, and acceptance criteria each task must satisfy.
 - `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — stack conventions, loop rules, where code/tests live, mandatory rules, and build/test/lint commands.
-- `sdd-review` findings or test execution logs from prior loop iterations (when running in iteration 2..N).
+- `review-verdict` findings or test execution logs from prior loop iterations (when running in iteration 2..N).
 - The actual source files each task names, plus their existing patterns and neighbors, before changing them.
 
 ## Produce
@@ -32,7 +32,7 @@ Then return (as chat data, not a file) a **change summary**:
 
 - **Loop Iteration & Status** — current iteration number (e.g. Iteration N/3) and whether this run was initial implementation or review finding remediation.
 - **Tasks completed** — the checked task ids, and any left unchecked with the reason (blocked, needs decision, out of scope).
-- **Files changed & delta fixes** — path + one-line what-and-why per file (created/modified/deleted), referencing specific `sdd-review` findings resolved.
+- **Files changed & delta fixes** — path + one-line what-and-why per file (created/modified/deleted), referencing specific `review-verdict` findings resolved.
 - **Commands run & results** — build/test/lint invocations and their pass/fail outcome.
 - **Deviations & follow-ups** — anywhere the implementation departed from the design/tasks and why, plus anything discovered that belongs in a later task or a doc-sync.
 

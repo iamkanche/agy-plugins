@@ -27,6 +27,8 @@
 - Playwright MCP / Chrome DevTools MCP for automated browser E2E, visual regression verification, and UI console log capture (`/kanche:qa-validate`, `/kanche:qa-review`).
 
 ## Known Technical Constraints
-- Side effects are mode-gated: in manual mode, every side effect MUST use the interactive `default_api:ask_question` tool; in SDD auto mode, the gate is suppressed and the action is logged automatically. (Grounded in `.docs/product/memory.md`.)
-- Safety invariants (protected-branch refusal, no force-push, no `--no-verify`, secrets detection, self-approval prohibition) are unconditional and enforced in both modes.
+- Destructive operations policy: all destructive and remote-mutating actions (`git push`, `git commit`, `rm`, `rm -rf`, branch/tag deletion, PR merge) MUST gate on interactive human confirmation via `default_api:ask_question` unconditionally. (Grounded in `plugins/kanche/rules/destructive-safety.md` and `.docs/product/memory.md`.)
+- Skills stand alone: individual skills are decoupled and never embed auto-mode bypass branches or caller-mode checks.
+- AI Model routing: all 16 subagents in `plugins/kanche/agents/` and all 40 skills in `plugins/kanche/skills/` are unified on `model: flash` (Gemini Flash High).
+- Safety invariants (protected-branch refusal, no force-push, no `--no-verify`, secrets detection, self-approval prohibition) are unconditional.
 - Skill directories inside `plugins/kanche/skills/` use a flattened single-level directory structure (`plugins/kanche/skills/<skill-name>/SKILL.md`) for CLI plugin installation compatibility, and frontmatters specify `name: <skill-name>` so Antigravity registers slash commands as `/kanche:<skill-name>`.

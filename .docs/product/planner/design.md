@@ -8,12 +8,10 @@ updated_at: 2026-07-25
 # Task Planner Plugin — Architectural Design
 
 ## Overview
-Modular plugin providing task manifest and planning workflows (`plugins/planner`).
+Modular planning and task manifest generation workflows providing checkable implementation matrices.
 
 ## Structure
-- `plugin.json`: Defines metadata, output-language rules, skills directory, and agent (`planner`).
-- `agents/`:
-  - `planner/agent.json`
-- `skills/`:
-  - `tasks/SKILL.md`
-  - `review/SKILL.md`
+- `plugin.json`: Defines metadata and registers `@planner` agent and skills.
+- `agents/planner/agent.json`: Specialized task planning subagent (`model: flash`).
+- `skills/planner-tasks/SKILL.md`: Checklist generator.
+- `skills/planner-review/SKILL.md`: Planning auditor emitting `review-verdict` blocks.

@@ -1,18 +1,18 @@
 ---
 name: planner-review
 description: Review task manifests and planning breakdown layout.
-model: pro
+model: flash
 ---
 
 # /kanche:planner-review
 
 **Mission.** Critically review `tasks.md` for coverage, dependency ordering, sizing, and verifiability, returning a GO/NO-GO verdict with findings for closed-loop iteration with `/kanche:planner-tasks`.
 
-## Loop Engineering Protocol (Reviewer Role — P3 Tasks Loop)
+## Loop Engineering Protocol (Reviewer Role — Task Planning Loop)
 
 In the Loop Engineering Framework, `/kanche:planner-review` acts as the **Reviewer Skill** paired with `/kanche:planner-tasks`:
 - Audits `tasks.md` for complete design coverage, valid dependency order, concrete file targeting, and verification setup.
-- Emits structured `sdd-review` block consumed by `/kanche:planner-tasks` during retry loops (up to 3x).
+- Emits structured `review-verdict` block consumed by `/kanche:planner-tasks` during retry loops (up to 3x).
 
 ## Read
 
@@ -30,9 +30,9 @@ Judge against these criteria and record every issue as a finding:
 - **Sizing & clarity** — single-outcome tasks naming concrete target files.
 - **Verification section** — present with real commands and criterion mapping.
 
-Return exactly one fenced `sdd-review` block plus a short prose rationale beneath it:
+Return exactly one fenced `review-verdict` block plus a short prose rationale beneath it:
 
-```sdd-review
+```review-verdict
 verdict: GO            # or NO-GO
 loop_iteration: 1/3    # current iteration / max_loops
 findings:

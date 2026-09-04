@@ -1,19 +1,18 @@
-# System Design: Rename dev-implement to code-implement & Update index.html
+# Development Workflows Design
 
-## Architecture & Design
+## 1. Architecture & Execution Loop
+The development domain executes implementation tasks defined in task manifests (`tasks.md`), closing the loop with code reviews:
+1. Task Parsing: Parses individual ordered tasks and target files.
+2. Code Generation: Specialized agents apply surgical, minimal changes obeying project style rules.
+3. Verification: Executes local test suites or linter checks.
+4. Review Consumption: Consumes `review-verdict` blocks from `@reviewer` (`/kanche:code-review`) and applies targeted corrections up to 3 iterations.
 
-### Component Modifications
-1. **Skill Renaming:**
-   - `plugins/kanche/skills/dev-implement/SKILL.md` moved to `plugins/kanche/skills/code-implement/SKILL.md`.
-   - Update frontmatter to `name: code-implement`.
+## 2. Agent Roles
+- `@coder`: Full-stack features, scripts, and multi-file orchestrations.
+- `@frontend-expert`: Web components, responsive CSS, and state management.
+- `@backend-expert`: Backend APIs, controllers, services, and middleware.
+- `@database-engineer`: Data schema changes and query tuning.
 
-2. **Subagent & SDD Integration:**
-   - `plugins/kanche/agents/coder/agent.json`: update `system_prompt` from `dev-implement` to `code-implement`.
-   - `plugins/kanche/skills/sdd-run/SKILL.md`: replace `/kanche:dev-implement` with `/kanche:code-implement` in P4 table & steps.
-   - `plugins/kanche/skills/sdd-continue/SKILL.md`: replace `/kanche:dev-implement` with `/kanche:code-implement`.
+## 3. Human Gating
+All file modifications are verified through testing, but git commits require explicit user approval via `/kanche:git-commit` per `plugins/kanche/rules/destructive-safety.md`.
 
-3. **Dashboard Registry (`index.html`):**
-   - In `qaCommands`: Add `code-review` and `security-scan`.
-   - Rename `devCommands` to `codeCommands` or keep key while updating name/path to `/kanche:code-implement` and `plugins/kanche/skills/code-implement/SKILL.md`.
-   - In `agentsData`: Update `@coder` skill list to `["/kanche:code-implement"]`.
-   - In `sddWorkflowPhases`: Update P4 skills array to reference `/kanche:code-implement`.

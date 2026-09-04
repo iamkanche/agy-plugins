@@ -1,18 +1,18 @@
 ---
 name: design-specs-review
 description: Review specifications against rules and guidelines.
-model: pro
+model: flash
 ---
 
 # /kanche:design-specs-review
 
 **Mission.** Critically review `specs.md` for completeness, testability, and consistency, returning a GO/NO-GO verdict with actionable findings for closed-loop iteration with `/kanche:design-specs`.
 
-## Loop Engineering Protocol (Reviewer Role — P1 Specs Loop)
+## Loop Engineering Protocol (Reviewer Role — Requirements & Specs Loop)
 
 In the Loop Engineering Framework, `/kanche:design-specs-review` acts as the **Reviewer Skill** paired with `/kanche:design-specs`:
 - Audits `specs.md` for testability, complete coverage, and rule adherence.
-- Emits structured `sdd-review` block consumed by `/kanche:design-specs` during retry loops (up to 3x).
+- Emits structured `review-verdict` block consumed by `/kanche:design-specs` during retry loops (up to 3x).
 
 ## Read
 
@@ -32,9 +32,9 @@ Judge against these criteria and record every issue as a finding:
 - **Consistency** — no internal contradictions; no conflict with guidelines; scope matches the request.
 - **Open questions** — remaining unknowns are captured, not silently assumed.
 
-Return exactly one fenced `sdd-review` block as the machine-readable verdict, plus a short prose rationale beneath it:
+Return exactly one fenced `review-verdict` block as the machine-readable verdict, plus a short prose rationale beneath it:
 
-```sdd-review
+```review-verdict
 verdict: GO            # or NO-GO
 loop_iteration: 1/3    # current iteration / max_loops
 findings:

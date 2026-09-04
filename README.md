@@ -2,7 +2,53 @@
 
 Welcome to the **agy-plugins** repository! This workspace contains the unified **`kanche`** plugin bundle for the **Google Antigravity** AI-first development platform.
 
-The unified `kanche` plugin packages all developer workflows, slash commands, rules, subagents, and skills into a single namespace: `/kanche:<command>`.
+The unified `kanche` plugin packages a **complete 16-agent autonomous software development team**, developer workflows, slash commands, strict destructive safety rules, and skills into a single namespace: `/kanche:<command>`.
+
+---
+
+## 🛡️ Destructive Action Safety Policy
+
+**Zero Autonomous Destructive Execution:**
+All destructive and remote-mutating commands are strictly gated behind mandatory, interactive human confirmation via `default_api:ask_question`. This applies unconditionally across **both manual and auto (`mode=auto`) modes**:
+
+- **Remote Git Mutations**: `git push`, `git push --tags`, `git push origin --delete`
+- **History Mutations**: `git commit`, `git merge`, `git rebase`
+- **Deletions & Drops**: `rm`, `rm -rf`, `git branch -d/-D`, `git tag -d`, `git stash drop`
+- **GitHub PR Merges**: `gh pr merge` (all merge methods)
+- **Database Resets**: `migrate:fresh`, dropping tables or databases
+
+Automated modes (`mode=auto` or `/goal`) automate analysis, planning, code drafting, linting, and testing, but **always halt to prompt the human** before executing any of the above operations.
+
+---
+
+## 👥 The Complete Software Development Team (16 Agents)
+
+The `kanche` plugin models a complete, enterprise-grade software engineering organization with 16 specialized subagents:
+
+### 1. Research & System Architecture
+- **`@researcher`** (`flash` / Gemini Flash High) — Exploratory codebase surveys, documentation analysis, and architectural feasibility research.
+- **`@analyst`** (`flash` / Gemini Flash High) — Requirements probing via adversarial grilling (`/kanche:design-grill`) and functional specifications drafting (`/kanche:design-specs`).
+- **`@architect`** (`flash` / Gemini Flash High) — System architecture, component boundaries, API schemas, and data model diffs (`/kanche:design-init`).
+- **`@designer`** (`flash` / Gemini Flash High) — UI/UX specialist creating text wireframes, component design specs, user flows, and StitchMCP visual layouts (`/kanche:ui-design-stitch`).
+
+### 2. Implementation Specialists
+- **`@coder`** (`flash` / Gemini Flash High) — General incremental implementation and task execution with minimal diffs (`/kanche:code-implement`).
+- **`@frontend-expert`** (`flash` / Gemini Flash High) — React 18+, TypeScript 5, TanStack ecosystem, Tailwind CSS, accessible components, and modern web APIs.
+- **`@backend-expert`** (`flash` / Gemini Flash High) — MSC architecture, Laravel 10+, Node/Express, Go, Python, database migrations, and REST/GraphQL APIs.
+
+### 3. Quality Assurance & Security
+- **`@reviewer`** (`flash` / Gemini Flash High) — Senior code reviewer evaluating multi-file diffs, style conventions, and anti-patterns (`/kanche:code-review`).
+- **`@validator`** (`flash` / Gemini Flash High) — Automated check orchestrator running static analysis, test suites, and Playwright MCP browser validations (`/kanche:qa-validate`).
+- **`@tester`** (`flash` / Gemini Flash High) — Test automation engineer crafting test plan matrices (`/kanche:qa-test-plan`), unit tests, and Playwright E2E suites.
+- **`@security-engineer`** (`flash` / Gemini Flash High) — Application security auditor scanning for exposed secrets, dependencies, and OWASP vulnerabilities (`/kanche:security-scan`).
+
+### 4. Agile, Planning & Operations
+- **`@scrum-master`** (`flash` / Gemini Flash High) — Agile backlog manager creating standardized PBIs with user stories, acceptance criteria, and story points (`/kanche:scrum-pbi-create`).
+- **`@planner`** (`flash` / Gemini Flash High) — Implementation planner decomposing system designs into checkable task manifests (`/kanche:planner-tasks`).
+- **`@devops`** (`flash` / Gemini Flash High) — Infrastructure, release tagging (`/kanche:git-tag-*`), and PR merge verification (`/kanche:gh-cli-pr-merge`).
+- **`@git-operator`** (`flash` / Gemini Flash High) — Pure Git execution for branching, fetching, stashing, and safe committing.
+- **`@gh-operator`** (`flash` / Gemini Flash High) — GitHub CLI and REST/GraphQL integration for PR creation, review posting, and thread resolution.
+
 
 ---
 
@@ -40,33 +86,33 @@ Create a `marketplace.json` file inside your project's local customization direc
 
 ## Available Slash Commands (`/kanche:*`)
 
-### 1. Git Workflow Commands
-- `/kanche:git-commit` - Commit staged work with Conventional Commits message (gated).
+### 1. Git Workflow Commands (Human-Gated)
+- `/kanche:git-commit` - Commit staged work with Conventional Commits message (human-gated).
 - `/kanche:git-branch-create` - Create and switch to a new feature branch (gated).
-- `/kanche:git-branch-delete` - Delete a git branch locally/remotely (gated).
-- `/kanche:git-tag-create` - Create an annotated tag at HEAD and push (gated).
-- `/kanche:git-tag-delete` - Delete a tag locally/remotely (gated).
-- `/kanche:git-tag-push` - Push local tags to remote origin (gated).
+- `/kanche:git-branch-delete` - Delete a git branch locally/remotely (human-gated).
+- `/kanche:git-tag-create` - Create an annotated tag at HEAD and push (human-gated).
+- `/kanche:git-tag-delete` - Delete a tag locally/remotely (human-gated).
+- `/kanche:git-tag-push` - Push local tags to remote origin (human-gated).
 - `/kanche:git-fetch` - Fetch branches and tags from origin (gated).
 - `/kanche:git-pull` - Integrate changes from upstream (gated).
-- `/kanche:git-push` - Push current feature branch to origin (gated).
-- `/kanche:git-stash` - Save, restore, list, or discard stashes (gated).
-- `/kanche:git-status` - Show working-tree state and branch status (gated).
+- `/kanche:git-push` - Push current feature branch to origin (human-gated).
+- `/kanche:git-stash` - Save, restore, list, or discard stashes (`drop` is human-gated).
+- `/kanche:git-status` - Show working-tree state and branch status (read-only).
 - `/kanche:git-rebase` - Rebase current branch onto target branch (gated).
 - `/kanche:git-switch` - Switch working tree to a different branch (gated).
 
 ### 2. GitHub CLI Commands
-- `/kanche:pr-create` - Push branch and open a pull request on GitHub (gated).
-- `/kanche:pr-list` - List open pull requests and display branch PR context (gated).
-- `/kanche:pr-review` - Review a pull request diff against rules and post inline suggestions (gated).
-- `/kanche:pr-approve` - Approve a pull request on GitHub (gated).
-- `/kanche:pr-respond` - Triage PR review comments, fix code, and reply in-thread (gated).
-- `/kanche:pr-merge` - Merge a pull request on GitHub and delete branch (gated).
+- `/kanche:gh-cli-pr-create` - Push branch and open a pull request on GitHub (human-gated).
+- `/kanche:gh-cli-pr-list` - List open pull requests and display branch PR context (read-only).
+- `/kanche:gh-cli-pr-review` - Review a PR diff and post inline suggestions with `.json` format support (`review.json`).
+- `/kanche:gh-cli-pr-approve` - Approve a pull request on GitHub (gated).
+- `/kanche:gh-cli-pr-respond` - Triage PR review comments, fix code, and reply in-thread (gated).
+- `/kanche:gh-cli-pr-merge` - Merge a pull request on GitHub and delete branch (human-gated).
 
 ### 3. SDD Master Orchestrator Commands
 - `/kanche:sdd-run` - Drive a work item through full SDD phase model (P0 to P9).
 - `/kanche:sdd-steering` - Analyze repository and return steering guidelines.
-- `/kanche:sdd-sync` - Promote development docs to product memory.
+- `/kanche:sdd-sync` - Promote development docs to product memory (`rm -rf` dev folder is human-gated).
 - `/kanche:sdd-init` - Bootstrap steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
 - `/kanche:sdd-init-update` - Re-analyze repository and refresh guidelines.
 - `/kanche:sdd-continue` - Resume SDD workflow from on-disk state.
@@ -77,20 +123,54 @@ Create a `marketplace.json` file inside your project's local customization direc
 - `/kanche:design-specs-review` - Perform review on specs draft.
 - `/kanche:design-init` - Draft system architecture design specifications.
 - `/kanche:design-review` - Perform review on design documents.
+- `/kanche:ui-design-stitch` - Generate visual UI wireframes and themes using StitchMCP.
 
-### 5. Quality Assurance & Audit Commands
+### 5. Quality Assurance & Security Commands
 - `/kanche:qa-validate` - Run linters, test suites, and Playwright MCP browser checks.
 - `/kanche:qa-test-plan` - Generate comprehensive test plan matrices and test stubs.
 - `/kanche:qa-review` - Audit implementation diffs and perform visual verification via Playwright MCP.
 - `/kanche:code-review` - Perform standalone deep code review with `--auto-apply` option.
 - `/kanche:security-scan` - Audit codebase for hardcoded secrets, dependencies, and security vulnerabilities.
 
-### 6. Task Planner Commands
+### 6. Task Planner & Scrum Commands
 - `/kanche:planner-tasks` - Formulate task checklist manifests.
 - `/kanche:planner-review` - Audit task checklist layout.
+- `/kanche:scrum-pbi-create` - Create standardized Product Backlog Items with user stories and story points.
 
-### 7. Coding & Development Commands
+### 7. Coding & Implementation Commands
 - `/kanche:code-implement` - Incremental codebase implementation and task checklist execution.
+
+---
+
+## 🔍 `/kanche:gh-cli-pr-review` Format & JSON Support
+
+PR reviews support the `--json` / `--format=json` flag to produce a standardized `review.json` payload, which can be posted to GitHub in a single request:
+
+```bash
+gh api --method POST "repos/{owner}/{repo}/pulls/{pr}/reviews" --input review.json
+```
+
+### GitHub Review Comment Body Format
+```markdown
+#  Summary
+- Short PR review summary
+- Severity: eg: 6/10
+- Total files: x files
+- Total lines: x lines of codes
+
+## Review Summary
+  
+ Severity       │ Count         │ Category
+────────────────┼───────────────┼─────────────────────────────────────
+ 🔴 HIGH        │ 0             │ Critical Bugs / Security / Breaking
+ 🟡 MEDIUM      │ 0             │ Correctness Risk / Test Coverage
+ 🟢 LOW         │ 1             │ Documentation / Style Nit
+
+---
+Inline comment directly to the files and lines of codes
+```
+
+*Individual code suggestions are anchored directly to file paths and line numbers on the pull request diff.*
 
 ---
 
@@ -101,10 +181,33 @@ agy-plugins/
 ├── .agents/
 │   └── plugins/
 │       └── marketplace.json   # Local registry definition
+├── index.html                 # Interactive showcase and skill catalog
 └── plugins/
     └── kanche/                # Single Unified Plugin Directory
-        ├── plugin.json        # Plugin manifest ("name": "kanche")
-        ├── agents/            # Operator subagents (git-operator, gh-operator, etc.)
-        ├── rules/             # Hard rules and gating guidelines
-        └── skills/            # Skill workflows (/kanche:<skill_name>)
+        ├── plugin.json        # Manifest (v0.3.0)
+        ├── agents/            # Complete Software Development Team (16 agents)
+        │   ├── analyst/
+        │   ├── architect/
+        │   ├── backend-expert/
+        │   ├── coder/
+        │   ├── designer/
+        │   ├── devops/
+        │   ├── frontend-expert/
+        │   ├── gh-operator/
+        │   ├── git-operator/
+        │   ├── planner/
+        │   ├── researcher/
+        │   ├── reviewer/
+        │   ├── scrum-master/
+        │   ├── security-engineer/
+        │   ├── tester/
+        │   └── validator/
+        ├── rules/             # Hard rules & gating guidelines
+        │   ├── destructive-safety.md
+        │   ├── gh-hard-rules.md
+        │   ├── git-hard-rules.md
+        │   ├── loop-engineering.md
+        │   ├── output-language.md
+        │   └── workflow-gating.md
+        └── skills/            # 40 specialized workflow skills (/kanche:*)
 ```

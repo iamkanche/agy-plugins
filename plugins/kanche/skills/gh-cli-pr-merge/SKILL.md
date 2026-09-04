@@ -41,7 +41,7 @@ Parse the invocation arguments:
    BASE_BRANCH="<baseRefName returned by gh>"
    ```
 
-4. **Gate — mode-conditional.** If this skill is invoked from SDD auto mode (`mode=auto` in `settings.json`) AND `auto_merge` is `true` in `settings.json`, log the action (PR title, number, base branch, merge method, and branch-deletion flag) and proceed automatically without prompting. If `auto_merge` is `false` (or unset), or if invoked standalone/from SDD manual mode, STOP and ask the user to confirm: present the PR title, number, base branch, merge method, and whether branch deletion is enabled using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, merge PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without merging.
+4. **Gate — Mandatory Human Confirmation.** Never merge a pull request autonomously. STOP and ask the user to confirm: present the PR title, number, base branch, merge method, and whether branch deletion is enabled using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, merge PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without merging.
 
 5. **Execute merge.** Run the merge command.
 
@@ -69,10 +69,11 @@ Parse the invocation arguments:
 
 ## git hard rules
 
-Never bypass branch protections · never force-merge without confirmation.
+Never bypass branch protections · never force-merge without confirmation · never merge autonomously without human confirmation. Follow `plugins/kanche/rules/destructive-safety.md`.
 
 ## Done when
 
 - The pull request was merged successfully using the requested method.
 - The local and remote feature branches were deleted (unless `--keep-branch` was specified).
-- The action was confirmed (manual mode) or logged (auto mode) before the merge ran.
+- The merge action was explicitly confirmed by the human before running.
+

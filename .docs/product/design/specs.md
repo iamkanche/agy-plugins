@@ -6,6 +6,7 @@ Provides systemic design, specification generation, adversarial design interroga
 ## 2. Included Skills & Commands
 - `/kanche:design-grill`: Interrogates feature requests adversarially with a ranked list of clarifying questions.
 - `/kanche:design-init`: Generates system design specifications (component boundaries, data model, user flow).
+- `/kanche:ui-design-stitch`: Generates visual UI screens, variants, and design systems using StitchMCP.
 - `/kanche:design-specs`: Generates the functional specifications file (`specs.md`).
 - `/kanche:design-specs-review`: Reviews functional specifications against rules and guidelines.
 - `/kanche:design-review`: Reviews system design specifications and overall architecture.
@@ -13,3 +14,5 @@ Provides systemic design, specification generation, adversarial design interroga
 ## 3. Product Invariants
 - Grounding in existing guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
 - Explicit documentation of trade-offs and key architectural decisions.
+- All review skills emit structured `review-verdict` (`GO` | `NO-GO`) blocks for closed-loop refinement.
+- All skills and subagents configured with `model: flash`.

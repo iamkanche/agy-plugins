@@ -1,24 +1,24 @@
 ---
 name: design-specs
 description: Generate the functional specifications file based on feature description and guidelines.
-model: pro
+model: flash
 ---
 
 # /kanche:design-specs
 
 **Mission.** Turn the feature request plus the answered grill questions into a complete, testable `specs.md` body for `.docs/development/{NNN}_{slug}/specs.md` — the WHAT, not the HOW — incorporating closed-loop feedback from `/kanche:design-specs-review`.
 
-## Loop Engineering Protocol (Generator Role — P1 Specs Loop)
+## Loop Engineering Protocol (Generator Role — Requirements & Specs Loop)
 
 In the Loop Engineering Framework, `/kanche:design-specs` acts as the **Generator Skill** paired with `/kanche:design-specs-review`:
 - **Iteration 1**: Generates initial `specs.md` based on feature request & grill Q&A.
-- **Iteration 2..N (≤3x Loop)**: Receives `sdd-review` findings (`verdict: NO-GO`, `findings: [{severity, msg, fix_suggestion}]`). Applies targeted fixes to unresolved sections (e.g. testability, acceptance criteria, NFRs) without discarding existing human edits or valid criteria.
+- **Iteration 2..N (≤3x Loop)**: Receives `review-verdict` findings (`verdict: NO-GO`, `findings: [{severity, msg, fix_suggestion}]`). Applies targeted fixes to unresolved sections (e.g. testability, acceptance criteria, NFRs) without discarding existing human edits or valid criteria.
 
 ## Read
 
 - The feature request / backlog text and the resolved grill Q&A passed in by the workflow.
 - `.docs/guidelines/{product,tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — scope boundaries, loop rules, terminology, and constraints.
-- `sdd-review` findings from prior review iterations (when running in iteration 2..N).
+- `review-verdict` findings from prior review iterations (when running in iteration 2..N).
 - Any existing `.docs/development/{NNN}_{slug}/{specs,notes}.md` for this feature (refine, don't discard human edits).
 - The codebase only as needed (glob/grep/read) to ground data-model and integration claims in what exists — do not design the solution here.
 

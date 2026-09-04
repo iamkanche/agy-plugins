@@ -17,8 +17,10 @@ Automates the Spec-Driven Development (SDD) lifecycle for autonomous Google Anti
 
 ## 4. Product Invariants
 - Preserves human-tuned guidelines and safety rules during updates.
-- Executes LEVEL 1 AI (P0-P7) autonomously straight through with a 3x PR review-respond loop in P6 and sdd-sync document promotion in P7, handing over LEVEL 2 Human Review (P8) and PR Merge (P9) to the user.
-- All 40 skills declare explicit AI model routing (`model: flash` for simple/execution/CLI skills, `model: pro` for design/specs/review/planning skills).
-- `/kanche:sdd-run` supports `/goal` long-running persistent execution mode.
+- Orchestrates the full 16-agent autonomous engineering team and 40 skills across P0 to P9.
+- Unconditional human confirmation gating for all destructive commands and checkpoints (`git commit`, `git push`, `rm -rf`, `gh pr merge`, branch/tag deletes) per `destructive-safety.md`. Non-destructive discovery, planning, coding, and validation steps run autonomously.
+- Unified model routing: All 16 subagents and 40 skills are standardized on `model: flash` (Gemini Flash High) for ultra-fast, high-capability agentic execution.
+- Decoupled standalone skills: Each skill operates independently with its own inputs, flags, and output protocols (`review-verdict`), decoupled from orchestrator internal state.
+- `/kanche:sdd-run` supports `/goal` long-running persistent execution mode with automated retry loops and goal completion signaling.
 - All commit checkpoints (P3 docs, P4 implementation, P6 PR fix, P7 sync) MUST use `/kanche:git-commit` to enforce Conventional Commits formatting.
 - **Pre-Execution Skill Inspection**: Subagent delegation steps and orchestrator execution mandate calling `view_file` on `SKILL.md` before executing any workflow or CLI commands.

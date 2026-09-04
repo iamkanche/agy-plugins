@@ -48,11 +48,14 @@ If no subcommand is given, default to `push`.
      git stash list
      ```
 
-   - **`drop`** — discard a stash. This is destructive/irreversible: only drop the entry the user names, echo which stash will be dropped, and never drop more than requested. Do not run `git stash clear`.
-
-     ```bash
-     git stash drop "stash@{<n>}"
-     ```
+   - **`drop`** — discard a stash. This is destructive and irreversible. You MUST STOP and ask the human for explicit confirmation before running drop:
+     - Show the specific stash reference (e.g. `stash@{0}`) and the stash message.
+     - Prompt the user using `default_api:ask_question` with options `(Recommended) Yes, drop stash` and `No, keep stash`.
+     - Only on selecting Yes, run:
+       ```bash
+       git stash drop "stash@{<n>}"
+       ```
+     - Never run `git stash clear`.
 
 4. **Show state after** so the user sees what moved.
 
@@ -63,7 +66,7 @@ If no subcommand is given, default to `push`.
 
 ## git hard rules
 
-Never `reset --hard` · never `git stash clear` (bulk-discard) · never force-resolve `pop` conflicts · never drop more than the user named.
+Never drop a stash autonomously without explicit human confirmation · never `reset --hard` · never `git stash clear` (bulk-discard) · never force-resolve `pop` conflicts · never drop more than the user named. Follow `plugins/kanche/rules/destructive-safety.md`.
 
 ## Done when
 

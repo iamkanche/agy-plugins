@@ -3,19 +3,19 @@
 ## Repository Layout
 - `plugins/`: Plugin bundle directories.
   - `kanche/`: Unified plugin directory (`plugin.json` with `"name": "kanche"`).
-    - `skills/`: Flattened workflow skill directories across 38 skills (`sdd-init/`, `sdd-run/`, `git-commit/`, `gh-cli-pr-create/`, `design-init/`, `code-implement/`, `planner-tasks/`, `qa-test-plan/`, etc.), exposed as `/kanche:<skill-name>`.
-    - `agents/`: Operator subagents (`git-operator`, `gh-operator`, `analyst`, `architect`, `planner`, `coder`, `validator`).
-    - `rules/`: Hard rules and gating guidelines.
-- `index.html`: Root registry dashboard for browser preview.
-- `README.md`: Registry global/local installation guidelines.
+    - `skills/`: Flattened workflow skill directories across 40 skills (`sdd-init/`, `sdd-run/`, `git-commit/`, `gh-cli-pr-create/`, `design-init/`, `code-implement/`, `planner-tasks/`, `qa-test-plan/`, `security-scan/`, `scrum-pbi-create/`, etc.), exposed as `/kanche:<skill-name>`.
+    - `agents/`: 16 specialized autonomous subagents (`researcher`, `scrum-master`, `analyst`, `architect`, `designer`, `planner`, `coder`, `frontend-expert`, `backend-expert`, `reviewer`, `validator`, `tester`, `security-engineer`, `devops`, `git-operator`, `gh-operator`).
+    - `rules/`: Hard rules, destructive safety (`rules/destructive-safety.md`), and loop engineering guidelines.
+- `index.html`: Root registry dashboard for browser preview and interactive phase orchestration.
+- `README.md`: Registry global/local installation guidelines and team documentation.
 - `.agents/`: Project-based agent configurations and plugins workspace.
   - `plugins/marketplace.json`: Local registration mapping single plugin `kanche` to source.
 - `.docs/`: SDD documentation guidelines and metadata.
   - `guidelines/`: Steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
-  - `product/`: Long-term project memory (`memory.md`) and feature specifications (`plugins/kanche/`).
+  - `product/`: Long-term project memory (`memory.md`) and domain product specifications (`git`, `gh-cli`, `sdd`, `design`, `dev`, `planner`, `qa`, `scrum`).
 
 ## Module/Layer Boundaries
-- The single unified plugin `kanche` packages all Git, GitHub CLI, SDD, Design, QA, Planner, and Dev skills into one cohesive bundle.
+- The single unified plugin `kanche` packages all Git, GitHub CLI, SDD, Design, QA, Planner, Dev, and Scrum skills into one cohesive bundle.
 - Skills reference subagents in `plugins/kanche/agents/` and rules in `plugins/kanche/rules/`.
 
 ## Naming Conventions

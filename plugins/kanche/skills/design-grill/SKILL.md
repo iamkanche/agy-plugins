@@ -1,7 +1,7 @@
 ---
 name: design-grill
 description: Interrogate the feature request adversarially and return a ranked list of clarifying questions.
-model: pro
+model: flash
 ---
 
 # /kanche:design-grill

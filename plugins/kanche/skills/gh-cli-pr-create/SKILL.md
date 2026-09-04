@@ -37,11 +37,13 @@ No positional argument is required.
 
    (Uses `git rev-parse`; if that helper is unavailable, read the branch from `git branch`.) If protected, STOP.
 
-3. **Ensure the branch is pushed.** If it has no upstream, push it with `-u` first (never `--force`, never `--no-verify`).
+3. **Ensure the branch is pushed.** If the branch has no remote upstream tracking or has unpushed commits, do NOT push autonomously. Invoke `/kanche:git-push` or prompt the human for explicit confirmation via `default_api:ask_question` before pushing:
 
    ```bash
-   git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || git push -u origin "$BRANCH"
+   git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || echo "REQUIRES_PUSH"
    ```
+
+   If unpushed, confirm with the user before executing `git push -u origin "$BRANCH"`.
 
 4. **Gather material for the PR.** Determine the merge base against the target base and summarize the commits + diff.
 
@@ -53,7 +55,7 @@ No positional argument is required.
 
 5. **Compose the PR title + body** (technical identifiers verbatim). Title = concise summary; body = what/why, key changes, and any testing notes.
 
-6. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action (title, full body, base branch, and draft flag) and proceed automatically. If invoked standalone or from SDD manual mode, STOP and ask the user to confirm opening this pull request. Show the title, the full body, the base branch, and whether it is a draft using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, create PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without creating the PR.
+6. **Gate — Human Confirmation.** STOP and ask the user to confirm opening this pull request. Show the title, the full body, the base branch, and whether it is a draft using the interactive `default_api:ask_question` tool with options `(Recommended) Yes, create PR` and `No, abort`. Proceed only on selecting Yes; on No, STOP without creating the PR.
 
 7. **Create the PR.** Pass the title and body; add `--draft` and `--base` as parsed. Include `--assignee` (defaults to `@me` if not specified). If assignment fails due to permission or identity resolution, fallback cleanly to creating the PR without `--assignee`.
 
@@ -66,11 +68,12 @@ No positional argument is required.
 
 ## git hard rules
 
-Never force-push · never `--no-verify` · never amend a pushed commit · never `reset --hard` · never open a PR from a protected branch.
+Never push autonomously without explicit human confirmation · never force-push · never `--no-verify` · never amend a pushed commit · never `reset --hard` · never open a PR from a protected branch. Follow `plugins/kanche/rules/destructive-safety.md`.
 
 ## Done when
 
 - A pull request is open for the current feature branch against the intended base.
-- The branch was pushed to origin beforehand (with upstream tracking).
-- The action was confirmed (manual mode) or logged (auto mode) before the PR was created.
+- The branch was confirmed and pushed to origin beforehand.
+- The PR creation action was confirmed before the PR was created.
 - The PR URL is reported back to the user.
+
