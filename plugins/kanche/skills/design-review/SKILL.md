@@ -1,18 +1,18 @@
 ---
 name: design-review
 description: Review system design specifications and architecture.
-model: pro
+model: flash
 ---
 
 # /kanche:design-review
 
 **Mission.** Critically review `design.md` and its `api-diff.md`/`db-diff.md` for technical soundness, spec coverage, and consistency, returning a GO/NO-GO verdict with findings for closed-loop iteration with `/kanche:design-init`.
 
-## Loop Engineering Protocol (Reviewer Role — P2 Design Loop)
+## Loop Engineering Protocol (Reviewer Role — System Design Loop)
 
 In the Loop Engineering Framework, `/kanche:design-review` acts as the **Reviewer Skill** paired with `/kanche:design-init`:
 - Audits `design.md`, `api-diff.md`, and `db-diff.md` for technical feasibility, architecture alignment, and spec coverage.
-- Emits structured `sdd-review` block consumed by `/kanche:design-init` during retry loops (up to 3x).
+- Emits structured `review-verdict` block consumed by `/kanche:design-init` during retry loops (up to 3x).
 
 ## Read
 
@@ -33,9 +33,9 @@ Judge against these criteria and record every issue as a finding:
 - **Risks & alternatives** — real risks are named with mitigations.
 - **Grounding** — cited paths/patterns exist.
 
-Return exactly one fenced `sdd-review` block plus a short prose rationale beneath it:
+Return exactly one fenced `review-verdict` block plus a short prose rationale beneath it:
 
-```sdd-review
+```review-verdict
 verdict: GO            # or NO-GO
 loop_iteration: 1/3    # current iteration / max_loops
 findings:

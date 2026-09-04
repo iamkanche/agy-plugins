@@ -1,12 +1,12 @@
 ---
 name: ui-design-stitch
-description: Generate visual UI screens, variants, and design systems using StitchMCP during system design (P2).
-model: pro
+description: Generate visual UI screens, variants, and design systems using StitchMCP for system and UI design specifications.
+model: flash
 ---
 
 # /kanche:ui-design-stitch
 
-**Summary.** Generate autonomous visual UI designs, screen wireframes, visual variants, and design systems via the StitchMCP server during Phase P2 (Design) of the SDD workflow.
+**Summary.** Generate autonomous visual UI designs, screen wireframes, visual variants, and design systems via the StitchMCP server for feature and interface design specifications.
 
 ## Tools (StitchMCP)
 
@@ -26,9 +26,9 @@ This skill utilizes lazy-loaded StitchMCP tools:
 4. **Produce Variants**: Call `generate_variants` to create light/dark mode and responsive layout variations.
 5. **Export to `design.md`**: Embed generated screen links, visual design tokens, and layout guidelines directly into `.docs/development/{slug}/design.md`.
 
-## Integration with SDD Phase P2
+## Design Architecture Workflow
 
-The `@architect` and `@designer` subagents invoke this skill during Phase P2 (Design) before passing `design.md` to `/kanche:design-review`.
+The `@designer` and `@architect` subagents invoke this skill to formulate UI screens, themes, and design tokens before design review.
 
 ## Done when
 

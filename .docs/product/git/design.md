@@ -10,12 +10,14 @@ updated_at: 2026-07-19
 <!-- schema: design | written by /kanche:sdd-sync (dev-only sections stripped) -->
 
 ## Approach
-Extend `git` plugin by writing namespaced skill files under its `skills/` directory, registering new commands in `plugin.json`, and updating the inspection web dashboard. Mandate `default_api:ask_question` tool for all human gates.
+Provide robust Git lifecycle management via flattened skill directories under `plugins/kanche/skills/git-*`, registering commands in `plugin.json`, and updating the inspection web dashboard. Mandate `default_api:ask_question` tool for all human gates per `plugins/kanche/rules/destructive-safety.md`.
 
 ## Components
-- `skills/tag-delete/SKILL.md` (New): Implements local and remote tag deletion.
-- `skills/tag-push/SKILL.md` (New): Implements pushing local tags to remote.
-- `rules/git-hard-rules.md` (Modified): Mandate interactive `default_api:ask_question` tool for all human gates.
-- `skills/` (Modified): Updated commit, push, branch-delete, tag-create, tag-delete, tag-push, rebase skills to use `default_api:ask_question` tool.
-- `plugin.json` (Modified): Registered `/kanche:git-tag-delete` and `/kanche:git-tag-push`.
-- `index.html` (Modified): Registered new commands and options.
+- `skills/git-commit/SKILL.md`: Safe staging and conventional commit creation gated behind interactive human confirmation.
+- `skills/git-push/SKILL.md`: Remote branch push with upstream tracking, gated behind interactive human confirmation.
+- `skills/git-branch-create/SKILL.md` & `skills/git-branch-delete/SKILL.md`: Branch lifecycle management with confirmation for deletion.
+- `skills/git-tag-create/SKILL.md`, `skills/git-tag-delete/SKILL.md`, `skills/git-tag-push/SKILL.md`: Annotated tag lifecycle with confirmation gates.
+- `skills/git-rebase/SKILL.md`: Branch rebase gated behind interactive human confirmation.
+- `rules/destructive-safety.md` & `rules/git-hard-rules.md`: Strict human-in-the-loop policies preventing autonomous execution of destructive actions.
+- `plugin.json`: Registered all 13 git commands.
+- `index.html`: Registered commands and options in web dashboard.

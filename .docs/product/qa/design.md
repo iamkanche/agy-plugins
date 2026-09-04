@@ -8,13 +8,19 @@ updated_at: 2026-07-25
 # QA & Validation Plugin — Architectural Design
 
 ## Overview
-Modular plugin providing testing, validation, and code review workflows (`plugins/qa`).
+Modular quality assurance, security scanning, browser automation, and review workflows (`plugins/kanche`).
 
 ## Structure
-- `plugin.json`: Defines metadata, output-language rules, skills directory, and agent (`validator`).
+- `plugin.json`: Registers `@validator`, `@tester`, `@reviewer`, and `@security-engineer` subagents and related skills.
 - `agents/`:
-  - `validator/agent.json`
+  - `validator/agent.json` (`model: flash`)
+  - `tester/agent.json` (`model: flash`)
+  - `reviewer/agent.json` (`model: flash`)
+  - `security-engineer/agent.json` (`model: flash`)
 - `skills/`:
-  - `validate/SKILL.md`
-  - `test-plan/SKILL.md`
-  - `review/SKILL.md`
+  - `qa-validate/SKILL.md`
+  - `qa-test-plan/SKILL.md`
+  - `qa-review/SKILL.md` (emits `review-verdict`)
+  - `code-review/SKILL.md` (emits `review-verdict`)
+  - `security-scan/SKILL.md`
+

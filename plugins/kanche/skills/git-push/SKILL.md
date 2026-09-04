@@ -45,7 +45,10 @@ No positional argument is required.
 
 4. **Decide the push command.** If `--set-upstream` was passed OR the branch reported `NO_UPSTREAM`, use `git push -u origin "$BRANCH"`. Otherwise use `git push`.
 
-5. **Gate — mode-conditional.** If invoked from SDD auto mode, log the action and proceed automatically. If invoked standalone or from SDD manual mode, ask user confirmation via `default_api:ask_question`.
+5. **Gate — Mandatory Human Confirmation.** Never push autonomously. STOP and ask the user to confirm pushing the branch to the remote origin. Display the branch name, the target remote (`origin`), upstream tracking status, and commits to be pushed. Use the interactive `default_api:ask_question` tool with options:
+   - `(Recommended) Yes, push to origin`
+   - `No, abort push`
+   Proceed only on selecting Yes; on No, STOP without pushing.
 
 6. **Push.** Never `--force`, never `--force-with-lease`, never `--no-verify`.
 
@@ -59,7 +62,7 @@ No positional argument is required.
 
 ## git hard rules
 
-Never force-push · never `--no-verify` · never amend a pushed commit · never `reset --hard` · never push a protected branch.
+Never push autonomously without explicit human confirmation · never force-push · never `--no-verify` · never amend a pushed commit · never `reset --hard` · never push a protected branch. Follow `plugins/kanche/rules/destructive-safety.md`.
 
 ## Done when
 

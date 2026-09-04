@@ -683,6 +683,13 @@
             color: var(--text-primary);
         }
 
+        .phase-agents-group {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
         .phase-agent-tag {
             font-family: var(--font-code);
             font-size: 0.8rem;
@@ -845,7 +852,7 @@
         const ghCommands = [
             { name: "/kanche:gh-cli-pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
             { name: "/kanche:gh-cli-pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-list/SKILL.md" },
-            { name: "/kanche:gh-cli-pr-review", desc: "Review a pull request diff against AGENTS.md rules and submit structured suggestion comments.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
+            { name: "/kanche:gh-cli-pr-review", desc: "Review a pull request diff against rules, generate .json format (review.json), and submit structured inline suggestion comments directly to files and lines of code.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
             { name: "/kanche:gh-cli-pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-approve/SKILL.md" },
             { name: "/kanche:gh-cli-pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
             { name: "/kanche:gh-cli-pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
@@ -900,6 +907,15 @@
 
         const agentsData = [
             {
+                name: "researcher",
+                handle: "@researcher",
+                desc: "Specialized subagent for deep codebase exploration, documentation analysis, and architectural feasibility research.",
+                writeTools: false,
+                skills: ["/kanche:sdd-steering"],
+                path: "plugins/kanche/agents/researcher/agent.json",
+                theme: "blue"
+            },
+            {
                 name: "analyst",
                 handle: "@analyst",
                 desc: "Specialized subagent that handles feature interrogation, specs drafting, and specs review (grill, specs, specs-review).",
@@ -911,38 +927,29 @@
             {
                 name: "architect",
                 handle: "@architect",
-                desc: "Specialized subagent that handles system design architecture, API specs, UI wireframes, and design review (init, review).",
+                desc: "Specialized subagent that handles system design architecture, API specs, schema diffs, and design review (init, review).",
                 writeTools: false,
                 skills: ["/kanche:design-init", "/kanche:design-review"],
                 path: "plugins/kanche/agents/architect/agent.json",
                 theme: "pink"
             },
             {
-                name: "coder",
-                handle: "@coder",
-                desc: "Specialized subagent that implements target codebase modifications incrementally, following specifications and task manifests.",
+                name: "designer",
+                handle: "@designer",
+                desc: "Specialized subagent for UI/UX design, text wireframes, component design specifications, and StitchMCP layouts.",
                 writeTools: true,
-                skills: ["/kanche:code-implement"],
-                path: "plugins/kanche/agents/coder/agent.json",
-                theme: "teal"
+                skills: ["/kanche:ui-design-stitch"],
+                path: "plugins/kanche/agents/designer/agent.json",
+                theme: "pink"
             },
             {
-                name: "gh-operator",
-                handle: "@gh-operator",
-                desc: "Specialized subagent that handles GitHub integrations (fetching comments, reviews, opening PRs, listing PR status).",
+                name: "scrum-master",
+                handle: "@scrum-master",
+                desc: "Specialized subagent for agile backlog management, user story drafting, and PBI tracking.",
                 writeTools: true,
-                skills: ["/kanche:gh-cli-pr-create", "/kanche:gh-cli-pr-list", "/kanche:gh-cli-pr-review", "/kanche:gh-cli-pr-approve", "/kanche:gh-cli-pr-respond", "/kanche:gh-cli-pr-merge"],
-                path: "plugins/kanche/agents/gh-operator/agent.json",
-                theme: "purple"
-            },
-            {
-                name: "git-operator",
-                handle: "@git-operator",
-                desc: "Specialized subagent that handles pure git operations (commit, checkout, stash, branch creation, tag creation).",
-                writeTools: true,
-                skills: ["/kanche:git-commit", "/kanche:git-branch-create", "/kanche:git-branch-delete", "/kanche:git-tag-create", "/kanche:git-tag-delete", "/kanche:git-tag-push", "/kanche:git-fetch", "/kanche:git-pull", "/kanche:git-push", "/kanche:git-stash", "/kanche:git-status", "/kanche:git-rebase", "/kanche:git-switch"],
-                path: "plugins/kanche/agents/git-operator/agent.json",
-                theme: "cyan"
+                skills: ["/kanche:scrum-pbi-create"],
+                path: "plugins/kanche/agents/scrum-master/agent.json",
+                theme: "blue"
             },
             {
                 name: "planner",
@@ -954,6 +961,42 @@
                 theme: "indigo"
             },
             {
+                name: "coder",
+                handle: "@coder",
+                desc: "Specialized subagent that implements target codebase modifications incrementally, following specifications and task manifests.",
+                writeTools: true,
+                skills: ["/kanche:code-implement"],
+                path: "plugins/kanche/agents/coder/agent.json",
+                theme: "teal"
+            },
+            {
+                name: "frontend-expert",
+                handle: "@frontend-expert",
+                desc: "Specialized subagent for React 18+, TypeScript 5, Tailwind CSS, TanStack, and modern web UI engineering.",
+                writeTools: true,
+                skills: ["/kanche:code-implement"],
+                path: "plugins/kanche/agents/frontend-expert/agent.json",
+                theme: "teal"
+            },
+            {
+                name: "backend-expert",
+                handle: "@backend-expert",
+                desc: "Specialized subagent for backend architecture, MSC pattern, Laravel 10+, Node/Express, Go, Python, and API design.",
+                writeTools: true,
+                skills: ["/kanche:code-implement"],
+                path: "plugins/kanche/agents/backend-expert/agent.json",
+                theme: "teal"
+            },
+            {
+                name: "reviewer",
+                handle: "@reviewer",
+                desc: "Specialized subagent for deep code review, static analysis, security checks, and closed-loop review verdicts.",
+                writeTools: true,
+                skills: ["/kanche:code-review", "/kanche:qa-review"],
+                path: "plugins/kanche/agents/reviewer/agent.json",
+                theme: "emerald"
+            },
+            {
                 name: "validator",
                 handle: "@validator",
                 desc: "Specialized subagent that executes automated validation suites, linter checks, test plan verification, and build code reviews.",
@@ -961,25 +1004,74 @@
                 skills: ["/kanche:qa-validate", "/kanche:qa-test-plan", "/kanche:qa-review", "/kanche:code-review", "/kanche:security-scan"],
                 path: "plugins/kanche/agents/validator/agent.json",
                 theme: "emerald"
+            },
+            {
+                name: "tester",
+                handle: "@tester",
+                desc: "Specialized subagent for test planning, unit/integration testing, and Playwright MCP browser automation.",
+                writeTools: true,
+                skills: ["/kanche:qa-test-plan", "/kanche:qa-validate"],
+                path: "plugins/kanche/agents/tester/agent.json",
+                theme: "emerald"
+            },
+            {
+                name: "security-engineer",
+                handle: "@security-engineer",
+                desc: "Specialized subagent for secrets scanning, vulnerability audits, and OWASP compliance.",
+                writeTools: true,
+                skills: ["/kanche:security-scan"],
+                path: "plugins/kanche/agents/security-engineer/agent.json",
+                theme: "emerald"
+            },
+            {
+                name: "devops",
+                handle: "@devops",
+                desc: "Specialized subagent for release engineering, CI/CD validation, and deployment operations.",
+                writeTools: true,
+                skills: ["/kanche:git-tag-create", "/kanche:git-tag-push", "/kanche:gh-cli-pr-merge"],
+                path: "plugins/kanche/agents/devops/agent.json",
+                theme: "cyan"
+            },
+            {
+                name: "git-operator",
+                handle: "@git-operator",
+                desc: "Specialized subagent that handles pure git operations (commit, checkout, stash, branch creation, tag creation).",
+                writeTools: true,
+                skills: ["/kanche:git-commit", "/kanche:git-branch-create", "/kanche:git-branch-delete", "/kanche:git-tag-create", "/kanche:git-tag-delete", "/kanche:git-tag-push", "/kanche:git-fetch", "/kanche:git-pull", "/kanche:git-push", "/kanche:git-stash", "/kanche:git-status", "/kanche:git-rebase", "/kanche:git-switch"],
+                path: "plugins/kanche/agents/git-operator/agent.json",
+                theme: "cyan"
+            },
+            {
+                name: "gh-operator",
+                handle: "@gh-operator",
+                desc: "Specialized subagent that handles GitHub integrations (fetching comments, reviews, opening PRs, listing PR status).",
+                writeTools: true,
+                skills: ["/kanche:gh-cli-pr-create", "/kanche:gh-cli-pr-list", "/kanche:gh-cli-pr-review", "/kanche:gh-cli-pr-approve", "/kanche:gh-cli-pr-respond", "/kanche:gh-cli-pr-merge"],
+                path: "plugins/kanche/agents/gh-operator/agent.json",
+                theme: "purple"
             }
         ];
 
         const sddWorkflowPhases = [
             {
                 phase: "P0",
-                name: "Setup & Feature Branching",
-                desc: "Verify repository, parse settings & memory, present receipt, and checkout feature branch.",
-                agent: "@git-operator",
+                name: "Setup, Steering & Branching",
+                desc: "Survey repository guidelines, register backlog PBI, parse conventions & memory, and checkout feature branch.",
+                agents: ["@researcher", "@scrum-master", "@git-operator"],
+                agent: "@researcher, @scrum-master, @git-operator",
                 theme: "cyan",
                 skills: [
+                    { name: "/kanche:sdd-steering", label: "Steering Survey", path: "plugins/kanche/skills/sdd-steering/SKILL.md" },
+                    { name: "/kanche:scrum-pbi-create", label: "PBI Register", path: "plugins/kanche/skills/scrum-pbi-create/SKILL.md" },
                     { name: "/kanche:git-branch-create", label: "Branch Create", path: "plugins/kanche/skills/git-branch-create/SKILL.md" }
                 ]
             },
             {
                 phase: "P1",
-                name: "Specs & Requirements",
-                desc: "Adversarial probing, drafting functional specs, and forced analyst review loop.",
-                agent: "@analyst",
+                name: "Requirements & Functional Specs Loop",
+                desc: "Adversarial probing, drafting functional specs, and forced analyst review loop (≤3x).",
+                agents: ["@analyst", "@scrum-master"],
+                agent: "@analyst, @scrum-master",
                 theme: "pink",
                 skills: [
                     { name: "/kanche:design-grill", label: "Design Grill", path: "plugins/kanche/skills/design-grill/SKILL.md" },
@@ -989,83 +1081,98 @@
             },
             {
                 phase: "P2",
-                name: "Architecture & Design",
-                desc: "System design specs, component boundaries, and forced architect review loop.",
-                agent: "@architect",
+                name: "Architecture & UI/UX Design Loop",
+                desc: "System architecture specs, StitchMCP UI visual screens & tokens, and forced design review loop (≤3x).",
+                agents: ["@architect", "@designer"],
+                agent: "@architect, @designer",
                 theme: "pink",
                 skills: [
-                    { name: "/kanche:design-init", label: "Design Init", path: "plugins/kanche/skills/design-init/SKILL.md" },
+                    { name: "/kanche:design-init", label: "Architecture Init", path: "plugins/kanche/skills/design-init/SKILL.md" },
+                    { name: "/kanche:ui-design-stitch", label: "UI Stitch", path: "plugins/kanche/skills/ui-design-stitch/SKILL.md" },
                     { name: "/kanche:design-review", label: "Design Review", path: "plugins/kanche/skills/design-review/SKILL.md" }
                 ]
             },
             {
                 phase: "P3",
-                name: "Task Planning",
-                desc: "Task manifest decomposition, file editing order, review loop, and docs commit checkpoint.",
-                agent: "@planner",
+                name: "Task Planning & QA Test Plan Matrix",
+                desc: "Task manifest decomposition, QA test plan specifications, forced planner review, and human-gated docs commit.",
+                agents: ["@planner", "@tester", "@git-operator"],
+                agent: "@planner, @tester, @git-operator",
                 theme: "indigo",
                 skills: [
                     { name: "/kanche:planner-tasks", label: "Planner Tasks", path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
+                    { name: "/kanche:qa-test-plan", label: "QA Test Plan", path: "plugins/kanche/skills/qa-test-plan/SKILL.md" },
                     { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner-review/SKILL.md" },
-                    { name: "/kanche:git-commit", label: "Docs Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
+                    { name: "/kanche:git-commit", label: "Docs Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
                 ]
             },
             {
                 phase: "P4",
-                name: "Implementation",
-                desc: "Incremental code modifications, QA review audit gate, and code commit checkpoint.",
-                agent: "@coder",
+                name: "Specialized Implementation & Code Review Loop",
+                desc: "Specialized frontend/backend code implementation, forced code & QA reviews, closed-loop repair (≤3x), and human-gated code commit.",
+                agents: ["@coder", "@frontend-expert", "@backend-expert", "@reviewer", "@validator", "@git-operator"],
+                agent: "@coder, @frontend-expert, @backend-expert, @reviewer, @validator, @git-operator",
                 theme: "teal",
                 skills: [
                     { name: "/kanche:code-implement", label: "Code Implement", path: "plugins/kanche/skills/code-implement/SKILL.md" },
+                    { name: "/kanche:code-review", label: "Code Review", path: "plugins/kanche/skills/code-review/SKILL.md" },
                     { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa-review/SKILL.md" },
-                    { name: "/kanche:git-commit", label: "Code Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
+                    { name: "/kanche:git-commit", label: "Code Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
                 ]
             },
             {
                 phase: "P5",
-                name: "AI Validation & Fix Loop",
-                desc: "Automated test suite verification, linter checks, and build fix loop.",
-                agent: "@validator",
+                name: "Validation, Security Audit & Self-Healing Loop",
+                desc: "Security secrets/vulnerability scan, automated tests & Playwright browser validation, and self-healing repair loop (≤3x).",
+                agents: ["@validator", "@tester", "@security-engineer", "@coder"],
+                agent: "@validator, @tester, @security-engineer, @coder",
                 theme: "emerald",
                 skills: [
-                    { name: "/kanche:qa-validate", label: "QA Validate", path: "plugins/kanche/skills/qa-validate/SKILL.md" }
+                    { name: "/kanche:security-scan", label: "Security Scan", path: "plugins/kanche/skills/security-scan/SKILL.md" },
+                    { name: "/kanche:qa-validate", label: "QA Validate", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
+                    { name: "/kanche:code-implement", label: "Repair Fixes", path: "plugins/kanche/skills/code-implement/SKILL.md" }
                 ]
             },
             {
                 phase: "P6",
-                name: "Deploy & PR Review/Respond",
-                desc: "Push feature branch, open pull request, and run 3x AI review-respond feedback loop with git-commit & push.",
-                agent: "@gh-operator",
+                name: "Deploy & AI PR Review-Respond Loop",
+                desc: "Push feature branch, open pull request, submit JSON-formatted PR reviews via GitHub API, and run 3x review-respond fix loop.",
+                agents: ["@gh-operator", "@git-operator", "@reviewer"],
+                agent: "@gh-operator, @git-operator, @reviewer",
                 theme: "purple",
                 skills: [
-                    { name: "/kanche:git-push", label: "Git Push", path: "plugins/kanche/skills/git-push/SKILL.md" },
-                    { name: "/kanche:gh-cli-pr-create", label: "PR Create", path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
-                    { name: "/kanche:gh-cli-pr-review", label: "PR Review", path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
+                    { name: "/kanche:git-push", label: "Git Push (Gated)", path: "plugins/kanche/skills/git-push/SKILL.md" },
+                    { name: "/kanche:gh-cli-pr-create", label: "PR Create (Gated)", path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
+                    { name: "/kanche:gh-cli-pr-review", label: "PR Review (JSON)", path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
                     { name: "/kanche:gh-cli-pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
-                    { name: "/kanche:git-commit", label: "Fix Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
+                    { name: "/kanche:git-commit", label: "Fix Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
                 ]
             },
             {
                 phase: "P7",
                 name: "Product Alignment & Doc Sync",
-                desc: "Promote dev docs to permanent domain product directories and clean up dev folder on feature branch.",
-                agent: "@gh-operator",
+                desc: "Consolidate dev docs into permanent domain directories (.docs/product/{domain}/), prompt human before rm -rf cleanup, and commit/push.",
+                agents: ["@gh-operator", "@git-operator"],
+                agent: "@gh-operator, @git-operator",
                 theme: "blue",
                 skills: [
                     { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
-                    { name: "/kanche:git-commit", label: "Sync Commit", path: "plugins/kanche/skills/git-commit/SKILL.md" }
+                    { name: "/kanche:git-commit", label: "Sync Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" },
+                    { name: "/kanche:git-push", label: "Push Sync (Gated)", path: "plugins/kanche/skills/git-push/SKILL.md" }
                 ]
             },
             {
                 phase: "P8-P9",
-                name: "Human Review & PR Merge",
-                desc: "LEVEL 2 Human execution: Gated verification checklist (qa-validate) and PR merge (gh-cli-pr-merge).",
-                agent: "@validator",
+                name: "Human Verification, PR Merge & Tagging",
+                desc: "LEVEL 2 Human execution: Gated interactive verification checklist (qa-validate), PR merge (gh-cli-pr-merge), and release tagging (git-tag-create/push).",
+                agents: ["@validator", "@tester", "@devops", "@gh-operator"],
+                agent: "@validator, @tester, @devops, @gh-operator",
                 theme: "amber",
                 skills: [
                     { name: "/kanche:qa-validate", label: "Human Review", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
-                    { name: "/kanche:gh-cli-pr-merge", label: "PR Merge", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
+                    { name: "/kanche:gh-cli-pr-merge", label: "PR Merge (Gated)", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" },
+                    { name: "/kanche:git-tag-create", label: "Release Tag (Gated)", path: "plugins/kanche/skills/git-tag-create/SKILL.md" },
+                    { name: "/kanche:git-tag-push", label: "Tag Push (Gated)", path: "plugins/kanche/skills/git-tag-push/SKILL.md" }
                 ]
             }
         ];
@@ -1074,8 +1181,8 @@
             "kanche": {
                 name: "kanche",
                 displayName: "All Kanche Skills",
-                desc: "Unified Antigravity developer plugin bundle packaging all 40 skills across Git, GitHub CLI, SDD Orchestrator, Design & Specs, Quality Assurance, Planner, Development, and Scrum PBI workflows into the /kanche: namespace.",
-                version: "v0.2.0",
+                desc: "Unified Antigravity developer plugin bundle packaging a complete 16-agent software development team, 40 skills, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
+                version: "v0.3.0",
                 theme: "blue",
                 inspectorUrl: "plugins/kanche/plugin.json",
                 commands: [...gitCommands, ...ghCommands, ...sddCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands]
@@ -1212,7 +1319,7 @@
                     p.phase.toLowerCase().includes(searchLower) ||
                     p.name.toLowerCase().includes(searchLower) ||
                     p.desc.toLowerCase().includes(searchLower) ||
-                    p.agent.toLowerCase().includes(searchLower) ||
+                    (p.agents ? p.agents.join(' ') : (p.agent || '')).toLowerCase().includes(searchLower) ||
                     p.skills.some(s => s.name.toLowerCase().includes(searchLower) || s.label.toLowerCase().includes(searchLower))
                 );
 
@@ -1227,13 +1334,18 @@
                 filteredPhases.forEach((phase, idx) => {
                     const phaseCard = document.createElement("div");
                     phaseCard.className = `phase-card ${phase.theme}-card`;
+                    const agentsList = Array.isArray(phase.agents) 
+                        ? phase.agents 
+                        : (phase.agent ? phase.agent.split(',').map(s => s.trim()) : []);
                     phaseCard.innerHTML = `
                         <div class="phase-card-header">
                             <div class="phase-title-group">
                                 <span class="phase-badge ${phase.theme}">${phase.phase}</span>
                                 <span class="phase-name">${phase.name}</span>
                             </div>
-                            <span class="phase-agent-tag">${phase.agent}</span>
+                            <div class="phase-agents-group">
+                                ${agentsList.map(a => `<span class="phase-agent-tag">${a}</span>`).join('')}
+                            </div>
                         </div>
                         <p class="phase-desc">${phase.desc}</p>
                         <div class="skills-flow-sequence">

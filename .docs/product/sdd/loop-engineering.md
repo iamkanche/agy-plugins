@@ -13,15 +13,15 @@ Every generative workflow is explicitly bound to a complementary evaluator workf
 |   Generator Skill   | -----------------------------> |     Reviewer Skill     |
 | (e.g. code-implement|                                |  (e.g. code-review /   |
 |   design-specs,     | <----------------------------- |      qa-review)        |
-|   planner-tasks,    |   Structured sdd-review block  +------------------------+
+|   planner-tasks,    | Structured review-verdict block+------------------------+
 |  ui-design-stitch)  |    (verdict, findings, line)
 +---------------------+
 ```
 
-### B. Standardized Machine-Readable Review Interface (`sdd-review`)
-All reviewer skills produce a standardized `sdd-review` block:
+### B. Standardized Machine-Readable Review Interface (`review-verdict`)
+All reviewer skills produce a standardized `review-verdict` block:
 
-```sdd-review
+```review-verdict
 verdict: GO | NO-GO
 loop_iteration: N / max_loops
 findings:

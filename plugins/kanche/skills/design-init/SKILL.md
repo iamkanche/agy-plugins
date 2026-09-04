@@ -1,24 +1,24 @@
 ---
 name: design-init
 description: Generate system design specifications including component boundaries, data model, and user flow.
-model: pro
+model: flash
 ---
 
 # /kanche:design-init
 
 **Mission.** Translate the approved `specs.md` into an implementable technical design — the HOW — returning three bodies (`design.md`, `api-diff.md`, `db-diff.md`), incorporating closed-loop feedback from `/kanche:design-review`.
 
-## Loop Engineering Protocol (Generator Role — P2 Design Loop)
+## Loop Engineering Protocol (Generator Role — System Design Loop)
 
 In the Loop Engineering Framework, `/kanche:design-init` acts as the **Generator Skill** paired with `/kanche:design-review`:
 - **Iteration 1**: Generates initial `design.md`, `api-diff.md`, and `db-diff.md`.
-- **Iteration 2..N (≤3x Loop)**: Receives `sdd-review` findings (`verdict: NO-GO`, `findings: [{severity, msg, fix_suggestion}]`). Applies targeted technical design refinements resolving reported blocker/major architectural issues.
+- **Iteration 2..N (≤3x Loop)**: Receives `review-verdict` findings (`verdict: NO-GO`, `findings: [{severity, msg, fix_suggestion}]`). Applies targeted technical design refinements resolving reported blocker/major architectural issues.
 
 ## Read
 
 - `.docs/development/{NNN}_{slug}/specs.md` — the requirements this design must satisfy.
 - `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — stack, versions, module boundaries, allowed dependency directions, loop rules, and mandatory rules.
-- `sdd-review` findings from prior review iterations (when running in iteration 2..N).
+- `review-verdict` findings from prior review iterations (when running in iteration 2..N).
 - Any existing `design.md`, `api-diff.md`, `db-diff.md` for this feature (refine, don't discard).
 - Consolidated context when present: `.docs/product/api/openapi.yaml`, `.docs/product/database/er-diagram.md` — so deltas are expressed against the real current contract/schema.
 - The codebase (glob/grep/read) to locate actual files, symbols, and patterns.

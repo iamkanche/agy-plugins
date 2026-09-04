@@ -1,18 +1,18 @@
 ---
 name: code-review
 description: Perform deep code review on staged/modified files with auto-fix capability and security checks.
-model: pro
+model: flash
 ---
 
 # /kanche:code-review
 
-**Summary.** Perform deep static and functional code review on changed or staged files against `AGENTS.md` and repository guidelines, emitting a machine-readable `sdd-review` verdict block for closed-loop iteration with `/kanche:code-implement`, with optional auto-application of minor refactors/nits when requested.
+**Summary.** Perform deep static and functional code review on changed or staged files against guidelines, emitting a machine-readable `review-verdict` block for closed-loop iteration with `/kanche:code-implement`, with optional auto-application of minor refactors/nits when requested.
 
-## Loop Engineering Protocol (Reviewer Role — P4 Build Loop)
+## Loop Engineering Protocol (Reviewer Role — Code Implementation Loop)
 
 In the Loop Engineering Framework, `/kanche:code-review` acts as the **Reviewer & Auditor Skill** paired with `/kanche:code-implement`:
 - Evaluates code diffs, security, style, and correctness against `tasks.md`, `specs.md`, and repository guidelines.
-- Returns a structured `sdd-review` block with `verdict: GO` or `NO-GO`, iteration status, and actionable findings containing exact `file:line` pointers and fix suggestions.
+- Returns a structured `review-verdict` block with `verdict: GO` or `NO-GO`, iteration status, and actionable findings containing exact `file:line` pointers and fix suggestions.
 - When `--auto-apply` is enabled, automatically applies minor formatting/nit fixes directly to files, resolving nit findings.
 
 ## Inputs
@@ -29,9 +29,9 @@ In the Loop Engineering Framework, `/kanche:code-review` acts as the **Reviewer 
    - `major`: Architecture violation, missing test, or correctness risk. (Forces `NO-GO`)
    - `nit`: Formatting, style, or minor clarity improvement. (Does not force `NO-GO`)
 4. If `--auto-apply` is specified, apply nit/style fixes directly to files.
-5. Return exactly one fenced `sdd-review` block as the machine-readable verdict, plus a concise summary:
+5. Return exactly one fenced `review-verdict` block as the machine-readable verdict, plus a concise summary:
 
-```sdd-review
+```review-verdict
 verdict: GO            # or NO-GO (NO-GO if any blocker or major exists)
 loop_iteration: 1/3    # current iteration / max_loops
 findings:
@@ -44,7 +44,7 @@ findings:
 
 ## Rules
 
-- Returns DATA (including the `sdd-review` block) to the calling workflow. Does NOT commit, push, or orchestrate.
+- Returns DATA (including the `review-verdict` block) to the calling workflow. Does NOT commit, push, or orchestrate.
 - Read-only by default; only modifies files if `--auto-apply` is explicitly passed for minor nit fixes.
 - Follow `.docs/guidelines/rules.md`, `plugins/kanche/rules/loop-engineering.md`, and project output-language policies.
 

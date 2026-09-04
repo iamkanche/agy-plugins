@@ -46,19 +46,21 @@ Sync and merge final documentation into the permanent domain directory:
   - Merge design choices and architecture from `.docs/development/{slug}/design.md` into `.docs/product/{domain}/design.md`.
   - If additional domain groups were impacted, update each corresponding `.docs/product/{domain}/` documentation set accordingly.
 
-### 4. Cleanup Development Folder
+### 4. Cleanup Development Folder (Gated)
 
-Delete the development feature directory to prevent drift and keep the workspace clean:
-- Command:
+Deleting the development feature directory is a destructive action (`rm -rf`). In accordance with `plugins/kanche/rules/destructive-safety.md`, you MUST STOP and prompt the human for explicit confirmation before deleting:
+- Prompt via `default_api:ask_question` asking: "Approve deleting ephemeral development directory `.docs/development/{slug}/` after syncing into `.docs/product/{domain}/`?" with options `(Recommended) Yes, delete development folder` and `No, keep development folder`.
+- Only upon selecting Yes, execute the cleanup:
   ```bash
-  rm -rf .docs/development/{slug}/
+  rm -rf ".docs/development/${slug}/"
   ```
+- If the user selects No, keep the folder and proceed to commit the product domain updates without deleting the dev folder.
 
 ### 5. Commit and Push
 
-Create a conventional commit detailing the domain sync and cleanup using **/kanche:git-commit**:
-- Stage the updated domain product files and the deleted development directory.
-- Run **/kanche:git-commit** using multi-line HEREDOC format:
+Create a conventional commit detailing the domain sync using **/kanche:git-commit**:
+- Stage the updated domain product files (and deleted development directory if approved).
+- Run **/kanche:git-commit** (which prompts the human for explicit confirmation):
 
 ```bash
 git commit -F - <<'EOF'
@@ -76,7 +78,8 @@ Maintains long-term project memory integrity without ephemeral feature slug accu
 EOF
 ```
 
-- Run **/kanche:git-push** to update remote (as an isolated subsequent step).
+- Run **/kanche:git-push** to update remote (which prompts the human for explicit confirmation). Never push autonomously.
+
 
 ---
 

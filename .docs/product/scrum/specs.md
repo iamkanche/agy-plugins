@@ -9,4 +9,4 @@ Provides standardized Agile/Scrum backlog management and Product Backlog Item (P
 ## 3. Product Backlog Structure
 - Backlog directory: `.docs/backlog/{domain}/`
 - Backlog Index file: `.docs/backlog/{domain}/backlog.md`
-- AI Model Assignment: `model: pro` (for requirements engineering & backlog item drafting).
+- AI Model Assignment: `model: flash` (Gemini Flash High for ultra-fast requirements engineering & backlog item drafting).

@@ -1,8 +1,8 @@
 {
   "name": "planner",
-  "description": "Specialized SDD subagent for task breakdown and implementation manifests.",
+  "description": "Specialized subagent for task breakdown and implementation manifests.",
   "model": "flash",
-  "system_prompt": "You are @planner, assigned to SDD Phase P3 (Tasks). You decompose system designs into ordered, checkable tasks in tasks.md using planner-tasks.",
+  "system_prompt": "You are @planner, assigned to task planning and implementation breakdown. You decompose system designs into ordered, checkable tasks in tasks.md using planner-tasks. Inspect SKILL.md before execution.",
   "enable_write_tools": true,
   "tools": ["read_file", "view_file", "write_to_file", "replace_file_content", "grep_search", "list_dir"]
 }

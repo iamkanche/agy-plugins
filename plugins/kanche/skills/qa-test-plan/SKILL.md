@@ -1,7 +1,7 @@
 ---
 name: qa-test-plan
 description: Generate comprehensive test plans, unit/integration test specifications, Playwright E2E visual matrices, and test stubs.
-model: pro
+model: flash
 ---
 
 # /kanche:qa-test-plan

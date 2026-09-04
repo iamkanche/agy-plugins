@@ -6,9 +6,9 @@ model: flash
 
 # /kanche:gh-cli-pr-respond
 
-**Summary.** Fetch PR review comments and threads, triage feedback, execute targeted code fixes locally (via `/kanche:code-implement`), commit via `/kanche:git-commit`, push via `/kanche:git-push`, resolve threads via GraphQL API, and reply in-thread, functioning as the **PR Responder / Generator Skill** in Phase P6 of the Loop Engineering Framework.
+**Summary.** Fetch PR review comments and threads, triage feedback, execute targeted code fixes locally (via `/kanche:code-implement`), commit via `/kanche:git-commit`, push via `/kanche:git-push`, resolve threads via GraphQL API, and reply in-thread, functioning as the **PR Responder / Generator Skill** in the Loop Engineering Framework.
 
-## Loop Engineering Protocol (Generator / Responder Role — P6 PR Loop)
+## Loop Engineering Protocol (Generator / Responder Role — PR Review Loop)
 
 In the Loop Engineering Framework, `/kanche:gh-cli-pr-respond` acts as the **PR Fixer & Responder Skill** paired with `/kanche:gh-cli-pr-review`:
 - Parses inline review comments and findings posted by `/kanche:gh-cli-pr-review` or human reviewers.
@@ -28,10 +28,10 @@ Parse the invocation arguments:
 2. **Fetch all PR review comments and threads.** Retrieve unresolved comments and thread IDs.
 3. **Filter and group comments.** Group by file/thread, filtering out already resolved threads.
 4. **Triage and plan responses.** Draft targeted code fixes and response text.
-5. **Gate (Triage Review) — mode-conditional.** Log in auto mode, or ask via `default_api:ask_question` in manual mode.
+5. **Triage and Review Plan.** Inspect unresolved comments and draft targeted code fix plans against repository standards.
 6. **Apply code fixes locally.** Invoke `/kanche:code-implement` with review findings to apply targeted fixes and run tests.
 7. **Stage, commit, and push.** Execute commits strictly via `/kanche:git-commit` (`fix({slug}): address PR review feedback`) and push via `/kanche:git-push`.
-8. **Gate (Reply Confirmation) — mode-conditional.**
+8. **Prepare thread replies & resolutions.** Verify reply messages and target thread IDs before posting.
 9. **Submit replies and resolve threads.** Post replies to threads and execute GraphQL thread resolution:
 
    ```bash

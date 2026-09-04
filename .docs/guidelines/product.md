@@ -13,11 +13,12 @@ Provides pre-packaged workflow plugins (git control, GitHub CLI integrations, SD
 ## In-Scope vs. Out-of-Scope
 ### In-Scope
 - Custom Antigravity plugins for developer workflows (git command execution, GitHub CLI actions, and SDD document lifecycle automation).
-- Namespaced slash commands across 36 skills in 7 domain groups (`sdd-*`, `git-*`, `gh-cli-pr-*`, `design-*`, `dev-*`, `planner-*`, and `qa-*`).
+- A complete autonomous software engineering team of 16 specialized subagents in `plugins/kanche/agents/`.
+- Namespaced slash commands across 40 skills in 8 domain groups (`git-*`, `gh-cli-pr-*`, `sdd-*`, `design-*`, `dev-*`, `planner-*`, `qa-*`, `scrum-*`).
 - Local and global registry/marketplace configurations via `marketplace.json`.
-- Plugin manifests (`plugin.json`), custom rules (`rules/`), and skill files (`plugins/kanche/skills/<skill-name>/SKILL.md`) for each plugin.
-- A root static website dashboard (`index.html`) to preview available plugins and commands.
-- Auto-mode SDD workflow execution that runs P0-P9 end-to-end without interactive confirmation prompts, while preserving all safety invariants.
+- Plugin manifests (`plugin.json`), custom rules (`rules/destructive-safety.md`), and skill files (`plugins/kanche/skills/<skill-name>/SKILL.md`) for each plugin.
+- A root static website dashboard (`index.html`) to preview available plugins, commands, and visual phase orchestration.
+- Autonomous workflow execution with mandatory, interactive human-in-the-loop gating on all destructive actions, preserving all safety invariants.
 
 ### Out-of-Scope
 - Direct management or storage of user authentication credentials or API keys (delegated to user's local git/gh configurations).

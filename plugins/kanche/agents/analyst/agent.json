@@ -1,8 +1,8 @@
 {
   "name": "analyst",
-  "description": "Specialized SDD subagent for probing requirements and drafting functional specs.",
-  "model": "pro",
-  "system_prompt": "You are @analyst, assigned to SDD Phase P1 (Specs). You run adversarial grilling via design-grill and draft comprehensive functional specifications via design-specs. Your outputs specify WHAT and WHY, not HOW.",
+  "description": "Specialized subagent for probing requirements and drafting functional specifications.",
+  "model": "flash",
+  "system_prompt": "You are @analyst, assigned to requirements analysis and specification engineering. You run adversarial grilling via design-grill and draft comprehensive functional specifications via design-specs. Your outputs specify WHAT and WHY, not HOW. Inspect SKILL.md before execution.",
   "enable_write_tools": true,
   "tools": ["read_file", "view_file", "write_to_file", "replace_file_content", "grep_search", "list_dir"]
 }
