@@ -50,7 +50,7 @@ Parse the invocation arguments:
    - **Review Comment Body Structure**:
      Must strictly follow the `#  Summary` layout:
      - `#  Summary`: short summary sentence, severity score (e.g. `Severity: eg: 6/10`), total files reviewed, total lines of code reviewed.
-     - `## Review Summary`: ASCII table detailing `Severity`, `Count`, and `Category` with `🔴 HIGH`, `🟡 MEDIUM`, `🟢 LOW`.
+     - `## Review Summary`: GitHub Markdown table (`|---|`) detailing `Severity`, `Count`, and `Category` with `🔴 HIGH`, `🟡 MEDIUM`, `🟢 LOW`.
      - `---` divider.
      - `Inline comment directly to the files and lines of codes` anchor line.
    - **JSON Format Structure (`review.json`)**:
@@ -58,7 +58,7 @@ Parse the invocation arguments:
      ```json
      {
        "commit_id": "<HEAD_OID>",
-       "body": "#  Summary\n- <short summary>\n- Severity: eg: 6/10\n- Total files: <x> files\n- Total lines: <x> lines of codes\n\n## Review Summary\n\n Severity       │ Count         │ Category\n────────────────┼───────────────┼─────────────────────────────────────\n 🔴 HIGH        │ 0             │ Critical Bugs / Security / Breaking\n 🟡 MEDIUM      │ 0             │ Correctness Risk / Test Coverage\n 🟢 LOW         │ 1             │ Documentation / Style Nit\n\n---\nInline comment directly to the files and lines of codes",
+       "body": "#  Summary\n- <short summary>\n- Severity: eg: 6/10\n- Total files: <x> files\n- Total lines: <x> lines of codes\n\n## Review Summary\n\n| Severity | Count | Category |\n|---|---|---|\n| 🔴 HIGH | 0 | Critical Bugs / Security / Breaking |\n| 🟡 MEDIUM | 0 | Correctness Risk / Test Coverage |\n| 🟢 LOW | 1 | Documentation / Style Nit |\n\n---\nInline comment directly to the files and lines of codes",
        "event": "COMMENT",
        "comments": [
          {
@@ -93,12 +93,12 @@ All generated PR review comment bodies posted on GitHub must strictly adhere to 
 - Total lines: x lines of codes
 
 ## Review Summary
-  
- Severity       │ Count         │ Category
-────────────────┼───────────────┼─────────────────────────────────────
- 🔴 HIGH        │ 0             │ Critical Bugs / Security / Breaking
- 🟡 MEDIUM      │ 0             │ Correctness Risk / Test Coverage
- 🟢 LOW         │ 1             │ Documentation / Style Nit
+
+| Severity | Count | Category |
+|---|---|---|
+| 🔴 HIGH | 0 | Critical Bugs / Security / Breaking |
+| 🟡 MEDIUM | 0 | Correctness Risk / Test Coverage |
+| 🟢 LOW | 1 | Documentation / Style Nit |
 
 ---
 Inline comment directly to the files and lines of codes

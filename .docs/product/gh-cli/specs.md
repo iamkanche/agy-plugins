@@ -5,7 +5,7 @@ Automates GitHub Pull Request lifecycle operations using the GitHub CLI (`gh`), 
 
 ## 2. Included Skills & Commands
 - `/kanche:gh-cli-pr-create`: Opens a pull request on GitHub built from branch commits and diff, gated by mandatory human confirmation.
-- `/kanche:gh-cli-pr-review`: Reviews pull request diff against rules, supports `--json` / `--format=json` export to `review.json`, and posts reviews with `#  Summary`, `## Review Summary`, ASCII severity tables, and inline line comments via atomic single-request `gh api` submission.
+- `/kanche:gh-cli-pr-review`: Reviews pull request diff against rules, supports `--json` / `--format=json` export to `review.json`, and posts reviews with `#  Summary`, `## Review Summary`, standard Markdown severity tables (`|---|`), and inline line comments via atomic single-request `gh api` submission.
 - `/kanche:gh-cli-pr-approve`: Approves the current branch's PR on GitHub (strictly prohibits self-approval).
 - `/kanche:gh-cli-pr-merge`: Merges a pull request on GitHub, gated by mandatory human confirmation.
 - `/kanche:gh-cli-pr-respond`: Triages review comments, applies targeted fixes via `/kanche:code-implement`, commits via `/kanche:git-commit`, pushes via `/kanche:git-push`, resolves threads via GraphQL, and replies.
