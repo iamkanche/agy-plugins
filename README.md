@@ -1,6 +1,13 @@
 # Antigravity Plugins Workspace — `kanche`
 
+[![Live Registry](https://img.shields.io/badge/Live_Registry-GitHub_Pages-3b82f6?style=flat-square&logo=github)](https://iamkanche.github.io/agy-plugins/)
+[![Version](https://img.shields.io/badge/version-v0.5.0-emerald?style=flat-square)](plugins/kanche/plugin.json)
+[![Agents](https://img.shields.io/badge/agents-17_specialized-purple?style=flat-square)](#-the-complete-software-development-team-17-agents)
+[![Skills](https://img.shields.io/badge/skills-47_workflows-amber?style=flat-square)](#available-slash-commands-kanche)
+
 Welcome to the **agy-plugins** repository! This workspace contains the unified **`kanche`** plugin bundle for the **Google Antigravity** AI-first development platform.
+
+👉 **Live Showcase & Plugin Catalog:** [https://iamkanche.github.io/agy-plugins/](https://iamkanche.github.io/agy-plugins/)
 
 The unified `kanche` plugin packages a **complete 17-agent autonomous software engineering team**, developer workflows, slash commands, strict destructive safety rules, and skills into a single namespace: `/kanche:<command>`.
 
@@ -237,7 +244,7 @@ agy-plugins/
 ├── .agents/
 │   └── plugins/
 │       └── marketplace.json   # Local registry definition
-├── index.html                 # Interactive showcase and skill catalog
+├── index.html                 # Interactive showcase & catalog (iamkanche.github.io/agy-plugins)
 └── plugins/
     └── kanche/                # Single Unified Plugin Directory
         ├── plugin.json        # Manifest (v0.5.0)
