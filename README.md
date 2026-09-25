@@ -50,6 +50,50 @@ The `kanche` plugin models a complete, enterprise-grade software engineering org
 - **`@git-operator`** (`flash` / Gemini Flash High) — Pure Git execution for branching, fetching, stashing, and safe committing.
 - **`@gh-operator`** (`flash` / Gemini Flash High) — GitHub CLI and REST/GraphQL integration for PR creation, review posting, and thread resolution.
 
+---
+
+## 🌐 Graph Engineering Workflow (GEW)
+
+The `kanche` suite upgrades traditional Spec-Driven Development into a modern, native **Graph Engineering Workflow (GEW)**. Every lifecycle phase is grounded in AST dependency graphs, topological DAG task planning, and structural graph health integrity checks across 10 structured phases:
+
+```text
+LEVEL 1: Autonomous AI Execution (P0 – P7)
+┌───────────────────────┬──────────────────────────────────────────┬───────────────────────────────────────────┐
+│ Phase                 │ Orchestrator / Subagents                 │ Core Capabilities & Outputs               │
+├───────────────────────┼──────────────────────────────────────────┼───────────────────────────────────────────┤
+│ P0 Graph Discovery    │ @researcher, @scrum-master, @git-operator│ Knowledge graph survey, PBI, branch setup │
+│ P1 Impact Subgraphs   │ @analyst, @scrum-master                  │ Adversarial grilling, functional specs    │
+│ P2 Architecture & UI  │ @architect, @designer                    │ Component topology, StitchMCP UI designs  │
+│ P3 Topological DAG    │ @planner, @tester                        │ Dependency Tiers 0-3, QA test plan matrix │
+│ P4 Graph Build        │ @coder, @frontend, @backend, @token-opt  │ DAG-ordered build, reviews, distillation  │
+│ P5 Graph Health & QA  │ @validator, @tester, @security-engineer  │ AST health gates, Playwright E2E checks   │
+│ P6 Deploy & PR Blast  │ @devops, @gh-operator, @reviewer         │ Gated PR creation, inline JSON reviews    │
+│ P7 Graph Memory Sync  │ @gh-operator, @git-operator              │ Domain memory promotion, dev cleanup      │
+└───────────────────────┴──────────────────────────────────────────┴───────────────────────────────────────────┘
+
+LEVEL 2: Gated Human Governance (P8 – P9)
+┌───────────────────────┬──────────────────────────────────────────┬───────────────────────────────────────────┐
+│ P8 Human Graph Review │ @validator, @tester                      │ Interactive checklist & visual evidence   │
+│ P9 PR Merge & Release │ @devops, @gh-operator                    │ Gated PR merge, annotated release tags    │
+└───────────────────────┴──────────────────────────────────────────┴───────────────────────────────────────────┘
+```
+
+- **Loop Engineering (≤3x)**: Generator skills (`code-implement`, `design-init`, `design-specs`, `planner-tasks`) pair with Reviewer skills (`code-review`, `qa-review`, `design-review`, `planner-review`) consuming structured `review-verdict` machine blocks for automated remediation.
+- **Topological Dependency Tiers**: Planning decomposes tasks strictly into **Tier 0** (Models/Contracts) → **Tier 1** (Services) → **Tier 2** (UI/Endpoints) → **Tier 3** (Tests/Docs).
+- **Graph Health Gate**: Verifies 0 dangling edges, 0 missing endpoints, and 0 circular dependencies before deployment.
+
+---
+
+## ⚡ Token Optimization & Communication Policy
+
+Enforced across all 17 agents and 47 skills by **`@token-optimizer`** and `rules/token-optimization.md`:
+
+- **Short & Direct**: Deliver actionable answers, conclusions, and code fixes immediately without conversational throat-clearing.
+- **Bullets Over Paragraphs**: Use crisp bullet points (`- `) or compact Markdown tables instead of dense narrative prose.
+- **Zero Conversational Padding**: Disallow polite pleasantries ("Sure, I can help with that..."), filler words, and meta-commentary.
+- **Bottom Line Up Front (BLUF)**: Present verdicts, conclusions, and decisions first; technical details second.
+- **Surgical Diffs**: Output only minimal necessary diffs. Never rewrite unchanged files.
+- **Prompt Caching Optimization**: Maintain stable prefix ordering for invariant directives to maximize LLM cache hit rates.
 
 ---
 
@@ -196,8 +240,8 @@ agy-plugins/
 ├── index.html                 # Interactive showcase and skill catalog
 └── plugins/
     └── kanche/                # Single Unified Plugin Directory
-        ├── plugin.json        # Manifest (v0.4.0)
-        ├── agents/            # Complete Software Development Team (16 agents)
+        ├── plugin.json        # Manifest (v0.5.0)
+        ├── agents/            # Complete Software Engineering Team (17 agents)
         │   ├── analyst/
         │   ├── architect/
         │   ├── backend-expert/
@@ -213,6 +257,7 @@ agy-plugins/
         │   ├── scrum-master/
         │   ├── security-engineer/
         │   ├── tester/
+        │   ├── token-optimizer/
         │   └── validator/
         ├── rules/             # Hard rules & gating guidelines
         │   ├── destructive-safety.md
@@ -220,6 +265,7 @@ agy-plugins/
         │   ├── git-hard-rules.md
         │   ├── loop-engineering.md
         │   ├── output-language.md
+        │   ├── token-optimization.md
         │   └── workflow-gating.md
-        └── skills/            # 46 specialized workflow skills (/kanche:*)
+        └── skills/            # 47 specialized workflow skills (/kanche:*)
 ```
