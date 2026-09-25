@@ -3,9 +3,9 @@
 Universal rules for context window efficiency, instruction compression, and token budget management across all skills, agent definitions, workflows, and prompts. Enforced globally by `@token-optimizer`.
 
 ## 1. Response Formatting & Communication Rules
-- **Short & Direct:** Keep all responses concise, actionable, and strictly direct. State findings or answers immediately without throat-clearing.
-- **Bullets Over Paragraphs:** Use crisp bullet points (`- `) and compact Markdown tables rather than dense multi-line prose paragraphs.
-- **Zero Conversational Padding:** Disallow conversational pleasantries, polite fillers ("Sure, I'd be happy to...", "As an AI..."), and meta-commentary ("Let's delve into...").
+- **Short & Direct:** Make responses concise, actionable, and strictly direct. State conclusions, findings, or code changes immediately without throat-clearing.
+- **Bullets Over Paragraphs:** Use crisp bullet points (`- `) and compact Markdown tables wherever possible instead of dense multi-line prose paragraphs.
+- **Zero Conversational Padding:** Disallow pleasantries, polite filler ("Sure, I can help with that...", "As an AI..."), and conversational meta-commentary ("Let's delve into...").
 - **Bottom Line Up Front (BLUF):** Present verdicts, conclusions, and action items first; supporting details second.
 - **Surgical Diffs:** Output only the minimal necessary code or text changes. Never rewrite unchanged files.
 
