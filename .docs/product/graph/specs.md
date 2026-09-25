@@ -7,7 +7,7 @@ Automates the **Graph Engineering Workflow (GEW / Graph-Driven Development)** li
 - `/kanche:graph-run`: Master 10-phase Graph Engineering Workflow orchestrator (P0 to P9) with persistent `/goal` support.
 - `/kanche:graph-continue`: Resumes Graph Engineering Workflow from on-disk graph and task state.
 - `/kanche:graph-steering`: Analyzes repository using Knowledge Graph extraction and returns steering guideline bodies.
-- `/kanche:graph-sync`: Promotes feature documentation to domain-level product directories (`.docs/product/{domain}/`), updates the Knowledge Graph (`graphify --update`), and cleans up dev folders.
+- `/kanche:graph-sync`: Promotes feature documentation to domain-level product directories (`.docs/product/{domain}/`), verifies module dependency integrity, and cleans up dev folders.
 - `/kanche:graph-init`: Bootstraps graph-grounded steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
 - `/kanche:graph-init-update`: Re-analyzes repo and merges updates into steering guidelines with knowledge graph context.
 

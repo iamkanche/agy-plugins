@@ -24,9 +24,8 @@ Parse the arguments:
 Gather on-disk, graph, and repo signals:
 
 ```bash
-# Guidelines & Knowledge Graph check
+# Guidelines & Graph check
 ls .docs/guidelines 2>/dev/null
-[ -f "graphify-out/graph.json" ] && echo "GRAPH_EXISTS"
 
 # Backlog PBIs check
 ls .docs/backlog/*/*.md 2>/dev/null

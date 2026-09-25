@@ -16,7 +16,7 @@ flowchart TD
     SDDWrapper -->|Forward with Notice| GraphEngine
 
     subgraph "Graph Engineering Lifecycle (P0 - P9)"
-        GraphEngine --> P0[P0: Graph Discovery & Ingestion<br/>graphify / AST Knowledge Graph]
+        GraphEngine --> P0[P0: Graph Discovery & Ingestion<br/>AST & Module Knowledge Graph]
         P0 --> P1[P1: Impact Subgraph Specs<br/>design-grill & design-specs]
         P1 --> P2[P2: Graph Architecture & Stitch UI<br/>design-init & ui-design-stitch]
         P2 --> P3[P3: Topological Task DAG<br/>planner-tasks & qa-test-plan]
@@ -47,7 +47,7 @@ flowchart TD
 
 ### 4. Graph Knowledge Sync (`plugins/kanche/skills/graph-sync/SKILL.md`)
 - Synchronizes feature documentation into permanent domain product memory (`.docs/product/{domain}/`).
-- Invokes incremental knowledge graph update (`graphify --update`) and requests confirmation to clean up the ephemeral development directory.
+- Verifies module and dependency boundaries, syncing product memory and requesting confirmation to clean up the ephemeral development directory.
 
 ### 5. Graph Init & Update Skills (`graph-init` & `graph-init-update`)
 - Bootstraps or refreshes repository steering guidelines with knowledge graph context.
@@ -83,5 +83,5 @@ model: flash
 ## Risks & Mitigations
 - **Risk**: User confusion regarding `sdd-*` vs `graph-*`.
   - **Mitigation**: Clear notice messages emitted when `sdd-*` is invoked, and comprehensive documentation in `README.md` and `index.html`.
-- **Risk**: Missing graph libraries on user machine.
-  - **Mitigation**: Fallbacks to AST parsing and static file analysis if `graphify` is not installed, ensuring 100% resilience.
+- **Risk**: Missing external graph dependencies on user machine.
+  - **Mitigation**: 100% native zero-dependency implementation using standard library AST parsing, manifest inspection, and topological task DAGs.

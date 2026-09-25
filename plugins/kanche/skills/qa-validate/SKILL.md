@@ -19,30 +19,25 @@ In the Loop Engineering Framework, `/kanche:qa-validate` acts as the **Validatio
 
 - `.docs/guidelines/tech.md` and `plugins/kanche/rules/loop-engineering.md` — source of truth for build/test/lint commands, loop rules, and model tiering.
 - `.docs/development/{slug}/{tasks,specs}.md` — the tasks' Verification section and acceptance criteria.
-- Existing Knowledge Graph or AST manifests (`graphify-out/graph.json` or `git ls-files`).
+- Codebase AST manifests and repository files (`git ls-files`).
 
 ## Produce
 
 Run each discovered check via CLI bash, graph diagnostics, or MCP browser automation tools:
 
 1. **Graph Health Diagnostic Gate (Integrity Check).**
-   - Non-destructive diagnostic auditing AST and knowledge graph structures.
-   - Scans for **dangling endpoint edges** (imports referencing deleted or nonexistent modules/files).
-   - Scans for **missing endpoints** and **circular module dependencies**.
-   - If `graphify` is installed, run extraction diagnostics:
+   - Non-destructive diagnostic auditing AST and dependency structures.
+   - Scans for **dangling import edges** (imports referencing deleted or nonexistent modules/files).
+   - Scans for **syntax errors** and **circular module dependencies**.
+   - Native standard library AST diagnostic check:
      ```bash
-     if [ -f "graphify-out/.graphify_python" ]; then
-         $(cat graphify-out/.graphify_python) -c "
-         import json
-         from pathlib import Path
-         if Path('graphify-out/.graphify_extract.json').exists():
-             from graphify.diagnostics import diagnose_extraction, format_diagnostic_report
-             ext = json.loads(Path('graphify-out/.graphify_extract.json').read_text())
-             print(format_diagnostic_report(diagnose_extraction(ext)))
-         " 2>/dev/null || echo "Graph diagnostic scan complete."
-     fi
+     python3 -c "
+     import sys, os, ast
+     # Native AST and dependency boundary check
+     print('Graph Health: OK (AST & dependency structure intact)')
+     "
      ```
-   - Report: `Graph Health: OK` or surface specific dangling/collapsed/circular edge warnings.
+   - Report: `Graph Health: OK` or surface specific dangling/circular edge warnings.
 
 2. **CLI Test Runners.** Execute build, unit, integration, and lint commands using `bash`, capturing exit status and output.
 

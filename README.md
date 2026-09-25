@@ -113,7 +113,7 @@ Create a `marketplace.json` file inside your project's local customization direc
 - `/kanche:graph-run` - Drive a work item through the 10-phase Graph Engineering Workflow (P0 to P9).
 - `/kanche:graph-continue` - Resume the Graph Engineering Workflow at the phase inferred from on-disk graph state.
 - `/kanche:graph-steering` - Analyze repository using Knowledge Graph extraction and return steering guidelines.
-- `/kanche:graph-sync` - Promote development docs to product memory, update Knowledge Graph (`graphify --update`), and clean up dev folder (gated).
+- `/kanche:graph-sync` - Promote development docs to product memory, verify module dependency integrity, and clean up dev folder (gated).
 - `/kanche:graph-init` - Bootstrap graph-grounded steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
 - `/kanche:graph-init-update` - Re-analyze repository using Knowledge Graph extraction and refresh guidelines.
 

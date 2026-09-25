@@ -6,7 +6,7 @@ model: flash
 
 # /kanche:graph-run
 
-**Summary.** Drive a work item through the complete Graph Engineering Workflow (P0→P9), orchestrating the full 16-agent autonomous software engineering team and knowledge-graph-native skills across the software development lifecycle: codebase graph discovery, backlog PBI registration, impact subgraph specs drafting, system architecture topology & StitchMCP UI designs, topological DAG task manifests, QA test plans, specialized frontend/backend implementation in dependency order, deep code reviews, automated graph health diagnostics, Playwright MCP browser validations, security vulnerability scanning, GitHub PR review-respond loops with graph blast-radius analysis and JSON inline comments, persistent knowledge graph memory promotion (`graphify --update`), gated human verification, and PR merge with release tagging. All destructive operations (`git push`, `git commit`, `rm -rf`, `gh pr merge`) strictly require human confirmation. Supports `/goal` persistent execution mode.
+**Summary.** Drive a work item through the complete Graph Engineering Workflow (P0→P9), orchestrating the full 16-agent autonomous software engineering team and native graph engineering skills across the software development lifecycle: native AST & module graph discovery, backlog PBI registration, impact subgraph specs drafting, system architecture topology & StitchMCP UI designs, topological DAG task manifests, QA test plans, specialized frontend/backend implementation in dependency order, deep code reviews, automated graph health diagnostics, Playwright MCP browser validations, security vulnerability scanning, GitHub PR review-respond loops with graph blast-radius analysis and JSON inline comments, persistent dependency graph memory promotion, gated human verification, and PR merge with release tagging. All destructive operations (`git push`, `git commit`, `rm -rf`, `gh pr merge`) strictly require human confirmation. Supports `/goal` persistent execution mode.
 
 ## Inputs
 
@@ -58,7 +58,7 @@ When `--goal` or `/goal` is passed:
    ```bash
    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || echo "NOT_A_GIT_REPO"
    ```
-2. **Knowledge Graph Survey & Steering Guidelines.** Delegate to `@researcher` to run `/kanche:graph-steering` if `.docs/guidelines/` does not exist or requires refresh. Ingests or verifies `graphify-out/graph.json` when present.
+2. **Native Graph Survey & Steering Guidelines.** Delegate to `@researcher` to run `/kanche:graph-steering` if `.docs/guidelines/` does not exist or requires refresh. Surveys AST dependencies, entry points, and module boundaries.
 3. **Check/Register Product Backlog Item.** Delegate to `@scrum-master` to verify or create the corresponding PBI under `.docs/backlog/{domain}/{PBI_ID}.md` using `/kanche:scrum-pbi-create`.
 4. **Load Settings & Memory.** Check if `.docs/settings.json` and `.docs/product/memory.md` exist to load project conventions and architectural constraints.
 5. **Present Feature Receipt.** Generate a structured receipt for the user:
@@ -140,7 +140,7 @@ When `--goal` or `/goal` is passed:
 ### P7 — Knowledge Graph Memory Promotion & Cache Sync (LEVEL 1 Final Step)
 
 1. **Promote Documentation & Sync Knowledge Graph.** Run `/kanche:graph-sync` via `@gh-operator`:
-   - Incrementally updates codebase Knowledge Graph (`graphify --update` / manifest sync).
+   - Synchronizes codebase module dependencies and architectural entities.
    - Consolidates dev docs into permanent domain directories (`.docs/product/{domain}/`).
    - Prompts human confirmation via `default_api:ask_question` before deleting ephemeral dev folder `.docs/development/{slug}/` via `rm -rf`.
    - Commits changes via Gated `/kanche:git-commit` (`docs({domain}): promote feature docs and sync knowledge graph`).

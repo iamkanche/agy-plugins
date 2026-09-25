@@ -27,13 +27,12 @@ This workflow takes no arguments. It operates on the current repository.
 
 2. **Require existing guidelines.** If `.docs/guidelines/` does not exist (or has none of the four docs), STOP and tell the user to run `/kanche:graph-init` first. Read existing `product.md`, `tech.md`, `structure.md`, `rules.md` to pass as the base to merge into.
 
-3. **Survey the repo and Knowledge Graph**:
+3. **Survey the repo structure**:
    ```bash
    git ls-files | head -400
    git ls-files | sed -n 's@.*\.@@p' | sort | uniq -c | sort -rn | head -30
-   [ -f "graphify-out/graph.json" ] && echo "KNOWLEDGE_GRAPH_FOUND"
    ```
-   Read top-level `README*`, manifests, and existing graph reports if present.
+   Read top-level `README*`, manifests, and directory layout.
 
 4. **Apply the graph-steering skill** (`skills/graph-steering/SKILL.md`) in **merge mode**: give it both existing docs and the fresh graph survey. Ask it to update the steering guidelines, preserving hand-tuned rules (`rules.md`), adding newly identified entities or community clusters, and correcting drifted commands.
 

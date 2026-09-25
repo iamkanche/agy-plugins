@@ -13,8 +13,8 @@ model: flash
 Read what is needed to characterize the project graph and stack; do not read the whole tree blindly.
 
 - Existing `.docs/guidelines/{product,tech,structure,rules}.md` if present (preserve intentional human edits, especially in `rules.md`).
-- Existing Knowledge Graph artifacts if present: `graphify-out/graph.json`, `graphify-out/GRAPH_REPORT.md` — to inspect god nodes, community clusters, and module cohesion.
-- If `graphify-out/` is missing, survey the AST structure and manifests cheaply:
+- Existing architecture or dependency graph manifests if present — to inspect central nodes, module hubs, and cohesion.
+- Survey the codebase layout, AST structure, and manifests:
   ```bash
   git ls-files | head -400
   git ls-files | sed -n 's@.*\.@@p' | sort | uniq -c | sort -rn | head -30

@@ -15,7 +15,7 @@ Transform the Spec-Driven Development (SDD) workflow family in agy-plugins into 
 **So that** complex multi-file features are architected, implemented, and validated with precise dependency order and zero broken cross-boundary contracts, while retaining backward compatibility with `/kanche:sdd-*`.
 
 ## Acceptance Criteria
-- [ ] **Given** a target codebase, **When** `/kanche:graph-steering` or `/kanche:graph-init` executes, **Then** it surveys the repo using knowledge graph extraction (`graphify` / AST structures) and outputs grounded guidelines.
+- [ ] **Given** a target codebase, **When** `/kanche:graph-steering` or `/kanche:graph-init` executes, **Then** it surveys the repo using structural graph extraction (native AST & dependency structures) and outputs grounded guidelines.
 - [ ] **Given** a feature work item, **When** `/kanche:graph-run` or `/kanche:sdd-run` is invoked, **Then** it orchestrates the 10-phase graph engineering model (P0-P9) with topological DAG planning in P3 and graph integrity gates in P5.
 - [ ] **Given** legacy SDD commands (`/kanche:sdd-run`, `/kanche:sdd-continue`, `/kanche:sdd-steering`, `/kanche:sdd-sync`, `/kanche:sdd-init`, `/kanche:sdd-init-update`), **When** invoked, **Then** they cleanly forward to the corresponding `/kanche:graph-*` skills with backward-compatible deprecation notices.
 - [ ] **Given** any destructive operations (`git commit`, `git push`, `rm -rf`, `gh pr merge`), **When** reached, **Then** they halt and prompt for explicit human confirmation per `destructive-safety.md`.

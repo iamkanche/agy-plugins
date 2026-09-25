@@ -7,7 +7,7 @@ Spec-Driven Development (SDD) in `agy-plugins` has successfully established a 16
 - Validations in P5 run tests but cannot verify graph integrity (dangling endpoint references, missing imports, circular dependencies).
 - Knowledge captured during feature implementation does not update the repository's permanent Knowledge Graph.
 
-Converting SDD to a **Graph Engineering Workflow (GEW)** equips agents with structural graph reasoning across all lifecycle phases, grounded in AST/semantic knowledge graphs (`graphify`), topological DAG task execution, and graph integrity validation, while preserving full backward compatibility for `/kanche:sdd-*` commands.
+Converting SDD to a **Graph Engineering Workflow (GEW)** equips agents with structural graph reasoning across all lifecycle phases, grounded in native AST and dependency graphs, topological DAG task execution, and graph integrity validation, while preserving full backward compatibility for `/kanche:sdd-*` commands.
 
 ## Scope
 ### In-Scope

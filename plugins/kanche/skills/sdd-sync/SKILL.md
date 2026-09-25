@@ -6,7 +6,7 @@ model: flash
 
 # /kanche:sdd-sync (Compatibility Forwarder)
 
-> 💡 **Notice**: SDD synchronization has been upgraded to the Knowledge Graph-native **`/kanche:graph-sync`**, which synchronizes both product documents and codebase Knowledge Graph entities (`graphify --update`). Invoking `/kanche:sdd-sync` automatically executes `/kanche:graph-sync`.
+> 💡 **Notice**: SDD synchronization has been upgraded to the Knowledge Graph-native **`/kanche:graph-sync`**, which synchronizes product documents and validates codebase module dependencies. Invoking `/kanche:sdd-sync` automatically executes `/kanche:graph-sync`.
 
 **Summary.** Promote development documentation from `.docs/development/{slug}/` into permanent domain product directories (`.docs/product/{domain}/`) and sync the repository Knowledge Graph. Cleanup of ephemeral dev folders is strictly human-gated.
 

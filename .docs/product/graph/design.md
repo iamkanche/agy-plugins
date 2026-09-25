@@ -34,7 +34,7 @@ The Graph Engineering Workflow orchestrates the full 16-agent autonomous softwar
   - Open pull request with Graph Blast Radius summary via `@gh-operator` (Human-Gated `/kanche:gh-cli-pr-create`)
   - Autonomous review loop (≤3x): `@gh-operator` (`/kanche:gh-cli-pr-review` with `--json` format → `/kanche:gh-cli-pr-respond` → Gated `/kanche:git-commit` → Gated `/kanche:git-push`)
 - **P7 Knowledge Graph Sync & Memory Promotion**:
-  - Incremental Knowledge Graph update (`graphify --update`) and domain doc sync via `@gh-operator` & `@git-operator` (`/kanche:graph-sync`)
+  - Domain doc sync and module dependency verification via `@gh-operator` & `@git-operator` (`/kanche:graph-sync`)
   - Active development folder cleanup (Human-Gated)
   - Documentation commit & push checkpoints (Human-Gated `/kanche:git-commit` & `/kanche:git-push`)
 
@@ -47,7 +47,7 @@ The Graph Engineering Workflow orchestrates the full 16-agent autonomous softwar
 - Active Development: `.docs/development/{slug}/` (transient during feature build)
 - Consolidated Product Memory: `.docs/product/{domain}/{specs,design}.md`
 - Product Backlog: `.docs/backlog/{domain}/{PBI_ID}.md`
-- Knowledge Graph Artifacts: `graphify-out/{graph.json,graph.html,GRAPH_REPORT.md}`
+- Graph Engineering Artifacts: Codebase AST manifests and dependency diagnostics
 
 ## 3. Communication & Decoupling Protocol
 - All skills are isolated standalone capabilities that do not rely on orchestrator internals or auto-mode gate bypasses.

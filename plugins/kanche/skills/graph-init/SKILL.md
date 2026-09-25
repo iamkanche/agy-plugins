@@ -28,13 +28,12 @@ This workflow takes no arguments. It operates on the current repository.
 
 2. **Idempotency check.** If `.docs/guidelines/` already exists with any of `product.md`, `tech.md`, `structure.md`, `rules.md`, STOP and tell the user to run `/kanche:graph-init-update` instead.
 
-3. **Survey the repo and Knowledge Graph**:
+3. **Survey the repo structure**:
    ```bash
    git ls-files | head -400
    git ls-files | sed -n 's@.*\.@@p' | sort | uniq -c | sort -rn | head -30
-   [ -f "graphify-out/graph.json" ] && echo "KNOWLEDGE_GRAPH_FOUND"
    ```
-   Read top-level `README*`, manifests (`package.json`, `go.mod`, `pyproject.toml`, etc.), and existing graph reports if present.
+   Read top-level `README*`, manifests (`package.json`, `go.mod`, `pyproject.toml`, etc.), and directory layout.
 
 4. **Apply the graph-steering skill** (`skills/graph-steering/SKILL.md`): give it the survey as context. Ask it to return the full content of all four docs — `product.md`, `tech.md`, `structure.md`, `rules.md` — grounded in files and graph entities.
 
