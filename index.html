@@ -858,13 +858,22 @@
             { name: "/kanche:gh-cli-pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
         ];
 
+        const graphCommands = [
+            { name: "/kanche:graph-run", desc: "Drive a feature work item through the 10-phase Graph Engineering Workflow (P0 to P9).", gated: false, path: "plugins/kanche/skills/graph-run/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-continue", desc: "Resume the Graph Engineering Workflow at the phase inferred from on-disk graph state.", gated: false, path: "plugins/kanche/skills/graph-continue/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-steering", desc: "Analyze the repository using Knowledge Graph extraction to produce steering guidelines.", gated: false, path: "plugins/kanche/skills/graph-steering/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-sync", desc: "Sync development logs and specifications to main product directory and update repository knowledge graph.", gated: true, path: "plugins/kanche/skills/graph-sync/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-init", desc: "Bootstrap graph-grounded steering guidelines for this repository.", gated: false, path: "plugins/kanche/skills/graph-init/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-init-update", desc: "Re-analyze this repository using Knowledge Graph extraction and refresh guidelines.", gated: false, path: "plugins/kanche/skills/graph-init-update/SKILL.md", theme: "amber" }
+        ];
+
         const sddCommands = [
-            { name: "/kanche:sdd-run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: "plugins/kanche/skills/sdd-run/SKILL.md" },
-            { name: "/kanche:sdd-steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/kanche/skills/sdd-steering/SKILL.md" },
-            { name: "/kanche:sdd-sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
-            { name: "/kanche:sdd-init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/kanche/skills/sdd-init/SKILL.md" },
-            { name: "/kanche:sdd-init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/kanche/skills/sdd-init-update/SKILL.md" },
-            { name: "/kanche:sdd-continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/kanche/skills/sdd-continue/SKILL.md" }
+            { name: "/kanche:sdd-run", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-run for Graph Engineering execution.", gated: false, path: "plugins/kanche/skills/sdd-run/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-steering", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-steering.", gated: false, path: "plugins/kanche/skills/sdd-steering/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-sync", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-sync.", gated: true, path: "plugins/kanche/skills/sdd-sync/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-init", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-init.", gated: false, path: "plugins/kanche/skills/sdd-init/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-init-update", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-init-update.", gated: false, path: "plugins/kanche/skills/sdd-init-update/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-continue", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-continue.", gated: false, path: "plugins/kanche/skills/sdd-continue/SKILL.md", theme: "amber" }
         ];
 
         const designCommands = [
@@ -909,9 +918,9 @@
             {
                 name: "researcher",
                 handle: "@researcher",
-                desc: "Specialized subagent for deep codebase exploration, documentation analysis, and architectural feasibility research.",
+                desc: "Specialized subagent for deep codebase exploration, knowledge graph discovery, documentation analysis, and architectural research.",
                 writeTools: false,
-                skills: ["/kanche:sdd-steering"],
+                skills: ["/kanche:graph-steering", "/kanche:sdd-steering"],
                 path: "plugins/kanche/agents/researcher/agent.json",
                 theme: "blue"
             },
@@ -1055,21 +1064,21 @@
         const sddWorkflowPhases = [
             {
                 phase: "P0",
-                name: "Setup, Steering & Branching",
-                desc: "Survey repository guidelines, register backlog PBI, parse conventions & memory, and checkout feature branch.",
+                name: "Knowledge Graph Discovery & Branching",
+                desc: "Survey repository Knowledge Graph (AST + semantic entities), register backlog PBI, parse conventions & memory, and checkout feature branch.",
                 agents: ["@researcher", "@scrum-master", "@git-operator"],
                 agent: "@researcher, @scrum-master, @git-operator",
                 theme: "cyan",
                 skills: [
-                    { name: "/kanche:sdd-steering", label: "Steering Survey", path: "plugins/kanche/skills/sdd-steering/SKILL.md" },
+                    { name: "/kanche:graph-steering", label: "Graph Steering", path: "plugins/kanche/skills/graph-steering/SKILL.md" },
                     { name: "/kanche:scrum-pbi-create", label: "PBI Register", path: "plugins/kanche/skills/scrum-pbi-create/SKILL.md" },
                     { name: "/kanche:git-branch-create", label: "Branch Create", path: "plugins/kanche/skills/git-branch-create/SKILL.md" }
                 ]
             },
             {
                 phase: "P1",
-                name: "Requirements & Functional Specs Loop",
-                desc: "Adversarial probing, drafting functional specs, and forced analyst review loop (≤3x).",
+                name: "Requirements & Impact Subgraph Specs Loop",
+                desc: "Adversarial probing, mapping affected graph nodes and contracts, drafting functional specs, and forced analyst review loop (≤3x).",
                 agents: ["@analyst", "@scrum-master"],
                 agent: "@analyst, @scrum-master",
                 theme: "pink",
@@ -1081,26 +1090,26 @@
             },
             {
                 phase: "P2",
-                name: "Architecture & UI/UX Design Loop",
-                desc: "System architecture specs, StitchMCP UI visual screens & tokens, and forced design review loop (≤3x).",
+                name: "Architecture Topology & UI Design Loop",
+                desc: "Graph entity topology, interface contracts, StitchMCP UI visual screens & tokens, and forced design review loop (≤3x).",
                 agents: ["@architect", "@designer"],
                 agent: "@architect, @designer",
                 theme: "pink",
                 skills: [
-                    { name: "/kanche:design-init", label: "Architecture Init", path: "plugins/kanche/skills/design-init/SKILL.md" },
+                    { name: "/kanche:design-init", label: "Topology Init", path: "plugins/kanche/skills/design-init/SKILL.md" },
                     { name: "/kanche:ui-design-stitch", label: "UI Stitch", path: "plugins/kanche/skills/ui-design-stitch/SKILL.md" },
                     { name: "/kanche:design-review", label: "Design Review", path: "plugins/kanche/skills/design-review/SKILL.md" }
                 ]
             },
             {
                 phase: "P3",
-                name: "Task Planning & QA Test Plan Matrix",
-                desc: "Task manifest decomposition, QA test plan specifications, forced planner review, and human-gated docs commit.",
+                name: "Topological Task DAG & QA Test Plan Matrix",
+                desc: "Task manifest decomposition into ordered dependency tiers (Tier 0 to Tier 3), QA test plan specifications, forced planner review, and human-gated docs commit.",
                 agents: ["@planner", "@tester", "@git-operator"],
                 agent: "@planner, @tester, @git-operator",
                 theme: "indigo",
                 skills: [
-                    { name: "/kanche:planner-tasks", label: "Planner Tasks", path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
+                    { name: "/kanche:planner-tasks", label: "Planner DAG Tasks", path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
                     { name: "/kanche:qa-test-plan", label: "QA Test Plan", path: "plugins/kanche/skills/qa-test-plan/SKILL.md" },
                     { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner-review/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Docs Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
@@ -1108,13 +1117,13 @@
             },
             {
                 phase: "P4",
-                name: "Specialized Implementation & Code Review Loop",
-                desc: "Specialized frontend/backend code implementation, forced code & QA reviews, closed-loop repair (≤3x), and human-gated code commit.",
+                name: "Graph-Guided Implementation & Code Review Loop",
+                desc: "Implementation executed strictly along topological DAG dependency tiers, forced code & QA reviews, closed-loop repair (≤3x), and human-gated code commit.",
                 agents: ["@coder", "@frontend-expert", "@backend-expert", "@reviewer", "@validator", "@git-operator"],
                 agent: "@coder, @frontend-expert, @backend-expert, @reviewer, @validator, @git-operator",
                 theme: "teal",
                 skills: [
-                    { name: "/kanche:code-implement", label: "Code Implement", path: "plugins/kanche/skills/code-implement/SKILL.md" },
+                    { name: "/kanche:code-implement", label: "Code Implement (DAG)", path: "plugins/kanche/skills/code-implement/SKILL.md" },
                     { name: "/kanche:code-review", label: "Code Review", path: "plugins/kanche/skills/code-review/SKILL.md" },
                     { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa-review/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Code Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
@@ -1122,21 +1131,21 @@
             },
             {
                 phase: "P5",
-                name: "Validation, Security Audit & Self-Healing Loop",
-                desc: "Security secrets/vulnerability scan, automated tests & Playwright browser validation, and self-healing repair loop (≤3x).",
+                name: "Graph Health Diagnostics, Validation & Self-Healing Loop",
+                desc: "Graph Health diagnostics (0 dangling edges, 0 circular dependencies), security secrets/vulnerability scan, automated tests & Playwright browser validation, and self-healing repair loop (≤3x).",
                 agents: ["@validator", "@tester", "@security-engineer", "@coder"],
                 agent: "@validator, @tester, @security-engineer, @coder",
                 theme: "emerald",
                 skills: [
                     { name: "/kanche:security-scan", label: "Security Scan", path: "plugins/kanche/skills/security-scan/SKILL.md" },
-                    { name: "/kanche:qa-validate", label: "QA Validate", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
+                    { name: "/kanche:qa-validate", label: "Graph Health & QA", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
                     { name: "/kanche:code-implement", label: "Repair Fixes", path: "plugins/kanche/skills/code-implement/SKILL.md" }
                 ]
             },
             {
                 phase: "P6",
-                name: "Deploy & AI PR Review-Respond Loop",
-                desc: "Push feature branch, open pull request, submit JSON-formatted PR reviews via GitHub API, and run 3x review-respond fix loop.",
+                name: "Deploy & PR Blast Radius Review Loop",
+                desc: "Push feature branch, open pull request with Graph Blast Radius Summary, submit JSON-formatted PR reviews via GitHub API, and run 3x review-respond fix loop.",
                 agents: ["@gh-operator", "@git-operator", "@reviewer"],
                 agent: "@gh-operator, @git-operator, @reviewer",
                 theme: "purple",
@@ -1150,13 +1159,13 @@
             },
             {
                 phase: "P7",
-                name: "Product Alignment & Doc Sync",
-                desc: "Consolidate dev docs into permanent domain directories (.docs/product/{domain}/), prompt human before rm -rf cleanup, and commit/push.",
+                name: "Knowledge Graph Memory & Product Promotion",
+                desc: "Consolidate dev docs into permanent domain directories (.docs/product/{domain}/), update codebase Knowledge Graph (graphify --update), prompt human before rm -rf cleanup, and commit/push.",
                 agents: ["@gh-operator", "@git-operator"],
                 agent: "@gh-operator, @git-operator",
                 theme: "blue",
                 skills: [
-                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
+                    { name: "/kanche:graph-sync", label: "Graph Sync", path: "plugins/kanche/skills/graph-sync/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Sync Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" },
                     { name: "/kanche:git-push", label: "Push Sync (Gated)", path: "plugins/kanche/skills/git-push/SKILL.md" }
                 ]
@@ -1181,21 +1190,30 @@
             "kanche": {
                 name: "kanche",
                 displayName: "All Kanche Skills",
-                desc: "Unified Antigravity developer plugin bundle packaging a complete 16-agent software development team, 40 skills, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
-                version: "v0.3.0",
+                desc: "Unified Antigravity developer plugin bundle packaging a complete 16-agent software development team, 46 skills, Graph Engineering Workflows, topological DAG planning, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
+                version: "v0.4.0",
                 theme: "blue",
                 inspectorUrl: "plugins/kanche/plugin.json",
-                commands: [...gitCommands, ...ghCommands, ...sddCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands]
+                commands: [...graphCommands, ...sddCommands, ...gitCommands, ...ghCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands]
             },
             "skills-map": {
                 name: "skills-map",
-                displayName: "SDD Skills & Phase Map",
-                desc: "Interactive visual flow of the 10 SDD phases (P0-P9) showing orchestrator execution: sdd-run → design → planner → dev → qa → deploy → merge.",
+                displayName: "Graph Engineering Phase Map",
+                desc: "Interactive visual flow of the 10 Graph Engineering phases (P0-P9) showing orchestrator execution: graph-run → impact specs → topology → planner DAG → dev → graph-validate → blast radius PR → sync.",
                 version: "v0.1.0",
                 theme: "amber",
-                inspectorUrl: "plugins/kanche/skills/sdd-run/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/graph-run/SKILL.md",
                 isMapView: true,
                 commands: []
+            },
+            "graph": {
+                name: "graph",
+                displayName: "Graph Engineering",
+                desc: "Graph-Driven Development phase orchestrator (P0-P9), Knowledge Graph extraction, topological DAG task planning, and memory sync.",
+                version: "v0.1.0",
+                theme: "amber",
+                inspectorUrl: "plugins/kanche/skills/graph-run/SKILL.md",
+                commands: graphCommands
             },
             "git": {
                 name: "git",
