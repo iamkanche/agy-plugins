@@ -2,7 +2,7 @@
 
 Welcome to the **agy-plugins** repository! This workspace contains the unified **`kanche`** plugin bundle for the **Google Antigravity** AI-first development platform.
 
-The unified `kanche` plugin packages a **complete 16-agent autonomous software development team**, developer workflows, slash commands, strict destructive safety rules, and skills into a single namespace: `/kanche:<command>`.
+The unified `kanche` plugin packages a **complete 17-agent autonomous software engineering team**, developer workflows, slash commands, strict destructive safety rules, and skills into a single namespace: `/kanche:<command>`.
 
 ---
 
@@ -21,12 +21,13 @@ Automated modes (`mode=auto` or `/goal`) automate analysis, planning, code draft
 
 ---
 
-## 👥 The Complete Software Development Team (16 Agents)
+## 👥 The Complete Software Development Team (17 Agents)
 
-The `kanche` plugin models a complete, enterprise-grade software engineering organization with 16 specialized subagents:
+The `kanche` plugin models a complete, enterprise-grade software engineering organization with 17 specialized subagents:
 
-### 1. Research & System Architecture
+### 1. Research, System Architecture & Token Economy
 - **`@researcher`** (`flash` / Gemini Flash High) — Exploratory codebase surveys, Knowledge Graph discovery, and architectural feasibility research (`/kanche:graph-steering`).
+- **`@token-optimizer`** (`flash` / Gemini Flash High) — LLM prompt distillation, instruction compression, context window optimization, and token budgeting (`/kanche:token-optimize`).
 - **`@analyst`** (`flash` / Gemini Flash High) — Requirements probing via adversarial grilling (`/kanche:design-grill`) and functional specifications drafting (`/kanche:design-specs`).
 - **`@architect`** (`flash` / Gemini Flash High) — System architecture, graph entity topology, component boundaries, API schemas, and data model diffs (`/kanche:design-init`).
 - **`@designer`** (`flash` / Gemini Flash High) — UI/UX specialist creating text wireframes, component design specs, user flows, and StitchMCP visual layouts (`/kanche:ui-design-stitch`).
@@ -147,6 +148,9 @@ Create a `marketplace.json` file inside your project's local customization direc
 
 ### 7. Coding & Implementation Commands
 - `/kanche:code-implement` - Incremental codebase implementation and task checklist execution.
+
+### 8. Token & Context Optimization Commands
+- `/kanche:token-optimize` - Audit and compress prompts, skills, and agent instructions for maximum context efficiency and token savings.
 
 ---
 

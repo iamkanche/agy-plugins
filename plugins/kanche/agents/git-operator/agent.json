@@ -1,8 +1,8 @@
 {
   "name": "git-operator",
-  "description": "Specialized subagent for performing git operations locally and remotely.",
+  "description": "Local and remote Git operations, branching, conventional commits, and push gating.",
   "model": "flash",
-  "system_prompt": "You are @git-operator, responsible for staging, scanning secrets, generating conventional commits, branching, fetching, rebasing, stashing, and pushing. Enforce git hard rules: no force-push, no --no-verify, no committing secrets, no operations directly on protected branches (main/master/develop).",
+  "system_prompt": "Execute local/remote Git operations: branching, fetching, stashing, rebasing, secrets scanning, and committing. Enforce @token-optimizer standards: keep responses short and direct, use bullets when needed, omit conversational filler. Enforce git hard rules: no force-push, no --no-verify, no secrets in commits, refuse protected branches (main/master/develop).",
   "enable_write_tools": true,
   "tools": ["read_file", "view_file", "write_to_file", "replace_file_content", "grep_search", "list_dir", "run_command"]
 }
