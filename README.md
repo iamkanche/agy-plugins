@@ -26,9 +26,9 @@ Automated modes (`mode=auto` or `/goal`) automate analysis, planning, code draft
 The `kanche` plugin models a complete, enterprise-grade software engineering organization with 16 specialized subagents:
 
 ### 1. Research & System Architecture
-- **`@researcher`** (`flash` / Gemini Flash High) — Exploratory codebase surveys, documentation analysis, and architectural feasibility research.
+- **`@researcher`** (`flash` / Gemini Flash High) — Exploratory codebase surveys, Knowledge Graph discovery, and architectural feasibility research (`/kanche:graph-steering`).
 - **`@analyst`** (`flash` / Gemini Flash High) — Requirements probing via adversarial grilling (`/kanche:design-grill`) and functional specifications drafting (`/kanche:design-specs`).
-- **`@architect`** (`flash` / Gemini Flash High) — System architecture, component boundaries, API schemas, and data model diffs (`/kanche:design-init`).
+- **`@architect`** (`flash` / Gemini Flash High) — System architecture, graph entity topology, component boundaries, API schemas, and data model diffs (`/kanche:design-init`).
 - **`@designer`** (`flash` / Gemini Flash High) — UI/UX specialist creating text wireframes, component design specs, user flows, and StitchMCP visual layouts (`/kanche:ui-design-stitch`).
 
 ### 2. Implementation Specialists
@@ -38,13 +38,13 @@ The `kanche` plugin models a complete, enterprise-grade software engineering org
 
 ### 3. Quality Assurance & Security
 - **`@reviewer`** (`flash` / Gemini Flash High) — Senior code reviewer evaluating multi-file diffs, style conventions, and anti-patterns (`/kanche:code-review`).
-- **`@validator`** (`flash` / Gemini Flash High) — Automated check orchestrator running static analysis, test suites, and Playwright MCP browser validations (`/kanche:qa-validate`).
+- **`@validator`** (`flash` / Gemini Flash High) — Automated check orchestrator running Graph Health integrity diagnostics, static analysis, test suites, and Playwright MCP browser validations (`/kanche:qa-validate`).
 - **`@tester`** (`flash` / Gemini Flash High) — Test automation engineer crafting test plan matrices (`/kanche:qa-test-plan`), unit tests, and Playwright E2E suites.
 - **`@security-engineer`** (`flash` / Gemini Flash High) — Application security auditor scanning for exposed secrets, dependencies, and OWASP vulnerabilities (`/kanche:security-scan`).
 
 ### 4. Agile, Planning & Operations
 - **`@scrum-master`** (`flash` / Gemini Flash High) — Agile backlog manager creating standardized PBIs with user stories, acceptance criteria, and story points (`/kanche:scrum-pbi-create`).
-- **`@planner`** (`flash` / Gemini Flash High) — Implementation planner decomposing system designs into checkable task manifests (`/kanche:planner-tasks`).
+- **`@planner`** (`flash` / Gemini Flash High) — Implementation planner decomposing system designs into Topological Dependency DAGs (`/kanche:planner-tasks`).
 - **`@devops`** (`flash` / Gemini Flash High) — Infrastructure, release tagging (`/kanche:git-tag-*`), and PR merge verification (`/kanche:gh-cli-pr-merge`).
 - **`@git-operator`** (`flash` / Gemini Flash High) — Pure Git execution for branching, fetching, stashing, and safe committing.
 - **`@gh-operator`** (`flash` / Gemini Flash High) — GitHub CLI and REST/GraphQL integration for PR creation, review posting, and thread resolution.
@@ -109,13 +109,21 @@ Create a `marketplace.json` file inside your project's local customization direc
 - `/kanche:gh-cli-pr-respond` - Triage PR review comments, fix code, and reply in-thread (gated).
 - `/kanche:gh-cli-pr-merge` - Merge a pull request on GitHub and delete branch (human-gated).
 
-### 3. SDD Master Orchestrator Commands
-- `/kanche:sdd-run` - Drive a work item through full SDD phase model (P0 to P9).
-- `/kanche:sdd-steering` - Analyze repository and return steering guidelines.
-- `/kanche:sdd-sync` - Promote development docs to product memory (`rm -rf` dev folder is human-gated).
-- `/kanche:sdd-init` - Bootstrap steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
-- `/kanche:sdd-init-update` - Re-analyze repository and refresh guidelines.
-- `/kanche:sdd-continue` - Resume SDD workflow from on-disk state.
+### 3. Graph Engineering Workflow Commands (`/kanche:graph-*`)
+- `/kanche:graph-run` - Drive a work item through the 10-phase Graph Engineering Workflow (P0 to P9).
+- `/kanche:graph-continue` - Resume the Graph Engineering Workflow at the phase inferred from on-disk graph state.
+- `/kanche:graph-steering` - Analyze repository using Knowledge Graph extraction and return steering guidelines.
+- `/kanche:graph-sync` - Promote development docs to product memory, verify module dependency integrity, and clean up dev folder (gated).
+- `/kanche:graph-init` - Bootstrap graph-grounded steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
+- `/kanche:graph-init-update` - Re-analyze repository using Knowledge Graph extraction and refresh guidelines.
+
+#### Legacy SDD Compatibility Forwarders (`/kanche:sdd-*`)
+- `/kanche:sdd-run` - [Forwarder] Forwards to `/kanche:graph-run`.
+- `/kanche:sdd-continue` - [Forwarder] Forwards to `/kanche:graph-continue`.
+- `/kanche:sdd-steering` - [Forwarder] Forwards to `/kanche:graph-steering`.
+- `/kanche:sdd-sync` - [Forwarder] Forwards to `/kanche:graph-sync`.
+- `/kanche:sdd-init` - [Forwarder] Forwards to `/kanche:graph-init`.
+- `/kanche:sdd-init-update` - [Forwarder] Forwards to `/kanche:graph-init-update`.
 
 ### 4. Design & Specs Commands
 - `/kanche:design-grill` - Adversarially probe feature requests for ambiguities.
@@ -184,7 +192,7 @@ agy-plugins/
 ├── index.html                 # Interactive showcase and skill catalog
 └── plugins/
     └── kanche/                # Single Unified Plugin Directory
-        ├── plugin.json        # Manifest (v0.3.0)
+        ├── plugin.json        # Manifest (v0.4.0)
         ├── agents/            # Complete Software Development Team (16 agents)
         │   ├── analyst/
         │   ├── architect/
@@ -209,5 +217,5 @@ agy-plugins/
         │   ├── loop-engineering.md
         │   ├── output-language.md
         │   └── workflow-gating.md
-        └── skills/            # 40 specialized workflow skills (/kanche:*)
+        └── skills/            # 46 specialized workflow skills (/kanche:*)
 ```

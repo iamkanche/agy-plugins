@@ -756,6 +756,152 @@
             color: rgba(245, 158, 11, 0.6);
         }
 
+        /* Graph Run Flow (DAG) Styles */
+        .graph-flow-layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 1.5rem;
+            width: 100%;
+            grid-column: 1 / -1;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .graph-flow-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .flow-switch-banner {
+            grid-column: 1 / -1;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 14px;
+            padding: 0.85rem 1.25rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .flow-switch-banner:hover {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .dag-pipeline-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .dag-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.15rem 1.35rem;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .dag-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(30, 41, 59, 0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .dag-card.selected {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.35), 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+            background: rgba(30, 41, 59, 0.9) !important;
+        }
+
+        .dag-loop-box {
+            border: 1px dashed rgba(245, 158, 11, 0.4);
+            background: rgba(245, 158, 11, 0.04);
+            border-radius: 18px;
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .dag-governance-box {
+            border: 1px dashed rgba(244, 63, 94, 0.4);
+            background: rgba(244, 63, 94, 0.04);
+            border-radius: 18px;
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .dag-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dag-connector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: var(--font-code);
+            padding: 0.15rem 0;
+            gap: 0.4rem;
+        }
+
+        .dag-connector svg {
+            opacity: 0.7;
+        }
+
+        .dag-inspector-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .dag-tier-item {
+            padding: 0.6rem 0.85rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .dag-tier-pill {
+            font-family: var(--font-code);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.15rem 0.45rem;
+            border-radius: 6px;
+        }
+
         @media (max-width: 1024px) {
             main { grid-template-columns: 1fr; }
         }
@@ -858,13 +1004,22 @@
             { name: "/kanche:gh-cli-pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
         ];
 
+        const graphCommands = [
+            { name: "/kanche:graph-run", desc: "Drive a feature work item through the 10-phase Graph Engineering Workflow (P0 to P9).", gated: false, path: "plugins/kanche/skills/graph-run/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-continue", desc: "Resume the Graph Engineering Workflow at the phase inferred from on-disk graph state.", gated: false, path: "plugins/kanche/skills/graph-continue/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-steering", desc: "Analyze the repository using Knowledge Graph extraction to produce steering guidelines.", gated: false, path: "plugins/kanche/skills/graph-steering/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-sync", desc: "Sync development logs and specifications to main product directory and update repository knowledge graph.", gated: true, path: "plugins/kanche/skills/graph-sync/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-init", desc: "Bootstrap graph-grounded steering guidelines for this repository.", gated: false, path: "plugins/kanche/skills/graph-init/SKILL.md", theme: "amber" },
+            { name: "/kanche:graph-init-update", desc: "Re-analyze this repository using Knowledge Graph extraction and refresh guidelines.", gated: false, path: "plugins/kanche/skills/graph-init-update/SKILL.md", theme: "amber" }
+        ];
+
         const sddCommands = [
-            { name: "/kanche:sdd-run", desc: "Drive a feature work item through the full SDD phase model (P0 to P9) delegating to domain plugins.", gated: false, path: "plugins/kanche/skills/sdd-run/SKILL.md" },
-            { name: "/kanche:sdd-steering", desc: "Analyze the repository structure, stacks, and rules to produce steering guidelines.", gated: false, path: "plugins/kanche/skills/sdd-steering/SKILL.md" },
-            { name: "/kanche:sdd-sync", desc: "Sync development logs and specifications to main product directory.", gated: true, path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
-            { name: "/kanche:sdd-init", desc: "Bootstrap the steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.", gated: false, path: "plugins/kanche/skills/sdd-init/SKILL.md" },
-            { name: "/kanche:sdd-init-update", desc: "Re-analyze this repository and refresh the guidelines merging new findings into existing docs.", gated: false, path: "plugins/kanche/skills/sdd-init-update/SKILL.md" },
-            { name: "/kanche:sdd-continue", desc: "Resume the SDD workflow at the phase inferred from on-disk state instead of starting fresh.", gated: false, path: "plugins/kanche/skills/sdd-continue/SKILL.md" }
+            { name: "/kanche:sdd-run", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-run for Graph Engineering execution.", gated: false, path: "plugins/kanche/skills/sdd-run/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-steering", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-steering.", gated: false, path: "plugins/kanche/skills/sdd-steering/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-sync", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-sync.", gated: true, path: "plugins/kanche/skills/sdd-sync/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-init", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-init.", gated: false, path: "plugins/kanche/skills/sdd-init/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-init-update", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-init-update.", gated: false, path: "plugins/kanche/skills/sdd-init-update/SKILL.md", theme: "amber" },
+            { name: "/kanche:sdd-continue", desc: "[Compatibility Forwarder] Seamlessly forwards to /kanche:graph-continue.", gated: false, path: "plugins/kanche/skills/sdd-continue/SKILL.md", theme: "amber" }
         ];
 
         const designCommands = [
@@ -909,9 +1064,9 @@
             {
                 name: "researcher",
                 handle: "@researcher",
-                desc: "Specialized subagent for deep codebase exploration, documentation analysis, and architectural feasibility research.",
+                desc: "Specialized subagent for deep codebase exploration, knowledge graph discovery, documentation analysis, and architectural research.",
                 writeTools: false,
-                skills: ["/kanche:sdd-steering"],
+                skills: ["/kanche:graph-steering", "/kanche:sdd-steering"],
                 path: "plugins/kanche/agents/researcher/agent.json",
                 theme: "blue"
             },
@@ -1055,24 +1210,29 @@
         const sddWorkflowPhases = [
             {
                 phase: "P0",
-                name: "Setup, Steering & Branching",
-                desc: "Survey repository guidelines, register backlog PBI, parse conventions & memory, and checkout feature branch.",
-                agents: ["@researcher", "@scrum-master", "@git-operator"],
-                agent: "@researcher, @scrum-master, @git-operator",
+                name: "Knowledge Graph Discovery & Ingestion",
+                desc: "Survey repository manifests and AST relationships, register backlog PBI, parse conventions & memory, and ground architecture in verified code dependencies.",
+                agents: ["@researcher", "@architect", "@scrum-master", "@git-operator"],
                 theme: "cyan",
+                safety: "Read-only survey; 100% autonomous exploration with zero destructive actions.",
+                safetyTheme: "emerald",
+                artifacts: [".docs/development/{slug}/", ".docs/guidelines/{product,tech,structure,rules}.md", "Feature receipt"],
                 skills: [
-                    { name: "/kanche:sdd-steering", label: "Steering Survey", path: "plugins/kanche/skills/sdd-steering/SKILL.md" },
+                    { name: "/kanche:graph-steering", label: "Graph Steering", path: "plugins/kanche/skills/graph-steering/SKILL.md" },
                     { name: "/kanche:scrum-pbi-create", label: "PBI Register", path: "plugins/kanche/skills/scrum-pbi-create/SKILL.md" },
                     { name: "/kanche:git-branch-create", label: "Branch Create", path: "plugins/kanche/skills/git-branch-create/SKILL.md" }
                 ]
             },
             {
                 phase: "P1",
-                name: "Requirements & Functional Specs Loop",
-                desc: "Adversarial probing, drafting functional specs, and forced analyst review loop (≤3x).",
-                agents: ["@analyst", "@scrum-master"],
-                agent: "@analyst, @scrum-master",
+                name: "Requirements & Impact Subgraph Specs",
+                desc: "Adversarial probing, mapping affected graph nodes and contracts, drafting functional specs, and forced analyst review loop (≤3x).",
+                agents: ["@analyst", "@researcher", "@scrum-master"],
                 theme: "pink",
+                loopTag: "≤3x Specs Review Loop",
+                safety: "Automated review loop (GO / NO-GO). Self-healing up to 3 repair iterations.",
+                safetyTheme: "blue",
+                artifacts: [".docs/development/{slug}/specs.md"],
                 skills: [
                     { name: "/kanche:design-grill", label: "Design Grill", path: "plugins/kanche/skills/design-grill/SKILL.md" },
                     { name: "/kanche:design-specs", label: "Specs Draft", path: "plugins/kanche/skills/design-specs/SKILL.md" },
@@ -1081,26 +1241,32 @@
             },
             {
                 phase: "P2",
-                name: "Architecture & UI/UX Design Loop",
-                desc: "System architecture specs, StitchMCP UI visual screens & tokens, and forced design review loop (≤3x).",
-                agents: ["@architect", "@designer"],
-                agent: "@architect, @designer",
+                name: "Graph Architecture Topology & Stitch UI",
+                desc: "Graph entity topology, interface contracts, StitchMCP UI visual screens & tokens, and forced design review loop (≤3x).",
+                agents: ["@architect", "@designer", "@reviewer"],
                 theme: "pink",
+                loopTag: "≤3x Architecture Review Loop",
+                safety: "Architecture & UI review loop. Verifies component boundaries before task breakdown.",
+                safetyTheme: "blue",
+                artifacts: [".docs/development/{slug}/design.md", "UI screen assets"],
                 skills: [
-                    { name: "/kanche:design-init", label: "Architecture Init", path: "plugins/kanche/skills/design-init/SKILL.md" },
+                    { name: "/kanche:design-init", label: "Topology Init", path: "plugins/kanche/skills/design-init/SKILL.md" },
                     { name: "/kanche:ui-design-stitch", label: "UI Stitch", path: "plugins/kanche/skills/ui-design-stitch/SKILL.md" },
                     { name: "/kanche:design-review", label: "Design Review", path: "plugins/kanche/skills/design-review/SKILL.md" }
                 ]
             },
             {
                 phase: "P3",
-                name: "Task Planning & QA Test Plan Matrix",
-                desc: "Task manifest decomposition, QA test plan specifications, forced planner review, and human-gated docs commit.",
+                name: "Topological Task DAG & QA Test Matrix",
+                desc: "Task manifest decomposition into ordered dependency tiers (Tier 0 to Tier 3), QA test plan specifications, and forced planner review.",
                 agents: ["@planner", "@tester", "@git-operator"],
-                agent: "@planner, @tester, @git-operator",
                 theme: "indigo",
+                dagTier: "Tier 0 ➔ Tier 3",
+                safety: "Strict topological ordering prevents circular coupling and orphan references.",
+                safetyTheme: "purple",
+                artifacts: [".docs/development/{slug}/tasks.md", ".docs/development/{slug}/test-plan.md"],
                 skills: [
-                    { name: "/kanche:planner-tasks", label: "Planner Tasks", path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
+                    { name: "/kanche:planner-tasks", label: "Planner DAG Tasks", path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
                     { name: "/kanche:qa-test-plan", label: "QA Test Plan", path: "plugins/kanche/skills/qa-test-plan/SKILL.md" },
                     { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner-review/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Docs Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
@@ -1108,13 +1274,16 @@
             },
             {
                 phase: "P4",
-                name: "Specialized Implementation & Code Review Loop",
-                desc: "Specialized frontend/backend code implementation, forced code & QA reviews, closed-loop repair (≤3x), and human-gated code commit.",
-                agents: ["@coder", "@frontend-expert", "@backend-expert", "@reviewer", "@validator", "@git-operator"],
-                agent: "@coder, @frontend-expert, @backend-expert, @reviewer, @validator, @git-operator",
+                name: "Graph-Guided Implementation & Code Review",
+                desc: "Implementation executed strictly along topological DAG dependency tiers (Tier 0 through Tier 3), forced code reviews, and gated commits.",
+                agents: ["@coder", "@frontend-expert", "@laravel-expert", "@reviewer", "@git-operator"],
                 theme: "teal",
+                dagTier: "Topological Execution",
+                safety: "Tiered execution: dependencies are modified and reviewed before downstream units.",
+                safetyTheme: "emerald",
+                artifacts: ["Source code diffs", "Unit test stubs"],
                 skills: [
-                    { name: "/kanche:code-implement", label: "Code Implement", path: "plugins/kanche/skills/code-implement/SKILL.md" },
+                    { name: "/kanche:code-implement", label: "Code Implement (DAG)", path: "plugins/kanche/skills/code-implement/SKILL.md" },
                     { name: "/kanche:code-review", label: "Code Review", path: "plugins/kanche/skills/code-review/SKILL.md" },
                     { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa-review/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Code Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
@@ -1122,24 +1291,30 @@
             },
             {
                 phase: "P5",
-                name: "Validation, Security Audit & Self-Healing Loop",
-                desc: "Security secrets/vulnerability scan, automated tests & Playwright browser validation, and self-healing repair loop (≤3x).",
+                name: "Graph Health Gate & Automated Validation",
+                desc: "AST diagnostics (0 dangling import edges, 0 circular dependencies), security secrets scan, test runners, and self-healing repair loop (≤3x).",
                 agents: ["@validator", "@tester", "@security-engineer", "@coder"],
-                agent: "@validator, @tester, @security-engineer, @coder",
                 theme: "emerald",
+                loopTag: "≤3x Self-Healing Repair Loop",
+                safety: "Non-destructive gate. Failing traces feed back into P4 for up to 3 repair cycles.",
+                safetyTheme: "amber",
+                artifacts: ["Validation report", "Playwright test traces"],
                 skills: [
                     { name: "/kanche:security-scan", label: "Security Scan", path: "plugins/kanche/skills/security-scan/SKILL.md" },
-                    { name: "/kanche:qa-validate", label: "QA Validate", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
+                    { name: "/kanche:qa-validate", label: "Graph Health & QA", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
                     { name: "/kanche:code-implement", label: "Repair Fixes", path: "plugins/kanche/skills/code-implement/SKILL.md" }
                 ]
             },
             {
                 phase: "P6",
-                name: "Deploy & AI PR Review-Respond Loop",
-                desc: "Push feature branch, open pull request, submit JSON-formatted PR reviews via GitHub API, and run 3x review-respond fix loop.",
-                agents: ["@gh-operator", "@git-operator", "@reviewer"],
-                agent: "@gh-operator, @git-operator, @reviewer",
+                name: "Deployment & GitHub PR Review Loop",
+                desc: "Push feature branch, open pull request with Graph Blast Radius Summary, submit JSON PR reviews, and run autonomous review-respond loop (≤3x).",
+                agents: ["@gh-operator", "@git-operator", "@reviewer", "@devops"],
                 theme: "purple",
+                loopTag: "≤3x PR Review Loop",
+                safety: "CRITICAL: git-push and PR creation unconditionally require human confirmation.",
+                safetyTheme: "rose",
+                artifacts: ["GitHub Pull Request", "Inline suggestion threads"],
                 skills: [
                     { name: "/kanche:git-push", label: "Git Push (Gated)", path: "plugins/kanche/skills/git-push/SKILL.md" },
                     { name: "/kanche:gh-cli-pr-create", label: "PR Create (Gated)", path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
@@ -1150,26 +1325,42 @@
             },
             {
                 phase: "P7",
-                name: "Product Alignment & Doc Sync",
-                desc: "Consolidate dev docs into permanent domain directories (.docs/product/{domain}/), prompt human before rm -rf cleanup, and commit/push.",
+                name: "Knowledge Graph Memory Promotion & Sync",
+                desc: "Consolidate dev docs into permanent domain directories (.docs/product/{domain}/), verify codebase dependency structures, prompt human before rm -rf cleanup, and commit/push.",
                 agents: ["@gh-operator", "@git-operator"],
-                agent: "@gh-operator, @git-operator",
                 theme: "blue",
+                safety: "CRITICAL: rm -rf on .docs/development/{slug}/ is strictly human-gated.",
+                safetyTheme: "rose",
+                artifacts: [".docs/product/{domain}/specs.md", ".docs/product/{domain}/design.md"],
                 skills: [
-                    { name: "/kanche:sdd-sync", label: "SDD Sync", path: "plugins/kanche/skills/sdd-sync/SKILL.md" },
+                    { name: "/kanche:graph-sync", label: "Graph Sync", path: "plugins/kanche/skills/graph-sync/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Sync Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" },
                     { name: "/kanche:git-push", label: "Push Sync (Gated)", path: "plugins/kanche/skills/git-push/SKILL.md" }
                 ]
             },
             {
-                phase: "P8-P9",
-                name: "Human Verification, PR Merge & Tagging",
-                desc: "LEVEL 2 Human execution: Gated interactive verification checklist (qa-validate), PR merge (gh-cli-pr-merge), and release tagging (git-tag-create/push).",
-                agents: ["@validator", "@tester", "@devops", "@gh-operator"],
-                agent: "@validator, @tester, @devops, @gh-operator",
+                phase: "P8",
+                name: "Interactive Human Verification Checklist",
+                desc: "LEVEL 2 Human Governance: Interactive verification checklist execution, PR diff inspection, visual UI screens, and sign-off via @validator & @tester.",
+                agents: ["@validator", "@tester", "Human"],
                 theme: "amber",
+                safety: "LEVEL 2 Governance: Autonomous execution pauses; human decides whether to approve.",
+                safetyTheme: "rose",
+                artifacts: ["Final human acceptance sign-off"],
                 skills: [
-                    { name: "/kanche:qa-validate", label: "Human Review", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
+                    { name: "/kanche:qa-validate", label: "Human Verification", path: "plugins/kanche/skills/qa-validate/SKILL.md" }
+                ]
+            },
+            {
+                phase: "P9",
+                name: "Gated PR Merge & Release Tagging",
+                desc: "LEVEL 2 Release: Human-gated GitHub PR merge (/kanche:gh-cli-pr-merge) with branch deletion, annotated release tag creation (/kanche:git-tag-create), and tag push.",
+                agents: ["@devops", "@gh-operator", "@git-operator"],
+                theme: "rose",
+                safety: "CRITICAL: gh-cli-pr-merge and git-tag-push unconditionally require explicit human confirmation.",
+                safetyTheme: "rose",
+                artifacts: ["Merged GitHub PR", "Annotated release tag"],
+                skills: [
                     { name: "/kanche:gh-cli-pr-merge", label: "PR Merge (Gated)", path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" },
                     { name: "/kanche:git-tag-create", label: "Release Tag (Gated)", path: "plugins/kanche/skills/git-tag-create/SKILL.md" },
                     { name: "/kanche:git-tag-push", label: "Tag Push (Gated)", path: "plugins/kanche/skills/git-tag-push/SKILL.md" }
@@ -1181,21 +1372,40 @@
             "kanche": {
                 name: "kanche",
                 displayName: "All Kanche Skills",
-                desc: "Unified Antigravity developer plugin bundle packaging a complete 16-agent software development team, 40 skills, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
-                version: "v0.3.0",
+                desc: "Unified Antigravity developer plugin bundle packaging a complete 16-agent software development team, 46 skills, Graph Engineering Workflows, topological DAG planning, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
+                version: "v0.4.0",
                 theme: "blue",
                 inspectorUrl: "plugins/kanche/plugin.json",
-                commands: [...gitCommands, ...ghCommands, ...sddCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands]
+                commands: [...graphCommands, ...sddCommands, ...gitCommands, ...ghCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands]
+            },
+            "graph-flow": {
+                name: "graph-flow",
+                displayName: "Graph Run Flow (DAG)",
+                desc: "Interactive topological DAG execution architecture for /kanche:graph-run, featuring Level 1 autonomous phases (P0–P7), Level 2 human governance (P8–P9), closed-loop repair pathways (≤3x), and phase inspector.",
+                version: "v0.4.0",
+                theme: "emerald",
+                inspectorUrl: "plugins/kanche/skills/graph-run/SKILL.md",
+                isGraphFlowView: true,
+                commands: []
             },
             "skills-map": {
                 name: "skills-map",
-                displayName: "SDD Skills & Phase Map",
-                desc: "Interactive visual flow of the 10 SDD phases (P0-P9) showing orchestrator execution: sdd-run → design → planner → dev → qa → deploy → merge.",
+                displayName: "Graph Engineering Phase Map",
+                desc: "Interactive visual flow of the 10 Graph Engineering phases (P0-P9) showing orchestrator execution: graph-run → impact specs → topology → planner DAG → dev → graph-validate → blast radius PR → sync.",
                 version: "v0.1.0",
                 theme: "amber",
-                inspectorUrl: "plugins/kanche/skills/sdd-run/SKILL.md",
+                inspectorUrl: "plugins/kanche/skills/graph-run/SKILL.md",
                 isMapView: true,
                 commands: []
+            },
+            "graph": {
+                name: "graph",
+                displayName: "Graph Engineering",
+                desc: "Graph-Driven Development phase orchestrator (P0-P9), Knowledge Graph extraction, topological DAG task planning, and memory sync.",
+                version: "v0.1.0",
+                theme: "amber",
+                inspectorUrl: "plugins/kanche/skills/graph-run/SKILL.md",
+                commands: graphCommands
             },
             "git": {
                 name: "git",
@@ -1302,16 +1512,31 @@
             // Update search placeholder
             searchInput.placeholder = data.isAgentsView
                 ? "Search subagents by handle, name, or skills..."
-                : (data.isMapView ? "Search workflow phases or skills..." : `Search ${data.displayName} commands...`);
+                : (data.isGraphFlowView ? "Search execution DAG phases or skills..." : (data.isMapView ? "Search workflow phases or skills..." : `Search ${data.displayName} commands...`));
             searchInput.value = "";
 
             renderCommands();
+        }
+
+        let selectedDagPhaseIdx = 0;
+
+        function loadPluginByName(key) {
+            document.querySelectorAll(".plugin-nav-btn").forEach(b => {
+                if (b.getAttribute("data-key") === key) b.classList.add("active");
+                else b.classList.remove("active");
+            });
+            loadPlugin(key);
         }
 
         function renderCommands(filterText = "") {
             container.innerHTML = "";
             const data = pluginsData[activePluginKey];
             const themeClass = data.theme;
+
+            if (data.isGraphFlowView) {
+                renderGraphFlowView(container, filterText);
+                return;
+            }
 
             if (data.isMapView) {
                 const searchLower = filterText.toLowerCase();
@@ -1330,6 +1555,20 @@
 
                 const mapWrapper = document.createElement("div");
                 mapWrapper.className = "skills-map-container";
+
+                const switchBanner = document.createElement("div");
+                switchBanner.className = "flow-switch-banner";
+                switchBanner.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.1rem;">⚡</span>
+                        <span>Looking for the <strong>Topological DAG Architecture & Self-Healing Repair Flow</strong>?</span>
+                    </div>
+                    <span style="color: #34d399; font-weight: 600; display: flex; align-items: center; gap: 0.3rem;">
+                        Open Graph Run Flow (DAG) →
+                    </span>
+                `;
+                switchBanner.addEventListener("click", () => loadPluginByName("graph-flow"));
+                mapWrapper.appendChild(switchBanner);
 
                 filteredPhases.forEach((phase, idx) => {
                     const phaseCard = document.createElement("div");
@@ -1440,13 +1679,261 @@
             });
         }
 
+        function renderGraphFlowView(container, filterText = "") {
+            const searchLower = filterText.toLowerCase();
+            const filteredPhases = sddWorkflowPhases.filter(p =>
+                p.phase.toLowerCase().includes(searchLower) ||
+                p.name.toLowerCase().includes(searchLower) ||
+                p.desc.toLowerCase().includes(searchLower) ||
+                (p.agents ? p.agents.join(' ') : '').toLowerCase().includes(searchLower) ||
+                p.skills.some(s => s.name.toLowerCase().includes(searchLower) || s.label.toLowerCase().includes(searchLower))
+            );
+
+            if (filteredPhases.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 3rem;">No matching workflow phases found.</div>`;
+                return;
+            }
+
+            const layout = document.createElement("div");
+            layout.className = "graph-flow-layout";
+
+            // Left Column: DAG Pipeline
+            const pipelineCol = document.createElement("div");
+            pipelineCol.className = "dag-pipeline-column";
+
+            // Switch to Map View Banner
+            const switchBanner = document.createElement("div");
+            switchBanner.className = "flow-switch-banner";
+            switchBanner.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.1rem;">📋</span>
+                    <span>Prefer a sequential listing? Switch to <strong>Linear Phase Map View</strong></span>
+                </div>
+                <span style="color: #60a5fa; font-weight: 600;">View Linear Map →</span>
+            `;
+            switchBanner.addEventListener("click", () => loadPluginByName("skills-map"));
+            pipelineCol.appendChild(switchBanner);
+
+            // Phase cards rendering
+            const p0 = sddWorkflowPhases.find(p => p.phase === "P0");
+            if (p0 && (!searchLower || filteredPhases.includes(p0))) {
+                pipelineCol.appendChild(createDagPhaseCard(p0, 0));
+                pipelineCol.appendChild(createDagConnector("▼ Ingestion & Manifest Survey"));
+            }
+
+            const p1 = sddWorkflowPhases.find(p => p.phase === "P1");
+            if (p1 && (!searchLower || filteredPhases.includes(p1))) {
+                pipelineCol.appendChild(createDagPhaseCard(p1, 1));
+                pipelineCol.appendChild(createDagConnector("▼ Validated Specs & Grill (GO/NO-GO)"));
+            }
+
+            const p2 = sddWorkflowPhases.find(p => p.phase === "P2");
+            if (p2 && (!searchLower || filteredPhases.includes(p2))) {
+                pipelineCol.appendChild(createDagPhaseCard(p2, 2));
+                pipelineCol.appendChild(createDagConnector("▼ Approved Architecture & UI Screens"));
+            }
+
+            const p3 = sddWorkflowPhases.find(p => p.phase === "P3");
+            if (p3 && (!searchLower || filteredPhases.includes(p3))) {
+                pipelineCol.appendChild(createDagPhaseCard(p3, 3));
+                pipelineCol.appendChild(createDagConnector("▼ Topological Dependency DAG (Tier 0 ➔ Tier 3)"));
+            }
+
+            // P4 & P5 Loop Container
+            const p4 = sddWorkflowPhases.find(p => p.phase === "P4");
+            const p5 = sddWorkflowPhases.find(p => p.phase === "P5");
+            if ((p4 && (!searchLower || filteredPhases.includes(p4))) || (p5 && (!searchLower || filteredPhases.includes(p5)))) {
+                const loopBox = document.createElement("div");
+                loopBox.className = "dag-loop-box";
+                loopBox.innerHTML = `
+                    <div class="dag-box-header">
+                        <span style="color: #f59e0b; display: flex; align-items: center; gap: 0.4rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span>
+                            Autonomous Repair Engine (P4 ↔ P5 Closed Loop ≤3x)
+                        </span>
+                        <span style="color: var(--text-secondary); font-size: 0.72rem; font-family: var(--font-code);">Topological Execution</span>
+                    </div>
+                `;
+                if (p4) loopBox.appendChild(createDagPhaseCard(p4, 4));
+                const loopConn = document.createElement("div");
+                loopConn.className = "dag-connector";
+                loopConn.style.color = "#f59e0b";
+                loopConn.style.fontWeight = "500";
+                loopConn.innerHTML = `
+                    <span>▼ Builds Code Along DAG Tiers</span>
+                    <span style="opacity: 0.3;">|</span>
+                    <span>▲ AST Diagnostic Repair Traces (≤3x)</span>
+                `;
+                loopBox.appendChild(loopConn);
+                if (p5) loopBox.appendChild(createDagPhaseCard(p5, 5));
+                pipelineCol.appendChild(loopBox);
+                pipelineCol.appendChild(createDagConnector("▼ Graph Health: OK & Test Suites Pass"));
+            }
+
+            const p6 = sddWorkflowPhases.find(p => p.phase === "P6");
+            if (p6 && (!searchLower || filteredPhases.includes(p6))) {
+                pipelineCol.appendChild(createDagPhaseCard(p6, 6));
+                pipelineCol.appendChild(createDagConnector("▼ Pull Request Approved"));
+            }
+
+            const p7 = sddWorkflowPhases.find(p => p.phase === "P7");
+            if (p7 && (!searchLower || filteredPhases.includes(p7))) {
+                pipelineCol.appendChild(createDagPhaseCard(p7, 7));
+                pipelineCol.appendChild(createDagConnector("▼ Memory Promoted & Code Consolidated"));
+            }
+
+            // Governance Box: P8 & P9
+            const p8 = sddWorkflowPhases.find(p => p.phase === "P8");
+            const p9 = sddWorkflowPhases.find(p => p.phase === "P9");
+            if ((p8 && (!searchLower || filteredPhases.includes(p8))) || (p9 && (!searchLower || filteredPhases.includes(p9)))) {
+                const govBox = document.createElement("div");
+                govBox.className = "dag-governance-box";
+                govBox.innerHTML = `
+                    <div class="dag-box-header">
+                        <span style="color: #f43f5e; display: flex; align-items: center; gap: 0.4rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #f43f5e; display: inline-block;"></span>
+                            Level 2: Human Governance & Release Gates
+                        </span>
+                        <span style="color: #f43f5e; font-size: 0.72rem; font-family: var(--font-code);">Strict Confirmation Required</span>
+                    </div>
+                `;
+                if (p8) govBox.appendChild(createDagPhaseCard(p8, 8));
+                const govConn = document.createElement("div");
+                govConn.className = "dag-connector";
+                govConn.style.color = "#f43f5e";
+                govConn.style.fontWeight = "500";
+                govConn.innerHTML = `<span>▼ Human Sign-off Received & Verified</span>`;
+                govBox.appendChild(govConn);
+                if (p9) govBox.appendChild(createDagPhaseCard(p9, 9));
+                pipelineCol.appendChild(govBox);
+            }
+
+            layout.appendChild(pipelineCol);
+
+            // Right Column: Sticky Inspector
+            const inspectorCol = document.createElement("div");
+            inspectorCol.id = "dag-inspector-col";
+            inspectorCol.className = "dag-inspector-column";
+            inspectorCol.innerHTML = renderDagInspectorHtml(sddWorkflowPhases[selectedDagPhaseIdx] || sddWorkflowPhases[0]);
+            layout.appendChild(inspectorCol);
+
+            container.appendChild(layout);
+        }
+
+        function createDagPhaseCard(phase, idx) {
+            const card = document.createElement("div");
+            card.id = `dag-card-${idx}`;
+            card.className = `dag-card ${phase.theme}-card ${idx === selectedDagPhaseIdx ? "selected" : ""}`;
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem;">
+                        <span class="phase-badge ${phase.theme}">${phase.phase}</span>
+                        <span style="font-family: var(--font-title); font-size: 1.05rem; font-weight: 700; color: var(--text-primary);">${phase.name}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.35rem;">
+                        ${phase.loopTag ? `<span style="font-size: 0.7rem; font-family: var(--font-code); padding: 0.2rem 0.5rem; border-radius: 50px; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">${phase.loopTag}</span>` : ""}
+                        ${phase.dagTier ? `<span style="font-size: 0.7rem; font-family: var(--font-code); padding: 0.2rem 0.5rem; border-radius: 50px; background: rgba(139, 92, 246, 0.15); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3);">${phase.dagTier}</span>` : ""}
+                    </div>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">${phase.desc}</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.3rem;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.3rem;">
+                        ${(phase.agents || []).map(a => `<span class="phase-agent-tag" style="font-size: 0.72rem; padding: 0.15rem 0.5rem;">${a}</span>`).join('')}
+                    </div>
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-code); opacity: 0.8;">Click to inspect →</span>
+                </div>
+            `;
+            card.addEventListener("click", () => {
+                selectedDagPhaseIdx = idx;
+                document.querySelectorAll(".dag-card").forEach(c => c.classList.remove("selected"));
+                card.classList.add("selected");
+                const inspectorCol = document.getElementById("dag-inspector-col");
+                if (inspectorCol) {
+                    inspectorCol.innerHTML = renderDagInspectorHtml(phase);
+                }
+            });
+            return card;
+        }
+
+        function createDagConnector(text) {
+            const conn = document.createElement("div");
+            conn.className = "dag-connector";
+            conn.innerHTML = `<span>${text}</span>`;
+            return conn;
+        }
+
+        function renderDagInspectorHtml(phase) {
+            const safetyColors = {
+                emerald: "background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.25);",
+                blue: "background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25);",
+                purple: "background: rgba(139, 92, 246, 0.12); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.25);",
+                amber: "background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.25);",
+                rose: "background: rgba(244, 63, 94, 0.12); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.25);"
+            };
+            const sStyle = safetyColors[phase.safetyTheme || "emerald"];
+
+            return `
+                <div class="dag-inspector-panel">
+                    <div>
+                        <span class="phase-badge ${phase.theme}">${phase.phase}</span>
+                        <h3 style="font-family: var(--font-title); font-size: 1.2rem; font-weight: 700; margin-top: 0.5rem; color: var(--text-primary);">${phase.name}</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.4rem; line-height: 1.45;">${phase.desc}</p>
+                    </div>
+
+                    <div>
+                        <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 0.4rem;">Assigned Subagents</span>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+                            ${(phase.agents || []).map(a => `<span class="phase-agent-tag" style="font-size: 0.78rem;">${a}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div>
+                        <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 0.4rem;">Skills & Tool Invocations</span>
+                        <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                            ${(phase.skills || []).map(s => `
+                                <a href="${s.path}" target="_blank" class="skill-flow-node" style="font-size: 0.78rem; padding: 0.35rem 0.65rem;">
+                                    <span>${s.name}</span>
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: auto;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div>
+                        <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 0.4rem;">Artifacts & Deliverables</span>
+                        <ul style="list-style: disc; list-style-position: inside; font-size: 0.8rem; color: var(--text-secondary); font-family: var(--font-code); display: flex; flex-direction: column; gap: 0.25rem;">
+                            ${(phase.artifacts || ["Feature diffs"]).map(art => `<li>${art}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 0.4rem;">Safety & Governance Gate</span>
+                        <div style="padding: 0.75rem; border-radius: 12px; font-size: 0.8rem; line-height: 1.4; ${sStyle}">
+                            ${phase.safety || "Read-only survey; zero destructive actions."}
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--glass-border); padding-top: 1rem;">
+                        <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 0.5rem;">P3 Topological DAG Tiers</span>
+                        <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                            <div class="dag-tier-item"><span class="dag-tier-pill" style="background: rgba(139, 92, 246, 0.2); color: #c084fc;">Tier 0</span> <span>Foundation, Schema & Types</span></div>
+                            <div class="dag-tier-item"><span class="dag-tier-pill" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">Tier 1</span> <span>Domain Entities & Core Services</span></div>
+                            <div class="dag-tier-item"><span class="dag-tier-pill" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">Tier 2</span> <span>API Endpoints & UI Components</span></div>
+                            <div class="dag-tier-item"><span class="dag-tier-pill" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">Tier 3</span> <span>End-to-End Tests & Docs</span></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         function renderPluginNavigation() {
             selectionList.innerHTML = "";
             Object.keys(pluginsData).forEach(key => {
                 const data = pluginsData[key];
                 const btn = document.createElement("button");
+                btn.setAttribute("data-key", key);
                 btn.className = `plugin-nav-btn ${key === activePluginKey ? "active" : ""} ${data.theme}-theme`;
-                const count = data.isMapView ? sddWorkflowPhases.length : (data.isAgentsView ? agentsData.length : data.commands.length);
+                const count = data.isMapView ? sddWorkflowPhases.length : (data.isGraphFlowView ? "DAG" : (data.isAgentsView ? agentsData.length : data.commands.length));
                 btn.innerHTML = `
                     <span>${data.displayName}</span>
                     <span class="badge">${count}</span>
