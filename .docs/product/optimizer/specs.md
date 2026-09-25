@@ -17,7 +17,7 @@ Large Language Models (LLMs) operate under finite context windows and per-token 
 - **Rule Addition:** New token economy rule `plugins/kanche/rules/token-optimization.md` establishing universal token minimization standards (anti-bloat, information density, telegraphic instruction patterns, context cache friendliness).
 - **Systematic Optimization:** Apply token optimization across all existing agents in `plugins/kanche/agents/` and skills in `plugins/kanche/skills/`, stripping redundant text and padding while maintaining 100% semantic fidelity and all required flags/interfaces.
 - **Documentation & UI Alignment:** Update `plugins/kanche/plugin.json`, `README.md`, and `index.html` to reflect the 17-agent team and token optimization capabilities.
-- **Local Plugin Mirroring:** Sync changes to `/home/kenneth-ancheta/.gemini/config/plugins/kanche`.
+- **Local Plugin Mirroring:** Sync changes to `~/.gemini/config/plugins/kanche`.
 
 ### Out of Scope / Non-Goals
 - Modifying underlying LLM model weights or external API protocols.
