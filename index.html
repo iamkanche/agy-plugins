@@ -1051,6 +1051,10 @@
             { name: "/kanche:scrum-pbi-create", desc: "Create standardized Product Backlog Items (PBI) with user stories, acceptance criteria, priority, and story points.", gated: false, path: "plugins/kanche/skills/scrum-pbi-create/SKILL.md" }
         ];
 
+        const tokenCommands = [
+            { name: "/kanche:token-optimize", desc: "Audit, distill, and compress prompts, skills, and agent instructions for maximum context efficiency and token savings.", gated: false, path: "plugins/kanche/skills/token-optimize/SKILL.md" }
+        ];
+
         gitCommands.forEach(c => { c.gated = true; c.theme = "cyan"; });
         ghCommands.forEach(c => { c.gated = true; c.theme = "purple"; });
         sddCommands.forEach(c => c.theme = "amber");
@@ -1059,8 +1063,18 @@
         plannerCommands.forEach(c => c.theme = "indigo");
         devCommands.forEach(c => c.theme = "teal");
         scrumCommands.forEach(c => c.theme = "blue");
+        tokenCommands.forEach(c => c.theme = "teal");
 
         const agentsData = [
+            {
+                name: "token-optimizer",
+                handle: "@token-optimizer",
+                desc: "Specialized subagent enforcing token efficiency, short and direct bullet-formatted responses, prompt distillation, and context optimization.",
+                writeTools: false,
+                skills: ["/kanche:token-optimize"],
+                path: "plugins/kanche/agents/token-optimizer/agent.json",
+                theme: "teal"
+            },
             {
                 name: "researcher",
                 handle: "@researcher",
@@ -1372,11 +1386,11 @@
             "kanche": {
                 name: "kanche",
                 displayName: "All Kanche Skills",
-                desc: "Unified Antigravity developer plugin bundle packaging a complete 16-agent software development team, 46 skills, Graph Engineering Workflows, topological DAG planning, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
-                version: "v0.4.0",
+                desc: "Unified Antigravity developer plugin bundle packaging a complete 17-agent software development team, 47 skills, token optimization, Graph Engineering Workflows, topological DAG planning, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
+                version: "v0.5.0",
                 theme: "blue",
                 inspectorUrl: "plugins/kanche/plugin.json",
-                commands: [...graphCommands, ...sddCommands, ...gitCommands, ...ghCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands]
+                commands: [...graphCommands, ...sddCommands, ...gitCommands, ...ghCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands, ...tokenCommands]
             },
             "graph-flow": {
                 name: "graph-flow",
