@@ -1653,7 +1653,7 @@
                         </div>
                         <div class="cmd-footer">
                             <span class="cmd-tag">Subagent Manifest</span>
-                            <a href="${agent.path}" class="cmd-link" target="_blank">
+                            <a href="${agent.path}" class="cmd-link" target="_blank" rel="noopener noreferrer">
                                 <span>agent.json</span>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                             </a>
@@ -1683,7 +1683,7 @@
                     <div class="cmd-desc">${cmd.desc}</div>
                     <div class="cmd-footer">
                         <span class="cmd-tag ${cmd.gated ? "gated" : ""}">${cmd.gated ? "Gated Confirmation" : "Direct Action"}</span>
-                        <a href="${cmd.path}" class="cmd-link" target="_blank">
+                        <a href="${cmd.path}" class="cmd-link" target="_blank" rel="noopener noreferrer">
                             <span>Workflow</span>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </a>
@@ -1905,7 +1905,7 @@
                         <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 0.4rem;">Skills & Tool Invocations</span>
                         <div style="display: flex; flex-direction: column; gap: 0.35rem;">
                             ${(phase.skills || []).map(s => `
-                                <a href="${s.path}" target="_blank" class="skill-flow-node" style="font-size: 0.78rem; padding: 0.35rem 0.65rem;">
+                                <a href="${s.path}" target="_blank" rel="noopener noreferrer" class="skill-flow-node" style="font-size: 0.78rem; padding: 0.35rem 0.65rem;">
                                     <span>${s.name}</span>
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: auto;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                 </a>
