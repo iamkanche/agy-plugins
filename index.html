@@ -1699,7 +1699,7 @@
                 p.phase.toLowerCase().includes(searchLower) ||
                 p.name.toLowerCase().includes(searchLower) ||
                 p.desc.toLowerCase().includes(searchLower) ||
-                (p.agents ? p.agents.join(' ') : '').toLowerCase().includes(searchLower) ||
+                (p.agents ? (Array.isArray(p.agents) ? p.agents.join(' ') : p.agents) : (p.agent || '')).toLowerCase().includes(searchLower) ||
                 p.skills.some(s => s.name.toLowerCase().includes(searchLower) || s.label.toLowerCase().includes(searchLower))
             );
 
@@ -1852,7 +1852,7 @@
                 <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">${phase.desc}</div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.3rem;">
                     <div style="display: flex; flex-wrap: wrap; gap: 0.3rem;">
-                        ${(phase.agents || []).map(a => `<span class="phase-agent-tag" style="font-size: 0.72rem; padding: 0.15rem 0.5rem;">${a}</span>`).join('')}
+                        ${(Array.isArray(phase.agents) ? phase.agents : (phase.agent ? phase.agent.split(',').map(s => s.trim()) : [])).map(a => `<span class="phase-agent-tag" style="font-size: 0.72rem; padding: 0.15rem 0.5rem;">${a}</span>`).join('')}
                     </div>
                     <span style="font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-code); opacity: 0.8;">Click to inspect →</span>
                 </div>
@@ -1897,7 +1897,7 @@
                     <div>
                         <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 0.4rem;">Assigned Subagents</span>
                         <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
-                            ${(phase.agents || []).map(a => `<span class="phase-agent-tag" style="font-size: 0.78rem;">${a}</span>`).join('')}
+                            ${(Array.isArray(phase.agents) ? phase.agents : (phase.agent ? phase.agent.split(',').map(s => s.trim()) : [])).map(a => `<span class="phase-agent-tag" style="font-size: 0.78rem;">${a}</span>`).join('')}
                         </div>
                     </div>
 
