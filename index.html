@@ -1503,25 +1503,43 @@
         const container = document.getElementById("commands-container");
         const searchInput = document.getElementById("command-search");
 
+        function escapeHTML(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function loadPlugin(pluginKey) {
             activePluginKey = pluginKey;
             const data = pluginsData[pluginKey];
-            const themeClass = data.theme;
+            const themeClass = escapeHTML(data.theme);
 
             // Update header
             headerSection.innerHTML = `
                 <div class="plugin-title-row">
-                    <h2 class="plugin-title ${themeClass}">View: <span>${data.displayName}</span></h2>
+                    <h2 class="plugin-title ${themeClass}">View: <span>${escapeHTML(data.displayName)}</span></h2>
                     <div class="plugin-meta">
-                        <span class="plugin-version">${data.version}</span>
-                        <button class="inspect-plugin-btn" onclick="window.open('${data.inspectorUrl}', '_blank')">
+                        <span class="plugin-version">${escapeHTML(data.version)}</span>
+                        <button class="inspect-plugin-btn" id="inspect-file-btn" data-url="${escapeHTML(data.inspectorUrl)}">
                             Inspect File
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                         </button>
                     </div>
                 </div>
-                <p class="plugin-desc">${data.desc}</p>
+                <p class="plugin-desc">${escapeHTML(data.desc)}</p>
             `;
+
+            const inspectBtn = document.getElementById("inspect-file-btn");
+            if (inspectBtn) {
+                inspectBtn.addEventListener("click", () => {
+                    const url = inspectBtn.getAttribute("data-url");
+                    if (url) window.open(url, '_blank');
+                });
+            }
 
             // Update search placeholder
             searchInput.placeholder = data.isAgentsView
