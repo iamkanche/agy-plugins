@@ -1625,11 +1625,12 @@
             }
 
             if (data.isAgentsView) {
+                const searchLower = filterText.toLowerCase();
                 const filteredAgents = agentsData.filter(agent =>
-                    agent.name.toLowerCase().includes(filterText.toLowerCase()) ||
-                    agent.handle.toLowerCase().includes(filterText.toLowerCase()) ||
-                    agent.desc.toLowerCase().includes(filterText.toLowerCase()) ||
-                    agent.skills.some(s => s.toLowerCase().includes(filterText.toLowerCase()))
+                    agent.name.toLowerCase().includes(searchLower) ||
+                    agent.handle.toLowerCase().includes(searchLower) ||
+                    agent.desc.toLowerCase().includes(searchLower) ||
+                    agent.skills.some(s => s.toLowerCase().includes(searchLower))
                 );
 
                 if (filteredAgents.length === 0) {
@@ -1664,9 +1665,10 @@
                 return;
             }
 
+            const searchLower = filterText.toLowerCase();
             const filtered = data.commands.filter(cmd =>
-                cmd.name.toLowerCase().includes(filterText.toLowerCase()) ||
-                cmd.desc.toLowerCase().includes(filterText.toLowerCase())
+                cmd.name.toLowerCase().includes(searchLower) ||
+                cmd.desc.toLowerCase().includes(searchLower)
             );
 
             if (filtered.length === 0) {
