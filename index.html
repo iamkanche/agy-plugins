@@ -1699,7 +1699,7 @@
                 p.phase.toLowerCase().includes(searchLower) ||
                 p.name.toLowerCase().includes(searchLower) ||
                 p.desc.toLowerCase().includes(searchLower) ||
-                (p.agents ? p.agents.join(' ') : '').toLowerCase().includes(searchLower) ||
+                (p.agents ? p.agents.join(' ') : (p.agent || '')).toLowerCase().includes(searchLower) ||
                 p.skills.some(s => s.name.toLowerCase().includes(searchLower) || s.label.toLowerCase().includes(searchLower))
             );
 
