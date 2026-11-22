@@ -64,13 +64,21 @@ def parse_frontmatter(text: str) -> tuple[dict[str, object], bool]:
         k, v = line.split(":", 1)
         k = k.strip()
         v = v.strip()
-        if v in {">-", ">", "|-", "|"}:
+        if v in {">-", ">", ">+", "|-", "|", "|+"}:
             block_lines: list[str] = []
             while idx < end_idx and (lines[idx].startswith(" ") or lines[idx].startswith("\t") or not lines[idx].strip()):
                 block_lines.append(lines[idx].strip())
                 idx += 1
             joiner = "\n" if v.startswith("|") else " "
             data[k] = joiner.join(bl for bl in block_lines if bl).strip()
+        elif v == "":
+            list_items: list[str] = []
+            while idx < end_idx and (lines[idx].lstrip().startswith("- ") or not lines[idx].strip()):
+                item_line = lines[idx].strip()
+                if item_line.startswith("- "):
+                    list_items.append(item_line[2:].strip().strip("'\""))
+                idx += 1
+            data[k] = list_items if list_items else ""
         elif v.startswith("[") and v.endswith("]"):
             items = [x.strip().strip("'\"") for x in v[1:-1].split(",") if x.strip()]
             data[k] = items

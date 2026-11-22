@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import shlex
 import subprocess
@@ -13,6 +14,8 @@ from pathlib import Path
 PROTECTED_BRANCHES = {"main", "master", "develop"}
 SAFE_RM_PREFIXES = ("/tmp/", "graphify-out/.graphify_")
 READ_TOOLS = {"grep", "rg", "echo", "printf", "cat", "head", "tail", "sed", "awk"}
+SHELL_PREFIX_TOKENS = {"{", "}", "!", "then", "do", "else", "time"}
+HEREDOC_OP_RE = re.compile(r"^-?\s*(?:'([A-Za-z0-9_]+)'|\"([A-Za-z0-9_]+)\"|\\?([A-Za-z0-9_]+))")
 
 
 def emit(decision: str, reason: str | None = None) -> int:
@@ -23,8 +26,49 @@ def emit(decision: str, reason: str | None = None) -> int:
     return 0
 
 
+def _find_unquoted_heredoc(line: str) -> str | None:
+    """Return heredoc delimiter only when << or <<- appears outside quotes and comments."""
+    in_sq = False
+    in_dq = False
+    escaped = False
+    i = 0
+    n = len(line)
+    while i < n:
+        ch = line[i]
+        if escaped:
+            escaped = False
+            i += 1
+            continue
+        if not in_sq and ch == "\\":
+            escaped = True
+            i += 1
+            continue
+        if not in_dq and ch == "'":
+            in_sq = not in_sq
+            i += 1
+            continue
+        if not in_sq and ch == '"':
+            in_dq = not in_dq
+            i += 1
+            continue
+        if not in_sq and not in_dq:
+            if ch == "#" and (i == 0 or line[i - 1].isspace() or line[i - 1] in ";|&("):
+                break
+            if line.startswith("<<<", i):
+                i += 3
+                continue
+            if line.startswith("<<", i):
+                m = HEREDOC_OP_RE.match(line[i + 2 :])
+                if m:
+                    return m.group(1) or m.group(2) or m.group(3)
+                i += 2
+                continue
+        i += 1
+    return None
+
+
 def strip_heredocs(cmd: str) -> str:
-    """Drop heredoc bodies so commit messages or markdown content do not trigger command rules."""
+    """Drop unquoted heredoc bodies so commit messages or markdown content do not trigger command rules."""
     lines = cmd.splitlines()
     if not lines:
         return cmd
@@ -36,20 +80,123 @@ def strip_heredocs(cmd: str) -> str:
                 terminator = None
             continue
         kept.append(line)
-        m = re.search(r"(?<!<)<<-?(?!<)\s*['\"]?([A-Za-z0-9_]+)['\"]?", line)
-        if m:
-            terminator = m.group(1)
+        terminator = _find_unquoted_heredoc(line)
     return "\n".join(kept)
 
 
+def _scan_paren_sub(cmd: str, start: int) -> tuple[str, int] | None:
+    """Extract balanced inner command from $(...) starting after '$('."""
+    depth = 1
+    sq = False
+    dq = False
+    esc = False
+    j = start
+    n = len(cmd)
+    while j < n:
+        ch = cmd[j]
+        if esc:
+            esc = False
+            j += 1
+            continue
+        if not sq and ch == "\\":
+            esc = True
+            j += 1
+            continue
+        if not dq and ch == "'":
+            sq = not sq
+            j += 1
+            continue
+        if not sq and ch == '"':
+            dq = not dq
+            j += 1
+            continue
+        if not sq and not dq:
+            if ch == "(":
+                depth += 1
+            elif ch == ")":
+                depth -= 1
+                if depth == 0:
+                    return cmd[start:j], j + 1
+        j += 1
+    return None
+
+
+def extract_command_substitutions(cmd: str) -> list[str]:
+    """Extract active $(...) and backtick substitutions outside single-quoted spans."""
+    subs: list[str] = []
+    in_sq = False
+    in_dq = False
+    escaped = False
+    i = 0
+    n = len(cmd)
+    while i < n:
+        ch = cmd[i]
+        if escaped:
+            escaped = False
+            i += 1
+            continue
+        if not in_sq and ch == "\\":
+            escaped = True
+            i += 1
+            continue
+        if not in_dq and ch == "'":
+            in_sq = not in_sq
+            i += 1
+            continue
+        if not in_sq and ch == '"':
+            in_dq = not in_dq
+            i += 1
+            continue
+        if in_sq:
+            i += 1
+            continue
+        if not in_dq and ch == "#" and (i == 0 or cmd[i - 1] in " \t\n;|(&"):
+            nl = cmd.find("\n", i)
+            if nl == -1:
+                break
+            i = nl + 1
+            continue
+        if cmd.startswith("$(", i):
+            res = _scan_paren_sub(cmd, i + 2)
+            if res is not None:
+                inner, end = res
+                subs.append(inner)
+                i = end
+                continue
+        if ch == "`":
+            j = i + 1
+            bt_esc = False
+            while j < n:
+                bc = cmd[j]
+                if bt_esc:
+                    bt_esc = False
+                    j += 1
+                    continue
+                if bc == "\\":
+                    bt_esc = True
+                    j += 1
+                    continue
+                if bc == "`":
+                    inner = re.sub(r"\\([`$\\])", r"\1", cmd[i + 1 : j])
+                    subs.append(inner)
+                    i = j + 1
+                    break
+                j += 1
+            else:
+                i += 1
+            continue
+        i += 1
+    return subs
+
+
 def split_segments(cmd: str) -> list[list[str]]:
-    """Split shell command into token lists per && / || / ; / | / newline segment."""
+    """Split shell command into token lists per && / || / ; / | / ( / ) / newline segment."""
     segments: list[list[str]] = []
     for raw_line in cmd.splitlines():
         if not raw_line.strip():
             continue
         try:
-            lexer = shlex.shlex(raw_line, posix=True, punctuation_chars=";&|")
+            lexer = shlex.shlex(raw_line, posix=True, punctuation_chars=";&|()")
             lexer.whitespace_split = True
             tokens = list(lexer)
         except ValueError:
@@ -57,7 +204,7 @@ def split_segments(cmd: str) -> list[list[str]]:
 
         cur: list[str] = []
         for tok in tokens:
-            if tok in {"&&", "||", ";", "|", "&"}:
+            if tok in {"&&", "||", ";", "|", "&", "(", ")"}:
                 if cur:
                     segments.append(cur)
                     cur = []
@@ -96,11 +243,11 @@ def parse_git_command(tokens: list[str], cwd: str) -> tuple[str | None, list[str
         t = tokens[i]
         if t == "-C" and i + 1 < len(tokens):
             p = Path(tokens[i + 1])
-            repo_dir = str(p if p.is_absolute() else Path(cwd) / p) if cwd else str(p)
+            repo_dir = str(p if p.is_absolute() else Path(repo_dir) / p) if repo_dir else str(p)
             i += 2
         elif t.startswith("-C") and len(t) > 2:
             p = Path(t[2:])
-            repo_dir = str(p if p.is_absolute() else Path(cwd) / p) if cwd else str(p)
+            repo_dir = str(p if p.is_absolute() else Path(repo_dir) / p) if repo_dir else str(p)
             i += 1
         elif t in {"-c", "--git-dir", "--work-tree"} and i + 1 < len(tokens):
             i += 2
@@ -111,29 +258,85 @@ def parse_git_command(tokens: list[str], cwd: str) -> tuple[str | None, list[str
     return None, [], repo_dir
 
 
+def parse_git_subargs(args: list[str], value_opts: set[str] | None = None) -> tuple[list[str], list[str], list[str]]:
+    """Parse git subcommand args into (short_flags, long_flags, pos_args) respecting option values and --."""
+    val_opts = value_opts or set()
+    short_flags: list[str] = []
+    long_flags: list[str] = []
+    pos_args: list[str] = []
+    i = 0
+    while i < len(args):
+        tok = args[i]
+        if tok == "--":
+            pos_args.extend(args[i + 1 :])
+            break
+        if tok.startswith("--"):
+            long_flags.append(tok)
+            if "=" not in tok and tok in val_opts and i + 1 < len(args):
+                i += 2
+                continue
+            i += 1
+            continue
+        if tok.startswith("-") and tok != "-":
+            j = 1
+            consumed_next = False
+            while j < len(tok):
+                ch = tok[j]
+                short_flags.append(ch)
+                if f"-{ch}" in val_opts:
+                    if j == len(tok) - 1 and i + 1 < len(args):
+                        consumed_next = True
+                    break
+                j += 1
+            i += 2 if consumed_next else 1
+            continue
+        pos_args.append(tok)
+        i += 1
+    return short_flags, long_flags, pos_args
+
+
 def is_safe_rm_target(target: str) -> bool:
-    if ".." in Path(target).parts or "*" in target or "?" in target:
+    if not target or ".." in Path(target).parts or "*" in target or "?" in target:
         return False
-    if target.rstrip("/") == "/tmp":
+    norm = os.path.normpath(target)
+    if norm == "/tmp":
         return False
-    return any(target.startswith(prefix) and len(target) > len(prefix) for prefix in SAFE_RM_PREFIXES)
+    return (norm.startswith("/tmp/") and len(norm) > len("/tmp/")) or norm.startswith("graphify-out/.graphify_")
 
 
 def unwrap_command_tokens(raw_tokens: list[str]) -> list[str]:
-    """Strip leading VAR=val assignments and wrapper commands (env, sudo, command, nohup, exec, timeout)."""
+    """Strip leading VAR=val assignments, shell keywords, and wrapper commands."""
     tokens = list(raw_tokens)
     while tokens:
         head = tokens[0]
+        if head in SHELL_PREFIX_TOKENS:
+            tokens.pop(0)
+            continue
         name = Path(head).name
         if re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", head):
             tokens.pop(0)
             continue
         if name in {"env", "sudo", "command", "nohup", "exec"}:
             tokens.pop(0)
-            while tokens and tokens[0].startswith("-") and tokens[0] != "--":
-                flag = tokens.pop(0)
-                if name in {"env", "sudo"} and flag in {"-u", "--unset", "-C", "-g"} and tokens:
+            value_flags = {"-u", "--unset", "-C", "--chdir", "-g", "-p"}
+            while tokens and (
+                (tokens[0].startswith("-") and tokens[0] != "--")
+                or (name in {"env", "sudo"} and re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", tokens[0]))
+            ):
+                tok = tokens.pop(0)
+                if not tok.startswith("-"):
+                    continue
+                if name == "env" and tok in {"-S", "--split-string"} and tokens:
+                    raw_s = tokens.pop(0)
+                    try:
+                        split_toks = shlex.split(raw_s)
+                    except ValueError:
+                        split_toks = raw_s.split()
+                    tokens = split_toks + tokens
+                elif name in {"env", "sudo"} and tok in value_flags and tokens:
                     tokens.pop(0)
+            if tokens and tokens[0] == "--":
+                tokens.pop(0)
             continue
         if name == "timeout":
             tokens.pop(0)
@@ -141,6 +344,8 @@ def unwrap_command_tokens(raw_tokens: list[str]) -> list[str]:
                 flag = tokens.pop(0)
                 if flag in {"-k", "-s", "--kill-after", "--signal"} and tokens:
                     tokens.pop(0)
+            if tokens and tokens[0] == "--":
+                tokens.pop(0)
             if tokens:
                 tokens.pop(0)  # duration argument
             continue
@@ -155,6 +360,13 @@ def evaluate_command(cmd: str, cwd: str) -> tuple[str, str | None]:
     # Track worst decision: deny > force_ask > allow
     ask_reasons: list[str] = []
 
+    for sub_cmd in extract_command_substitutions(stripped):
+        sub_dec, sub_reason = evaluate_command(sub_cmd, cwd)
+        if sub_dec == "deny":
+            return "deny", sub_reason
+        if sub_dec == "force_ask" and sub_reason:
+            ask_reasons.append(sub_reason)
+
     for raw_tokens in segments:
         tokens = unwrap_command_tokens(raw_tokens)
         if not tokens:
@@ -165,17 +377,34 @@ def evaluate_command(cmd: str, cwd: str) -> tuple[str, str | None]:
         if prog in READ_TOOLS:
             continue
 
-        # Inspect nested shell invocations like `bash -c "git reset --hard"`
-        if prog in {"bash", "sh", "zsh"}:
-            for idx, arg in enumerate(tokens[1:], start=1):
-                is_c = arg == "-c" or (arg.startswith("-") and not arg.startswith("--") and "c" in arg[1:])
-                if is_c and idx + 1 < len(tokens):
-                    nested_dec, nested_reason = evaluate_command(tokens[idx + 1], cwd)
-                    if nested_dec == "deny":
-                        return "deny", nested_reason
-                    if nested_dec == "force_ask" and nested_reason:
-                        ask_reasons.append(nested_reason)
+        # Inspect nested shell invocations like `bash -c -- "git reset --hard"`
+        if prog in {"bash", "sh", "zsh", "dash"}:
+            has_c = False
+            script_idx: int | None = None
+            idx = 1
+            while idx < len(tokens):
+                arg = tokens[idx]
+                if arg == "--":
+                    if has_c and idx + 1 < len(tokens):
+                        script_idx = idx + 1
                     break
+                if arg in {"-o", "+o"} and idx + 1 < len(tokens):
+                    idx += 2
+                    continue
+                if (arg.startswith("-") or arg.startswith("+")) and arg not in {"-", "+"}:
+                    if arg.startswith("-") and not arg.startswith("--") and "c" in arg[1:]:
+                        has_c = True
+                    idx += 1
+                    continue
+                if has_c:
+                    script_idx = idx
+                break
+            if script_idx is not None:
+                nested_dec, nested_reason = evaluate_command(tokens[script_idx], cwd)
+                if nested_dec == "deny":
+                    return "deny", nested_reason
+                if nested_dec == "force_ask" and nested_reason:
+                    ask_reasons.append(nested_reason)
 
         joined = " ".join(tokens)
 
@@ -188,49 +417,83 @@ def evaluate_command(cmd: str, cwd: str) -> tuple[str, str | None]:
         # Git rules
         if prog == "git":
             sub, args, repo_dir = parse_git_command(tokens, cwd)
-            short_flags = [a[1:] for a in args if a.startswith("-") and not a.startswith("--") and a != "-"]
             if sub == "push":
-                pos_args = [a for a in args if not a.startswith("-")]
+                push_val_opts = {"--repo", "-o", "--push-option", "--receive-pack", "--exec"}
+                short_flags, long_flags, pos_args = parse_git_subargs(args, push_val_opts)
+                has_repo_opt = any(lf == "--repo" or lf.startswith("--repo=") for lf in long_flags)
+                refspecs = pos_args if has_repo_opt else pos_args[1:]
                 is_force = (
-                    "--force" in args
-                    or any(a == "--force-with-lease" or a.startswith("--force-with-lease=") for a in args)
-                    or any("f" in sf for sf in short_flags)
-                    or any(a.startswith("+") for a in pos_args[1:])
+                    "--force" in long_flags
+                    or "--mirror" in long_flags
+                    or any(lf == "--force-with-lease" or lf.startswith("--force-with-lease=") for lf in long_flags)
+                    or "f" in short_flags
+                    or any(r.startswith("+") for r in refspecs)
                 )
                 if is_force:
-                    return "deny", "Blocked force push (--force / -f / --force-with-lease / +refspec) per git-hard-rules.md."
-                if "--no-verify" in args:
+                    return "deny", "Blocked force push (--force / -f / --force-with-lease / --mirror / +refspec) per git-hard-rules.md."
+                if "--no-verify" in long_flags:
                     return "deny", "Blocked git push --no-verify per git-hard-rules.md."
                 branch = current_git_branch(repo_dir)
                 targets_protected = any(
-                    a.lstrip("+").split(":")[-1].removeprefix("refs/heads/") in PROTECTED_BRANCHES
-                    for a in pos_args[1:]
+                    r.lstrip("+").split(":")[-1].removeprefix("refs/heads/") in PROTECTED_BRANCHES
+                    for r in refspecs
                 )
-                is_delete = "--delete" in args or "-d" in args or any(a.startswith(":") for a in pos_args[1:])
+                is_delete = "--delete" in long_flags or "d" in short_flags or any(r.startswith(":") for r in refspecs)
                 if targets_protected or (branch in PROTECTED_BRANCHES and not is_delete):
                     return "deny", "Blocked direct push or remote deletion on protected branch per git-hard-rules.md."
                 ask_reasons.append("git push requires explicit human confirmation.")
             elif sub == "commit":
-                if "--no-verify" in args or any("n" in sf for sf in short_flags):
+                commit_val_opts = {
+                    "-m", "--message", "-F", "--file", "-C", "--reuse-message",
+                    "-c", "--reedit-message", "--fixup", "--squash", "-t", "--template",
+                    "--author", "--date", "--cleanup", "-u", "--untracked-files",
+                    "-S", "--gpg-sign", "--pathspec-from-file",
+                }
+                short_flags, long_flags, _ = parse_git_subargs(args, commit_val_opts)
+                if "--no-verify" in long_flags or "n" in short_flags:
                     return "deny", "Blocked git commit --no-verify (-n) per git-hard-rules.md."
                 branch = current_git_branch(repo_dir)
                 if branch in PROTECTED_BRANCHES:
                     return "deny", f"Blocked direct git commit on protected branch '{branch}' per git-hard-rules.md."
                 ask_reasons.append("git commit requires explicit human confirmation.")
-            elif sub == "reset" and "--hard" in args:
-                return "deny", "Blocked git reset --hard per git-hard-rules.md."
-            elif sub == "stash" and args:
-                if args[0] == "clear":
-                    return "deny", "Blocked git stash clear (bulk discard) per git-stash skill."
-                if args[0] == "drop":
-                    ask_reasons.append("git stash drop requires explicit human confirmation.")
+            elif sub == "reset":
+                _, long_flags, _ = parse_git_subargs(args)
+                if "--hard" in long_flags:
+                    return "deny", "Blocked git reset --hard per git-hard-rules.md."
+            elif sub == "stash":
+                _, _, pos_args = parse_git_subargs(args)
+                if pos_args:
+                    if pos_args[0] == "clear":
+                        return "deny", "Blocked git stash clear (bulk discard) per git-stash skill."
+                    if pos_args[0] == "drop":
+                        ask_reasons.append("git stash drop requires explicit human confirmation.")
+            elif sub == "merge":
+                _, long_flags, _ = parse_git_subargs(args, {"-m", "--message", "-F", "--file", "-s", "--strategy", "-X", "--strategy-option", "--cleanup", "-S", "--gpg-sign"})
+                if "--abort" not in long_flags and "--continue" not in long_flags and "--quit" not in long_flags:
+                    ask_reasons.append("git merge mutates branch history and requires explicit human confirmation.")
+            elif sub == "rm":
+                ask_reasons.append("git rm deletes tracked files and requires explicit human confirmation.")
             elif sub == "rebase":
-                if "--abort" not in args and "--continue" not in args and "--skip" not in args:
+                _, long_flags, _ = parse_git_subargs(args, {"--onto", "-s", "--strategy", "-X", "--strategy-option", "--exec", "-x", "--autosquash"})
+                if "--abort" not in long_flags and "--continue" not in long_flags and "--skip" not in long_flags:
                     ask_reasons.append("git rebase rewrites history and requires explicit human confirmation.")
-            elif sub == "branch" and ("-d" in args or "-D" in args):
-                ask_reasons.append("git branch deletion requires explicit human confirmation.")
-            elif sub == "tag" and ("-d" in args or "--delete" in args):
-                ask_reasons.append("git tag deletion requires explicit human confirmation.")
+            elif sub == "branch":
+                branch_val_opts = {
+                    "-m", "-M", "-c", "-C", "--format", "--sort", "--contains",
+                    "--no-contains", "--merged", "--no-merged", "--points-at",
+                    "--set-upstream-to", "-u",
+                }
+                short_flags, long_flags, _ = parse_git_subargs(args, branch_val_opts)
+                if "--delete" in long_flags or "d" in short_flags or "D" in short_flags:
+                    ask_reasons.append("git branch deletion requires explicit human confirmation.")
+            elif sub == "tag":
+                tag_val_opts = {
+                    "-m", "-F", "-u", "--local-user", "--cleanup", "--format",
+                    "--sort", "--contains", "--no-contains", "--merged", "--no-merged", "--points-at",
+                }
+                short_flags, long_flags, _ = parse_git_subargs(args, tag_val_opts)
+                if "--delete" in long_flags or "d" in short_flags:
+                    ask_reasons.append("git tag deletion requires explicit human confirmation.")
 
         # GitHub CLI rules
         elif prog == "gh" and len(tokens) >= 3 and tokens[1] == "pr" and tokens[2] == "merge":
@@ -238,9 +501,21 @@ def evaluate_command(cmd: str, cwd: str) -> tuple[str, str | None]:
 
         # Recursive rm rules
         elif prog == "rm":
-            short_flags = [t[1:] for t in tokens[1:] if t.startswith("-") and not t.startswith("--") and t != "-"]
-            long_flags = [t for t in tokens[1:] if t.startswith("--")]
-            targets = [t for t in tokens[1:] if not t.startswith("-")]
+            short_flags: list[str] = []
+            long_flags: list[str] = []
+            targets: list[str] = []
+            after_sep = False
+            for t in tokens[1:]:
+                if after_sep:
+                    targets.append(t)
+                elif t == "--":
+                    after_sep = True
+                elif t.startswith("--"):
+                    long_flags.append(t)
+                elif t.startswith("-") and t != "-":
+                    short_flags.append(t[1:])
+                else:
+                    targets.append(t)
             has_r = any("r" in sf.lower() for sf in short_flags) or "--recursive" in long_flags
             if has_r:
                 if not targets or not all(is_safe_rm_target(t) for t in targets):

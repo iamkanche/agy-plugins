@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 JS_TS_EXTS = (".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs")
-RESOLVE_EXTS = (".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs", ".json", ".py", "")
+RESOLVE_EXTS = (".ts", ".tsx", ".d.ts", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs", ".json", ".py", "")
 SKIP_DIRS = {".git", "node_modules", "vendor", "dist", "build", ".venv", "__pycache__"}
 
 JS_COMMENT_OR_STR_RE = re.compile(
@@ -20,9 +20,12 @@ JS_COMMENT_OR_STR_RE = re.compile(
     r"|(/\*[\s\S]*?\*/|//[^\n]*)"
 )
 
-JS_IMPORT_RE = re.compile(
-    r"""(?:^|[\s;])(?:import|export)\s+(?:[^'"`;]*?\s+from\s+)?['"]([^'"]+)['"]"""
-    r"""|require\(\s*['"]([^'"]+)['"]\s*\)""",
+JSONC_TRAILING_COMMA_RE = re.compile(r'("(?:\\.|[^"\\])*")|,(\s*[}\]])')
+
+JS_IMPORT_OR_STR_RE = re.compile(
+    r"""(?:^|[\s;{}()=,:?!])(?:import|export)\s*(?:[^'"`;]*?\s+from\s+)?['"]([^'"]+)['"]"""
+    r"""|(?<![.\w$])(?:require|import)\s*\(\s*['"]([^'"]+)['"]\s*\)"""
+    r"""|'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"|`(?:\\.|[^`\\])*`""",
     re.MULTILINE,
 )
 
@@ -32,22 +35,39 @@ def strip_js_comments(src: str) -> str:
     def _repl(m: re.Match[str]) -> str:
         if m.group(1) is not None:
             return m.group(1)
-        return "\n" * m.group(2).count("\n")
+        newlines = m.group(2).count("\n")
+        return "\n" * newlines if newlines else " "
 
     return JS_COMMENT_OR_STR_RE.sub(_repl, src)
 
 
+def is_jsonc_file(path: Path) -> bool:
+    """Return True for config files that allow JSON with Comments / trailing commas."""
+    name = path.name.lower()
+    if name.endswith(".jsonc"):
+        return True
+    if name.startswith(("tsconfig", "jsconfig")) and name.endswith(".json"):
+        return True
+    return ".vscode" in path.parts and name.endswith(".json")
+
+
+def strip_jsonc(src: str) -> str:
+    """Strip JSONC comments and trailing commas while preserving strings."""
+    no_comments = strip_js_comments(src)
+    return JSONC_TRAILING_COMMA_RE.sub(lambda m: m.group(1) if m.group(1) is not None else m.group(2), no_comments)
+
+
 def list_repo_files(root: Path) -> list[Path]:
-    """Enumerate tracked and non-ignored untracked files via git ls-files with os.walk fallback."""
+    """Enumerate tracked and non-ignored untracked files via git ls-files -z with os.walk fallback."""
     try:
         res = subprocess.run(
-            ["git", "-C", str(root), "ls-files", "--cached", "--others", "--exclude-standard"],
+            ["git", "-C", str(root), "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
             capture_output=True,
             text=True,
             check=True,
             timeout=10,
         )
-        paths = [root / line for line in res.stdout.splitlines() if line.strip()]
+        paths = [root / entry for entry in res.stdout.split("\0") if entry]
         return [p for p in paths if p.is_file()]
     except (subprocess.SubprocessError, OSError):
         found: list[Path] = []
@@ -68,21 +88,21 @@ def resolve_relative_module(source_file: Path, spec: str, root: Path) -> Path | 
     if base.is_file():
         return base
     ext_fallbacks = {
-        ".js": (".ts", ".tsx", ".js"),
+        ".js": (".ts", ".tsx", ".d.ts", ".js"),
         ".jsx": (".tsx", ".jsx"),
-        ".mjs": (".mts", ".mjs"),
-        ".cjs": (".cts", ".cjs"),
+        ".mjs": (".mts", ".d.mts", ".mjs"),
+        ".cjs": (".cts", ".d.cts", ".cjs"),
     }
     if base.suffix in ext_fallbacks:
         for cand_ext in ext_fallbacks[base.suffix]:
-            cand = base.with_suffix(cand_ext)
+            cand = base.parent / f"{base.stem}{cand_ext}"
             if cand.is_file():
                 return cand
     for ext in RESOLVE_EXTS:
         if ext and Path(f"{base}{ext}").is_file():
             return Path(f"{base}{ext}")
     if base.is_dir():
-        for idx_ext in (".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs", ".py"):
+        for idx_ext in (".ts", ".tsx", ".d.ts", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs", ".py"):
             idx = base / f"index{idx_ext}"
             if idx.is_file():
                 return idx
@@ -92,8 +112,16 @@ def resolve_relative_module(source_file: Path, spec: str, root: Path) -> Path | 
     return None
 
 
+def _collect_assign_names(target: ast.AST, names: set[str]) -> None:
+    if isinstance(target, ast.Name):
+        names.add(target.id)
+    elif isinstance(target, (ast.Tuple, ast.List)):
+        for elt in target.elts:
+            _collect_assign_names(elt, names)
+
+
 def init_exports_name(init_file: Path, name: str, cache: dict[Path, set[str] | None]) -> bool:
-    """Check whether __init__.py defines, imports, or dynamically exports `name`."""
+    """Check whether __init__.py defines, imports, or dynamically exports `name` at module scope."""
     if init_file not in cache:
         try:
             tree = ast.parse(init_file.read_text(encoding="utf-8"), filename=str(init_file))
@@ -101,25 +129,47 @@ def init_exports_name(init_file: Path, name: str, cache: dict[Path, set[str] | N
             cache[init_file] = None
             return True
         names: set[str] = set()
-        for node in ast.walk(tree):
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-                if node.name == "__getattr__":
-                    cache[init_file] = None
-                    return True
-                names.add(node.name)
-            elif isinstance(node, ast.Assign):
-                for tgt in node.targets:
-                    if isinstance(tgt, ast.Name):
-                        names.add(tgt.id)
-            elif isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name):
-                names.add(node.target.id)
-            elif isinstance(node, (ast.Import, ast.ImportFrom)):
-                for alias in node.names:
-                    if alias.name == "*":
-                        cache[init_file] = None
-                        return True
-                    names.add(alias.asname or alias.name.split(".")[0])
-        cache[init_file] = names
+        dynamic = False
+
+        def _collect(stmts: list[ast.stmt]) -> None:
+            nonlocal dynamic
+            for node in stmts:
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                    if node.name == "__getattr__":
+                        dynamic = True
+                        return
+                    names.add(node.name)
+                elif isinstance(node, ast.Assign):
+                    for tgt in node.targets:
+                        _collect_assign_names(tgt, names)
+                elif isinstance(node, ast.AnnAssign):
+                    _collect_assign_names(node.target, names)
+                elif isinstance(node, (ast.Import, ast.ImportFrom)):
+                    for alias in node.names:
+                        if alias.name == "*":
+                            dynamic = True
+                            return
+                        names.add(alias.asname or alias.name.split(".")[0])
+                elif isinstance(node, ast.If):
+                    _collect(node.body)
+                    _collect(node.orelse)
+                elif isinstance(node, (ast.With, ast.AsyncWith)):
+                    _collect(node.body)
+                elif hasattr(ast, "TryStar") and isinstance(node, ast.TryStar):  # Python 3.11+
+                    _collect(node.body)
+                    _collect(node.orelse)
+                    _collect(node.finalbody)
+                    for h in node.handlers:
+                        _collect(h.body)
+                elif isinstance(node, ast.Try):
+                    _collect(node.body)
+                    _collect(node.orelse)
+                    _collect(node.finalbody)
+                    for h in node.handlers:
+                        _collect(h.body)
+
+        _collect(tree.body)
+        cache[init_file] = None if dynamic else names
     exported = cache[init_file]
     return exported is None or name in exported
 
@@ -185,6 +235,13 @@ def find_cycles(graph: dict[Path, set[Path]], root: Path) -> list[str]:
     stack: list[Path] = []
     cycles: list[str] = []
     seen_cycles: set[tuple[str, ...]] = set()
+    resolved_root = root.resolve()
+
+    def _rel_label(p: Path) -> str:
+        try:
+            return str(p.relative_to(resolved_root))
+        except ValueError:
+            return str(p)
 
     def dfs(node: Path) -> None:
         state[node] = 1
@@ -195,7 +252,7 @@ def find_cycles(graph: dict[Path, set[Path]], root: Path) -> list[str]:
                 dfs(nxt)
             elif st == 1 and nxt in stack:
                 idx = stack.index(nxt)
-                cyc = [str(p.relative_to(root)) for p in stack[idx:]] + [str(nxt.relative_to(root))]
+                cyc = [_rel_label(p) for p in stack[idx:]] + [_rel_label(nxt)]
                 norm = tuple(sorted(cyc[:-1]))
                 if norm not in seen_cycles:
                     seen_cycles.add(norm)
@@ -225,9 +282,11 @@ def main() -> int:
         rel = path.relative_to(target)
         suffix = path.suffix.lower()
 
-        if suffix == ".json":
+        if suffix in {".json", ".jsonc"}:
             try:
-                json.loads(path.read_text(encoding="utf-8"))
+                raw_json = path.read_text(encoding="utf-8")
+                parsed_src = strip_jsonc(raw_json) if is_jsonc_file(path) else raw_json
+                json.loads(parsed_src)
             except Exception as exc:
                 syntax_errors.append(f"{rel}:1 invalid JSON ({exc})")
             continue
@@ -281,11 +340,12 @@ def main() -> int:
             cleaned_src = strip_js_comments(src)
             resolved_src = path.resolve()
             dep_graph.setdefault(resolved_src, set())
-            for match in JS_IMPORT_RE.finditer(cleaned_src):
+            for match in JS_IMPORT_OR_STR_RE.finditer(cleaned_src):
                 spec = match.group(1) or match.group(2)
                 if not spec or not spec.startswith("."):
                     continue
-                lineno = cleaned_src[: match.start()].count("\n") + 1
+                start_pos = match.start(1) if match.group(1) is not None else match.start(2)
+                lineno = cleaned_src[:start_pos].count("\n") + 1
                 target_mod = resolve_relative_module(path, spec, target)
                 if target_mod is None:
                     dangling_imports.append(f"{rel}:{lineno} dangling JS/TS import '{spec}'")

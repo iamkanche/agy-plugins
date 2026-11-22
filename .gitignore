@@ -8,3 +8,5 @@ Thumbs.db
 .gemini/antigravity-cli/brain/scratch/
 tmp/
 *.tmp
+__pycache__/
+*.pyc

@@ -7,7 +7,7 @@ description: Legacy alias for /kanche:graph-run.
 
 > 💡 **Notice**: SDD workflows have upgraded to **Graph Engineering Workflow (GEW)**. `/kanche:sdd-run` forwards directly to `/kanche:graph-run`.
 
-**Summary.** Drive a work item through the Graph Engineering Lifecycle (P0→P9), orchestrating the full 17-agent team. Destructive operations strictly require human confirmation per `rules/destructive-safety.md`. Enforces `rules/token-optimization.md`.
+**Summary.** Drive a work item through the Graph Engineering Lifecycle (P0→P9), orchestrating the full 19-agent team. Destructive operations strictly require human confirmation per `rules/destructive-safety.md`. Enforces `rules/token-optimization.md`.
 
 ## Inputs
 
