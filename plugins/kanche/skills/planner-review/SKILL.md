@@ -1,7 +1,6 @@
 ---
 name: planner-review
 description: Review task manifests and planning breakdown layout.
-model: flash
 ---
 
 # /kanche:planner-review
@@ -16,8 +15,8 @@ In the Loop Engineering Framework, `/kanche:planner-review` acts as the **Review
 
 ## Read
 
-- `.docs/development/{NNN}_{slug}/tasks.md` — the list under review.
-- `.docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — to confirm tasks cover whole design.
+- `.docs/development/{slug}/tasks.md` — the list under review.
+- `.docs/development/{slug}/{design,specs,api-diff,db-diff}.md` — to confirm tasks cover whole design.
 - `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — build/test/lint commands and loop rules.
 - The codebase to confirm file paths are plausible.
 

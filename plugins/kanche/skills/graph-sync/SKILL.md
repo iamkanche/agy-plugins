@@ -1,7 +1,6 @@
 ---
 name: graph-sync
 description: Sync development documents to domain-level product directories and update the repository Knowledge Graph.
-model: flash
 ---
 
 # /kanche:graph-sync
@@ -43,14 +42,12 @@ Sync and merge final documentation into the permanent domain directory:
 
 ### 4. Code Graph & Module Integrity Verification
 
-Verify that newly added or modified entities preserve architectural boundaries and repository integrity:
+Verify that newly added or modified entities preserve architectural boundaries, domain docs are non-empty, and repository AST/import health passes:
 ```bash
-python3 -c "
-import os, sys, json
-# Verify module boundaries and documentation integrity
-print('Code graph and domain doc sync verified.')
-"
+python3 plugins/kanche/skills/qa-validate/scripts/graph_health.py .
+test -s ".docs/product/${domain}/specs.md" && test -s ".docs/product/${domain}/design.md"
 ```
+(Fallback to `~/.gemini/config/plugins/kanche/skills/qa-validate/scripts/graph_health.py` when run outside `agy-plugins`.) If `graphify-out/graph.json` exists and `graphify` CLI is installed, run `/graphify . --update` to refresh the persistent knowledge graph.
 
 ### 5. Cleanup Development Folder (Human-Gated)
 

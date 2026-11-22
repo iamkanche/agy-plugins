@@ -19,4 +19,4 @@ Automates the **Graph Engineering Workflow (GEW / Graph-Driven Development)** li
 - **Topological DAG Planning**: In P3, `/kanche:planner-tasks` decomposes tasks into strict dependency tiers (Tier 0 to Tier 3), preventing orphan references and circular coupling.
 - **Graph Health Diagnostics Gate**: In P5, `/kanche:qa-validate` audits AST structures to ensure 0 dangling endpoint edges, 0 missing endpoints, and 0 circular dependencies before running functional tests.
 - **Zero Autonomous Destructive Execution**: All destructive commands (`git push`, `git commit`, `rm -rf`, `gh pr merge`, branch/tag deletes) unconditionally require interactive human confirmation via `default_api:ask_question`.
-- **Unified Model Routing**: All 16 subagents and skills are standardized on `model: flash` (Gemini Flash High).
+- **Unified Model Routing**: All 19 subagents (`plugins/kanche/agents/*.md`) run on `model: flash` (Gemini Flash High).

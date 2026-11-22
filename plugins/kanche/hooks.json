@@ -1,0 +1,30 @@
+{
+  "kanche-destructive-safety-gate": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ./hooks/destructive_gate.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "kanche-secret-write-guard": {
+    "PreToolUse": [
+      {
+        "matcher": "write_file|edit_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ./hooks/secret_guard.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

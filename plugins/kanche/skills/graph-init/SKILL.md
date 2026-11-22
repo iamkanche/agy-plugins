@@ -1,7 +1,6 @@
 ---
 name: graph-init
 description: Bootstrap the graph-grounded steering guidelines (product.md, tech.md, structure.md, rules.md) for this repository.
-model: flash
 ---
 
 # /kanche:graph-init
@@ -28,12 +27,14 @@ This workflow takes no arguments. It operates on the current repository.
 
 2. **Idempotency check.** If `.docs/guidelines/` already exists with any of `product.md`, `tech.md`, `structure.md`, `rules.md`, STOP and tell the user to run `/kanche:graph-init-update` instead.
 
-3. **Survey the repo structure**:
-   ```bash
-   git ls-files | head -400
-   git ls-files | sed -n 's@.*\.@@p' | sort | uniq -c | sort -rn | head -30
-   ```
-   Read top-level `README*`, manifests (`package.json`, `go.mod`, `pyproject.toml`, etc.), and directory layout.
+3. **Survey the repo structure & Knowledge Graph**:
+   - Check if `graphify-out/GRAPH_REPORT.md` / `graphify-out/graph.json` exists (or run `/graphify . --no-viz` if `graphify` CLI is available) so God Nodes and community clusters ground `structure.md`.
+   - Run file/extension survey:
+     ```bash
+     git ls-files | head -400
+     git ls-files | sed -n 's@.*\.@@p' | sort | uniq -c | sort -rn | head -30
+     ```
+   - Read top-level `README*`, manifests (`package.json`, `go.mod`, `pyproject.toml`, etc.), and directory layout.
 
 4. **Apply the graph-steering skill** (`skills/graph-steering/SKILL.md`): give it the survey as context. Ask it to return the full content of all four docs — `product.md`, `tech.md`, `structure.md`, `rules.md` — grounded in files and graph entities.
 

@@ -981,27 +981,29 @@
     <script>
         const gitCommands = [
             { name: "/kanche:git-commit", desc: "Commit staged work with a Conventional Commits message, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/skills/git-commit/SKILL.md" },
-            { name: "/kanche:git-branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: true, path: "plugins/kanche/skills/git-branch-create/SKILL.md" },
+            { name: "/kanche:git-branch-create", desc: "Create and switch to a new feature branch from the up-to-date remote default branch.", gated: false, path: "plugins/kanche/skills/git-branch-create/SKILL.md" },
             { name: "/kanche:git-branch-delete", desc: "Delete a git branch locally and/or on origin remote, refusing protected branches.", gated: true, path: "plugins/kanche/skills/git-branch-delete/SKILL.md" },
             { name: "/kanche:git-tag-create", desc: "Create an annotated tag at HEAD and push it to origin remote.", gated: true, path: "plugins/kanche/skills/git-tag-create/SKILL.md" },
             { name: "/kanche:git-tag-delete", desc: "Delete a local and/or remote tag securely, gated by explicit confirmation.", gated: true, path: "plugins/kanche/skills/git-tag-delete/SKILL.md" },
             { name: "/kanche:git-tag-push", desc: "Push local tags to the remote origin, gated behind explicit confirmation.", gated: true, path: "plugins/kanche/skills/git-tag-push/SKILL.md" },
-            { name: "/kanche:git-fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches.", gated: true, path: "plugins/kanche/skills/git-fetch/SKILL.md" },
+            { name: "/kanche:git-fetch", desc: "Fetch branches and tags from origin, updating remote-tracking branches. Read-only.", gated: false, path: "plugins/kanche/skills/git-fetch/SKILL.md" },
             { name: "/kanche:git-pull", desc: "Integrate changes from upstream (fast-forward or gated rebase), updating remote tracking first.", gated: true, path: "plugins/kanche/skills/git-pull/SKILL.md" },
             { name: "/kanche:git-push", desc: "Push the current feature branch to origin remote, setting upstream tracking.", gated: true, path: "plugins/kanche/skills/git-push/SKILL.md" },
-            { name: "/kanche:git-stash", desc: "Save, restore, list, or discard uncommitted changes with git stash.", gated: true, path: "plugins/kanche/skills/git-stash/SKILL.md" },
-            { name: "/kanche:git-status", desc: "Show the working-tree state, ahead/behind counts, and recent commits.", gated: true, path: "plugins/kanche/skills/git-status/SKILL.md" },
+            { name: "/kanche:git-stash", desc: "Save, restore, list, or discard uncommitted changes with git stash (drop is gated).", gated: true, path: "plugins/kanche/skills/git-stash/SKILL.md" },
+            { name: "/kanche:git-status", desc: "Show the working-tree state, ahead/behind counts, and recent commits. Read-only.", gated: false, path: "plugins/kanche/skills/git-status/SKILL.md" },
             { name: "/kanche:git-rebase", desc: "Rebase the current branch onto a target branch, gated by confirmation.", gated: true, path: "plugins/kanche/skills/git-rebase/SKILL.md" },
-            { name: "/kanche:git-switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: true, path: "plugins/kanche/skills/git-switch/SKILL.md" }
+            { name: "/kanche:git-switch", desc: "Switch the working tree to a different branch, fetching first to resolve tracking.", gated: false, path: "plugins/kanche/skills/git-switch/SKILL.md" }
         ];
 
         const ghCommands = [
             { name: "/kanche:gh-cli-pr-create", desc: "Push branch and open a pull request on GitHub, with auto-assignee support.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
-            { name: "/kanche:gh-cli-pr-list", desc: "List the repository's open pull requests and display current branch PR context.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-list/SKILL.md" },
-            { name: "/kanche:gh-cli-pr-review", desc: "Review a pull request diff against rules, generate .json format (review.json), and submit structured inline suggestion comments directly to files and lines of code.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
+            { name: "/kanche:gh-cli-pr-list", desc: "List the repository's open pull requests and display current branch PR context. Read-only.", gated: false, path: "plugins/kanche/skills/gh-cli-pr-list/SKILL.md" },
+            { name: "/kanche:gh-cli-pr-review", desc: "Review a pull request diff against rules, optionally export review.json, and submit inline comments.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
             { name: "/kanche:gh-cli-pr-approve", desc: "Approve a pull request on GitHub, strictly preventing self-approval checks.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-approve/SKILL.md" },
             { name: "/kanche:gh-cli-pr-respond", desc: "Triage PR reviews comments, apply fixes locally, push, and submit replies in-thread.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
-            { name: "/kanche:gh-cli-pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" }
+            { name: "/kanche:gh-cli-pr-merge", desc: "Merge a pull request on GitHub, with deleting the branch enabled by default.", gated: true, path: "plugins/kanche/skills/gh-cli-pr-merge/SKILL.md" },
+            { name: "/kanche:gh-cli-issue", desc: "Sync local Scrum PBIs (.docs/backlog/{domain}/PBI-*.md) with GitHub Issues via gh CLI.", gated: true, path: "plugins/kanche/skills/gh-cli-issue/SKILL.md" },
+            { name: "/kanche:gh-cli-ci", desc: "Inspect GitHub Actions PR checks and failed workflow logs via gh CLI. Read-only.", gated: false, path: "plugins/kanche/skills/gh-cli-ci/SKILL.md" }
         ];
 
         const graphCommands = [
@@ -1010,7 +1012,8 @@
             { name: "/kanche:graph-steering", desc: "Analyze the repository using Knowledge Graph extraction to produce steering guidelines.", gated: false, path: "plugins/kanche/skills/graph-steering/SKILL.md", theme: "amber" },
             { name: "/kanche:graph-sync", desc: "Sync development logs and specifications to main product directory and update repository knowledge graph.", gated: true, path: "plugins/kanche/skills/graph-sync/SKILL.md", theme: "amber" },
             { name: "/kanche:graph-init", desc: "Bootstrap graph-grounded steering guidelines for this repository.", gated: false, path: "plugins/kanche/skills/graph-init/SKILL.md", theme: "amber" },
-            { name: "/kanche:graph-init-update", desc: "Re-analyze this repository using Knowledge Graph extraction and refresh guidelines.", gated: false, path: "plugins/kanche/skills/graph-init-update/SKILL.md", theme: "amber" }
+            { name: "/kanche:graph-init-update", desc: "Re-analyze this repository using Knowledge Graph extraction and refresh guidelines.", gated: false, path: "plugins/kanche/skills/graph-init-update/SKILL.md", theme: "amber" },
+            { name: "/kanche:team-swarm", desc: "Orchestrate parallel kanche specialists across DAG tiers using native swarm or Python run_workflow.", gated: false, path: "plugins/kanche/skills/team-swarm/SKILL.md", theme: "amber" }
         ];
 
         const sddCommands = [
@@ -1027,15 +1030,19 @@
             { name: "/kanche:design-specs", desc: "Draft functional specifications documenting target criteria. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design-specs/SKILL.md" },
             { name: "/kanche:design-specs-review", desc: "Perform review on specs draft, returning a GO/NO-GO verdict. Delegates to @analyst.", gated: false, path: "plugins/kanche/skills/design-specs-review/SKILL.md" },
             { name: "/kanche:design-init", desc: "Draft system architecture design specifications including component details and schemas. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design-init/SKILL.md" },
-            { name: "/kanche:design-review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design-review/SKILL.md" }
+            { name: "/kanche:design-review", desc: "Perform review on design documents, returning a GO/NO-GO verdict. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design-review/SKILL.md" },
+            { name: "/kanche:ui-design-stitch", desc: "Generate visual UI screens, variants, and design systems via StitchMCP. Delegates to @designer.", gated: false, path: "plugins/kanche/skills/ui-design-stitch/SKILL.md" },
+            { name: "/kanche:design-adr", desc: "Generate numbered Architecture Decision Records (ADRs) documenting context, options, and trade-offs. Delegates to @architect.", gated: false, path: "plugins/kanche/skills/design-adr/SKILL.md" }
         ];
 
         const qaCommands = [
-            { name: "/kanche:qa-validate", desc: "Run static analysis checks, linters, compilers, and test suites. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-validate/SKILL.md" },
-            { name: "/kanche:qa-test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-test-plan/SKILL.md" },
+            { name: "/kanche:qa-validate", desc: "Run AST graph health diagnostics, linters, compilers, test suites, and Playwright MCP checks. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-validate/SKILL.md" },
+            { name: "/kanche:qa-test-plan", desc: "Generate comprehensive test plan matrices, edge-case scenarios, and test case specs. Delegates to @tester.", gated: false, path: "plugins/kanche/skills/qa-test-plan/SKILL.md" },
             { name: "/kanche:qa-review", desc: "Perform review on implementation code modifications diff before staging. Delegates to @validator.", gated: false, path: "plugins/kanche/skills/qa-review/SKILL.md" },
             { name: "/kanche:code-review", desc: "Perform deep static and functional code review on changed or staged files with optional auto-fix.", gated: false, path: "plugins/kanche/skills/code-review/SKILL.md" },
-            { name: "/kanche:security-scan", desc: "Scan codebase for secrets, dependency vulnerabilities, exposed credentials, and security anti-patterns.", gated: false, path: "plugins/kanche/skills/security-scan/SKILL.md" }
+            { name: "/kanche:security-scan", desc: "Scan codebase for secrets, dependency vulnerabilities, exposed credentials, and security anti-patterns.", gated: false, path: "plugins/kanche/skills/security-scan/SKILL.md" },
+            { name: "/kanche:test-data", desc: "Infer schemas from TS types, models, or OpenAPI to generate deterministic mock fixtures and test pattern tables.", gated: false, path: "plugins/kanche/skills/test-data/SKILL.md" },
+            { name: "/kanche:plugin-validate", desc: "Validate Antigravity plugin manifests, agents/*.md, rules triggers, hooks.json, skills, and catalog parity.", gated: false, path: "plugins/kanche/skills/plugin-validate/SKILL.md" }
         ];
 
         const plannerCommands = [
@@ -1044,7 +1051,10 @@
         ];
 
         const devCommands = [
-            { name: "/kanche:code-implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @coder.", gated: false, path: "plugins/kanche/skills/code-implement/SKILL.md" }
+            { name: "/kanche:code-implement", desc: "Incrementally apply codebase modifications according to task checklist. Delegates to @coder.", gated: false, path: "plugins/kanche/skills/code-implement/SKILL.md" },
+            { name: "/kanche:code-simplify", desc: "Audit modified code for DRY, YAGNI, dead code, and complexity reductions with optional --auto-apply.", gated: false, path: "plugins/kanche/skills/code-simplify/SKILL.md" },
+            { name: "/kanche:debug-rca", desc: "Perform autonomous root cause analysis on stack traces, failing tests, and logs via @debugger.", gated: false, path: "plugins/kanche/skills/debug-rca/SKILL.md" },
+            { name: "/kanche:db-migrate", desc: "Verify database migrations against db-diff.md, check rollback reversibility, and gate destructive resets.", gated: true, path: "plugins/kanche/skills/db-migrate/SKILL.md" }
         ];
 
         const scrumCommands = [
@@ -1055,8 +1065,8 @@
             { name: "/kanche:token-optimize", desc: "Audit, distill, and compress prompts, skills, and agent instructions for maximum context efficiency and token savings.", gated: false, path: "plugins/kanche/skills/token-optimize/SKILL.md" }
         ];
 
-        gitCommands.forEach(c => { c.gated = true; c.theme = "cyan"; });
-        ghCommands.forEach(c => { c.gated = true; c.theme = "purple"; });
+        gitCommands.forEach(c => { c.theme = "cyan"; });
+        ghCommands.forEach(c => { c.theme = "purple"; });
         sddCommands.forEach(c => c.theme = "amber");
         designCommands.forEach(c => c.theme = "pink");
         qaCommands.forEach(c => c.theme = "emerald");
@@ -1070,9 +1080,9 @@
                 name: "token-optimizer",
                 handle: "@token-optimizer",
                 desc: "Specialized subagent enforcing token efficiency, short and direct bullet-formatted responses, prompt distillation, and context optimization.",
-                writeTools: false,
+                writeTools: true,
                 skills: ["/kanche:token-optimize"],
-                path: "plugins/kanche/agents/token-optimizer/agent.json",
+                path: "plugins/kanche/agents/token-optimizer.md",
                 theme: "teal"
             },
             {
@@ -1081,26 +1091,35 @@
                 desc: "Specialized subagent for deep codebase exploration, knowledge graph discovery, documentation analysis, and architectural research.",
                 writeTools: false,
                 skills: ["/kanche:graph-steering", "/kanche:sdd-steering"],
-                path: "plugins/kanche/agents/researcher/agent.json",
+                path: "plugins/kanche/agents/researcher.md",
                 theme: "blue"
             },
             {
                 name: "analyst",
                 handle: "@analyst",
                 desc: "Specialized subagent that handles feature interrogation, specs drafting, and specs review (grill, specs, specs-review).",
-                writeTools: false,
+                writeTools: true,
                 skills: ["/kanche:design-grill", "/kanche:design-specs", "/kanche:design-specs-review"],
-                path: "plugins/kanche/agents/analyst/agent.json",
+                path: "plugins/kanche/agents/analyst.md",
                 theme: "pink"
             },
             {
                 name: "architect",
                 handle: "@architect",
-                desc: "Specialized subagent that handles system design architecture, API specs, schema diffs, and design review (init, review).",
-                writeTools: false,
-                skills: ["/kanche:design-init", "/kanche:design-review"],
-                path: "plugins/kanche/agents/architect/agent.json",
+                desc: "Specialized subagent that handles system design architecture, ADRs, API specs, schema diffs, and design review (init, adr, review).",
+                writeTools: true,
+                skills: ["/kanche:design-init", "/kanche:design-adr", "/kanche:design-review"],
+                path: "plugins/kanche/agents/architect.md",
                 theme: "pink"
+            },
+            {
+                name: "data-architect",
+                handle: "@data-architect",
+                desc: "Specialized subagent for database schema modeling, SQL indexing, financial/ledger integrity invariants, and safe migration verification.",
+                writeTools: true,
+                skills: ["/kanche:db-migrate", "/kanche:design-init"],
+                path: "plugins/kanche/agents/data-architect.md",
+                theme: "indigo"
             },
             {
                 name: "designer",
@@ -1108,34 +1127,34 @@
                 desc: "Specialized subagent for UI/UX design, text wireframes, component design specifications, and StitchMCP layouts.",
                 writeTools: true,
                 skills: ["/kanche:ui-design-stitch"],
-                path: "plugins/kanche/agents/designer/agent.json",
+                path: "plugins/kanche/agents/designer.md",
                 theme: "pink"
             },
             {
                 name: "scrum-master",
                 handle: "@scrum-master",
-                desc: "Specialized subagent for agile backlog management, user story drafting, and PBI tracking.",
+                desc: "Specialized subagent for agile backlog management, user story drafting, PBI tracking, and GitHub Issue sync.",
                 writeTools: true,
-                skills: ["/kanche:scrum-pbi-create"],
-                path: "plugins/kanche/agents/scrum-master/agent.json",
+                skills: ["/kanche:scrum-pbi-create", "/kanche:gh-cli-issue"],
+                path: "plugins/kanche/agents/scrum-master.md",
                 theme: "blue"
             },
             {
                 name: "planner",
                 handle: "@planner",
                 desc: "Specialized subagent that handles task manifest creation, task decomposition, and tasks review (tasks, review).",
-                writeTools: false,
+                writeTools: true,
                 skills: ["/kanche:planner-tasks", "/kanche:planner-review"],
-                path: "plugins/kanche/agents/planner/agent.json",
+                path: "plugins/kanche/agents/planner.md",
                 theme: "indigo"
             },
             {
                 name: "coder",
                 handle: "@coder",
-                desc: "Specialized subagent that implements target codebase modifications incrementally, following specifications and task manifests.",
+                desc: "Specialized subagent that implements target codebase modifications incrementally and simplifies touched diffs.",
                 writeTools: true,
-                skills: ["/kanche:code-implement"],
-                path: "plugins/kanche/agents/coder/agent.json",
+                skills: ["/kanche:code-implement", "/kanche:code-simplify"],
+                path: "plugins/kanche/agents/coder.md",
                 theme: "teal"
             },
             {
@@ -1144,61 +1163,70 @@
                 desc: "Specialized subagent for React 18+, TypeScript 5, Tailwind CSS, TanStack, and modern web UI engineering.",
                 writeTools: true,
                 skills: ["/kanche:code-implement"],
-                path: "plugins/kanche/agents/frontend-expert/agent.json",
+                path: "plugins/kanche/agents/frontend-expert.md",
                 theme: "teal"
             },
             {
                 name: "backend-expert",
                 handle: "@backend-expert",
-                desc: "Specialized subagent for backend architecture, MSC pattern, Laravel 10+, Node/Express, Go, Python, and API design.",
+                desc: "Specialized subagent for backend architecture, MSC pattern, Laravel 10+, Node/Express, Go, Python, APIs, and migrations.",
                 writeTools: true,
-                skills: ["/kanche:code-implement"],
-                path: "plugins/kanche/agents/backend-expert/agent.json",
+                skills: ["/kanche:code-implement", "/kanche:db-migrate"],
+                path: "plugins/kanche/agents/backend-expert.md",
                 theme: "teal"
+            },
+            {
+                name: "debugger",
+                handle: "@debugger",
+                desc: "Specialized subagent for root cause analysis, stack-trace diagnostics, minimal scratch repro scripts, and git bisect triage.",
+                writeTools: true,
+                skills: ["/kanche:debug-rca"],
+                path: "plugins/kanche/agents/debugger.md",
+                theme: "amber"
             },
             {
                 name: "reviewer",
                 handle: "@reviewer",
-                desc: "Specialized subagent for deep code review, static analysis, security checks, and closed-loop review verdicts.",
+                desc: "Specialized subagent for deep code review, DRY/YAGNI simplification, static analysis, security checks, and closed-loop verdicts.",
                 writeTools: true,
-                skills: ["/kanche:code-review", "/kanche:qa-review"],
-                path: "plugins/kanche/agents/reviewer/agent.json",
+                skills: ["/kanche:code-review", "/kanche:code-simplify", "/kanche:qa-review"],
+                path: "plugins/kanche/agents/reviewer.md",
                 theme: "emerald"
             },
             {
                 name: "validator",
                 handle: "@validator",
-                desc: "Specialized subagent that executes automated validation suites, linter checks, test plan verification, and build code reviews.",
+                desc: "Specialized subagent executing AST graph health diagnostics, plugin validation, test runs, and build code reviews.",
                 writeTools: true,
-                skills: ["/kanche:qa-validate", "/kanche:qa-test-plan", "/kanche:qa-review", "/kanche:code-review", "/kanche:security-scan"],
-                path: "plugins/kanche/agents/validator/agent.json",
+                skills: ["/kanche:qa-validate", "/kanche:plugin-validate", "/kanche:qa-review", "/kanche:code-review"],
+                path: "plugins/kanche/agents/validator.md",
                 theme: "emerald"
             },
             {
                 name: "tester",
                 handle: "@tester",
-                desc: "Specialized subagent for test planning, unit/integration testing, and Playwright MCP browser automation.",
+                desc: "Specialized subagent for test planning, mock fixtures/patterns, unit/integration testing, and Playwright MCP browser automation.",
                 writeTools: true,
-                skills: ["/kanche:qa-test-plan", "/kanche:qa-validate"],
-                path: "plugins/kanche/agents/tester/agent.json",
+                skills: ["/kanche:qa-test-plan", "/kanche:test-data", "/kanche:qa-validate"],
+                path: "plugins/kanche/agents/tester.md",
                 theme: "emerald"
             },
             {
                 name: "security-engineer",
                 handle: "@security-engineer",
                 desc: "Specialized subagent for secrets scanning, vulnerability audits, and OWASP compliance.",
-                writeTools: true,
+                writeTools: false,
                 skills: ["/kanche:security-scan"],
-                path: "plugins/kanche/agents/security-engineer/agent.json",
+                path: "plugins/kanche/agents/security-engineer.md",
                 theme: "emerald"
             },
             {
                 name: "devops",
                 handle: "@devops",
-                desc: "Specialized subagent for release engineering, CI/CD validation, and deployment operations.",
+                desc: "Specialized subagent for release engineering, CI/CD log inspection, release tags, and deployment operations.",
                 writeTools: true,
-                skills: ["/kanche:git-tag-create", "/kanche:git-tag-push", "/kanche:gh-cli-pr-merge"],
-                path: "plugins/kanche/agents/devops/agent.json",
+                skills: ["/kanche:gh-cli-ci", "/kanche:git-tag-create", "/kanche:git-tag-push", "/kanche:gh-cli-pr-merge"],
+                path: "plugins/kanche/agents/devops.md",
                 theme: "cyan"
             },
             {
@@ -1207,16 +1235,16 @@
                 desc: "Specialized subagent that handles pure git operations (commit, checkout, stash, branch creation, tag creation).",
                 writeTools: true,
                 skills: ["/kanche:git-commit", "/kanche:git-branch-create", "/kanche:git-branch-delete", "/kanche:git-tag-create", "/kanche:git-tag-delete", "/kanche:git-tag-push", "/kanche:git-fetch", "/kanche:git-pull", "/kanche:git-push", "/kanche:git-stash", "/kanche:git-status", "/kanche:git-rebase", "/kanche:git-switch"],
-                path: "plugins/kanche/agents/git-operator/agent.json",
+                path: "plugins/kanche/agents/git-operator.md",
                 theme: "cyan"
             },
             {
                 name: "gh-operator",
                 handle: "@gh-operator",
-                desc: "Specialized subagent that handles GitHub integrations (fetching comments, reviews, opening PRs, listing PR status).",
+                desc: "Specialized subagent that handles GitHub integrations (PRs, issues, CI status, reviews, approvals, and merges).",
                 writeTools: true,
-                skills: ["/kanche:gh-cli-pr-create", "/kanche:gh-cli-pr-list", "/kanche:gh-cli-pr-review", "/kanche:gh-cli-pr-approve", "/kanche:gh-cli-pr-respond", "/kanche:gh-cli-pr-merge"],
-                path: "plugins/kanche/agents/gh-operator/agent.json",
+                skills: ["/kanche:gh-cli-pr-create", "/kanche:gh-cli-pr-list", "/kanche:gh-cli-pr-review", "/kanche:gh-cli-pr-approve", "/kanche:gh-cli-pr-respond", "/kanche:gh-cli-pr-merge", "/kanche:gh-cli-issue", "/kanche:gh-cli-ci"],
+                path: "plugins/kanche/agents/gh-operator.md",
                 theme: "purple"
             }
         ];
@@ -1225,7 +1253,7 @@
             {
                 phase: "P0",
                 name: "Knowledge Graph Discovery & Ingestion",
-                desc: "Survey repository manifests and AST relationships, register backlog PBI, parse conventions & memory, and ground architecture in verified code dependencies.",
+                desc: "Survey repository manifests and AST relationships, register backlog PBI / GitHub Issue, parse conventions & memory, and ground architecture in verified code dependencies.",
                 agents: ["@researcher", "@architect", "@scrum-master", "@git-operator"],
                 theme: "cyan",
                 safety: "Read-only survey; 100% autonomous exploration with zero destructive actions.",
@@ -1234,6 +1262,7 @@
                 skills: [
                     { name: "/kanche:graph-steering", label: "Graph Steering", path: "plugins/kanche/skills/graph-steering/SKILL.md" },
                     { name: "/kanche:scrum-pbi-create", label: "PBI Register", path: "plugins/kanche/skills/scrum-pbi-create/SKILL.md" },
+                    { name: "/kanche:gh-cli-issue", label: "Issue Sync", path: "plugins/kanche/skills/gh-cli-issue/SKILL.md" },
                     { name: "/kanche:git-branch-create", label: "Branch Create", path: "plugins/kanche/skills/git-branch-create/SKILL.md" }
                 ]
             },
@@ -1256,15 +1285,16 @@
             {
                 phase: "P2",
                 name: "Graph Architecture Topology & Stitch UI",
-                desc: "Graph entity topology, interface contracts, StitchMCP UI visual screens & tokens, and forced design review loop (≤3x).",
-                agents: ["@architect", "@designer", "@reviewer"],
+                desc: "Graph entity topology, interface & schema contracts, ADRs, StitchMCP UI visual screens & tokens, and forced design review loop (≤3x).",
+                agents: ["@architect", "@data-architect", "@designer", "@reviewer"],
                 theme: "pink",
                 loopTag: "≤3x Architecture Review Loop",
                 safety: "Architecture & UI review loop. Verifies component boundaries before task breakdown.",
                 safetyTheme: "blue",
-                artifacts: [".docs/development/{slug}/design.md", "UI screen assets"],
+                artifacts: [".docs/development/{slug}/design.md", "ADRs", "UI screen assets"],
                 skills: [
                     { name: "/kanche:design-init", label: "Topology Init", path: "plugins/kanche/skills/design-init/SKILL.md" },
+                    { name: "/kanche:design-adr", label: "Design ADR", path: "plugins/kanche/skills/design-adr/SKILL.md" },
                     { name: "/kanche:ui-design-stitch", label: "UI Stitch", path: "plugins/kanche/skills/ui-design-stitch/SKILL.md" },
                     { name: "/kanche:design-review", label: "Design Review", path: "plugins/kanche/skills/design-review/SKILL.md" }
                 ]
@@ -1272,7 +1302,7 @@
             {
                 phase: "P3",
                 name: "Topological Task DAG & QA Test Matrix",
-                desc: "Task manifest decomposition into ordered dependency tiers (Tier 0 to Tier 3), QA test plan specifications, and forced planner review.",
+                desc: "Task manifest decomposition into ordered dependency tiers (Tier 0 to Tier 3), QA test plan & mock data, and forced planner review.",
                 agents: ["@planner", "@tester", "@git-operator"],
                 theme: "indigo",
                 dagTier: "Tier 0 ➔ Tier 3",
@@ -1282,6 +1312,7 @@
                 skills: [
                     { name: "/kanche:planner-tasks", label: "Planner DAG Tasks", path: "plugins/kanche/skills/planner-tasks/SKILL.md" },
                     { name: "/kanche:qa-test-plan", label: "QA Test Plan", path: "plugins/kanche/skills/qa-test-plan/SKILL.md" },
+                    { name: "/kanche:test-data", label: "Mock Fixtures", path: "plugins/kanche/skills/test-data/SKILL.md" },
                     { name: "/kanche:planner-review", label: "Planner Review", path: "plugins/kanche/skills/planner-review/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Docs Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
                 ]
@@ -1289,8 +1320,8 @@
             {
                 phase: "P4",
                 name: "Graph-Guided Implementation & Code Review",
-                desc: "Implementation executed strictly along topological DAG dependency tiers (Tier 0 through Tier 3), forced code reviews, and gated commits.",
-                agents: ["@coder", "@frontend-expert", "@laravel-expert", "@reviewer", "@git-operator"],
+                desc: "Implementation executed strictly along topological DAG dependency tiers (or parallel team-swarm), DRY simplification, forced code reviews, and gated commits.",
+                agents: ["@coder", "@frontend-expert", "@backend-expert", "@data-architect", "@token-optimizer", "@reviewer", "@git-operator"],
                 theme: "teal",
                 dagTier: "Topological Execution",
                 safety: "Tiered execution: dependencies are modified and reviewed before downstream units.",
@@ -1298,6 +1329,8 @@
                 artifacts: ["Source code diffs", "Unit test stubs"],
                 skills: [
                     { name: "/kanche:code-implement", label: "Code Implement (DAG)", path: "plugins/kanche/skills/code-implement/SKILL.md" },
+                    { name: "/kanche:team-swarm", label: "Parallel Swarm", path: "plugins/kanche/skills/team-swarm/SKILL.md" },
+                    { name: "/kanche:code-simplify", label: "Code Simplify", path: "plugins/kanche/skills/code-simplify/SKILL.md" },
                     { name: "/kanche:code-review", label: "Code Review", path: "plugins/kanche/skills/code-review/SKILL.md" },
                     { name: "/kanche:qa-review", label: "QA Review", path: "plugins/kanche/skills/qa-review/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Code Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
@@ -1306,32 +1339,35 @@
             {
                 phase: "P5",
                 name: "Graph Health Gate & Automated Validation",
-                desc: "AST diagnostics (0 dangling import edges, 0 circular dependencies), security secrets scan, test runners, and self-healing repair loop (≤3x).",
-                agents: ["@validator", "@tester", "@security-engineer", "@coder"],
+                desc: "AST & relative-import diagnostics (scripts/graph_health.py), plugin validation, security scan, test runners, and @debugger RCA self-healing loop (≤3x).",
+                agents: ["@validator", "@tester", "@debugger", "@security-engineer", "@coder"],
                 theme: "emerald",
                 loopTag: "≤3x Self-Healing Repair Loop",
-                safety: "Non-destructive gate. Failing traces feed back into P4 for up to 3 repair cycles.",
+                safety: "Non-destructive gate. Failing traces route through @debugger RCA before P4 repair cycles.",
                 safetyTheme: "amber",
-                artifacts: ["Validation report", "Playwright test traces"],
+                artifacts: ["Validation report", "Root cause report", "Playwright test traces"],
                 skills: [
                     { name: "/kanche:security-scan", label: "Security Scan", path: "plugins/kanche/skills/security-scan/SKILL.md" },
                     { name: "/kanche:qa-validate", label: "Graph Health & QA", path: "plugins/kanche/skills/qa-validate/SKILL.md" },
+                    { name: "/kanche:plugin-validate", label: "Plugin Validate", path: "plugins/kanche/skills/plugin-validate/SKILL.md" },
+                    { name: "/kanche:debug-rca", label: "Root Cause RCA", path: "plugins/kanche/skills/debug-rca/SKILL.md" },
                     { name: "/kanche:code-implement", label: "Repair Fixes", path: "plugins/kanche/skills/code-implement/SKILL.md" }
                 ]
             },
             {
                 phase: "P6",
                 name: "Deployment & GitHub PR Review Loop",
-                desc: "Push feature branch, open pull request with Graph Blast Radius Summary, submit JSON PR reviews, and run autonomous review-respond loop (≤3x).",
+                desc: "Push feature branch, open pull request, inspect CI checks, submit JSON PR reviews, and run autonomous review-respond loop (≤3x).",
                 agents: ["@gh-operator", "@git-operator", "@reviewer", "@devops"],
                 theme: "purple",
                 loopTag: "≤3x PR Review Loop",
-                safety: "CRITICAL: git-push and PR creation unconditionally require human confirmation.",
+                safety: "CRITICAL: git-push and PR creation unconditionally require human confirmation (enforced via hooks.json).",
                 safetyTheme: "rose",
-                artifacts: ["GitHub Pull Request", "Inline suggestion threads"],
+                artifacts: ["GitHub Pull Request", "CI Check Report", "Inline suggestion threads"],
                 skills: [
                     { name: "/kanche:git-push", label: "Git Push (Gated)", path: "plugins/kanche/skills/git-push/SKILL.md" },
                     { name: "/kanche:gh-cli-pr-create", label: "PR Create (Gated)", path: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md" },
+                    { name: "/kanche:gh-cli-ci", label: "CI Checks", path: "plugins/kanche/skills/gh-cli-ci/SKILL.md" },
                     { name: "/kanche:gh-cli-pr-review", label: "PR Review (JSON)", path: "plugins/kanche/skills/gh-cli-pr-review/SKILL.md" },
                     { name: "/kanche:gh-cli-pr-respond", label: "PR Respond", path: "plugins/kanche/skills/gh-cli-pr-respond/SKILL.md" },
                     { name: "/kanche:git-commit", label: "Fix Commit (Gated)", path: "plugins/kanche/skills/git-commit/SKILL.md" }
@@ -1386,8 +1422,8 @@
             "kanche": {
                 name: "kanche",
                 displayName: "All Kanche Skills",
-                desc: "Unified Antigravity developer plugin bundle packaging a complete 17-agent software development team, 47 skills, token optimization, Graph Engineering Workflows, topological DAG planning, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
-                version: "v0.5.0",
+                desc: "Unified Antigravity developer plugin bundle packaging a complete 19-agent software development team, 56 skills, runtime PreToolUse safety hooks (hooks.json), token optimization, Graph Engineering Workflows, topological DAG planning, and GitHub CLI PR reviews.",
+                version: "v0.6.0",
                 theme: "blue",
                 inspectorUrl: "plugins/kanche/plugin.json",
                 commands: [...graphCommands, ...sddCommands, ...gitCommands, ...ghCommands, ...designCommands, ...qaCommands, ...plannerCommands, ...devCommands, ...scrumCommands, ...tokenCommands]
@@ -1396,7 +1432,7 @@
                 name: "graph-flow",
                 displayName: "Graph Run Flow (DAG)",
                 desc: "Interactive topological DAG execution architecture for /kanche:graph-run, featuring Level 1 autonomous phases (P0–P7), Level 2 human governance (P8–P9), closed-loop repair pathways (≤3x), and phase inspector.",
-                version: "v0.4.0",
+                version: "v0.6.0",
                 theme: "emerald",
                 inspectorUrl: "plugins/kanche/skills/graph-run/SKILL.md",
                 isGraphFlowView: true,
@@ -1406,7 +1442,7 @@
                 name: "skills-map",
                 displayName: "Graph Engineering Phase Map",
                 desc: "Interactive visual flow of the 10 Graph Engineering phases (P0-P9) showing orchestrator execution: graph-run → impact specs → topology → planner DAG → dev → graph-validate → blast radius PR → sync.",
-                version: "v0.1.0",
+                version: "v0.6.0",
                 theme: "amber",
                 inspectorUrl: "plugins/kanche/skills/graph-run/SKILL.md",
                 isMapView: true,
@@ -1415,8 +1451,8 @@
             "graph": {
                 name: "graph",
                 displayName: "Graph Engineering",
-                desc: "Graph-Driven Development phase orchestrator (P0-P9), Knowledge Graph extraction, topological DAG task planning, and memory sync.",
-                version: "v0.1.0",
+                desc: "Graph-Driven Development phase orchestrator (P0-P9), Knowledge Graph extraction, parallel team swarm, topological DAG planning, and memory sync.",
+                version: "v0.6.0",
                 theme: "amber",
                 inspectorUrl: "plugins/kanche/skills/graph-run/SKILL.md",
                 commands: graphCommands
@@ -1425,7 +1461,7 @@
                 name: "git",
                 displayName: "Git Controls",
                 desc: "Safe staging, conventional commits, branch management, stashes, rebasing, tags, and remote tracking.",
-                version: "v0.1.0",
+                version: "v0.6.0",
                 theme: "cyan",
                 inspectorUrl: "plugins/kanche/skills/git-commit/SKILL.md",
                 commands: gitCommands
@@ -1433,17 +1469,17 @@
             "gh-cli": {
                 name: "gh-cli",
                 displayName: "GitHub CLI",
-                desc: "Pull request lifecycle management, automated PR creation, review triaging, approvals, and merging.",
-                version: "v0.1.0",
+                desc: "Pull request lifecycle management, issue syncing, CI log inspection, automated PR creation, review triaging, approvals, and merging.",
+                version: "v0.6.0",
                 theme: "purple",
                 inspectorUrl: "plugins/kanche/skills/gh-cli-pr-create/SKILL.md",
                 commands: ghCommands
             },
             "sdd": {
                 name: "sdd",
-                displayName: "SDD Orchestrator",
-                desc: "Spec-Driven Development phase orchestrator (P0-P9), steering guideline generation, and document sync.",
-                version: "v0.1.0",
+                displayName: "SDD Forwarders",
+                desc: "Backward-compatible Spec-Driven Development aliases forwarding to /kanche:graph-* workflows.",
+                version: "v0.6.0",
                 theme: "amber",
                 inspectorUrl: "plugins/kanche/skills/sdd-run/SKILL.md",
                 commands: sddCommands
@@ -1451,8 +1487,8 @@
             "design": {
                 name: "design",
                 displayName: "Design & Specs",
-                desc: "Adversarial requirements grilling, functional specification drafting, system architecture design, and spec reviews.",
-                version: "v0.1.0",
+                desc: "Adversarial requirements grilling, functional specs, system architecture, ADRs, StitchMCP UI wireframes, and design reviews.",
+                version: "v0.6.0",
                 theme: "pink",
                 inspectorUrl: "plugins/kanche/skills/design-specs/SKILL.md",
                 commands: designCommands
@@ -1460,8 +1496,8 @@
             "qa": {
                 name: "qa",
                 displayName: "Quality Assurance",
-                desc: "Automated lint/compile/test suite verification, test plan generation, and code review audit gates.",
-                version: "v0.1.0",
+                desc: "AST graph health diagnostics, plugin validation, test plans, mock fixtures, security scanning, and code review audit gates.",
+                version: "v0.6.0",
                 theme: "emerald",
                 inspectorUrl: "plugins/kanche/skills/qa-validate/SKILL.md",
                 commands: qaCommands
@@ -1470,25 +1506,43 @@
                 name: "planner",
                 displayName: "Planner & Tasks",
                 desc: "Task breakdown checklist generation, file-by-file dependency ordering, and planning review audits.",
-                version: "v0.1.0",
+                version: "v0.6.0",
                 theme: "indigo",
                 inspectorUrl: "plugins/kanche/skills/planner-tasks/SKILL.md",
                 commands: plannerCommands
             },
             "dev": {
                 name: "dev",
-                displayName: "Code Implement",
-                desc: "Incremental code implementation and task checklist execution.",
-                version: "v0.1.0",
+                displayName: "Build, Debug & DB",
+                desc: "Incremental code implementation, DRY/YAGNI simplification, root cause debugging, and safe database migration verification.",
+                version: "v0.6.0",
                 theme: "teal",
                 inspectorUrl: "plugins/kanche/skills/code-implement/SKILL.md",
                 commands: devCommands
             },
+            "scrum": {
+                name: "scrum",
+                displayName: "Scrum & Backlog",
+                desc: "Standardized Product Backlog Item (PBI) creation with Given/When/Then acceptance criteria and Fibonacci story points.",
+                version: "v0.6.0",
+                theme: "blue",
+                inspectorUrl: "plugins/kanche/skills/scrum-pbi-create/SKILL.md",
+                commands: scrumCommands
+            },
+            "optimizer": {
+                name: "optimizer",
+                displayName: "Token Optimizer",
+                desc: "Prompt distillation, instruction compression, context window budgeting, and cache-friendly prefix enforcement.",
+                version: "v0.6.0",
+                theme: "teal",
+                inspectorUrl: "plugins/kanche/skills/token-optimize/SKILL.md",
+                commands: tokenCommands
+            },
             "agents": {
                 name: "agents",
                 displayName: "Specialized Subagents",
-                desc: "Autonomous specialized AI subagents defined in plugins/kanche/agents/ that handle domain-specific workflows across Git, GitHub CLI, SDD, Design, QA, Planning, and Implementation.",
-                version: "v0.1.0",
+                desc: "Autonomous specialized AI subagents defined in plugins/kanche/agents/*.md handling domain workflows across Git, GitHub CLI, Graph Engineering, Design, Data, Debugging, QA, Planning, and Build.",
+                version: "v0.6.0",
                 theme: "emerald",
                 inspectorUrl: "plugins/kanche/plugin.json",
                 isAgentsView: true,
@@ -1654,7 +1708,7 @@
                         <div class="cmd-footer">
                             <span class="cmd-tag">Subagent Manifest</span>
                             <a href="${agent.path}" class="cmd-link" target="_blank">
-                                <span>agent.json</span>
+                                <span>${agent.name}.md</span>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                             </a>
                         </div>

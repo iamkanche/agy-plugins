@@ -1,12 +1,11 @@
 ---
 name: git-commit
 description: Commit staged work with a Conventional Commits message gated behind explicit confirmation. Use when ready to record changes.
-model: flash
 ---
 
 # /kanche:git-commit
 
-**Summary.** Commit staged work with a Conventional Commits message (Overview / Changes / Impact) gated behind explicit confirmation. Delegated to `@git-operator` per `rules/destructive-safety.md` and `rules/token-optimization.md`.
+**Summary.** Commit staged work with a Conventional Commits message (Overview / Changes / Impact) gated behind explicit confirmation. Delegated to `@git-operator` per `rules/destructive-safety.md` and `rules/token-optimization.md`. Keep interactive `default_api:ask_question` confirmation gates in the main conversation.
 
 ## Inputs
 

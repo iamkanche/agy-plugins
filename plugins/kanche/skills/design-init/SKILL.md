@@ -1,7 +1,6 @@
 ---
 name: design-init
 description: Generate system design specifications including component boundaries, data model, and user flow.
-model: flash
 ---
 
 # /kanche:design-init
@@ -16,7 +15,7 @@ In the Loop Engineering Framework, `/kanche:design-init` acts as the **Generator
 
 ## Read
 
-- `.docs/development/{NNN}_{slug}/specs.md` — the requirements this design must satisfy.
+- `.docs/development/{slug}/specs.md` — the requirements this design must satisfy.
 - `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — stack, versions, module boundaries, allowed dependency directions, loop rules, and mandatory rules.
 - `review-verdict` findings from prior review iterations (when running in iteration 2..N).
 - Any existing `design.md`, `api-diff.md`, `db-diff.md` for this feature (refine, don't discard).

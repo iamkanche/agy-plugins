@@ -1,7 +1,6 @@
 ---
 name: scrum-pbi-create
 description: Create structured Product Backlog Items (PBI) with user stories, acceptance criteria, priority, and story points under .docs/backlog/{domain}/.
-model: flash
 ---
 
 # /kanche:scrum-pbi-create

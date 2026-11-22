@@ -1,7 +1,6 @@
 ---
 name: qa-review
 description: Audit code quality, implementation diffs, and test coverage using static inspection and Playwright MCP browser verification.
-model: flash
 ---
 
 # /kanche:qa-review

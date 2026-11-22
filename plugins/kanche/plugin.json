@@ -1,37 +1,18 @@
 {
   "name": "kanche",
-  "version": "0.5.0",
-  "description": "Complete AI software development team bundle by kanche featuring 17 specialized subagents, token optimization, Graph Engineering Workflows (GEW), topological DAG planning, knowledge graph synchronization, strict destructive safety gating, and GitHub CLI PR reviews with JSON format support.",
-  "author": {
-    "name": "iamkanche"
-  },
+  "displayName": "Kanche AI Engineering Team",
+  "version": "0.6.0",
+  "description": "19-agent software engineering team, runtime safety hooks, and 56 workflow skills featuring Graph Engineering Workflows (GEW), topological DAG planning, token optimization, and JSON GitHub PR reviews.",
+  "logo": "assets/logo.svg",
+  "homepage": "https://iamkanche.github.io/agy-plugins/",
   "repository": "https://github.com/iamkanche/agy-plugins",
-  "license": "MIT",
-  "keywords": [
-    "git",
-    "github",
-    "sdd",
-    "graph-engineering",
-    "knowledge-graph",
-    "dag",
-    "ast",
-    "qa",
-    "mcp",
-    "playwright",
-    "security",
-    "token-optimization",
-    "context-optimization",
-    "prompt-distillation",
-    "workflow",
-    "antigravity",
-    "agents",
-    "full-team"
-  ],
-  "engines": {
-    "antigravity": ">=2.0.0"
+  "author": {
+    "name": "iamkanche",
+    "url": "https://github.com/iamkanche"
   },
-  "dependencies": {
-    "tools": ["gh", "git"],
-    "mcp_servers": ["playwright", "chrome_devtools", "stitch"]
-  }
+  "suggestedPrompts": [
+    "Run /kanche:graph-init to bootstrap graph-grounded steering guidelines for this repo",
+    "Drive a new feature through the 10-phase Graph Engineering Workflow with /kanche:graph-run",
+    "Audit the current branch diff with /kanche:code-review, /kanche:code-simplify, and /kanche:security-scan"
+  ]
 }

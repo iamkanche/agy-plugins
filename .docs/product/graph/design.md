@@ -1,7 +1,7 @@
 # Graph Engineering Workflows Design
 
 ## 1. System Architecture & Phase Progression (P0–P9)
-The Graph Engineering Workflow orchestrates the full 16-agent autonomous software engineering team and knowledge-graph-native skills:
+The Graph Engineering Workflow orchestrates the full 19-agent autonomous software engineering team and knowledge-graph-native skills:
 
 ### LEVEL 1: Autonomous AI Lifecycle (P0–P7)
 - **P0 Graph Discovery & Ingestion**:
@@ -52,4 +52,4 @@ The Graph Engineering Workflow orchestrates the full 16-agent autonomous softwar
 ## 3. Communication & Decoupling Protocol
 - All skills are isolated standalone capabilities that do not rely on orchestrator internals or auto-mode gate bypasses.
 - Inter-skill review loops communicate through the universal `review-verdict` protocol block (`verdict: GO` | `NO-GO`).
-- All 16 agents and skills are configured with `model: flash` (Gemini Flash High).
+- All 19 subagents (`plugins/kanche/agents/*.md`) are invoked with `model: flash` (Gemini Flash High).

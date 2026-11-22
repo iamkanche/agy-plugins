@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # GitHub Hard Rules
 
 - **No Self Approvals**: Never approve your own pull request via GitHub API or CLI.

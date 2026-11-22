@@ -1,10 +1,14 @@
+---
+trigger: always_on
+---
+
 # Destructive Action Safety Rules
 
 ## 1. Zero Autonomous Destructive Execution Policy
 
 **NEVER execute destructive or remote-modifying commands autonomously.**
 
-Under no circumstances may an agent or automated workflow (`mode=auto` or `/goal`) execute destructive commands without prior, explicit human confirmation via the interactive `default_api:ask_question` tool.
+Under no circumstances may an agent or automated workflow (`mode=auto` or `/goal`) execute destructive commands without prior, explicit human confirmation via the interactive `default_api:ask_question` tool. Runtime `PreToolUse` hooks in `plugins/kanche/hooks.json` (`hooks/destructive_gate.py`, `hooks/secret_guard.py`) also enforce hard `deny` and `force_ask` gates at tool execution time.
 
 The following operations are classified as **Destructive or Remote-Mutating** and are strictly gated behind human confirmation:
 
@@ -36,6 +40,6 @@ Before executing any command listed above, the executing agent or skill MUST:
 
 - **Skills Are Decoupled and Isolated**: Individual skills do NOT contain internal "auto mode" bypass branches, caller-mode checks, or mode-conditional skips.
 - Every skill stands completely on its own:
-  - Destructive skills (`git-push`, `git-commit`, `git-branch-delete`, `git-stash`, `gh-cli-pr-merge`, `sdd-sync`) unconditionally present interactive confirmation gates via `default_api:ask_question`.
+  - Destructive skills (`git-push`, `git-commit`, `git-branch-delete`, `git-stash`, `gh-cli-pr-merge`, `graph-sync`) unconditionally present interactive confirmation gates via `default_api:ask_question`.
   - Non-destructive skills (`code-implement`, `qa-validate`, `design-specs`, `planner-tasks`) perform their focused domain tasks.
-- **Orchestration Boundary**: High-level orchestrators (`/kanche:sdd-run`, `/kanche:sdd-continue`) coordinate skills in sequence, but skills never depend on the orchestrator's mode to govern their internal safety gates. Every skill is 100% safe and complete when invoked standalone.
+- **Orchestration Boundary**: High-level orchestrators (`/kanche:graph-run`, `/kanche:graph-continue`) coordinate skills in sequence, but skills never depend on the orchestrator's mode to govern their internal safety gates. Every skill is 100% safe and complete when invoked standalone.

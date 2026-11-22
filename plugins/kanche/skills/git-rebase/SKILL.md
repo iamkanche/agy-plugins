@@ -1,12 +1,11 @@
 ---
 name: git-rebase
 description: Rebase the current branch onto a target branch, gated by explicit human confirmation. Handles conflicts without force-resolving.
-model: flash
 ---
 
 # /kanche:git-rebase
 
-**Summary.** Rebase the current branch onto a target branch, gated by explicit human confirmation; handles conflicts without force-resolving. The workflow delegates all local fetch, review, and rebase operations to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
+**Summary.** Rebase the current branch onto a target branch, gated by explicit human confirmation; handles conflicts without force-resolving. The workflow delegates all local fetch, review, and rebase operations to the specialized `@git-operator` subagent (defined in `agents/git-operator.md`). Keep interactive `default_api:ask_question` confirmation gates in the main conversation.
 
 ## Inputs
 

@@ -1,7 +1,6 @@
 ---
 name: security-scan
 description: Scan codebase for secrets, dependency vulnerabilities, and security anti-patterns.
-model: flash
 ---
 
 # /kanche:security-scan

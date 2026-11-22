@@ -1,12 +1,11 @@
 ---
 name: token-optimize
 description: Audit, distill, and compress prompts, skills, and agent instructions to maximize context efficiency and token savings.
-model: flash
 ---
 
 # /kanche:token-optimize
 
-**Summary.** Audit and compress prompt templates, SKILL.md documents, agent system prompts, and rule files to maximize context efficiency, reduce token expenditure, and accelerate inference. The workflow delegates analysis to the specialized `@token-optimizer` subagent (defined in `agents/token-optimizer/agent.json`) and strictly complies with `rules/token-optimization.md`.
+**Summary.** Audit and compress prompt templates, SKILL.md documents, agent system prompts, and rule files to maximize context efficiency, reduce token expenditure, and accelerate inference. The workflow delegates analysis to the specialized `@token-optimizer` subagent (defined in `agents/token-optimizer.md`) and strictly complies with `rules/token-optimization.md`.
 
 ## Inputs
 

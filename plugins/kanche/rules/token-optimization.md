@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Token Optimization & Context Efficiency Policy
 
 Universal rules for context window efficiency, instruction compression, and token budget management across all skills, agent definitions, workflows, and prompts. Enforced globally by `@token-optimizer`.

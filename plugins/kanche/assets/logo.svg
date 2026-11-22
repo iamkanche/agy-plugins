@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="none">
+  <defs>
+    <linearGradient id="kanche-grad" x1="16" y1="16" x2="112" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="50%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  <rect x="14" y="14" width="100" height="100" rx="24" fill="#0F172A" stroke="url(#kanche-grad)" stroke-width="5"/>
+  <path d="M44 38V90M44 64L80 38M57 55L82 90" stroke="#F8FAFC" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="44" cy="38" r="7" fill="#3B82F6" stroke="#F8FAFC" stroke-width="2.5"/>
+  <circle cx="44" cy="90" r="7" fill="#6366F1" stroke="#F8FAFC" stroke-width="2.5"/>
+  <circle cx="80" cy="38" r="7" fill="#06B6D4" stroke="#F8FAFC" stroke-width="2.5"/>
+  <circle cx="82" cy="90" r="7" fill="#10B981" stroke="#F8FAFC" stroke-width="2.5"/>
+</svg>

@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Output Language Policy
 
 - Maintain English for technical prose, log output summaries, review comments, commit messages, and documentation files.
