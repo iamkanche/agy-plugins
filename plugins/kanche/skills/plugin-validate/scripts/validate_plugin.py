@@ -53,7 +53,10 @@ def parse_frontmatter(text: str) -> tuple[dict[str, object], bool]:
         return {}, False
 
     data: dict[str, object] = {}
-    for line in lines[1:end_idx]:
+    idx = 1
+    while idx < end_idx:
+        line = lines[idx]
+        idx += 1
         if not line.strip() or line.lstrip().startswith("#"):
             continue
         if ":" not in line:
@@ -61,7 +64,14 @@ def parse_frontmatter(text: str) -> tuple[dict[str, object], bool]:
         k, v = line.split(":", 1)
         k = k.strip()
         v = v.strip()
-        if v.startswith("[") and v.endswith("]"):
+        if v in {">-", ">", "|-", "|"}:
+            block_lines: list[str] = []
+            while idx < end_idx and (lines[idx].startswith(" ") or lines[idx].startswith("\t") or not lines[idx].strip()):
+                block_lines.append(lines[idx].strip())
+                idx += 1
+            joiner = "\n" if v.startswith("|") else " "
+            data[k] = joiner.join(bl for bl in block_lines if bl).strip()
+        elif v.startswith("[") and v.endswith("]"):
             items = [x.strip().strip("'\"") for x in v[1:-1].split(",") if x.strip()]
             data[k] = items
         elif v.lower() == "true":
@@ -102,6 +112,7 @@ def validate(repo_root: Path) -> tuple[list[str], list[str], dict[str, int]]:
 
     # 2. hooks.json
     hooks_path = plugin_dir / "hooks.json"
+    allowed_hook_spec_keys = {"enabled", "PreToolUse", "PostToolUse", "SessionStart", "PreInvocation", "PostInvocation", "Stop"}
     if hooks_path.is_file():
         try:
             hooks_data = json.loads(hooks_path.read_text(encoding="utf-8"))
@@ -109,10 +120,28 @@ def validate(repo_root: Path) -> tuple[list[str], list[str], dict[str, int]]:
                 if not isinstance(spec, dict):
                     errors.append(f"hooks.json: hook '{hook_name}' must be an object")
                     continue
+                unknown_hook_keys = sorted(set(spec.keys()) - allowed_hook_spec_keys)
+                if unknown_hook_keys:
+                    errors.append(f"hooks.json ({hook_name}): unknown event key(s) {unknown_hook_keys}")
                 for ev in ("PreToolUse", "PostToolUse", "SessionStart", "PreInvocation", "PostInvocation", "Stop"):
-                    for entry in spec.get(ev, []):
-                        handlers = entry.get("hooks", [entry]) if ev in ("PreToolUse", "PostToolUse") else [entry]
+                    if ev not in spec:
+                        continue
+                    entries = spec[ev]
+                    if not isinstance(entries, list):
+                        errors.append(f"hooks.json ({hook_name}.{ev}): must be an array")
+                        continue
+                    for entry in entries:
+                        if ev in ("PreToolUse", "PostToolUse"):
+                            if not isinstance(entry, dict) or "matcher" not in entry or not isinstance(entry.get("hooks"), list):
+                                errors.append(f"hooks.json ({hook_name}.{ev}): entry must contain 'matcher' and list 'hooks'")
+                                continue
+                            handlers = entry["hooks"]
+                        else:
+                            handlers = [entry]
                         for h in handlers:
+                            if not isinstance(h, dict):
+                                errors.append(f"hooks.json ({hook_name}.{ev}): handler must be an object")
+                                continue
                             cmd = h.get("command", "")
                             for rel_match in re.findall(r"\./[A-Za-z0-9_./-]+", cmd):
                                 target_script = plugin_dir / rel_match[2:]
@@ -168,6 +197,8 @@ def validate(repo_root: Path) -> tuple[list[str], list[str], dict[str, int]]:
                 errors.append(f"rules/{rf.name}: missing or invalid trigger frontmatter ({fm.get('trigger')})")
             if fm.get("trigger") == "model_decision" and not fm.get("description"):
                 errors.append(f"rules/{rf.name}: trigger=model_decision requires description")
+            if fm.get("trigger") == "glob" and not fm.get("globs"):
+                errors.append(f"rules/{rf.name}: trigger=glob requires globs")
 
     # 5. skills/*/SKILL.md
     skills_dir = plugin_dir / "skills"
@@ -203,7 +234,8 @@ def validate(repo_root: Path) -> tuple[list[str], list[str], dict[str, int]]:
         if "agent.json" in html:
             errors.append("index.html: contains stale 'agent.json' reference")
 
-        kanche_skills_in_html = set(re.findall(r'name:\s*"/kanche:([a-z0-9-]+)"', html))
+        cmd_blocks = "\n".join(re.findall(r"const \w+Commands = \[(.*?)\];", html, re.DOTALL))
+        kanche_skills_in_html = set(re.findall(r'name:\s*"/kanche:([a-z0-9-]+)"', cmd_blocks))
         missing_in_html = sorted(skill_names - kanche_skills_in_html)
         extra_in_html = sorted(kanche_skills_in_html - skill_names)
         if missing_in_html:

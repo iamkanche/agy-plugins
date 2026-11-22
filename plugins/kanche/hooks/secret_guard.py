@@ -8,17 +8,19 @@ import re
 import sys
 from pathlib import Path
 
-ENV_SECRET_RE = re.compile(r"^\.env(?:\.(?:local|prod|production|staging|dev|secret))?$", re.IGNORECASE)
+ENV_SECRET_RE = re.compile(r"^\.env(?:\..+)?$", re.IGNORECASE)
 SAFE_ENV_RE = re.compile(r"^\.env\.(?:example|sample|template|dist)$", re.IGNORECASE)
 SENSITIVE_FILENAMES = {"id_rsa", "id_ed25519", "id_ecdsa", "id_dsa"}
 SENSITIVE_SUFFIXES = (".pem", ".key", ".p12", ".pfx")
 
 SECRET_PATTERNS = [
-    (re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----"), "private key block"),
+    (re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----"), "private key block"),
     (re.compile(r"\bghp_[A-Za-z0-9]{36}\b"), "GitHub personal access token"),
     (re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}\b"), "GitHub fine-grained PAT"),
     (re.compile(r"\bAKIA[0-9A-Z]{16}\b"), "AWS access key ID"),
-    (re.compile(r"\bsk-[A-Za-z0-9]{32,}\b"), "API secret key (sk-...)"),
+    (re.compile(r"\bsk-(?:proj-)?[A-Za-z0-9_-]{24,}\b"), "API secret key (sk-...)"),
+    (re.compile(r"\bsk_live_[A-Za-z0-9]{16,}\b"), "Stripe live secret key"),
+    (re.compile(r"\bAIza[0-9A-Za-z_-]{32,}\b"), "Google/Gemini API key"),
 ]
 
 
