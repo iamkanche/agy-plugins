@@ -1,19 +1,18 @@
 ---
 name: git-switch
 description: Switch the working tree to a different branch, fetching first to resolve remote tracking branches.
-model: flash
 ---
 
 # /kanche:git-switch
 
-**Summary.** Switch the current working tree to a different branch, fetching first to resolve remote branches and tracking. The workflow delegates all local checkouts, fetches, and remote branch tracking configuration to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
+**Summary.** Switch the current working tree to a different branch, fetching first to resolve remote branches and tracking. Lightweight checkouts run directly or via `@git-operator` (`agents/git-operator.md`).
 
 ## Inputs
 
 Parse the invocation arguments:
 
 - `<branch-name>` (positional, required) — the branch to switch to.
-- `-c` / `--create` — create and switch to a new branch (delegates to `/git:create-branch`).
+- `-c` / `--create` — create and switch to a new branch (delegates to `/kanche:git-branch-create`).
 
 If `<branch-name>` is missing, ask the user (do not guess).
 
@@ -25,7 +24,7 @@ If `<branch-name>` is missing, ask the user (do not guess).
    git rev-parse --is-inside-work-tree
    ```
 
-2. **Handle create flag.** If `-c` or `--create` is passed, stop and delegate directly to `/git:create-branch <branch-name>`.
+2. **Handle create flag.** If `-c` or `--create` is passed, stop and delegate directly to `/kanche:git-branch-create <branch-name>`.
 
 3. **Fetch remote data.** Fetch latest remote branches before switching so that remote branches can be tracked correctly.
 
@@ -50,7 +49,7 @@ If `<branch-name>` is missing, ask the user (do not guess).
      ```bash
      git switch --track "origin/$TARGET"
      ```
-   - If the branch does not exist anywhere: STOP and suggest creating it via `/git:create-branch "$TARGET"`.
+   - If the branch does not exist anywhere: STOP and suggest creating it via `/kanche:git-branch-create "$TARGET"`.
 
 6. **Report** the resulting checked-out branch and status.
 

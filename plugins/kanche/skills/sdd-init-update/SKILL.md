@@ -1,7 +1,6 @@
 ---
 name: sdd-init-update
-description: Re-analyze this repository and refresh guidelines — seamlessly forwards to /kanche:graph-init-update.
-model: flash
+description: Legacy alias for /kanche:graph-init-update.
 ---
 
 # /kanche:sdd-init-update (Compatibility Forwarder)

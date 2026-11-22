@@ -1,7 +1,6 @@
 ---
 name: sdd-run
-description: Drive a feature work item through the full SDD phase model (P0 to P9) — seamlessly forwards to /kanche:graph-run for Graph Engineering.
-model: flash
+description: Legacy alias for /kanche:graph-run.
 ---
 
 # /kanche:sdd-run (Compatibility Forwarder)

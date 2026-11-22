@@ -1,7 +1,6 @@
 ---
 name: sdd-continue
-description: Resume the SDD workflow at the phase inferred from on-disk state — seamlessly forwards to /kanche:graph-continue.
-model: flash
+description: Legacy alias for /kanche:graph-continue.
 ---
 
 # /kanche:sdd-continue (Compatibility Forwarder)

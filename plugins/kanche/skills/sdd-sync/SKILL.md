@@ -1,7 +1,6 @@
 ---
 name: sdd-sync
-description: Sync development logs and documents to domain-level product directories — seamlessly forwards to /kanche:graph-sync.
-model: flash
+description: Legacy alias for /kanche:graph-sync.
 ---
 
 # /kanche:sdd-sync (Compatibility Forwarder)

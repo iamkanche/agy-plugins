@@ -1,7 +1,6 @@
 ---
 name: design-specs-review
 description: Review specifications against rules and guidelines.
-model: flash
 ---
 
 # /kanche:design-specs-review
@@ -16,7 +15,7 @@ In the Loop Engineering Framework, `/kanche:design-specs-review` acts as the **R
 
 ## Read
 
-- `.docs/development/{NNN}_{slug}/specs.md` — the document under review.
+- `.docs/development/{slug}/specs.md` — the document under review.
 - The original feature request / grill Q&A passed in by the workflow — to check the specs answer what was asked and captured the resolved clarifications.
 - `.docs/guidelines/{product,tech,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — scope boundaries, constraints, loop rules, and guidelines.
 - The codebase only to sanity-check that data-model/integration claims are plausible against reality — do not review implementation.

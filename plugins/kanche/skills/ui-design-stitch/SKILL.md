@@ -1,7 +1,6 @@
 ---
 name: ui-design-stitch
 description: Generate visual UI screens, variants, and design systems using StitchMCP for system and UI design specifications.
-model: flash
 ---
 
 # /kanche:ui-design-stitch

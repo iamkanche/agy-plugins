@@ -1,12 +1,11 @@
 ---
 name: git-tag-delete
 description: Delete a local and/or remote tag securely, gated by explicit confirmation.
-model: flash
 ---
 
 # /kanche:git-tag-delete
 
-**Summary.** Delete a git tag locally and/or on origin remote, gated by explicit confirmation. The workflow delegates local and remote tag deletions to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
+**Summary.** Delete a git tag locally and/or on origin remote, gated by explicit confirmation. The workflow delegates local and remote tag deletions to the specialized `@git-operator` subagent (defined in `agents/git-operator.md`). Keep interactive `default_api:ask_question` confirmation gates in the main conversation.
 
 ## Inputs
 

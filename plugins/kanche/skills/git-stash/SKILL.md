@@ -1,12 +1,11 @@
 ---
 name: git-stash
 description: Save, restore, list, or discard uncommitted changes with git stash. Shows working-tree state before and after.
-model: flash
 ---
 
 # /kanche:git-stash
 
-**Summary.** Save, restore, list, or discard uncommitted changes with `git stash`, showing the working-tree state before and after so the user sees what moved. The workflow delegates all local stash actions (push, pop, list, drop) to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
+**Summary.** Save, restore, list, or discard uncommitted changes with `git stash`, showing the working-tree state before and after so the user sees what moved. The workflow delegates all local stash actions (push, pop, list, drop) to the specialized `@git-operator` subagent (defined in `agents/git-operator.md`). Keep interactive `default_api:ask_question` confirmation gates in the main conversation.
 
 ## Inputs
 

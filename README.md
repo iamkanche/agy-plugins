@@ -1,15 +1,15 @@
 # Antigravity Plugins Workspace — `kanche`
 
 [![Live Registry](https://img.shields.io/badge/Live_Registry-GitHub_Pages-3b82f6?style=flat-square&logo=github)](https://iamkanche.github.io/agy-plugins/)
-[![Version](https://img.shields.io/badge/version-v0.5.0-emerald?style=flat-square)](plugins/kanche/plugin.json)
-[![Agents](https://img.shields.io/badge/agents-17_specialized-purple?style=flat-square)](#-the-complete-software-development-team-17-agents)
-[![Skills](https://img.shields.io/badge/skills-47_workflows-amber?style=flat-square)](#available-slash-commands-kanche)
+[![Version](https://img.shields.io/badge/version-v0.6.0-emerald?style=flat-square)](plugins/kanche/plugin.json)
+[![Agents](https://img.shields.io/badge/agents-19_specialized-purple?style=flat-square)](#-the-complete-software-development-team-19-agents)
+[![Skills](https://img.shields.io/badge/skills-56_workflows-amber?style=flat-square)](#available-slash-commands-kanche)
 
 Welcome to the **agy-plugins** repository! This workspace contains the unified **`kanche`** plugin bundle for the **Google Antigravity** AI-first development platform.
 
 👉 **Live Showcase & Plugin Catalog:** [https://iamkanche.github.io/agy-plugins/](https://iamkanche.github.io/agy-plugins/)
 
-The unified `kanche` plugin packages a **complete 17-agent autonomous software engineering team**, developer workflows, slash commands, strict destructive safety rules, and skills into a single namespace: `/kanche:<command>`.
+The unified `kanche` plugin packages a **complete 19-agent autonomous software engineering team** (`plugins/kanche/agents/*.md`), runtime `PreToolUse` safety hooks (`plugins/kanche/hooks.json`), developer workflows, slash commands, strict destructive safety rules (`plugins/kanche/rules/AGENTS.md` + frontmatter triggers), and 56 skills into a single namespace: `/kanche:<command>`.
 
 ---
 
@@ -24,38 +24,40 @@ All destructive and remote-mutating commands are strictly gated behind mandatory
 - **GitHub PR Merges**: `gh pr merge` (all merge methods)
 - **Database Resets**: `migrate:fresh`, dropping tables or databases
 
-Automated modes (`mode=auto` or `/goal`) automate analysis, planning, code drafting, linting, and testing, but **always halt to prompt the human** before executing any of the above operations.
+Automated modes (`mode=auto` or `/goal`) automate analysis, planning, code drafting, linting, and testing, but **always halt to prompt the human** before executing any of the above operations. Runtime `PreToolUse` hooks in [`plugins/kanche/hooks.json`](plugins/kanche/hooks.json) (`destructive_gate.py`, `secret_guard.py`) enforce hard `deny` and `force_ask` gates at tool execution time.
 
 ---
 
-## 👥 The Complete Software Development Team (17 Agents)
+## 👥 The Complete Software Development Team (19 Agents)
 
-The `kanche` plugin models a complete, enterprise-grade software engineering organization with 17 specialized subagents:
+The `kanche` plugin models a complete, enterprise-grade software engineering organization with 19 native Markdown subagents (`plugins/kanche/agents/*.md`):
 
-### 1. Research, System Architecture & Token Economy
-- **`@researcher`** (`flash` / Gemini Flash High) — Exploratory codebase surveys, Knowledge Graph discovery, and architectural feasibility research (`/kanche:graph-steering`).
+### 1. Research, System & Data Architecture, Token Economy
+- **`@researcher`** (`flash` / Gemini Flash High) — Exploratory codebase surveys, Knowledge Graph discovery (`graphify-out/`), and architectural feasibility research (`/kanche:graph-steering`).
 - **`@token-optimizer`** (`flash` / Gemini Flash High) — LLM prompt distillation, instruction compression, context window optimization, and token budgeting (`/kanche:token-optimize`).
 - **`@analyst`** (`flash` / Gemini Flash High) — Requirements probing via adversarial grilling (`/kanche:design-grill`) and functional specifications drafting (`/kanche:design-specs`).
-- **`@architect`** (`flash` / Gemini Flash High) — System architecture, graph entity topology, component boundaries, API schemas, and data model diffs (`/kanche:design-init`).
+- **`@architect`** (`flash` / Gemini Flash High) — System architecture, graph entity topology, component boundaries, ADRs (`/kanche:design-adr`), API schemas, and data model diffs (`/kanche:design-init`).
+- **`@data-architect`** (`flash` / Gemini Flash High) — Database schema modeling, SQL indexing, financial/ledger integrity invariants, and safe migration verification (`/kanche:db-migrate`).
 - **`@designer`** (`flash` / Gemini Flash High) — UI/UX specialist creating text wireframes, component design specs, user flows, and StitchMCP visual layouts (`/kanche:ui-design-stitch`).
 
-### 2. Implementation Specialists
-- **`@coder`** (`flash` / Gemini Flash High) — General incremental implementation and task execution with minimal diffs (`/kanche:code-implement`).
+### 2. Implementation & Debugging Specialists
+- **`@coder`** (`flash` / Gemini Flash High) — General incremental implementation and DRY/YAGNI simplification (`/kanche:code-implement`, `/kanche:code-simplify`).
 - **`@frontend-expert`** (`flash` / Gemini Flash High) — React 18+, TypeScript 5, TanStack ecosystem, Tailwind CSS, accessible components, and modern web APIs.
-- **`@backend-expert`** (`flash` / Gemini Flash High) — MSC architecture, Laravel 10+, Node/Express, Go, Python, database migrations, and REST/GraphQL APIs.
+- **`@backend-expert`** (`flash` / Gemini Flash High) — MSC architecture, Laravel 10+, Node/Express, Go, Python, database migrations (`/kanche:db-migrate`), and REST/GraphQL APIs.
+- **`@debugger`** (`flash` / Gemini Flash High) — Root cause analysis, stack-trace diagnostics, minimal scratch repros, and `git bisect` triage (`/kanche:debug-rca`).
 
 ### 3. Quality Assurance & Security
-- **`@reviewer`** (`flash` / Gemini Flash High) — Senior code reviewer evaluating multi-file diffs, style conventions, and anti-patterns (`/kanche:code-review`).
-- **`@validator`** (`flash` / Gemini Flash High) — Automated check orchestrator running Graph Health integrity diagnostics, static analysis, test suites, and Playwright MCP browser validations (`/kanche:qa-validate`).
-- **`@tester`** (`flash` / Gemini Flash High) — Test automation engineer crafting test plan matrices (`/kanche:qa-test-plan`), unit tests, and Playwright E2E suites.
+- **`@reviewer`** (`flash` / Gemini Flash High) — Senior code reviewer evaluating multi-file diffs, DRY simplification (`/kanche:code-simplify`), style conventions, and anti-patterns (`/kanche:code-review`).
+- **`@validator`** (`flash` / Gemini Flash High) — Automated check orchestrator running real AST/import Graph Health integrity diagnostics (`scripts/graph_health.py`), plugin self-linting (`/kanche:plugin-validate`), test suites, and Playwright MCP browser validations (`/kanche:qa-validate`).
+- **`@tester`** (`flash` / Gemini Flash High) — Test automation engineer crafting test plan matrices (`/kanche:qa-test-plan`), schema-grounded mock data (`/kanche:test-data`), unit tests, and Playwright E2E suites.
 - **`@security-engineer`** (`flash` / Gemini Flash High) — Application security auditor scanning for exposed secrets, dependencies, and OWASP vulnerabilities (`/kanche:security-scan`).
 
 ### 4. Agile, Planning & Operations
-- **`@scrum-master`** (`flash` / Gemini Flash High) — Agile backlog manager creating standardized PBIs with user stories, acceptance criteria, and story points (`/kanche:scrum-pbi-create`).
+- **`@scrum-master`** (`flash` / Gemini Flash High) — Agile backlog manager creating standardized PBIs (`/kanche:scrum-pbi-create`) and syncing GitHub Issues (`/kanche:gh-cli-issue`).
 - **`@planner`** (`flash` / Gemini Flash High) — Implementation planner decomposing system designs into Topological Dependency DAGs (`/kanche:planner-tasks`).
-- **`@devops`** (`flash` / Gemini Flash High) — Infrastructure, release tagging (`/kanche:git-tag-*`), and PR merge verification (`/kanche:gh-cli-pr-merge`).
+- **`@devops`** (`flash` / Gemini Flash High) — Infrastructure, CI log inspection (`/kanche:gh-cli-ci`), release tagging (`/kanche:git-tag-*`), and PR merge verification (`/kanche:gh-cli-pr-merge`).
 - **`@git-operator`** (`flash` / Gemini Flash High) — Pure Git execution for branching, fetching, stashing, and safe committing.
-- **`@gh-operator`** (`flash` / Gemini Flash High) — GitHub CLI and REST/GraphQL integration for PR creation, review posting, and thread resolution.
+- **`@gh-operator`** (`flash` / Gemini Flash High) — GitHub CLI and REST/GraphQL integration for PRs, issues (`/kanche:gh-cli-issue`), CI runs (`/kanche:gh-cli-ci`), review posting, and thread resolution.
 
 ---
 
@@ -93,7 +95,7 @@ LEVEL 2: Gated Human Governance (P8 – P9)
 
 ## ⚡ Token Optimization & Communication Policy
 
-Enforced across all 17 agents and 47 skills by **`@token-optimizer`** and `rules/token-optimization.md`:
+Enforced across all 19 agents and 56 skills by **`@token-optimizer`** and `rules/token-optimization.md`:
 
 - **Short & Direct**: Deliver actionable answers, conclusions, and code fixes immediately without conversational throat-clearing.
 - **Bullets Over Paragraphs**: Use crisp bullet points (`- `) or compact Markdown tables instead of dense narrative prose.
@@ -160,6 +162,8 @@ Create a `marketplace.json` file inside your project's local customization direc
 - `/kanche:gh-cli-pr-approve` - Approve a pull request on GitHub (gated).
 - `/kanche:gh-cli-pr-respond` - Triage PR review comments, fix code, and reply in-thread (gated).
 - `/kanche:gh-cli-pr-merge` - Merge a pull request on GitHub and delete branch (human-gated).
+- `/kanche:gh-cli-issue` - Sync local Scrum PBIs with GitHub Issues (mutations gated).
+- `/kanche:gh-cli-ci` - Inspect GitHub Actions PR checks and failed workflow logs (read-only).
 
 ### 3. Graph Engineering Workflow Commands (`/kanche:graph-*`)
 - `/kanche:graph-run` - Drive a work item through the 10-phase Graph Engineering Workflow (P0 to P9).
@@ -168,6 +172,7 @@ Create a `marketplace.json` file inside your project's local customization direc
 - `/kanche:graph-sync` - Promote development docs to product memory, verify module dependency integrity, and clean up dev folder (gated).
 - `/kanche:graph-init` - Bootstrap graph-grounded steering guidelines (`product.md`, `tech.md`, `structure.md`, `rules.md`).
 - `/kanche:graph-init-update` - Re-analyze repository using Knowledge Graph extraction and refresh guidelines.
+- `/kanche:team-swarm` - Orchestrate parallel `kanche` specialists via native `swarm` (`workspace:"share"`) or `run_workflow`.
 
 #### Legacy SDD Compatibility Forwarders (`/kanche:sdd-*`)
 - `/kanche:sdd-run` - [Forwarder] Forwards to `/kanche:graph-run`.
@@ -182,23 +187,29 @@ Create a `marketplace.json` file inside your project's local customization direc
 - `/kanche:design-specs` - Draft functional specifications document.
 - `/kanche:design-specs-review` - Perform review on specs draft.
 - `/kanche:design-init` - Draft system architecture design specifications.
+- `/kanche:design-adr` - Generate numbered Architecture Decision Records (ADRs).
 - `/kanche:design-review` - Perform review on design documents.
 - `/kanche:ui-design-stitch` - Generate visual UI wireframes and themes using StitchMCP.
 
 ### 5. Quality Assurance & Security Commands
-- `/kanche:qa-validate` - Run linters, test suites, and Playwright MCP browser checks.
+- `/kanche:qa-validate` - Run AST/import graph health diagnostics (`scripts/graph_health.py`), linters, test suites, and Playwright MCP browser checks.
 - `/kanche:qa-test-plan` - Generate comprehensive test plan matrices and test stubs.
+- `/kanche:test-data` - Infer schemas to generate deterministic mock fixtures and boundary test patterns.
 - `/kanche:qa-review` - Audit implementation diffs and perform visual verification via Playwright MCP.
 - `/kanche:code-review` - Perform standalone deep code review with `--auto-apply` option.
 - `/kanche:security-scan` - Audit codebase for hardcoded secrets, dependencies, and security vulnerabilities.
+- `/kanche:plugin-validate` - Validate plugin manifests, `agents/*.md`, `rules/*.md`, `hooks.json`, skills, and catalog parity (`scripts/validate_plugin.py`).
 
 ### 6. Task Planner & Scrum Commands
 - `/kanche:planner-tasks` - Formulate task checklist manifests.
 - `/kanche:planner-review` - Audit task checklist layout.
 - `/kanche:scrum-pbi-create` - Create standardized Product Backlog Items with user stories and story points.
 
-### 7. Coding & Implementation Commands
+### 7. Build, Debug & Database Commands
 - `/kanche:code-implement` - Incremental codebase implementation and task checklist execution.
+- `/kanche:code-simplify` - Audit touched diffs for DRY, YAGNI, and complexity reductions (`--auto-apply`).
+- `/kanche:debug-rca` - Autonomous root cause analysis on stack traces, logs, and `git bisect`.
+- `/kanche:db-migrate` - Safe database migration verification, rollback check, and destructive reset gating.
 
 ### 8. Token & Context Optimization Commands
 - `/kanche:token-optimize` - Audit and compress prompts, skills, and agent instructions for maximum context efficiency and token savings.
@@ -242,31 +253,41 @@ Inline comment directly to the files and lines of codes
 ```text
 agy-plugins/
 ├── .agents/
+│   ├── plugins.json           # Workspace plugin discovery config
 │   └── plugins/
 │       └── marketplace.json   # Local registry definition
 ├── index.html                 # Interactive showcase & catalog (iamkanche.github.io/agy-plugins)
 └── plugins/
     └── kanche/                # Single Unified Plugin Directory
-        ├── plugin.json        # Manifest (v0.5.0)
-        ├── agents/            # Complete Software Engineering Team (17 agents)
-        │   ├── analyst/
-        │   ├── architect/
-        │   ├── backend-expert/
-        │   ├── coder/
-        │   ├── designer/
-        │   ├── devops/
-        │   ├── frontend-expert/
-        │   ├── gh-operator/
-        │   ├── git-operator/
-        │   ├── planner/
-        │   ├── researcher/
-        │   ├── reviewer/
-        │   ├── scrum-master/
-        │   ├── security-engineer/
-        │   ├── tester/
-        │   ├── token-optimizer/
-        │   └── validator/
-        ├── rules/             # Hard rules & gating guidelines
+        ├── plugin.json        # Manifest (v0.6.0)
+        ├── hooks.json         # Runtime PreToolUse safety & secret guard hooks
+        ├── assets/
+        │   └── logo.svg       # Plugin icon
+        ├── hooks/
+        │   ├── destructive_gate.py
+        │   └── secret_guard.py
+        ├── agents/            # Native Antigravity Markdown Subagents (19 agents)
+        │   ├── analyst.md
+        │   ├── architect.md
+        │   ├── backend-expert.md
+        │   ├── coder.md
+        │   ├── data-architect.md
+        │   ├── debugger.md
+        │   ├── designer.md
+        │   ├── devops.md
+        │   ├── frontend-expert.md
+        │   ├── gh-operator.md
+        │   ├── git-operator.md
+        │   ├── planner.md
+        │   ├── researcher.md
+        │   ├── reviewer.md
+        │   ├── scrum-master.md
+        │   ├── security-engineer.md
+        │   ├── tester.md
+        │   ├── token-optimizer.md
+        │   └── validator.md
+        ├── rules/             # Hard rules, gating guidelines & AGENTS.md
+        │   ├── AGENTS.md
         │   ├── destructive-safety.md
         │   ├── gh-hard-rules.md
         │   ├── git-hard-rules.md
@@ -274,5 +295,7 @@ agy-plugins/
         │   ├── output-language.md
         │   ├── token-optimization.md
         │   └── workflow-gating.md
-        └── skills/            # 47 specialized workflow skills (/kanche:*)
+        └── skills/            # 56 specialized workflow skills (/kanche:*) + executable scripts
+            ├── plugin-validate/scripts/validate_plugin.py
+            └── qa-validate/scripts/graph_health.py
 ```

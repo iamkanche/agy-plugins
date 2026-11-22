@@ -1,12 +1,11 @@
 ---
 name: graph-run
-description: Drive a feature work item through the 10-phase Graph Engineering Workflow (P0 to P9) orchestrating all 17 specialized agents and knowledge graph capabilities.
-model: flash
+description: Drive a feature work item through the 10-phase Graph Engineering Workflow (P0 to P9) orchestrating all 19 specialized agents and knowledge graph capabilities.
 ---
 
 # /kanche:graph-run
 
-**Summary.** Drive a work item through the complete Graph Engineering Workflow (P0→P9), orchestrating the full 17-agent autonomous software engineering team: native AST discovery, backlog registration, impact subgraph specs, architecture topology, UI wireframes, topological task DAGs, QA test plans, specialized implementation, deep reviews, graph health checks, browser validations, security scans, token optimization, and PR lifecycle management. All destructive operations (`git push`, `git commit`, `rm -rf`, `gh pr merge`) strictly require human confirmation per `rules/destructive-safety.md`. Supports `/goal` persistent execution mode.
+**Summary.** Drive a work item through the complete Graph Engineering Workflow (P0→P9), orchestrating the full 19-agent autonomous software engineering team: native AST discovery, backlog registration, impact subgraph specs, architecture topology & ADRs, UI wireframes, topological task DAGs, QA test plans & mock data, specialized implementation, code simplification, deep reviews, graph health checks, root-cause debugging, browser validations, security scans, token optimization, and PR/CI lifecycle management. All destructive operations (`git push`, `git commit`, `rm -rf`, `gh pr merge`) strictly require human confirmation per `rules/destructive-safety.md` and `hooks.json`. Supports `/goal` persistent execution mode, `run_workflow` parallel DAG execution, and `/kanche:team-swarm`.
 
 ## Inputs
 
@@ -22,19 +21,26 @@ model: flash
 
 ```text
 LEVEL 1 (AI: P0 - P7)
-P0 Graph Discovery      @researcher (/kanche:graph-steering) → @scrum-master (/kanche:scrum-pbi-create) → @git-operator (Receipt → /kanche:git-branch-create)
+P0 Graph Discovery      @researcher (/kanche:graph-steering) → @scrum-master (/kanche:scrum-pbi-create, /kanche:gh-cli-issue) → @git-operator (Receipt → /kanche:git-branch-create)
 P1 Impact Subgraphs     @analyst & @scrum-master (/kanche:design-grill → loop ≤3x [/kanche:design-specs → /kanche:design-specs-review])
-P2 Architecture & UI    @architect & @designer (loop ≤3x [/kanche:design-init & /kanche:ui-design-stitch → /kanche:design-review])
-P3 Topological DAG      @planner & @tester (loop ≤3x [/kanche:planner-tasks & /kanche:qa-test-plan → /kanche:planner-review]) → Docs Commit (Gated /kanche:git-commit)
-P4 Graph-Guided Build   @coder, @frontend-expert, @backend-expert, @token-optimizer (loop ≤3x [/kanche:code-implement → @reviewer /kanche:code-review & /kanche:qa-review]) → Implementation Commit (Gated /kanche:git-commit)
-P5 Graph Health & QA    @validator, @tester, @security-engineer (/kanche:security-scan → /kanche:qa-validate & 3x self-healing fix loop)
-P6 PR Blast Radius Loop @devops & @gh-operator (Gated /kanche:git-push → Gated /kanche:gh-cli-pr-create → loop ≤3x [/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → Gated /kanche:git-commit → Gated /kanche:git-push])
+P2 Architecture & UI    @architect, @data-architect & @designer (loop ≤3x [/kanche:design-init, /kanche:design-adr & /kanche:ui-design-stitch → /kanche:design-review])
+P3 Topological DAG      @planner & @tester (loop ≤3x [/kanche:planner-tasks, /kanche:qa-test-plan & /kanche:test-data → /kanche:planner-review]) → Docs Commit (Gated /kanche:git-commit)
+P4 Graph-Guided Build   @coder, @frontend-expert, @backend-expert, @data-architect, @token-optimizer (loop ≤3x [/kanche:code-implement → /kanche:code-simplify → @reviewer /kanche:code-review & /kanche:qa-review]) → Implementation Commit (Gated /kanche:git-commit)
+P5 Graph Health & QA    @validator, @tester, @debugger, @security-engineer (/kanche:security-scan → /kanche:qa-validate & 3x @debugger /kanche:debug-rca self-healing loop)
+P6 PR Blast Radius Loop @devops & @gh-operator (Gated /kanche:git-push → Gated /kanche:gh-cli-pr-create → /kanche:gh-cli-ci → loop ≤3x [/kanche:gh-cli-pr-review → /kanche:gh-cli-pr-respond → Gated /kanche:git-commit → Gated /kanche:git-push])
 P7 Knowledge Graph Sync @gh-operator & @git-operator (/kanche:graph-sync → Gated dev folder cleanup → Gated /kanche:git-commit → Gated /kanche:git-push)
 
 LEVEL 2 (Human: P8 - P9)
 P8 Human Graph Review   @validator & @tester (gated interactive verification checklist via /kanche:qa-validate)
 P9 PR Merge & Release   @devops & @gh-operator (Gated /kanche:gh-cli-pr-merge → optional release tag /kanche:git-tag-create / /kanche:git-tag-push)
 ```
+
+## Parallel Execution (`run_workflow` & `/kanche:team-swarm`)
+
+For multi-module features with `[P]` tasks across DAG Tiers 0–3, orchestrate via `/kanche:team-swarm`:
+- **Dynamic Python DAG (`run_workflow`)**: Run `phase()` stages, `parallel()` fan-out over `[P]` tasks with `workspace="share"`, and deterministic `<=3x` `review-verdict` loops in Python.
+- **Native Swarm (`swarm`)**: Spawn domain workers (`frontend-expert`, `backend-expert`, `tester`, `reviewer`) with `workspace:"share"` and 1 verifier per 2–3 authors on the shared board.
+- All human confirmation gates (`ask_question`) still execute in the main coordinator conversation.
 
 ## Goal Mode Protocol (`/goal`)
 
@@ -61,39 +67,42 @@ P9 PR Merge & Release   @devops & @gh-operator (Gated /kanche:gh-cli-pr-merge �
 3. **Specs Review:** Delegate to `@analyst` to audit specs via `/kanche:design-specs-review`, emitting `review-verdict`. On `NO-GO`, apply delta fixes (≤3x).
 
 ### P2 — Graph Architecture Topology & UI/UX Design Loop (≤3x Loop)
-1. **Architecture Design:** Delegate to `@architect` to draft `.docs/development/{slug}/design.md`, `api-diff.md`, and `db-diff.md` via `/kanche:design-init`.
+1. **Architecture & Data Design:** Delegate to `@architect` and `@data-architect` to draft `.docs/development/{slug}/design.md`, `api-diff.md`, and `db-diff.md` via `/kanche:design-init`, and record trade-offs via `/kanche:design-adr`.
 2. **UI Screens & Design Tokens:** Delegate to `@designer` to generate wireframes and tokens via `/kanche:ui-design-stitch`.
 3. **Design Review:** Delegate to `@architect` to audit architecture via `/kanche:design-review`, emitting `review-verdict`. On `NO-GO`, refine (≤3x).
 
 ### P3 — Topological Task DAG & QA Test Plan Matrix
 1. **Topological Task DAG:** Delegate to `@planner` to decompose design into ordered dependency tiers in `.docs/development/{slug}/tasks.md` via `/kanche:planner-tasks`.
-2. **Test Plan Specifications:** Delegate to `@tester` to formulate test matrix in `.docs/development/{slug}/test-plan.md` via `/kanche:qa-test-plan`.
+2. **Test Plan & Fixtures:** Delegate to `@tester` to formulate test matrix in `.docs/development/{slug}/test-plan.md` via `/kanche:qa-test-plan` and mock data via `/kanche:test-data`.
 3. **Task Review:** Delegate to `@planner` to audit task order and criteria via `/kanche:planner-review`.
-4. **Docs Commit Checkpoint (Human-Gated):** Delegate to `@git-operator` to run `/kanche:git-commit` (`docs({slug}): add specs, design, test plan, and tasks`). Must prompt human before committing.
+4. **Docs Commit Checkpoint (Human-Gated):** Run `/kanche:git-commit` (`docs({slug}): add specs, design, test plan, and tasks`) with mandatory `ask_question` confirmation in the main conversation.
 
 ### P4 — Graph-Guided Implementation & Review Loop (≤3x Loop)
 1. **Specialized Implementation Dispatch:**
    - Frontend (`.ts`, `.tsx`, `.jsx`, `.vue`, CSS): Dispatched to `@frontend-expert`.
-   - Backend (`.php`, `.go`, `.py`, APIs, migrations): Dispatched to `@backend-expert`.
+   - Backend (`.php`, `.go`, `.py`, APIs): Dispatched to `@backend-expert`.
+   - Database & Migrations: Dispatched to `@data-architect` via `/kanche:db-migrate`.
    - Token & Prompt Distillation: Dispatched to `@token-optimizer` via `/kanche:token-optimize`.
    - General Tasks & Integration: Dispatched to `@coder`.
-   Apply changes incrementally via `/kanche:code-implement` strictly adhering to `tasks.md` DAG tier ordering.
-2. **Code & QA Review:**
+   Apply changes incrementally via `/kanche:code-implement` (or parallel `run_workflow` / `/kanche:team-swarm` for `[P]` tasks) strictly adhering to `tasks.md` DAG tier ordering.
+2. **Simplification, Code & QA Review:**
+   - Run `/kanche:code-simplify` on touched diffs to eliminate duplication and over-engineering.
    - Delegate to `@reviewer` for deep review and security checks via `/kanche:code-review`.
    - Delegate to `@validator` for conformance via `/kanche:qa-review`.
    - On `NO-GO`, perform targeted fixes and re-audit (≤3x).
-3. **Implementation Commit Checkpoint (Human-Gated):** Delegate to `@git-operator` to run `/kanche:git-commit` (`feat({slug}): implement feature logic and unit tests`). Must prompt human before committing.
+3. **Implementation Commit Checkpoint (Human-Gated):** Run `/kanche:git-commit` (`feat({slug}): implement feature logic and unit tests`) with human confirmation in the main conversation.
 
 ### P5 — Graph Health Integrity Gate & AI Validation Loop (≤3x Loop)
 1. **Security Vulnerability Scan:** Delegate to `@security-engineer` to execute `/kanche:security-scan`.
-2. **Graph Health Gate & Comprehensive Validation:** Delegate to `@validator` and `@tester` to run `/kanche:qa-validate` (AST diagnostics, test runners, Playwright browser checks, a11y & LCP audits).
-3. **Self-Healing Loop:** If validations fail, pass stack traces to `@coder` / `@frontend-expert` / `@backend-expert` via `/kanche:code-implement` for up to 3 repair iterations.
+2. **Graph Health Gate & Comprehensive Validation:** Delegate to `@validator` and `@tester` to run `/kanche:qa-validate` (real AST/import diagnostics via `scripts/graph_health.py`, test runners, Playwright browser checks, a11y & LCP audits).
+3. **Root-Cause Self-Healing Loop:** If validations fail, delegate to `@debugger` via `/kanche:debug-rca` to isolate root cause from stack traces/logs, then pass the fix spec to `@coder` / `@frontend-expert` / `@backend-expert` via `/kanche:code-implement` for up to 3 repair iterations.
 
 ### P6 — Deploy & PR Blast Radius Loop (≤3x Loop)
-1. **Push Feature Branch (Human-Gated):** Run `/kanche:git-push` via `@git-operator` (prompts human).
-2. **Open Pull Request (Human-Gated):** Run `/kanche:gh-cli-pr-create` via `@gh-operator` (prompts human).
-3. **AI PR Review:** Run `/kanche:gh-cli-pr-review` via `@gh-operator` & `@reviewer` (submits inline comments and top-level summary via `gh api`).
-4. **PR Feedback Response Loop:** If review comments exist, run `/kanche:gh-cli-pr-respond` → targeted fixes → Gated commit → Gated push (≤3x).
+1. **Push Feature Branch (Human-Gated):** Run `/kanche:git-push` (prompts human in main conversation).
+2. **Open Pull Request (Human-Gated):** Run `/kanche:gh-cli-pr-create` (prompts human in main conversation).
+3. **CI Status Inspection:** Run `/kanche:gh-cli-ci` via `@devops` to verify PR checks and capture failed workflow logs if any.
+4. **AI PR Review:** Run `/kanche:gh-cli-pr-review` via `@reviewer` & `@gh-operator` (posts inline comments via `gh api` after human confirmation).
+5. **PR Feedback Response Loop:** If review comments or CI failures exist, run `/kanche:gh-cli-pr-respond` → targeted fixes → Gated commit → Gated push (≤3x).
 
 ### P7 — Knowledge Graph Memory Promotion & Cache Sync (LEVEL 1 Final Step)
 1. **Promote Docs & Sync Graph:** Run `/kanche:graph-sync` via `@gh-operator`.
@@ -113,7 +122,7 @@ Brief user with final status, links, and append `<!-- GOAL_COMPLETE -->` if `/go
 ## Done when
 
 - All in-bounds phases ran in order orchestrating corresponding specialized subagents.
-- All 17 agents participated across their respective phases with graph-native awareness.
+- All 19 agents participated across their respective phases with graph-native awareness.
 - Zero autonomous destructive commands were executed — all commits, pushes, merges, and folder deletions explicitly confirmed by human.
 - Codebase Knowledge Graph and product docs promoted to domain directories in P7 (`.docs/product/{domain}/`).
 - If `/goal` mode was requested, `<!-- GOAL_COMPLETE -->` tag is appended upon completion.

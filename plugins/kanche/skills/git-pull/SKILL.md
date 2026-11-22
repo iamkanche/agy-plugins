@@ -1,12 +1,11 @@
 ---
 name: git-pull
 description: Integrate changes from the remote branch into the current branch, supporting fast-forward or gated rebase.
-model: flash
 ---
 
 # /kanche:git-pull
 
-**Summary.** Integrate changes from the remote branch into the current branch (supporting merge or gated rebase), reporting conflicts without force-resolving. The workflow delegates all local merges, fetches, and rebasing tasks to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
+**Summary.** Integrate changes from the remote branch into the current branch (supporting merge or gated rebase), reporting conflicts without force-resolving. The workflow delegates all local merges, fetches, and rebasing tasks to the specialized `@git-operator` subagent (defined in `agents/git-operator.md`). Keep interactive `default_api:ask_question` confirmation gates in the main conversation.
 
 ## Inputs
 

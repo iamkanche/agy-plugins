@@ -1,7 +1,6 @@
 ---
 name: graph-steering
 description: Analyze the repository using Knowledge Graph extraction and return the four steering guideline bodies.
-model: flash
 ---
 
 # /kanche:graph-steering
@@ -13,7 +12,7 @@ model: flash
 Read what is needed to characterize the project graph and stack; do not read the whole tree blindly.
 
 - Existing `.docs/guidelines/{product,tech,structure,rules}.md` if present (preserve intentional human edits, especially in `rules.md`).
-- Existing architecture or dependency graph manifests if present — to inspect central nodes, module hubs, and cohesion.
+- **Graphify Knowledge Graph (preferred when present):** Check for `graphify-out/GRAPH_REPORT.md` and `graphify-out/graph.json`. If present, read God Nodes, Community Clusters, Surprising Connections, and query edges via `graphify query` to ground `structure.md` in verified structural hubs. If missing and `graphify` is installed, optionally run `/graphify . --no-viz` or fall back to native AST & manifest survey below.
 - Survey the codebase layout, AST structure, and manifests:
   ```bash
   git ls-files | head -400

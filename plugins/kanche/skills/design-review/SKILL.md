@@ -1,7 +1,6 @@
 ---
 name: design-review
 description: Review system design specifications and architecture.
-model: flash
 ---
 
 # /kanche:design-review
@@ -16,8 +15,8 @@ In the Loop Engineering Framework, `/kanche:design-review` acts as the **Reviewe
 
 ## Read
 
-- `.docs/development/{NNN}_{slug}/{design,api-diff,db-diff}.md` — the documents under review.
-- `.docs/development/{NNN}_{slug}/specs.md` — to verify the design satisfies every acceptance criterion.
+- `.docs/development/{slug}/{design,api-diff,db-diff}.md` — the documents under review.
+- `.docs/development/{slug}/specs.md` — to verify the design satisfies every acceptance criterion.
 - `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — guidelines and loop rules.
 - Consolidated context when present: `.docs/product/api/openapi.yaml` + `.docs/product/database/er-diagram.md`.
 - The codebase to confirm cited files/symbols/patterns exist.

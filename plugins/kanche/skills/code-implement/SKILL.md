@@ -1,7 +1,6 @@
 ---
 name: code-implement
 description: Implement target code changes incrementally, execute closed-loop fixes from reviews, and run tests.
-model: flash
 ---
 
 # /kanche:code-implement
@@ -18,8 +17,8 @@ In the Loop Engineering Framework, `/kanche:code-implement` acts as the **Genera
 
 ## Read
 
-- `.docs/development/{NNN}_{slug}/tasks.md` — the ordered work list; this is your plan of record.
-- `.docs/development/{NNN}_{slug}/{design,specs,api-diff,db-diff}.md` — for the interfaces, contracts, and acceptance criteria each task must satisfy.
+- `.docs/development/{slug}/tasks.md` — the ordered work list; this is your plan of record.
+- `.docs/development/{slug}/{design,specs,api-diff,db-diff}.md` — for the interfaces, contracts, and acceptance criteria each task must satisfy.
 - `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — stack conventions, loop rules, where code/tests live, mandatory rules, and build/test/lint commands.
 - `review-verdict` findings or test execution logs from prior loop iterations (when running in iteration 2..N).
 - The actual source files each task names, plus their existing patterns and neighbors, before changing them.

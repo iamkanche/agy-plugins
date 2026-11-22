@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Workflow Gating Rules
 
 - **Destructive Operations Policy**: Every destructive or remote-modifying operation (`git push`, `git commit`, `rm`, `rm -rf`, branch/tag deletions, `git stash drop`, and `gh pr merge`) MUST prompt the human for confirmation via interactive `default_api:ask_question` unconditionally.

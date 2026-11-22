@@ -1,7 +1,6 @@
 ---
 name: qa-validate
 description: Verify task checklist and run validations using Graph Health diagnostics, CLI test runners, and MCP Playwright / Chrome DevTools browser automation with self-healing repair loops.
-model: flash
 ---
 
 # /kanche:qa-validate
@@ -26,18 +25,14 @@ In the Loop Engineering Framework, `/kanche:qa-validate` acts as the **Validatio
 Run each discovered check via CLI bash, graph diagnostics, or MCP browser automation tools:
 
 1. **Graph Health Diagnostic Gate (Integrity Check).**
-   - Non-destructive diagnostic auditing AST and dependency structures.
-   - Scans for **dangling import edges** (imports referencing deleted or nonexistent modules/files).
-   - Scans for **syntax errors** and **circular module dependencies**.
-   - Native standard library AST diagnostic check:
+   - Non-destructive diagnostic auditing AST, JSON syntax, relative import edges, circular dependencies, and `graphify-out/.graphify_extract.json` (when present).
+   - Execute [graph_health.py](./scripts/graph_health.py) (resolve relative to this skill directory or `~/.gemini/config/plugins/kanche/skills/qa-validate/scripts/graph_health.py`):
      ```bash
-     python3 -c "
-     import sys, os, ast
-     # Native AST and dependency boundary check
-     print('Graph Health: OK (AST & dependency structure intact)')
-     "
+     python3 plugins/kanche/skills/qa-validate/scripts/graph_health.py .
      ```
-   - Report: `Graph Health: OK` or surface specific dangling/circular edge warnings.
+     (If `plugins/kanche/` is not in the target repo, invoke `~/.gemini/config/plugins/kanche/skills/qa-validate/scripts/graph_health.py .`.)
+   - Report the printed counts (`Files scanned`, `Syntax errors`, `Dangling relative imports`, `Circular dependencies`, `Graphify extraction`) and status (`Graph Health: OK` or exact failing lines).
+   - If the repo is an Antigravity plugin repo, also run `/kanche:plugin-validate`.
 
 2. **CLI Test Runners.** Execute build, unit, integration, and lint commands using `bash`, capturing exit status and output.
 

@@ -1,12 +1,11 @@
 ---
 name: gh-cli-pr-merge
 description: Merge a pull request on GitHub, with deleting the branch enabled by default, gated by confirmation.
-model: flash
 ---
 
 # /kanche:gh-cli-pr-merge
 
-**Summary.** Merge the current branch's PR (or a specified PR) on GitHub, deleting the remote and local branch by default unless `--keep-branch` is requested. The workflow delegates all GitHub authentication, PR metadata checks, and merge executions to the specialized `@gh-operator` subagent (defined in `agents/gh-operator/agent.json`).
+**Summary.** Merge the current branch's PR (or a specified PR) on GitHub, deleting the remote and local branch by default unless `--keep-branch` is requested. Keep the mandatory `default_api:ask_question` confirmation gate in the main conversation (only delegate pre-merge metadata checks if needed, or execute via `@gh-operator` after confirmation). Uses `agents/gh-operator.md`.
 
 ## Inputs
 
@@ -59,7 +58,7 @@ Parse the invocation arguments:
    - Delete the local merged branch.
 
    ```bash
-   if [ "$CURRENT_BRANCH" = "$HEAD_BRANCH" ] && [ -z "$DELETE_FLAG" ]; then
+   if [ "$CURRENT_BRANCH" = "$HEAD_BRANCH" ] && [ -n "$DELETE_FLAG" ]; then
      git checkout "$BASE_BRANCH"
      git branch -d "$HEAD_BRANCH"
    fi

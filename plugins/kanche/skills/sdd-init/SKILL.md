@@ -1,7 +1,6 @@
 ---
 name: sdd-init
-description: Bootstrap the steering guidelines for this repository — seamlessly forwards to /kanche:graph-init.
-model: flash
+description: Legacy alias for /kanche:graph-init.
 ---
 
 # /kanche:sdd-init (Compatibility Forwarder)

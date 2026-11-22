@@ -1,12 +1,11 @@
 ---
 name: planner-tasks
 description: Generate implementation checklist task manifest organized by Topological Dependency Tiers.
-model: flash
 ---
 
 # /kanche:planner-tasks
 
-**Mission.** Decompose approved `design.md` (and deltas) into an ordered, checkable `tasks.md` body for `.docs/development/{NNN}_{slug}/tasks.md`, organized strictly by **Topological Dependency Tiers**, incorporating closed-loop feedback from `/kanche:planner-review`.
+**Mission.** Decompose approved `design.md` (and deltas) into an ordered, checkable `tasks.md` body for `.docs/development/{slug}/tasks.md`, organized strictly by **Topological Dependency Tiers**, incorporating closed-loop feedback from `/kanche:planner-review`.
 
 ## Loop Engineering Protocol (Generator Role — Task Planning Loop)
 
@@ -16,8 +15,8 @@ In the Loop Engineering Framework, `/kanche:planner-tasks` acts as the **Generat
 
 ## Read
 
-- `.docs/development/{NNN}_{slug}/design.md`, `api-diff.md`, `db-diff.md` — what to build and architectural entity relationships.
-- `.docs/development/{NNN}_{slug}/specs.md` — so every acceptance criterion has a task and verification check.
+- `.docs/development/{slug}/design.md`, `api-diff.md`, `db-diff.md` — what to build and architectural entity relationships.
+- `.docs/development/{slug}/specs.md` — so every acceptance criterion has a task and verification check.
 - `.docs/guidelines/{tech,structure,rules}.md` and `plugins/kanche/rules/loop-engineering.md` — build/test/lint commands, loop rules, and topological DAG protocol.
 - `review-verdict` findings from prior review iterations (when running in iteration 2..N).
 - Existing `tasks.md` (preserve already-checked `[x]` items when refining).

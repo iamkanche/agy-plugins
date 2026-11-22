@@ -1,7 +1,6 @@
 ---
 name: code-review
 description: Perform deep code review on staged/modified files with auto-fix capability and security checks.
-model: flash
 ---
 
 # /kanche:code-review

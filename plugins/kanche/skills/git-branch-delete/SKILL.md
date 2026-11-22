@@ -1,12 +1,11 @@
 ---
 name: git-branch-delete
 description: Delete a git branch locally and/or on origin remote, refusing protected branches, gated by explicit confirmation.
-model: flash
 ---
 
 # /kanche:git-branch-delete
 
-**Summary.** Delete a git branch locally and/or on the remote (`origin`), refusing to delete protected branches, gated by explicit confirmation. The workflow delegates local and remote branch deletions to the specialized `@git-operator` subagent (defined in `agents/git-operator/agent.json`).
+**Summary.** Delete a git branch locally and/or on the remote (`origin`), refusing to delete protected branches, gated by explicit confirmation. The workflow delegates local and remote branch deletions to the specialized `@git-operator` subagent (defined in `agents/git-operator.md`). Keep interactive `default_api:ask_question` confirmation gates in the main conversation.
 
 ## Inputs
 

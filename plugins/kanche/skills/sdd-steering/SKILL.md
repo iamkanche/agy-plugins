@@ -1,7 +1,6 @@
 ---
 name: sdd-steering
-description: Analyze the repository and return steering guideline bodies — seamlessly forwards to /kanche:graph-steering.
-model: flash
+description: Legacy alias for /kanche:graph-steering.
 ---
 
 # /kanche:sdd-steering (Compatibility Forwarder)

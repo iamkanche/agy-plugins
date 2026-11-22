@@ -1,3 +1,8 @@
+---
+trigger: model_decision
+description: Loop Engineering protocol (<=3x Generator-Reviewer cycles, review-verdict block schema, Topological Dependency Tiers 0-3, and Graph Health Gate) for /kanche:graph-run, /kanche:code-implement, and *-review workflows.
+---
+
 # Loop Engineering Protocol & Guidelines
 
 ## 1. Concept Definition
@@ -59,10 +64,10 @@ In P5, `/kanche:qa-validate` executes an automated AST and Knowledge Graph diagn
 - Any detected graph health blockers automatically trigger the P5 self-healing repair loop with `/kanche:code-implement`.
 
 ## 7. Subagent Model Tiering (Gemini Flash High)
-The subagent engineering team runs unified on the latest **Gemini Flash (High)** model tier (`model: flash`), providing lightning-fast inference, low latency, and high-quality reasoning across all 16 roles:
-- **Research & Architecture**: `@researcher`, `@analyst`, `@architect`, `@designer`
+The subagent engineering team runs unified on the latest **Gemini Flash (High)** model tier (`model: flash`), providing lightning-fast inference, low latency, and high-quality reasoning across all 19 roles:
+- **Research & Architecture**: `@researcher`, `@analyst`, `@architect`, `@designer`, `@data-architect`, `@token-optimizer`
 - **Implementation Specialists**: `@coder`, `@frontend-expert`, `@backend-expert`
-- **Quality & Security**: `@reviewer`, `@validator`, `@tester`, `@security-engineer`
+- **Quality, Debugging & Security**: `@reviewer`, `@validator`, `@tester`, `@debugger`, `@security-engineer`
 - **Agile & Platform Operations**: `@scrum-master`, `@planner`, `@devops`, `@git-operator`, `@gh-operator`
 
 > 🛑 **Safety Boundary**: Regardless of agent model tier or automated loops, all destructive and remote-mutating commands (`git push`, `git commit`, `rm`, branch deletion, tag deletion, stash drop, PR merge) MUST halt and prompt the human for explicit confirmation per `plugins/kanche/rules/destructive-safety.md`.

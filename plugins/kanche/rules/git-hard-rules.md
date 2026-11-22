@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Git Hard Rules
 
 - **Mandatory Human Confirmation**: Never execute `git push` or `git commit` autonomously. Every push and commit MUST be explicitly confirmed by the user via interactive `default_api:ask_question`.

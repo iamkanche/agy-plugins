@@ -1,12 +1,11 @@
 ---
 name: graph-continue
-description: Resume the Graph Engineering Workflow at the phase inferred from on-disk graph state orchestrating the full 17-agent team.
-model: flash
+description: Resume the Graph Engineering Workflow at the phase inferred from on-disk graph state orchestrating the full 19-agent team.
 ---
 
 # /kanche:graph-continue
 
-**Summary.** Resume the Graph Engineering Workflow at the phase inferred from on-disk state, orchestrating the 17-agent team forward under `rules/destructive-safety.md`.
+**Summary.** Resume the Graph Engineering Workflow at the phase inferred from on-disk state, orchestrating the 19-agent team forward under `rules/destructive-safety.md` and `hooks.json`.
 
 ## Inputs
 
@@ -33,13 +32,13 @@ Evaluate signals in order:
 
 ### 2. Resume Workflow
 
-Resume remaining phases delegating to the 17-agent team:
+Resume remaining phases delegating to the 19-agent team:
 - **P1 Specs**: `@analyst` & `@scrum-master` (`/kanche:design-grill` → loop ≤3x [`/kanche:design-specs` ↔ `/kanche:design-specs-review`]).
-- **P2 Architecture**: `@architect` & `@designer` (loop ≤3x [`/kanche:design-init` & `/kanche:ui-design-stitch` ↔ `/kanche:design-review`]).
-- **P3 Task DAG & Test Plan**: `@planner` & `@tester` (loop ≤3x [`/kanche:planner-tasks` & `/kanche:qa-test-plan` ↔ `/kanche:planner-review`]) → Gated Docs Commit (`/kanche:git-commit`).
-- **P4 Graph Build**: Routing to `@frontend-expert` (TS/React), `@backend-expert` (Laravel/APIs), `@token-optimizer` (prompts/context), or `@coder` (loop ≤3x [`/kanche:code-implement` in DAG order ↔ `@reviewer` `/kanche:code-review` & `/kanche:qa-review`]) → Gated Commit (`/kanche:git-commit`).
-- **P5 Graph Health & Validation**: `@security-engineer` (`/kanche:security-scan`) & `@validator`/`@tester` (`/kanche:qa-validate` with Playwright MCP / DevTools MCP and 3x self-healing).
-- **P6 Deploy & PR Loop**: `@devops` & `@gh-operator` (Gated push → Gated PR create → loop ≤3x [PR review ↔ PR respond → Gated commit → Gated push]).
+- **P2 Architecture**: `@architect`, `@data-architect` & `@designer` (loop ≤3x [`/kanche:design-init`, `/kanche:design-adr` & `/kanche:ui-design-stitch` ↔ `/kanche:design-review`]).
+- **P3 Task DAG & Test Plan**: `@planner` & `@tester` (loop ≤3x [`/kanche:planner-tasks`, `/kanche:qa-test-plan` & `/kanche:test-data` ↔ `/kanche:planner-review`]) → Gated Docs Commit (`/kanche:git-commit`).
+- **P4 Graph Build**: Routing to `@frontend-expert` (TS/React), `@backend-expert` (Laravel/APIs), `@data-architect` (`/kanche:db-migrate`), `@token-optimizer` (prompts/context), or `@coder` (loop ≤3x [`/kanche:code-implement` in DAG order → `/kanche:code-simplify` ↔ `@reviewer` `/kanche:code-review` & `/kanche:qa-review`]) → Gated Commit (`/kanche:git-commit`).
+- **P5 Graph Health & Validation**: `@security-engineer` (`/kanche:security-scan`), `@validator`/`@tester` (`/kanche:qa-validate` with `scripts/graph_health.py` & Playwright/DevTools MCP), and `@debugger` (`/kanche:debug-rca` 3x self-healing).
+- **P6 Deploy & PR Loop**: `@devops` & `@gh-operator` (Gated push → Gated PR create → `/kanche:gh-cli-ci` → loop ≤3x [PR review ↔ PR respond → Gated commit → Gated push]).
 - **P7 Graph Sync**: `@gh-operator` (`/kanche:graph-sync` with gated folder deletion → Gated commit → Gated push).
 - **P8 Human Review**: `@validator` & `@tester` (interactive verification matrix).
 - **P9 PR Merge & Release**: `@devops` & `@gh-operator` (Gated `/kanche:gh-cli-pr-merge` → optional release tagging via `/kanche:git-tag-*`).
