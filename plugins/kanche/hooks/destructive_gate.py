@@ -16,6 +16,21 @@ SAFE_RM_PREFIXES = ("/tmp/", "graphify-out/.graphify_")
 READ_TOOLS = {"grep", "rg", "echo", "printf", "cat", "head", "tail", "sed", "awk"}
 SHELL_PREFIX_TOKENS = {"{", "}", "!", "then", "do", "else", "time"}
 HEREDOC_OP_RE = re.compile(r"^-?\s*(?:'([A-Za-z0-9_]+)'|\"([A-Za-z0-9_]+)\"|\\?([A-Za-z0-9_]+))")
+DB_CLI_RUNNERS = {
+    "php", "artisan", "sail", "composer",
+    "mysql", "mariadb", "psql", "sqlite3", "sqlcmd", "mongosh", "clickhouse-client",
+    "prisma", "npx", "bunx", "pnpm", "yarn", "npm",
+    "docker", "docker-compose", "podman", "kubectl",
+    "rails", "rake", "bundle",
+    "alembic", "knex", "sequelize", "typeorm", "drizzle-kit", "django-admin", "manage.py",
+}
+
+
+def _resolve_dir(base: str, target: str) -> str:
+    p = Path(target).expanduser()
+    if p.is_absolute() or not base:
+        return str(p)
+    return str(Path(base) / p)
 
 
 def emit(decision: str, reason: str | None = None) -> int:
@@ -242,14 +257,26 @@ def parse_git_command(tokens: list[str], cwd: str) -> tuple[str | None, list[str
     while i < len(tokens):
         t = tokens[i]
         if t == "-C" and i + 1 < len(tokens):
-            p = Path(tokens[i + 1])
-            repo_dir = str(p if p.is_absolute() else Path(repo_dir) / p) if repo_dir else str(p)
+            repo_dir = _resolve_dir(repo_dir, tokens[i + 1])
             i += 2
         elif t.startswith("-C") and len(t) > 2:
-            p = Path(t[2:])
-            repo_dir = str(p if p.is_absolute() else Path(repo_dir) / p) if repo_dir else str(p)
+            repo_dir = _resolve_dir(repo_dir, t[2:])
             i += 1
-        elif t in {"-c", "--git-dir", "--work-tree"} and i + 1 < len(tokens):
+        elif t == "--work-tree" and i + 1 < len(tokens):
+            repo_dir = _resolve_dir(repo_dir, tokens[i + 1])
+            i += 2
+        elif t.startswith("--work-tree="):
+            repo_dir = _resolve_dir(repo_dir, t.split("=", 1)[1])
+            i += 1
+        elif t == "--git-dir" and i + 1 < len(tokens):
+            gd = Path(_resolve_dir(repo_dir, tokens[i + 1]))
+            repo_dir = str(gd.parent if gd.name == ".git" else gd)
+            i += 2
+        elif t.startswith("--git-dir="):
+            gd = Path(_resolve_dir(repo_dir, t.split("=", 1)[1]))
+            repo_dir = str(gd.parent if gd.name == ".git" else gd)
+            i += 1
+        elif t == "-c" and i + 1 < len(tokens):
             i += 2
         elif t.startswith("-"):
             i += 1
@@ -304,9 +331,10 @@ def is_safe_rm_target(target: str) -> bool:
     return (norm.startswith("/tmp/") and len(norm) > len("/tmp/")) or norm.startswith("graphify-out/.graphify_")
 
 
-def unwrap_command_tokens(raw_tokens: list[str]) -> list[str]:
-    """Strip leading VAR=val assignments, shell keywords, and wrapper commands."""
+def unwrap_command_with_cwd(raw_tokens: list[str], cwd: str = "") -> tuple[list[str], str]:
+    """Strip leading VAR=val assignments, shell keywords, and wrapper commands, returning (tokens, effective_cwd)."""
     tokens = list(raw_tokens)
+    cur_cwd = cwd
     while tokens:
         head = tokens[0]
         if head in SHELL_PREFIX_TOKENS:
@@ -318,7 +346,7 @@ def unwrap_command_tokens(raw_tokens: list[str]) -> list[str]:
             continue
         if name in {"env", "sudo", "command", "nohup", "exec"}:
             tokens.pop(0)
-            value_flags = {"-u", "--unset", "-C", "--chdir", "-g", "-p"}
+            value_flags = {"-u", "--unset", "-g", "-p"}
             while tokens and (
                 (tokens[0].startswith("-") and tokens[0] != "--")
                 or (name in {"env", "sudo"} and re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", tokens[0]))
@@ -326,14 +354,45 @@ def unwrap_command_tokens(raw_tokens: list[str]) -> list[str]:
                 tok = tokens.pop(0)
                 if not tok.startswith("-"):
                     continue
-                if name == "env" and tok in {"-S", "--split-string"} and tokens:
-                    raw_s = tokens.pop(0)
-                    try:
-                        split_toks = shlex.split(raw_s)
-                    except ValueError:
-                        split_toks = raw_s.split()
-                    tokens = split_toks + tokens
-                elif name in {"env", "sudo"} and tok in value_flags and tokens:
+                if name == "env":
+                    if tok in {"-C", "--chdir"} and tokens:
+                        cur_cwd = _resolve_dir(cur_cwd, tokens.pop(0))
+                        continue
+                    if tok.startswith("--chdir="):
+                        cur_cwd = _resolve_dir(cur_cwd, tok.split("=", 1)[1])
+                        continue
+                    if tok.startswith("-C") and len(tok) > 2:
+                        cur_cwd = _resolve_dir(cur_cwd, tok[2:])
+                        continue
+                    split_arg: str | None = None
+                    if tok == "--split-string" and tokens:
+                        split_arg = tokens.pop(0)
+                    elif tok.startswith("--split-string="):
+                        split_arg = tok.split("=", 1)[1]
+                    elif tok.startswith("-") and not tok.startswith("--") and "S" in tok[1:]:
+                        s_idx = tok.index("S", 1)
+                        if s_idx + 1 < len(tok):
+                            split_arg = tok[s_idx + 1 :]
+                        elif tokens:
+                            split_arg = tokens.pop(0)
+                    if split_arg is not None:
+                        try:
+                            split_toks = shlex.split(split_arg)
+                        except ValueError:
+                            split_toks = split_arg.split()
+                        tokens = split_toks + tokens
+                        continue
+                if name == "sudo":
+                    if tok in {"-D", "--chdir"} and tokens:
+                        cur_cwd = _resolve_dir(cur_cwd, tokens.pop(0))
+                        continue
+                    if tok.startswith("--chdir="):
+                        cur_cwd = _resolve_dir(cur_cwd, tok.split("=", 1)[1])
+                        continue
+                    if tok == "-C" and tokens:
+                        tokens.pop(0)
+                        continue
+                if name in {"env", "sudo"} and tok in value_flags and tokens:
                     tokens.pop(0)
             if tokens and tokens[0] == "--":
                 tokens.pop(0)
@@ -350,6 +409,12 @@ def unwrap_command_tokens(raw_tokens: list[str]) -> list[str]:
                 tokens.pop(0)  # duration argument
             continue
         break
+    return tokens, cur_cwd
+
+
+def unwrap_command_tokens(raw_tokens: list[str]) -> list[str]:
+    """Strip leading VAR=val assignments, shell keywords, and wrapper commands."""
+    tokens, _ = unwrap_command_with_cwd(raw_tokens)
     return tokens
 
 
@@ -367,18 +432,67 @@ def evaluate_command(cmd: str, cwd: str) -> tuple[str, str | None]:
         if sub_dec == "force_ask" and sub_reason:
             ask_reasons.append(sub_reason)
 
+    effective_cwd = cwd
     for raw_tokens in segments:
-        tokens = unwrap_command_tokens(raw_tokens)
+        tokens, seg_cwd = unwrap_command_with_cwd(raw_tokens, effective_cwd)
         if not tokens:
             continue
         prog = Path(tokens[0]).name
+
+        if prog == "cd":
+            cd_target: str | None = None
+            for t in tokens[1:]:
+                if t == "--":
+                    continue
+                if t.startswith("-") and t != "-":
+                    continue
+                cd_target = t
+                break
+            if cd_target == "-":
+                pass
+            elif cd_target is None:
+                effective_cwd = str(Path.home())
+            else:
+                effective_cwd = _resolve_dir(seg_cwd, cd_target)
+            continue
 
         # Skip read/search utilities unless they shouldn't matter
         if prog in READ_TOOLS:
             continue
 
-        # Inspect nested shell invocations like `bash -c -- "git reset --hard"`
+        # Evaluate `eval ...` recursively
+        if prog == "eval" and len(tokens) > 1:
+            eval_args = tokens[2:] if tokens[1] == "--" else tokens[1:]
+            if eval_args:
+                eval_cmd = eval_args[0] if len(eval_args) == 1 else shlex.join(eval_args)
+                ev_dec, ev_reason = evaluate_command(eval_cmd, seg_cwd)
+                if ev_dec == "deny":
+                    return "deny", ev_reason
+                if ev_dec == "force_ask" and ev_reason:
+                    ask_reasons.append(ev_reason)
+                continue
+
+        # Inspect nested shell invocations like `bash -c -- "git reset --hard"` or `bash <<< "git push --force"`
         if prog in {"bash", "sh", "zsh", "dash"}:
+            t_idx = 1
+            while t_idx < len(tokens):
+                htok = tokens[t_idx]
+                if htok == "<<<" and t_idx + 1 < len(tokens):
+                    hs_dec, hs_reason = evaluate_command(tokens[t_idx + 1], seg_cwd)
+                    if hs_dec == "deny":
+                        return "deny", hs_reason
+                    if hs_dec == "force_ask" and hs_reason:
+                        ask_reasons.append(hs_reason)
+                    t_idx += 2
+                    continue
+                if htok.startswith("<<<") and len(htok) > 3:
+                    hs_dec, hs_reason = evaluate_command(htok[3:], seg_cwd)
+                    if hs_dec == "deny":
+                        return "deny", hs_reason
+                    if hs_dec == "force_ask" and hs_reason:
+                        ask_reasons.append(hs_reason)
+                t_idx += 1
+
             has_c = False
             script_idx: int | None = None
             idx = 1
@@ -388,6 +502,12 @@ def evaluate_command(cmd: str, cwd: str) -> tuple[str, str | None]:
                     if has_c and idx + 1 < len(tokens):
                         script_idx = idx + 1
                     break
+                if arg == "<<<":
+                    idx += 2
+                    continue
+                if arg.startswith("<<<"):
+                    idx += 1
+                    continue
                 if arg in {"-o", "+o"} and idx + 1 < len(tokens):
                     idx += 2
                     continue
@@ -400,7 +520,7 @@ def evaluate_command(cmd: str, cwd: str) -> tuple[str, str | None]:
                     script_idx = idx
                 break
             if script_idx is not None:
-                nested_dec, nested_reason = evaluate_command(tokens[script_idx], cwd)
+                nested_dec, nested_reason = evaluate_command(tokens[script_idx], seg_cwd)
                 if nested_dec == "deny":
                     return "deny", nested_reason
                 if nested_dec == "force_ask" and nested_reason:
@@ -408,15 +528,16 @@ def evaluate_command(cmd: str, cwd: str) -> tuple[str, str | None]:
 
         joined = " ".join(tokens)
 
-        # DB / Schema destructive patterns
-        if re.search(r"\bmigrate:(fresh|reset)\b", joined, re.IGNORECASE):
-            return "deny", "Blocked destructive database reset (migrate:fresh / migrate:reset) per destructive-safety.md."
-        if re.search(r"\bdrop\s+(database|table)\b", joined, re.IGNORECASE):
-            return "deny", "Blocked destructive SQL DROP DATABASE/TABLE command per destructive-safety.md."
+        # DB / Schema destructive patterns (scoped to DB/migration/container runners)
+        if prog in DB_CLI_RUNNERS:
+            if re.search(r"\bmigrate:(fresh|reset)\b", joined, re.IGNORECASE):
+                return "deny", "Blocked destructive database reset (migrate:fresh / migrate:reset) per destructive-safety.md."
+            if re.search(r"\bdrop\s+(database|table)\b", joined, re.IGNORECASE):
+                return "deny", "Blocked destructive SQL DROP DATABASE/TABLE command per destructive-safety.md."
 
         # Git rules
         if prog == "git":
-            sub, args, repo_dir = parse_git_command(tokens, cwd)
+            sub, args, repo_dir = parse_git_command(tokens, seg_cwd)
             if sub == "push":
                 push_val_opts = {"--repo", "-o", "--push-option", "--receive-pack", "--exec"}
                 short_flags, long_flags, pos_args = parse_git_subargs(args, push_val_opts)

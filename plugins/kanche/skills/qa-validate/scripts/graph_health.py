@@ -48,7 +48,7 @@ def is_jsonc_file(path: Path) -> bool:
         return True
     if name.startswith(("tsconfig", "jsconfig")) and name.endswith(".json"):
         return True
-    return ".vscode" in path.parts and name.endswith(".json")
+    return ".vscode" in {p.lower() for p in path.parts} and name.endswith(".json")
 
 
 def strip_jsonc(src: str) -> str:
@@ -80,7 +80,10 @@ def list_repo_files(root: Path) -> list[Path]:
 
 def resolve_relative_module(source_file: Path, spec: str, root: Path) -> Path | None:
     """Resolve a relative module specifier against existing files under root."""
-    base = (source_file.parent / spec).resolve()
+    clean_spec = spec.split("?", 1)[0].split("#", 1)[0]
+    if not clean_spec:
+        return None
+    base = (source_file.parent / clean_spec).resolve()
     try:
         base.relative_to(root.resolve())
     except ValueError:
